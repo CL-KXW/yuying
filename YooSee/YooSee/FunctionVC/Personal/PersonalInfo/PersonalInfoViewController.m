@@ -13,6 +13,8 @@
 #define LABEL_WIDTH         120.0 * CURRENT_SCALE
 
 #import "PersonalInfoViewController.h"
+#import "ChangePasswordViewController.h"
+#import "SetPayPasswordViewController.h"
 
 @interface PersonalInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate>
 
@@ -170,6 +172,24 @@
             [self changeSex];
         }
     }
+    if (indexPath.section == 2)
+    {
+        if (indexPath.row == 0)
+        {
+            
+        }
+        else if (indexPath.row == 1)
+        {
+            [self checkPayPasswordRequest];
+        }
+        
+    }
+    if (indexPath.section == 3)
+    {
+        ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+        changePasswordViewController.isPayPassword = NO;
+        [self.navigationController pushViewController:changePasswordViewController animated:YES];
+    }
 }
 
 #pragma mark 修改昵称
@@ -266,6 +286,59 @@
          [LoadingView dismissLoadingView];
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
+}
+
+
+#pragma mark 校验支付密码
+- (void)checkPayPasswordRequest
+{
+    
+    [LoadingView showLoadingView];
+    __weak typeof(self) weakSelf = self;
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    NSDictionary *requestDic = @{@"uid":uid,@"paypasswd":@""};
+    [[RequestTool alloc] desRequestWithUrl:CHECK_PAY_PASSWORD_URL
+                            requestParamas:requestDic
+                               requestType:RequestTypeAsynchronous
+                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"CHECK_PAY_PASSWORD_URL===%@",responseDic);
+         [LoadingView dismissLoadingView];
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [weakSelf goToPasswordViewWithType:errorCode];
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"CHECK_PAY_PASSWORD_URL====%@",error);
+         [LoadingView dismissLoadingView];
+         [SVProgressHUD showErrorWithStatus:@"加载失败"];
+     }];
+}
+
+- (void)goToPasswordViewWithType:(int)type
+{
+    if (type == 0)
+    {
+        //未设置密码
+        SetPayPasswordViewController *setPayPasswordViewController = [[SetPayPasswordViewController alloc] init];
+        [self.navigationController pushViewController:setPayPasswordViewController animated:YES];
+    }
+    else if (type == 1)
+    {
+        //修改密码
+        ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+        changePasswordViewController.isPayPassword = YES;
+        [self.navigationController pushViewController:changePasswordViewController animated:YES];
+        
+    }
+    else
+    {
+        [SVProgressHUD showErrorWithStatus:@"数据异常"];
+    }
 }
 
 - (void)didReceiveMemoryWarning
