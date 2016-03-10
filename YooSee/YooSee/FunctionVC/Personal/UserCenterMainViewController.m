@@ -58,6 +58,12 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.table reloadData];
+}
+
 #pragma mark  初始化UI
 - (void)initUI
 {
@@ -114,7 +120,7 @@
 
 - (void)addItemButtonToView:(UIView *)view
 {
-    NSArray *titleArray = @[@"消息",@"话费库",@"金币库",@"卡券库",@"购物车",@"我的订单",@"我的收藏",@"发广告"];
+    NSArray *titleArray = @[@"消息",@"现金库",@"红包库",@"卡券库",@"购物车",@"我的订单",@"我的收藏",@"发广告"];
     float item_width = view.frame.size.width/4;
     float y = ROW_SPACE_Y;
     float x = 0;

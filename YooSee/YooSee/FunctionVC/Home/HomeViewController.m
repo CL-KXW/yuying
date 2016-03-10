@@ -204,9 +204,9 @@
         _mainView.userInteractionEnabled = YES;
         
         NSArray *imageArray = @[@"icon_home_monery",@"icon_home_camera",@"icon_home_sale"];
-        NSArray *titleArray = @[@"赚话费",@"家视频",@"商家优惠"];
+        NSArray *titleArray = @[@"赚钱",@"家视频",@"商家优惠"];
         NSArray *itemImageArray = @[@[@"icon_home_zxj",@"icon_home_charge"],@[@"icon_home_alert",@"icon_home_more"],@[@"icon_home_shop",@"icon_home_public"]];
-        NSArray *itemTitleArray = @[@[@"赚现金",@"充值"],@[@"警报",@"更多"],@[@"商城",@"发广告"]];
+        NSArray *itemTitleArray = @[@[@"抢红包",@"摇一摇"],@[@"警报",@"更多"],@[@"商城",@"发广告"]];
         UIImage *image = [UIImage imageNamed:@"icon_home_monery_up"];
         float itemWidth = (_mainView.frame.size.width - 2 * SPACE_X)/[imageArray count];
         float button_wh = image.size.width/2  * CURRENT_SCALE;
