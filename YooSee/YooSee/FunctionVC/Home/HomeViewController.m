@@ -30,6 +30,7 @@
 #import "LoginViewController.h"
 #import "ScanViewController.h"
 #import "UserCenterMainViewController.h"
+#import "GetMoneryViewController.h"
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -391,6 +392,11 @@
     }
     int tag = (int)sender.tag - 1;
     UIViewController *viewController = nil;
+    if (tag == 0)
+    {
+        GetMoneryViewController *getMoneryViewController = [[GetMoneryViewController alloc] init];
+        viewController = getMoneryViewController;
+    }
     if (tag == 2)
     {
         LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
