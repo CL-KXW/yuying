@@ -14,7 +14,7 @@
 
 #import "PersonalInfoViewController.h"
 
-@interface PersonalInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface PersonalInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *valueArray;
@@ -129,6 +129,7 @@
         valueLabel =  [CreateViewTool createLabelWithFrame:CGRectMake(SCREEN_WIDTH - ARROW_WIDTH - LABEL_WIDTH, 0, LABEL_WIDTH, ROW_HEIGHT) textString:@"" textColor:DE_TEXT_COLOR textFont:FONT(16.0)];
         //rightLabel.backgroundColor = [UIColor redColor];
         valueLabel.textAlignment = NSTextAlignmentRight;
+        valueLabel.tag = 100;
         [cell.contentView addSubview:valueLabel];;
     }
     
@@ -164,6 +165,10 @@
             //修改昵称
             [self changeNickName];
         }
+        else if (indexPath.row == 2)
+        {
+            [self changeSex];
+        }
     }
 }
 
@@ -195,6 +200,23 @@
     }
 }
 
+#pragma mark 修改性别
+- (void)changeSex
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"修改性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男",@"女", nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if (![title isEqualToString:@"取消"] && ![title isEqualToString:self.valueArray[0][2]])
+    {
+       [self changeUserInfoRequest:title forKey:@"sex"];
+    }
+}
+
+
 
 #pragma mark 修改个人信息
 - (void)changeUserInfoRequest:(NSString *)string forKey:(NSString *)key
@@ -205,33 +227,43 @@
     {
         return;
     }
+    [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,key:string};
+    NSMutableDictionary *paramasDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
+    paramasDic[key] = string;
+    paramasDic[@"uid"] = uid;
+    NSDictionary *requestDic = paramasDic;
     [[RequestTool alloc] desRequestWithUrl:UPDATE_USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"UPDATE_USER_INFO_URL===%@",responseDic);
+         [LoadingView dismissLoadingView];
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          if (errorCode == 1)
          {
-             //[YooSeeApplication shareApplication].userInfoDic = dataDic[@"body"];
+             [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+             [YooSeeApplication shareApplication].userInfoDic = paramasDic;
+             NSMutableArray *array = [NSMutableArray arrayWithArray:weakSelf.valueArray[0]];
+             [array replaceObjectAtIndex:([key isEqualToString:@"username"] ? 0 : 2) withObject:string];
+             [weakSelf.valueArray replaceObjectAtIndex:0 withObject:array];
              [weakSelf.table reloadData];
          }
          else
          {
-             //[SVProgressHUD showErrorWithStatus:errorMessage];
+             [SVProgressHUD showErrorWithStatus:errorMessage];
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"UPDATE_USER_INFO_URL====%@",error);
+         [LoadingView dismissLoadingView];
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
 }
