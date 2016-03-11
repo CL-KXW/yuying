@@ -26,9 +26,10 @@
 #import "InviteFriendViewController.h"
 #import "PersonalInfoViewController.h"
 #import "WebViewController.h"
+#import "NewsListViewController.h"
 
 
-@interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationBarDelegate>
+@interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) NSArray *otherTitleArray;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -313,6 +314,8 @@
     if (tag == 0)
     {
         //消息
+        NewsListViewController *newsListViewController = [[NewsListViewController alloc] init];
+        [self.navigationController pushViewController:newsListViewController animated:YES];
     }
     if (tag == 1)
     {

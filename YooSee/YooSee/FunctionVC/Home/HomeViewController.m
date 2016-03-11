@@ -32,6 +32,7 @@
 #import "UserCenterMainViewController.h"
 #import "GetMoneryViewController.h"
 #import "WebViewController.h"
+#import "NewsListViewController.h"
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -205,6 +206,9 @@
     if (point.x <= HEADER_LABEL_WIDTH)
     {
         //列表
+        NewsListViewController *newsListViewController = [[NewsListViewController alloc] init];
+        newsListViewController.dataArray = self.headNewsListArray;
+        [self.navigationController pushViewController:newsListViewController animated:YES];
     }
     else
     {
