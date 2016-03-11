@@ -33,6 +33,24 @@
 //更新个人信息
 #define UPDATE_USER_INFO_URL        MAKE_REQUEST_URL(@"yyw_userinfo_update")
 
+//修改密码
+#define UPDATE_LOGIN_PWD_URL        MAKE_REQUEST_URL(@"yyw_updatepwd")
+
+//校验支付密码
+#define CHECK_PAY_PASSWORD_URL      MAKE_REQUEST_URL(@"yyw_user_paypasswdcheck")
+
+//设置支付密码
+#define SET_PAY_PASSWOR_URL         MAKE_REQUEST_URL(@"yyw_user_setpaypasswd")
+
+//获取绑定卡列表
+#define BANK_CARD_LIST_URL          MAKE_REQUEST_URL(@"yyw_user_getcardlist")
+
+//实名，提现等信息检查
+#define REALNAME_CHECK_URL          MAKE_REQUEST_URL(@"yyw_money_drawcashcheck")
+
+//绑定卡
+#define BIND_CARD_URL               MAKE_REQUEST_URL(@"yyw_user_bindcard")
+
 //获取广告
 #define GET_ADV_URL                 MAKE_REQUEST_URL(@"yyw_getgg_new")
 
