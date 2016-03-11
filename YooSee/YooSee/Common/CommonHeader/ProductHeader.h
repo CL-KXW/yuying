@@ -41,6 +41,8 @@
 #define USER_SAVE                   @"myFavorite"
 //商家注册
 #define SHOP_REGISTER               @"merchantRegister"
+//商城
+#define SHOP                        @"mall"
 
 
 /******分享相关*****/
