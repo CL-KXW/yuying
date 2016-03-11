@@ -39,6 +39,8 @@
 #pragma mark 初始化UI
 - (void)initUI
 {
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     float x = SPACE_X;
     float y = SPACE_Y + START_HEIGHT;
     float width = self.view.frame.size.width - 2 * x;

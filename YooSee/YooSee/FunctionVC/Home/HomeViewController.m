@@ -31,6 +31,7 @@
 #import "ScanViewController.h"
 #import "UserCenterMainViewController.h"
 #import "GetMoneryViewController.h"
+#import "WebViewController.h"
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -89,13 +90,10 @@
 
 - (void)addTableViewHeader
 {
-//    if (_bannerView)
-//    {
-//        _bannerView = nil;
-//        [self.table setTableHeaderView:nil];
-//    }
-    UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, ADV_HEIGHT + SPACE_Y) placeholderImage:nil];
+    UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.table.frame.size.width, ADV_HEIGHT + SPACE_Y) placeholderImage:nil];
     
+    float y = SPACE_Y;
+    float x = SPACE_X;
     NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:0];
     
     if (self.bannerListArray && [self.bannerListArray count] > 0)
@@ -115,14 +113,26 @@
             
         }
     }
-    _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(SPACE_X, SPACE_Y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
+    __weak typeof(self) weakSelf = self;
+    _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(x, y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
     _bannerView.AutoScrollDelay = 3;
     _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
     [CommonTool clipView:_bannerView withCornerRadius:10.0];
     [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
-    {
-        NSLog(@"网络图片 %d",index);
-    }];
+     {
+         NSLog(@"网络图片 %d",index);
+         NSDictionary *dic = weakSelf.bannerListArray[index];
+         NSString *urlString = dic[@"linkurl"];
+         urlString = urlString ? urlString : @"";
+         if (urlString.length == 0)
+         {
+             return;
+         }
+         WebViewController *webViewController = [[WebViewController alloc] init];
+         webViewController.urlString = urlString;
+         webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
+         [weakSelf.navigationController pushViewController:webViewController animated:YES];
+     }];
     [headerView addSubview:_bannerView];
     
     [self.table setTableHeaderView:headerView];
@@ -201,7 +211,6 @@
     {
         _mainView = [[UIView alloc] initWithFrame:CGRectMake(SPACE_X, 0, self.table.frame.size.width - 2 * SPACE_X, ROW2_HEIGHT)];
         _mainView.backgroundColor = [UIColor clearColor];
-        _mainView.userInteractionEnabled = YES;
         
         NSArray *imageArray = @[@"icon_home_monery",@"icon_home_camera",@"icon_home_sale"];
         NSArray *titleArray = @[@"赚钱",@"家视频",@"商家优惠"];

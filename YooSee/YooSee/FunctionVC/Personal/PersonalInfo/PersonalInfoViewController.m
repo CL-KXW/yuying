@@ -15,12 +15,15 @@
 #import "PersonalInfoViewController.h"
 #import "ChangePasswordViewController.h"
 #import "SetPayPasswordViewController.h"
+#import "ReciverInfoViewController.h"
+#import "BindCardViewController.h"
 
 @interface PersonalInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *valueArray;
 @property (nonatomic, strong) UITextField *usernameTextField;
+@property (nonatomic, strong) NSDictionary *cardDic;
 
 @end
 
@@ -32,11 +35,15 @@
     self.title = @"个人资料";
     [self addBackItem];
     
-    _titleArray = @[@[@"  姓名",@"  电话(ID)",@"  性别"],@[@"  收获地址"],@[@"  我的银行卡",@"  支付密码"],@[@"  修改登录密码"]];
+    _titleArray = @[@[@"  姓名",@"  电话(ID)",@"  性别"],@[@"  收获地址"],@[@"  支付宝绑定",@"  支付密码"],@[@"  修改登录密码"]];
     NSDictionary *dataDic = [YooSeeApplication shareApplication].userInfoDic;
     _valueArray = [NSMutableArray arrayWithArray:@[@[dataDic[@"username"],[USER_DEFAULT objectForKey:@"UserName"],dataDic[@"sex"]],@[@""],@[@"",@""],@[@""]]];
-    
+
     [self initUI];
+    
+    [self getRealNamedRequest:0];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindCardSucess:) name:@"BindCardSucess" object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -93,6 +100,115 @@
         [self.table setLayoutMargins:UIEdgeInsetsMake(0, 2 * SPACE_X, 0, SPACE_X)];
     }
 }
+
+#pragma mark 检查实名
+- (void)getRealNamedRequest:(int)type
+{
+    if (type)
+    {
+        [LoadingView showLoadingView];
+    }
+    __weak typeof(self) weakSelf = self;
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    NSDictionary *requestDic = @{@"uid":uid};
+    [[RequestTool alloc] desRequestWithUrl:BANK_CARD_LIST_URL
+                            requestParamas:requestDic
+                               requestType:RequestTypeAsynchronous
+                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"BANK_CARD_LIST_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         if (type)
+         {
+             [LoadingView dismissLoadingView];
+         }
+         if (errorCode == 1)
+         {
+             [weakSelf setDataWithDictionary:dataDic type:type];
+         }
+         else
+         {
+             if (type)
+                 [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         if (type)
+         {
+             [LoadingView dismissLoadingView];
+         }
+         NSLog(@"BANK_CARD_LIST_URL====%@",error);
+         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+     }];
+
+}
+
+#pragma mark 设置数据
+- (void)setDataWithDictionary:(NSDictionary *)dataDic type:(int)type
+{
+    if (!dataDic)
+    {
+        return;
+    }
+    NSArray *array = dataDic[@"body"];
+    if (!array || [array count] == 0)
+    {
+        if (type)
+        {
+            [self goToNextView];
+        }
+    }
+    else
+    {
+        for (NSDictionary *dic in array)
+        {
+            if ([dic[@"acctype"] intValue] == 2)
+            {
+                self.cardDic = dic;
+                NSString *idName = dic[@"account"];
+                idName = idName ? idName : @"";
+                NSMutableArray *array = [NSMutableArray arrayWithArray:self.valueArray[2]];
+                [array replaceObjectAtIndex:0 withObject:idName];
+                [self.valueArray replaceObjectAtIndex:2 withObject:array];
+                [self.table reloadData];
+                if (type == 1)
+                {
+                    [SVProgressHUD showErrorWithStatus:@"已绑定"];
+                }
+                break;
+            }
+        }
+        if (!self.cardDic)
+        {
+            if (type)
+            {
+                [self goToNextView];
+            }
+        }
+    }
+}
+
+- (void)goToNextView
+{
+    BindCardViewController *realNameCheckViewController = [[BindCardViewController alloc] init];
+    [self.navigationController pushViewController:realNameCheckViewController animated:YES];
+}
+
+#pragma mark 绑定成功
+- (void)bindCardSucess:(NSNotification *)notification
+{
+    NSString *object = (NSString *)notification.object;
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.valueArray[2]];
+    [array replaceObjectAtIndex:0 withObject:object];
+    [self.valueArray replaceObjectAtIndex:2 withObject:array];
+    [self.table reloadData];
+}
+
 
 #pragma mark - tableView datasource and delegate
 
@@ -172,11 +288,21 @@
             [self changeSex];
         }
     }
+    if (indexPath.section == 1)
+    {
+        ReciverInfoViewController *reciverInfoViewController = [[ReciverInfoViewController alloc] init];
+        [self.navigationController pushViewController:reciverInfoViewController animated:YES];
+    }
     if (indexPath.section == 2)
     {
         if (indexPath.row == 0)
         {
-            
+            if (self.cardDic)
+            {
+                [SVProgressHUD showErrorWithStatus:@"已绑定"];
+                return;
+            }
+           [self getRealNamedRequest:1];
         }
         else if (indexPath.row == 1)
         {
@@ -339,6 +465,11 @@
     {
         [SVProgressHUD showErrorWithStatus:@"数据异常"];
     }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning

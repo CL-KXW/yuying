@@ -25,9 +25,10 @@
 #import "UMSocial.h"
 #import "InviteFriendViewController.h"
 #import "PersonalInfoViewController.h"
+#import "WebViewController.h"
 
 
-@interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationBarDelegate>
 
 @property (nonatomic, strong) NSArray *otherTitleArray;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -104,6 +105,7 @@
             
         }
     }
+    __weak typeof(self) weakSelf = self;
     _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(x, y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
     _bannerView.AutoScrollDelay = 3;
     _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
@@ -111,6 +113,17 @@
     [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
      {
          NSLog(@"网络图片 %d",index);
+         NSDictionary *dic = weakSelf.bannerListArray[index];
+         NSString *urlString = dic[@"linkurl"];
+         urlString = urlString ? urlString : @"";
+         if (urlString.length == 0)
+         {
+             return;
+         }
+         WebViewController *webViewController = [[WebViewController alloc] init];
+         webViewController.urlString = urlString;
+         webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
+         [weakSelf.navigationController pushViewController:webViewController animated:YES];
      }];
     [headerView addSubview:_bannerView];
     
@@ -166,9 +179,27 @@
     NSString *username = dataDic[@"username"];
     username = username ? username : @"";
     
-    UIImageView *imageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) placeholderImage:[UIImage imageNamed:@"user_icon_default"] borderColor:DE_TEXT_COLOR imageUrl:imageUrl];
+    NSString *home = NSHomeDirectory();
+    
+    // 2.document路径
+    NSString *docPath = [home stringByAppendingPathComponent:@"Documents"];
+    
+    // 3.文件路径
+    NSString *filepath = [docPath stringByAppendingPathComponent:@"headerPic.jpg"];
+    
+    UIImage *image = [UIImage imageWithContentsOfFile:filepath];
+    
+    UIImageView *imageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) placeholderImage:[UIImage imageNamed:@"user_icon_default"] borderColor:DE_TEXT_COLOR imageUrl:(image) ? @"" : imageUrl];
     [view addSubview:imageView];
     
+    if (image)
+    {
+        imageView.image = image;
+    }
+    
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
+    [imageView addGestureRecognizer:tapGesture];
     
     x += 2 * SPACE_X + imageView.frame.size.width;
     
@@ -263,7 +294,7 @@
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"GET_ADV_URL====%@",error);
+         NSLog(@"USER_INFO_URL====%@",error);
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
 }
@@ -281,6 +312,56 @@
     }
 }
 
+
+#pragma mark 修改头像
+- (void)tapGestureHandler:(UITapGestureRecognizer *)gesture
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册选择",@"拍照",nil];
+        actionSheet.tag = 100;
+        [actionSheet showInView:self.view];
+    }
+    else
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册选择",nil];
+        actionSheet.tag = 101;
+        [actionSheet showInView:self.view];
+    }
+}
+
+
+#pragma mark UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([title isEqualToString:@"取消"])
+    {
+        return;
+    }
+    else
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.allowsEditing = YES;
+        picker.delegate = self;
+        if (![title isEqualToString:@"取消"])
+        {
+            picker.sourceType = (buttonIndex == 0) ? UIImagePickerControllerSourceTypePhotoLibrary : UIImagePickerControllerSourceTypeCamera;
+        }
+        [self presentViewController:picker animated:YES completion:Nil];
+    }
+}
+
+#pragma mark UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
+{
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    NSData *data = UIImageJPEGRepresentation(image, 1.0);
+    NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents/headerPic.jpg"];
+    [data writeToFile:path atomically:YES];
+    [picker dismissViewControllerAnimated:YES completion:Nil];
+}
 
 
 #pragma mark - tableView datasource and delegate
