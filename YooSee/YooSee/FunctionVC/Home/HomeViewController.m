@@ -58,7 +58,7 @@
     [self setNavBarItemWithImageName:@"icon_navbar_sys" navItemType:RightItem selectorName:@"scanButtonPressed:"];
     
     _newIndex = 0;
-    _rowHeightArray = @[@(ROW1_HEIGHT),@(ROW1_HEIGHT)];
+    _rowHeightArray = @[@(ROW1_HEIGHT),@(ROW2_HEIGHT)];
     
     if (SCREEN_HEIGHT == 480.0)
     {
@@ -201,8 +201,32 @@
 
 - (void)tapGestureHandle:(UITapGestureRecognizer *)gesture
 {
-    
+    CGPoint point = [gesture locationInView:gesture.view];
+    if (point.x <= HEADER_LABEL_WIDTH)
+    {
+        //列表
+    }
+    else
+    {
+        //详情
+        NSDictionary *dataDic = self.headNewsListArray[_newIndex];
+        if ([dataDic[@"targettype"] integerValue] == 2)
+        {
+            NSString *url = dataDic[@"targetpage"];
+            url = url ? url : @"";
+            NSString *title = dataDic[@"title"];
+            title = title ? title : @"点亮科技";
+            if (url.length > 0)
+            {
+                WebViewController *webViewController = [[WebViewController alloc] init];
+                webViewController.urlString = url;
+                webViewController.title = title;
+                [self.navigationController pushViewController:webViewController animated:YES];
+            }
+        }
+    }
 }
+
 
 #pragma mark 功能视图
 - (void)initMainFunctionView
@@ -431,11 +455,36 @@
 {
     int type = (int)sender.tag/10;
     int tag = (int)sender.tag%10;
-    //商城
+    if (type == 1)
+    {
+        //赚钱
+        if (tag == 0)
+        {
+            //抢红包
+        }
+        if (tag == 1)
+        {
+            //摇一摇
+        }
+    }
+    if (type == 2)
+    {
+        //家视频
+        if (tag == 0)
+        {
+            //报警
+            
+        }
+        if (tag == 1)
+        {
+            //更多
+        }
+    }
     if (type == 3)
     {
+        //商城
         LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
-        storeDiscountViewController.urlString = (tag == 0) ? @"mall" : @"merchantRegister";
+        storeDiscountViewController.urlString = (tag == 0) ? SHOP : PUBLIC_ADV;
         [self.navigationController pushViewController:storeDiscountViewController animated:YES];
     }
 }

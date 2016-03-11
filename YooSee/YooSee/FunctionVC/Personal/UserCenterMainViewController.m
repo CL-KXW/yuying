@@ -310,6 +310,18 @@
         localWebViewController.urlString = array[tag - 3];
         [self.navigationController pushViewController:localWebViewController animated:YES];
     }
+    if (tag == 0)
+    {
+        //消息
+    }
+    if (tag == 1)
+    {
+        //现金库
+    }
+    if (tag == 2)
+    {
+        //红包库
+    }
 }
 
 
