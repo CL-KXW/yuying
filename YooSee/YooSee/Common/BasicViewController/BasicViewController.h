@@ -77,7 +77,7 @@ typedef enum : NSUInteger {
 #import <UIKit/UIKit.h>
 #import "MJRefresh.h"
 
-@interface BasicViewController : UIViewController
+@interface BasicViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
     float start_y;
 }

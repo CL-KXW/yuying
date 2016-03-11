@@ -148,6 +148,16 @@
     [tableView setTableFooterView:view];
 }
 
+#pragma mark UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 0;
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [[UITableViewCell alloc] init];
+}
+
 
 #pragma mark 添加刷新试图
 - (void)addRefreshHeaderView
