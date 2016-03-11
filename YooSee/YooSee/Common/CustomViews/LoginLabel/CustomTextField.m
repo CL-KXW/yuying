@@ -40,8 +40,9 @@
 #pragma mark 初始化UI
 - (void)initUI
 {
-    _textField = [CreateViewTool createTextFieldWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) textColor:[UIColor blackColor] textFont:FONT(20.0) placeholderText:@""];
+    _textField = [CreateViewTool createTextFieldWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) textColor:[UIColor blackColor] textFont:FONT(18.0) placeholderText:@""];
     _textField.returnKeyType = UIReturnKeyDone;
+    _textField.text = @"";
     _textField.delegate = self;
     [self addSubview:_textField];
     _lineImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, self.frame.size.height - 1.0, self.frame.size.width, 1.0) placeholderImage:nil];
