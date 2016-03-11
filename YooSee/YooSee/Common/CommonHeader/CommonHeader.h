@@ -37,7 +37,7 @@
 #define LIGHT_MAIN_COLOR        RGB(23.0,149.0,26.0)
 
 //起始高度
-#define START_HEIGHT            STATUS_BAR_HEIGHT + NAVBAR_HEIGHT
+#define START_HEIGHT            (STATUS_BAR_HEIGHT + NAVBAR_HEIGHT)
 
 //状态栏高度
 #define STATUS_BAR_HEIGHT       20.0

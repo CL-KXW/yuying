@@ -178,7 +178,7 @@
 
 - (void)refreshData
 {
-
+    _currentPage = 1;
 }
 
 #pragma mark 添加加载更多视图
@@ -199,7 +199,7 @@
 
 - (void)getMoreData
 {
-    
+    _currentPage++;
 }
 
 

@@ -80,6 +80,7 @@ typedef enum : NSUInteger {
 @interface BasicViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
     float start_y;
+    NSInteger _currentPage;
 }
 
 @property (nonatomic, strong) UITableView *table;
@@ -131,4 +132,15 @@ typedef enum : NSUInteger {
 
 - (void)setExtraCellLineHidden: (UITableView *)tableView;
 
+/**
+ *  刷新请求
+ *  子类重写
+ */
+- (void)refreshData;
+
+/**
+ *  加载更多
+ *  子类重写
+ */
+- (void)getMoreData;
 @end

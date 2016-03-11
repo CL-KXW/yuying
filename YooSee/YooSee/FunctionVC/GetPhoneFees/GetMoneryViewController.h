@@ -8,6 +8,6 @@
 
 #import "BasicViewController.h"
 
-@interface GetMoneryViewController : BasicViewController
+@interface GetMoneryViewController : BasicViewController 
 
 @end

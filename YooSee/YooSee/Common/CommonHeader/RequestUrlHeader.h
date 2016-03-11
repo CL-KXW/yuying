@@ -69,4 +69,7 @@
 //帮助
 #define HELP_URL                    @"http://dianliangtech.com/help/app"
 
+//获取广告列表
+#define GET_AD_LIST                 MAKE_REQUEST_URL(@"yyw_getlookgglist_new")
+
 #endif
