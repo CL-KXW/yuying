@@ -131,6 +131,9 @@
 		CE8BDDA31C912D8A00472924 /* ad12s.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CE8BDDA11C912D8A00472924 /* ad12s.mp4 */; };
 		CE8BDDA41C912D8A00472924 /* ad6s.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CE8BDDA21C912D8A00472924 /* ad6s.mp4 */; };
 		CE8BDDA71C912E2800472924 /* GetMoneryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDA61C912E2800472924 /* GetMoneryViewController.m */; };
+		CE8BDDAA1C913C4E00472924 /* ReciverInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDA91C913C4E00472924 /* ReciverInfoViewController.m */; };
+		CE8BDDAD1C913D1100472924 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDAC1C913D1100472924 /* ChangePasswordViewController.m */; };
+		CE8BDDB01C914B2D00472924 /* SetPayPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDAF1C914B2D00472924 /* SetPayPasswordViewController.m */; };
 		CE8BE7BE1C5F884000D6307D /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BE7BB1C5F884000D6307D /* BasicViewController.m */; };
 		CE8BE7BF1C5F884000D6307D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BE7BD1C5F884000D6307D /* WebViewController.m */; };
 		CE8BE82A1C5F885000D6307D /* CommonTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BE7C41C5F885000D6307D /* CommonTool.m */; };
@@ -174,6 +177,13 @@
 		CE8BE8711C5F885700D6307D /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BE8641C5F885700D6307D /* MJRefreshConst.m */; };
 		CE8BE8721C5F885700D6307D /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BE8661C5F885700D6307D /* MJRefreshFooterView.m */; };
 		CE8BE8731C5F885700D6307D /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BE8681C5F885700D6307D /* MJRefreshHeaderView.m */; };
+		CE963AAB1C91B31100DEEF2B /* BindCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE963AAA1C91B31100DEEF2B /* BindCardViewController.m */; };
+		CE963AB21C91CA3C00DEEF2B /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE963AAD1C91CA3C00DEEF2B /* area.plist */; };
+		CE963AB31C91CA3C00DEEF2B /* STPickerArea.m in Sources */ = {isa = PBXBuildFile; fileRef = CE963AAF1C91CA3C00DEEF2B /* STPickerArea.m */; };
+		CE963AB41C91CA3C00DEEF2B /* STToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = CE963AB11C91CA3C00DEEF2B /* STToolbar.m */; };
+		CE963ABD1C91CAA500DEEF2B /* STConst.m in Sources */ = {isa = PBXBuildFile; fileRef = CE963AB81C91CAA500DEEF2B /* STConst.m */; };
+		CE963ABE1C91CAA500DEEF2B /* STUI.m in Sources */ = {isa = PBXBuildFile; fileRef = CE963ABA1C91CAA500DEEF2B /* STUI.m */; };
+		CE963ABF1C91CAA500DEEF2B /* UIView+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = CE963ABC1C91CAA500DEEF2B /* UIView+ST.m */; };
 		CE98E1001C8A7DB20072A2FC /* ScreenshotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE98E0FF1C8A7DB20072A2FC /* ScreenshotCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CE98E1041C8A7DEA0072A2FC /* ScreenshotView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE98E1031C8A7DEA0072A2FC /* ScreenshotView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CE98E1071C8A95470072A2FC /* PhotoHandleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE98E1061C8A95470072A2FC /* PhotoHandleView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -504,6 +514,12 @@
 		CE8BDDA21C912D8A00472924 /* ad6s.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ad6s.mp4; sourceTree = "<group>"; };
 		CE8BDDA51C912E2800472924 /* GetMoneryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetMoneryViewController.h; sourceTree = "<group>"; };
 		CE8BDDA61C912E2800472924 /* GetMoneryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMoneryViewController.m; sourceTree = "<group>"; };
+		CE8BDDA81C913C4E00472924 /* ReciverInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReciverInfoViewController.h; sourceTree = "<group>"; };
+		CE8BDDA91C913C4E00472924 /* ReciverInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReciverInfoViewController.m; sourceTree = "<group>"; };
+		CE8BDDAB1C913D1100472924 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		CE8BDDAC1C913D1100472924 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		CE8BDDAE1C914B2D00472924 /* SetPayPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPayPasswordViewController.h; sourceTree = "<group>"; };
+		CE8BDDAF1C914B2D00472924 /* SetPayPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPayPasswordViewController.m; sourceTree = "<group>"; };
 		CE8BE7BA1C5F884000D6307D /* BasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicViewController.h; sourceTree = "<group>"; };
 		CE8BE7BB1C5F884000D6307D /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicViewController.m; sourceTree = "<group>"; };
 		CE8BE7BC1C5F884000D6307D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -597,6 +613,20 @@
 		CE8BE8671C5F885700D6307D /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
 		CE8BE8681C5F885700D6307D /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		CE8BE8751C5F9FEF00D6307D /* YooSeePrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YooSeePrefixHeader.pch; sourceTree = "<group>"; };
+		CE963AA91C91B31100DEEF2B /* BindCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindCardViewController.h; sourceTree = "<group>"; };
+		CE963AAA1C91B31100DEEF2B /* BindCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindCardViewController.m; sourceTree = "<group>"; };
+		CE963AAD1C91CA3C00DEEF2B /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
+		CE963AAE1C91CA3C00DEEF2B /* STPickerArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPickerArea.h; sourceTree = "<group>"; };
+		CE963AAF1C91CA3C00DEEF2B /* STPickerArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPickerArea.m; sourceTree = "<group>"; };
+		CE963AB01C91CA3C00DEEF2B /* STToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STToolbar.h; sourceTree = "<group>"; };
+		CE963AB11C91CA3C00DEEF2B /* STToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STToolbar.m; sourceTree = "<group>"; };
+		CE963AB61C91CAA500DEEF2B /* STConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STConfig.h; sourceTree = "<group>"; };
+		CE963AB71C91CAA500DEEF2B /* STConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STConst.h; sourceTree = "<group>"; };
+		CE963AB81C91CAA500DEEF2B /* STConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STConst.m; sourceTree = "<group>"; };
+		CE963AB91C91CAA500DEEF2B /* STUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUI.h; sourceTree = "<group>"; };
+		CE963ABA1C91CAA500DEEF2B /* STUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUI.m; sourceTree = "<group>"; };
+		CE963ABB1C91CAA500DEEF2B /* UIView+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ST.h"; sourceTree = "<group>"; };
+		CE963ABC1C91CAA500DEEF2B /* UIView+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ST.m"; sourceTree = "<group>"; };
 		CE98E0FE1C8A7DB20072A2FC /* ScreenshotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenshotCell.h; sourceTree = "<group>"; };
 		CE98E0FF1C8A7DB20072A2FC /* ScreenshotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenshotCell.m; sourceTree = "<group>"; };
 		CE98E1021C8A7DEA0072A2FC /* ScreenshotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenshotView.h; sourceTree = "<group>"; };
@@ -1092,8 +1122,15 @@
 		CE14E8C81C900D5A0044E8D2 /* PersonalInfo */ = {
 			isa = PBXGroup;
 			children = (
+				CE8BDDB11C915BAC00472924 /* Bank */,
 				CE14E8C91C900D6F0044E8D2 /* PersonalInfoViewController.h */,
 				CE14E8CA1C900D6F0044E8D2 /* PersonalInfoViewController.m */,
+				CE8BDDA81C913C4E00472924 /* ReciverInfoViewController.h */,
+				CE8BDDA91C913C4E00472924 /* ReciverInfoViewController.m */,
+				CE8BDDAB1C913D1100472924 /* ChangePasswordViewController.h */,
+				CE8BDDAC1C913D1100472924 /* ChangePasswordViewController.m */,
+				CE8BDDAE1C914B2D00472924 /* SetPayPasswordViewController.h */,
+				CE8BDDAF1C914B2D00472924 /* SetPayPasswordViewController.m */,
 			);
 			path = PersonalInfo;
 			sourceTree = "<group>";
@@ -1218,6 +1255,7 @@
 		CE5ABD451C5B621700643B24 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				CE963AAC1C91CA3C00DEEF2B /* PickView */,
 				CE98E1081C8AA0970072A2FC /* Player */,
 				CE98E1011C8A7DEA0072A2FC /* ScreenshotView */,
 				CEA91BC21C8A120A0045D763 /* SegmentView */,
@@ -1517,6 +1555,15 @@
 			path = Video;
 			sourceTree = "<group>";
 		};
+		CE8BDDB11C915BAC00472924 /* Bank */ = {
+			isa = PBXGroup;
+			children = (
+				CE963AA91C91B31100DEEF2B /* BindCardViewController.h */,
+				CE963AAA1C91B31100DEEF2B /* BindCardViewController.m */,
+			);
+			path = Bank;
+			sourceTree = "<group>";
+		};
 		CE8BE7DA1C5F885000D6307D /* DownLoadImageTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -1681,6 +1728,33 @@
 				CE11AE291C748E040017181E /* home */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		CE963AAC1C91CA3C00DEEF2B /* PickView */ = {
+			isa = PBXGroup;
+			children = (
+				CE963AB51C91CAA500DEEF2B /* STConfig */,
+				CE963AAD1C91CA3C00DEEF2B /* area.plist */,
+				CE963AAE1C91CA3C00DEEF2B /* STPickerArea.h */,
+				CE963AAF1C91CA3C00DEEF2B /* STPickerArea.m */,
+				CE963AB01C91CA3C00DEEF2B /* STToolbar.h */,
+				CE963AB11C91CA3C00DEEF2B /* STToolbar.m */,
+			);
+			path = PickView;
+			sourceTree = "<group>";
+		};
+		CE963AB51C91CAA500DEEF2B /* STConfig */ = {
+			isa = PBXGroup;
+			children = (
+				CE963AB61C91CAA500DEEF2B /* STConfig.h */,
+				CE963AB71C91CAA500DEEF2B /* STConst.h */,
+				CE963AB81C91CAA500DEEF2B /* STConst.m */,
+				CE963AB91C91CAA500DEEF2B /* STUI.h */,
+				CE963ABA1C91CAA500DEEF2B /* STUI.m */,
+				CE963ABB1C91CAA500DEEF2B /* UIView+ST.h */,
+				CE963ABC1C91CAA500DEEF2B /* UIView+ST.m */,
+			);
+			path = STConfig;
 			sourceTree = "<group>";
 		};
 		CE98E1011C8A7DEA0072A2FC /* ScreenshotView */ = {
@@ -2089,6 +2163,7 @@
 				CEAD7D5D1C8C9681008B5281 /* icon_usercenter_4_up.png in Resources */,
 				CEAD7D671C8C9D1F008B5281 /* user_icon_default.png in Resources */,
 				CE14C31A1C88872700C1D5A3 /* icon_play_up.png in Resources */,
+				CE963AB21C91CA3C00DEEF2B /* area.plist in Resources */,
 				CEAD12431C7CDEFC00D2CAF2 /* icon_home_sale_up.png in Resources */,
 				CE80C38F1C78ADC200A7ADCA /* loading _10.png in Resources */,
 				CE07DCA01C7EC4170090A9A5 /* icon_camera_net_down.png in Resources */,
@@ -2190,6 +2265,7 @@
 				CEF796C21C853E630039909A /* rscode.c in Sources */,
 				CEA91BC11C8A0DF20045D763 /* CameraFileViewController.m in Sources */,
 				CEF796CD1C853E630039909A /* YAudioStreamPlayer.m in Sources */,
+				CE963ABF1C91CAA500DEEF2B /* UIView+ST.m in Sources */,
 				CE9CFEE01C6CE9D300755226 /* AvVideoView.m in Sources */,
 				CEF796A41C853E630039909A /* FMDatabasePool.m in Sources */,
 				CE24B5851C8F2DA800556775 /* RegistRulesViewController.m in Sources */,
@@ -2228,18 +2304,21 @@
 				CE8BE8411C5F885000D6307D /* UIImageView+LK.m in Sources */,
 				CE8BE84A1C5F885000D6307D /* AFURLSessionManager.m in Sources */,
 				CEAD7D3E1C8C7F8E008B5281 /* AddCameraByQrcodeViewController.m in Sources */,
+				CE963AB31C91CA3C00DEEF2B /* STPickerArea.m in Sources */,
 				CE8BE8391C5F885000D6307D /* SDWebImageDownloaderOperation.m in Sources */,
 				CE98E1001C8A7DB20072A2FC /* ScreenshotCell.m in Sources */,
 				CEF796CC1C853E630039909A /* PAIOUnit.m in Sources */,
 				CEF796B71C853E630039909A /* UncaughtExceptionHandler.m in Sources */,
 				CEF796A81C853E630039909A /* Message.m in Sources */,
 				CE0D36621C7B07AD00F74404 /* YooSeeTool.m in Sources */,
+				CE963ABE1C91CAA500DEEF2B /* STUI.m in Sources */,
 				CEF796AE1C853E630039909A /* UDManager.m in Sources */,
 				CE211FE01C815BE4000453D0 /* AddCameraFailViewController.m in Sources */,
 				CE8BE8731C5F885700D6307D /* MJRefreshHeaderView.m in Sources */,
 				CE8BE8441C5F885000D6307D /* AFHTTPSessionManager.m in Sources */,
 				CEAD7D311C8C500D008B5281 /* SetCameraPasswordViewController.m in Sources */,
 				CEF796CB1C853E630039909A /* P2PClient.m in Sources */,
+				CE963ABD1C91CAA500DEEF2B /* STConst.m in Sources */,
 				CEF796C11C853E630039909A /* qrspec.c in Sources */,
 				CE8BE8721C5F885700D6307D /* MJRefreshFooterView.m in Sources */,
 				CEF796B81C853E630039909A /* Utils.m in Sources */,
@@ -2262,6 +2341,7 @@
 				CE07DCA61C7ECBAF0090A9A5 /* WifiPasswordViewController.m in Sources */,
 				CE8BE8551C5F885000D6307D /* UpLoadPhotoTool.m in Sources */,
 				CE07DC8F1C7EA87F0090A9A5 /* CameraMainViewController.m in Sources */,
+				CE8BDDB01C914B2D00472924 /* SetPayPasswordViewController.m in Sources */,
 				CEF796B41C853E630039909A /* Reachability.m in Sources */,
 				CE14C2F91C883E6000C1D5A3 /* DeviceListCell.m in Sources */,
 				CE07DC961C7EA9200090A9A5 /* AddCameraMainViewController.m in Sources */,
@@ -2287,6 +2367,7 @@
 				CEAAA5441C8B2F8D0006F804 /* AlarmListCell.m in Sources */,
 				CE98E1041C8A7DEA0072A2FC /* ScreenshotView.m in Sources */,
 				CE8BE8331C5F885000D6307D /* NSData+GIF.m in Sources */,
+				CE963AB41C91CA3C00DEEF2B /* STToolbar.m in Sources */,
 				CEF796BE1C853E630039909A /* mask.c in Sources */,
 				CEF796B21C853E630039909A /* IPAdress.c in Sources */,
 				CE8BE8511C5F885000D6307D /* UIImageView+AFNetworking.m in Sources */,
@@ -2294,6 +2375,7 @@
 				CEF796A21C853E630039909A /* ContactDAO.m in Sources */,
 				CE11AE341C7494930017181E /* LoginViewController.m in Sources */,
 				CE0C020D1C7CFC3600F0DD58 /* LocalWebViewController.m in Sources */,
+				CE8BDDAA1C913C4E00472924 /* ReciverInfoViewController.m in Sources */,
 				CEF796AB1C853E630039909A /* RecentDAO.m in Sources */,
 				CE8BE84F1C5F885000D6307D /* UIAlertView+AFNetworking.m in Sources */,
 				CEF796CE1C853E630039909A /* FfmpegInterface.m in Sources */,
@@ -2304,6 +2386,7 @@
 				CE8BE84C1C5F885000D6307D /* RequestTool.m in Sources */,
 				CE211FD81C813B27000453D0 /* CameraPasswordViewController.m in Sources */,
 				CE07DCAD1C7EECBD0090A9A5 /* ConnectWifiViewController.m in Sources */,
+				CE963AAB1C91B31100DEEF2B /* BindCardViewController.m in Sources */,
 				CE8BE7BF1C5F884000D6307D /* WebViewController.m in Sources */,
 				CEF796B51C853E630039909A /* ShakeManager.m in Sources */,
 				CE9CFEDF1C6CE9D300755226 /* AvPlayerView.m in Sources */,
@@ -2318,6 +2401,7 @@
 				CED4706E1C7BE5B500153520 /* Base64Util.m in Sources */,
 				CE8BE8371C5F885000D6307D /* SDWebImageDecoder.m in Sources */,
 				CEF7969F1C853E630039909A /* Alarm.m in Sources */,
+				CE8BDDAD1C913D1100472924 /* ChangePasswordViewController.m in Sources */,
 				CE8BE84E1C5F885000D6307D /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CE8BE8461C5F885000D6307D /* AFSecurityPolicy.m in Sources */,
 				CE98E1071C8A95470072A2FC /* PhotoHandleView.m in Sources */,
