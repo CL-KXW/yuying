@@ -170,4 +170,13 @@
  */
 + (BOOL)judgeStringLegal:(NSString *)string;
 
+/**
+ *  时间字符串转月日
+ *
+ *  @param string 时间字符串
+ *
+ *  @return x月x日
+ */
++ (NSString*)dateString2MDString:(NSString*)string;
+
 @end

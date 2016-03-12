@@ -72,4 +72,6 @@
 //获取广告列表
 #define GET_AD_LIST                 MAKE_REQUEST_URL(@"yyw_getlookgglist_new")
 
+//获取广告奖励
+#define GET_AD_REWARD               MAKE_REQUEST_URL(@"yyw_getlookmoney")
 #endif

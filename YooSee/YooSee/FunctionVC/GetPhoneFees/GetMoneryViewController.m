@@ -86,10 +86,11 @@
         cell = [[AdListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     cell.nameLabel.text = dic[@"title"];
-    cell.timeLabel.text = dic[@"logtime"];
+    NSString *logtime = dic[@"logtime"];
+    logtime = [CommonTool dateString2MDString:logtime];
+    cell.timeLabel.text = logtime;
     [cell.adView setImageWithURL:[NSURL URLWithString:dic[@"smallpic"]]];
-    BOOL hasGet = [dic[@"ifnew"] isEqualToString:@"N"];
-    [cell dealHadGet:hasGet descTitle:[NSString stringWithFormat:@"%d亮币", [dic[@"leftnum"] intValue]]];
+    [cell dealHadGet:NO descTitle:[NSString stringWithFormat:@"%d亮币", [dic[@"leftnum"] intValue]]];
     return cell;
 }
 
@@ -100,9 +101,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *dic = _dataArray[indexPath.section];
-    NSString *bigPic = dic[@"largepic"];
-    NSString *info = dic[@"info"];
     GetMoneyDetailViewController *detail = [[GetMoneyDetailViewController alloc] init];
+    detail.dataDic = dic;
     [self.navigationController pushViewController:detail animated:YES];
 }
 

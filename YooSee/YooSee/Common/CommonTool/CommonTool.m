@@ -376,5 +376,17 @@
     return result;
 }
 
++ (NSString*)dateString2MDString:(NSString*)string {
+    NSDateFormatter *formatter = [[NSDateFormatter  alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
+    NSDate *date = [formatter dateFromString:string];
+    if (!date) {
+        return @"";
+    }
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:date];
+    return [NSString stringWithFormat:@"%d月%d日", cmp1.month, cmp1.day];
+}
 
 @end

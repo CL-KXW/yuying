@@ -10,4 +10,6 @@
 
 @interface GetMoneyDetailViewController : BasicViewController
 
+@property (nonatomic, strong) NSDictionary *dataDic;
+
 @end
