@@ -33,7 +33,11 @@
 #import "GetMoneryViewController.h"
 #import "WebViewController.h"
 #import "NewsListViewController.h"
+#import "CameraListViewController.h"
+#import "CameraSafeInfoViewController.h"
+#import "CameraPasswordViewController.h"
 #import "Y1YViewController.h"
+
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -66,6 +70,8 @@
     {
         _rowHeightArray = @[@(ROW1_HEIGHT),@(ROW2_HEIGHT),@(ROW3_HEIGHT)];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePassword) name:@"ChangedPassword" object:nil];
     
     [self initUI];
     
@@ -458,6 +464,13 @@
 #pragma mark item功能按钮
 - (void)itemButtonPressed:(UIButton *)sender
 {
+    
+    BOOL isLogin = [YooSeeApplication shareApplication].isLogin;
+    if (!isLogin)
+    {
+        [self addLoginView];
+        return;
+    }
     int type = (int)sender.tag/10;
     int tag = (int)sender.tag%10;
     if (type == 1)
@@ -480,11 +493,16 @@
         if (tag == 0)
         {
             //报警
+            CameraSafeInfoViewController *cameraSafeInfoViewController = [[CameraSafeInfoViewController alloc] init];
+            cameraSafeInfoViewController.contact = [YooSeeApplication shareApplication].contact;
+            [self.navigationController pushViewController:cameraSafeInfoViewController animated:YES];
             
         }
         if (tag == 1)
         {
             //更多
+            CameraListViewController *cameraListViewController = [[CameraListViewController alloc] init];
+            [self.navigationController pushViewController:cameraListViewController animated:YES];
         }
     }
     if (type == 3)
@@ -502,6 +520,17 @@
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     [self presentViewController:nav animated:YES completion:Nil];
+}
+
+
+#pragma mark 修改密码
+- (void)changePassword
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    CameraPasswordViewController *cameraPasswordViewController = [[CameraPasswordViewController alloc] init];
+    cameraPasswordViewController.deviceID = [YooSeeApplication shareApplication].contact.contactId;
+    cameraPasswordViewController.isChange = YES;
+    [self.navigationController pushViewController:cameraPasswordViewController animated:YES];
 }
 
 
@@ -573,6 +602,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*
