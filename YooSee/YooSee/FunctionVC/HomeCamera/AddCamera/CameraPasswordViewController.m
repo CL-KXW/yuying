@@ -188,7 +188,7 @@
         contact = [[Contact alloc] init];
         contact.contactId = self.deviceID;
         contact.contactName = self.deviceID;
-        contact.contactPassword = self.passwordTextField.textField.text;
+        contact.contactPassword = [Utils GetTreatedPassword:self.passwordTextField.textField.text];
         contact.contactType = CONTACT_TYPE_PHONE;
         [[FListManager sharedFList] insertContact:contact];
         
@@ -202,7 +202,7 @@
     {
         [contact setContactId:self.deviceID];
         [contact setContactName:self.deviceID];
-        [contact setContactPassword:self.passwordTextField.textField.text];
+        [contact setContactPassword:[Utils GetTreatedPassword:self.passwordTextField.textField.text]];
         [[FListManager sharedFList] update:contact];
     }
     

@@ -16,6 +16,7 @@
 #import "RadarView.h"
 #import "GCDAsyncUdpSocket.h"
 #import "CameraPasswordViewController.h"
+#import "mesg.h"
 
 
 @interface SerachCameraViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -59,19 +60,7 @@
 {
     self.isRun = YES;
     self.isPrepared = NO;
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
-    {
-        while(weakSelf.isRun)
-        {
-            //不断广播获取设置好WIFI的设备
-            if(!weakSelf.isPrepared)
-            {
-                [weakSelf prepareSocket];
-            }
-            usleep(1000000);
-        }
-    });
+    [self startSearchDeviceInLan];
 }
 
 
@@ -136,10 +125,11 @@
     GCDAsyncUdpSocket *socket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
     NSError *error = nil;
     
+    int port = 9988;
     
-    if (![socket bindToPort:8899 error:&error])
+    if (![socket bindToPort:port error:&error])
     {
-        //NSLog(@"Error binding: %@", [error localizedDescription]);
+        NSLog(@"Error binding: %@", [error localizedDescription]);
         return NO;
     }
     if (![socket beginReceiving:&error])
@@ -165,6 +155,11 @@
     NSString *host = @"255.255.255.255";
     int port = 8899;
 
+    
+    sMesgShakeType message;
+    message.dwCmd = LAN_TRANS_SHAKE_GET;
+    message.dwStructSize = 28;
+    message.dwStrCon = 0;
     
     Byte sendBuffer[1024];
     memset(sendBuffer, 0, 1024);
@@ -197,7 +192,7 @@
         Byte receiveBuffer[1024];
         [data getBytes:receiveBuffer length:1024];
         
-        if(receiveBuffer[0] == 2)
+        if(receiveBuffer[0] == 2 || receiveBuffer[0] == 1)
         {
             NSString *host = nil;
             uint16_t port = 0;

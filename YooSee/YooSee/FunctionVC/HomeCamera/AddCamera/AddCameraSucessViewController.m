@@ -91,7 +91,14 @@
     [YooSeeApplication shareApplication].contact = contact;
     CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
     NSMutableArray *array = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-    [array replaceObjectAtIndex:1 withObject:cameraMainViewController];
+    if ([array[1] isKindOfClass:[CameraMainViewController class]])
+    {
+        [array replaceObjectAtIndex:1 withObject:cameraMainViewController];
+    }
+    else
+    {
+        [array insertObject:cameraMainViewController atIndex:1];
+    }
     self.navigationController.viewControllers = array;
     [self.navigationController popToViewController:cameraMainViewController animated:YES];
 }

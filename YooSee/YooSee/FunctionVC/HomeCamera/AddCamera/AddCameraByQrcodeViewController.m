@@ -21,6 +21,12 @@
     // Do any additional setup after loading the view.
 }
 
+#pragma mark 获取成功
+- (void)getQrcodeSucess:(NSString *)qrCodeString
+{
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
