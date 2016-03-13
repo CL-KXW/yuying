@@ -14,6 +14,10 @@
 #define LABEL_WIDTH     200.0
 
 #import "SettingCameraMainViewController.h"
+#import "SetCameraInfoViewController.h"
+#import "SetCameraPasswordViewController.h"
+#import "SetCameraTimeViewController.h"
+#import "SetCameraRecordAudioViewController.h"
 
 @interface SettingCameraMainViewController ()
 
@@ -40,7 +44,7 @@
 - (void)initData
 {
     _imageArray = @[@"camera_icon_default",@"setting_warn",@"setting_record",@"setting_defence",@"setting_time",@"setting_network",@"setting_password"];
-    _titleArray = @[self.contact.contactName,@"报警设置",@"录音设置",@"防区设置",@"时间设置",@"网络设置",@"密码设置"];
+    _titleArray = @[self.contact.contactName,@"报警设置",@"录像设置",@"防区设置",@"时间设置",@"网络设置",@"密码设置"];
 }
 
 #pragma mark 初始化UI
@@ -116,7 +120,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    SettingCameraBasicViewController *viewController;
+    if (indexPath.row == 0)
+    {
+        SetCameraInfoViewController *setCameraInfoViewController = [[SetCameraInfoViewController alloc] init];
+        setCameraInfoViewController.imageUrl = self.imageUrl;
+        setCameraInfoViewController.contact = self.contact;
+        setCameraInfoViewController.deviceID = self.contact.contactId;
+        [self.navigationController pushViewController:setCameraInfoViewController animated:YES];
+        return;
+    }
+    if (indexPath.row == 2)
+    {
+        viewController = [[SetCameraRecordAudioViewController alloc] init];
+        viewController.imageUrl = self.imageUrl;
+        viewController.contact = self.contact;
+    }
+    if (indexPath.row == 4)
+    {
+        viewController = [[SetCameraTimeViewController alloc] init];
+        viewController.imageUrl = self.imageUrl;
+        viewController.contact = self.contact;
+    }
+    if (indexPath.row == 6)
+    {
+        viewController = [[SetCameraPasswordViewController alloc] init];
+        viewController.imageUrl = self.imageUrl;
+        viewController.contact = self.contact;
+    }
+    if (viewController)
+    {
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

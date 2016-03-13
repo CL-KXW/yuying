@@ -6,10 +6,9 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
-#import "BasicViewController.h"
+#import "SettingCameraBasicViewController.h"
 
-@interface SetCameraPasswordViewController : BasicViewController
+@interface SetCameraPasswordViewController : SettingCameraBasicViewController
 
-@property (nonatomic, strong) Contact *contact;
 
 @end
