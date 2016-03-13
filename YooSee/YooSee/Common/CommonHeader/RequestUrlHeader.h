@@ -22,8 +22,17 @@
 //登录
 #define USER_LOGIN_URL              MAKE_REQUEST_URL(@"yyw_login")
 
+//注册/忘记密码
+#define REGISTER_URL                MAKE_REQUEST_URL(@"yyw_register")
+
+//短信验证码
+#define PHONE_CODE_URL              MAKE_REQUEST_URL(@"yyw_sendverifysms")
+
 //2cu_login
 #define LOGIN_2CU_URL               @"http://cloudlinks.cn/Users/LoginCheck.ashx"
+
+//2cu_Alarm
+#define ALARM_2CU_URL               @"http://cloudlinks.cn/Alarm/AlarmRecordEx.ashx"
 
 //2cu_Alarm
 #define ALARM_2CU_URL               @"http://cloudlinks.cn/Alarm/AlarmRecordEx.ashx"
