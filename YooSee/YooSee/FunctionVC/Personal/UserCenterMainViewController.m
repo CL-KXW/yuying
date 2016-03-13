@@ -27,7 +27,7 @@
 #import "PersonalInfoViewController.h"
 #import "WebViewController.h"
 #import "NewsListViewController.h"
-
+#import "GoldLibraryViewController.h"
 
 @interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -320,6 +320,8 @@
     if (tag == 1)
     {
         //现金库
+        GoldLibraryViewController *vc = [[GoldLibraryViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     if (tag == 2)
     {

@@ -12,9 +12,10 @@
 //#define SERVER_URL                  @"http://zhouqiubo.vicp.cc:9998/koi"
 //#define SERVER_URL                  @"http://1.199.40.48:8086/koi"
 #define SERVER_URL                  @"http://112.74.135.133/yyw/"
+#define Y1Y_SERVER_URL                  @"http://112.74.135.133/yywapp/"
 
 #define MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@.flow",SERVER_URL,inf]
-
+#define Y1Y_MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@.flow",Y1Y_SERVER_URL,inf]
 //登录服务器
 #define LOGIN_SERVER_URL            MAKE_REQUEST_URL(@"yyw_getsysdata")
 
@@ -74,4 +75,13 @@
 
 //获取广告奖励
 #define GET_AD_REWARD               MAKE_REQUEST_URL(@"yyw_getlookmoney")
+
+//获取摇一摇列表
+#define GET_Y1Y_LIST                Y1Y_MAKE_REQUEST_URL(@"yyw_getredpackedlist")
+
+//红包图片
+#define GET_Y1Y_PIC                 Y1Y_MAKE_REQUEST_URL(@"yyw_redpacked_pic")
+
+//获取个人财产信息
+#define GET_GOLD_INFO               MAKE_REQUEST_URL(@"yyw_getcaichan")
 #endif

@@ -120,14 +120,15 @@
 - (void)getRequestWithUrl:(NSString *)url requestParamas:(NSDictionary *)paramas requestType:(RequestType)type requestSucess:(void (^)(AFHTTPRequestOperation *operation,id responseDic))sucess requestFail:(void (^)(AFHTTPRequestOperation *operation,NSError *error))fail
 {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
-    manager.requestSerializer = [AFJSONRequestSerializer  serializer];
+    manager.requestSerializer = [AFHTTPRequestSerializer  serializer];
     manager.requestSerializer.timeoutInterval = TIMEOUT;
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
     //NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
     requestOperation = [manager GET:url parameters:paramas
                         success:^(AFHTTPRequestOperation *operation,id responeDic)
                         {
+                            responeDic = [RequestDataTool decryptJSON:operation.responseString];
                             if ([responeDic isKindOfClass:[NSDictionary class]] || [responeDic isKindOfClass:[NSMutableDictionary class]])
                             {
                                 if (sucess)

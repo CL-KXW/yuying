@@ -33,6 +33,7 @@
 #import "GetMoneryViewController.h"
 #import "WebViewController.h"
 #import "NewsListViewController.h"
+#import "Y1YViewController.h"
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -469,6 +470,8 @@
         if (tag == 1)
         {
             //摇一摇
+            Y1YViewController *y1y = [[Y1YViewController alloc] init];
+            [self.navigationController pushViewController:y1y animated:YES];
         }
     }
     if (type == 2)

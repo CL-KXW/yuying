@@ -24,6 +24,18 @@
 		286C78FD1C947550009E129E /* shake_match.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 286C78FC1C947550009E129E /* shake_match.mp3 */; };
 		286C79001C9477C4009E129E /* hongbao@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C78FE1C9477C4009E129E /* hongbao@2x.png */; };
 		286C79011C9477C4009E129E /* hongbao@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C78FF1C9477C4009E129E /* hongbao@3x.png */; };
+		286C79041C950222009E129E /* Y1YViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C79031C950222009E129E /* Y1YViewController.m */; };
+		286C79071C953A1B009E129E /* Y1YDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C79061C953A1B009E129E /* Y1YDetailViewController.m */; };
+		286C790E1C9561C2009E129E /* HBGXQANTP.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C79081C9561C2009E129E /* HBGXQANTP.png */; };
+		286C790F1C9561C2009E129E /* welcom_yhb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 286C79091C9561C2009E129E /* welcom_yhb.mp3 */; };
+		286C79101C9561C2009E129E /* y1y_bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 286C790A1C9561C2009E129E /* y1y_bg_3.jpg */; };
+		286C79111C9561C2009E129E /* y1y_bg_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 286C790B1C9561C2009E129E /* y1y_bg_1.jpg */; };
+		286C79121C9561C2009E129E /* y1y_bg_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 286C790C1C9561C2009E129E /* y1y_bg_2.jpg */; };
+		286C79131C9561C2009E129E /* y1y_hb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C790D1C9561C2009E129E /* y1y_hb@2x.png */; };
+		286C79161C956FA8009E129E /* Y1YDetail2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C79151C956FA8009E129E /* Y1YDetail2ViewController.m */; };
+		286C79191C957601009E129E /* GoldLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C79181C957601009E129E /* GoldLibraryViewController.m */; };
+		286C791C1C95B044009E129E /* MoneyDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C791B1C95B044009E129E /* MoneyDetailVC.m */; };
+		286C79201C95B27F009E129E /* MarqueeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C791F1C95B27F009E129E /* MarqueeLabel.m */; };
 		CE07DC8F1C7EA87F0090A9A5 /* CameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */; };
 		CE07DC921C7EA88E0090A9A5 /* CameraListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC911C7EA88E0090A9A5 /* CameraListViewController.m */; };
 		CE07DC961C7EA9200090A9A5 /* AddCameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC951C7EA9200090A9A5 /* AddCameraMainViewController.m */; };
@@ -364,6 +376,24 @@
 		286C78FC1C947550009E129E /* shake_match.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shake_match.mp3; sourceTree = "<group>"; };
 		286C78FE1C9477C4009E129E /* hongbao@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongbao@2x.png"; sourceTree = "<group>"; };
 		286C78FF1C9477C4009E129E /* hongbao@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongbao@3x.png"; sourceTree = "<group>"; };
+		286C79021C950222009E129E /* Y1YViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y1YViewController.h; sourceTree = "<group>"; };
+		286C79031C950222009E129E /* Y1YViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Y1YViewController.m; sourceTree = "<group>"; };
+		286C79051C953A1B009E129E /* Y1YDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y1YDetailViewController.h; sourceTree = "<group>"; };
+		286C79061C953A1B009E129E /* Y1YDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Y1YDetailViewController.m; sourceTree = "<group>"; };
+		286C79081C9561C2009E129E /* HBGXQANTP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HBGXQANTP.png; sourceTree = "<group>"; };
+		286C79091C9561C2009E129E /* welcom_yhb.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = welcom_yhb.mp3; sourceTree = "<group>"; };
+		286C790A1C9561C2009E129E /* y1y_bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = y1y_bg_3.jpg; sourceTree = "<group>"; };
+		286C790B1C9561C2009E129E /* y1y_bg_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = y1y_bg_1.jpg; sourceTree = "<group>"; };
+		286C790C1C9561C2009E129E /* y1y_bg_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = y1y_bg_2.jpg; sourceTree = "<group>"; };
+		286C790D1C9561C2009E129E /* y1y_hb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "y1y_hb@2x.png"; sourceTree = "<group>"; };
+		286C79141C956FA8009E129E /* Y1YDetail2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y1YDetail2ViewController.h; sourceTree = "<group>"; };
+		286C79151C956FA8009E129E /* Y1YDetail2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Y1YDetail2ViewController.m; sourceTree = "<group>"; };
+		286C79171C957601009E129E /* GoldLibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoldLibraryViewController.h; sourceTree = "<group>"; };
+		286C79181C957601009E129E /* GoldLibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoldLibraryViewController.m; sourceTree = "<group>"; };
+		286C791A1C95B044009E129E /* MoneyDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyDetailVC.h; sourceTree = "<group>"; };
+		286C791B1C95B044009E129E /* MoneyDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyDetailVC.m; sourceTree = "<group>"; };
+		286C791E1C95B27F009E129E /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
+		286C791F1C95B27F009E129E /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
 		CE07DC8D1C7EA87F0090A9A5 /* CameraMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraMainViewController.h; sourceTree = "<group>"; };
 		CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraMainViewController.m; sourceTree = "<group>"; };
 		CE07DC901C7EA88E0090A9A5 /* CameraListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraListViewController.h; sourceTree = "<group>"; };
@@ -950,6 +980,12 @@
 		286C78DF1C92ADFB009E129E /* getmoney */ = {
 			isa = PBXGroup;
 			children = (
+				286C79081C9561C2009E129E /* HBGXQANTP.png */,
+				286C79091C9561C2009E129E /* welcom_yhb.mp3 */,
+				286C790A1C9561C2009E129E /* y1y_bg_3.jpg */,
+				286C790B1C9561C2009E129E /* y1y_bg_1.jpg */,
+				286C790C1C9561C2009E129E /* y1y_bg_2.jpg */,
+				286C790D1C9561C2009E129E /* y1y_hb@2x.png */,
 				286C78FE1C9477C4009E129E /* hongbao@2x.png */,
 				286C78FF1C9477C4009E129E /* hongbao@3x.png */,
 				286C78FC1C947550009E129E /* shake_match.mp3 */,
@@ -966,6 +1002,15 @@
 				286C78E21C92AF2B009E129E /* img_tab_bg_2@2x.png */,
 			);
 			path = getmoney;
+			sourceTree = "<group>";
+		};
+		286C791D1C95B27F009E129E /* MarqueeLabel */ = {
+			isa = PBXGroup;
+			children = (
+				286C791E1C95B27F009E129E /* MarqueeLabel.h */,
+				286C791F1C95B27F009E129E /* MarqueeLabel.m */,
+			);
+			path = MarqueeLabel;
 			sourceTree = "<group>";
 		};
 		CE07DC931C7EA89E0090A9A5 /* AddCamera */ = {
@@ -1329,6 +1374,7 @@
 		CE5ABD451C5B621700643B24 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				286C791D1C95B27F009E129E /* MarqueeLabel */,
 				CE963AAC1C91CA3C00DEEF2B /* PickView */,
 				CE98E1081C8AA0970072A2FC /* Player */,
 				CE98E1011C8A7DEA0072A2FC /* ScreenshotView */,
@@ -1367,6 +1413,12 @@
 				CE8BDDA61C912E2800472924 /* GetMoneryViewController.m */,
 				286C78E41C92CE2D009E129E /* GetMoneyDetailViewController.h */,
 				286C78E51C92CE2D009E129E /* GetMoneyDetailViewController.m */,
+				286C79021C950222009E129E /* Y1YViewController.h */,
+				286C79031C950222009E129E /* Y1YViewController.m */,
+				286C79051C953A1B009E129E /* Y1YDetailViewController.h */,
+				286C79061C953A1B009E129E /* Y1YDetailViewController.m */,
+				286C79141C956FA8009E129E /* Y1YDetail2ViewController.h */,
+				286C79151C956FA8009E129E /* Y1YDetail2ViewController.m */,
 			);
 			path = GetPhoneFees;
 			sourceTree = "<group>";
@@ -1412,6 +1464,10 @@
 				CEAD7D431C8C8660008B5281 /* UserCenterMainViewController.m */,
 				CE14E8C51C8FF7890044E8D2 /* InviteFriendViewController.h */,
 				CE14E8C61C8FF7890044E8D2 /* InviteFriendViewController.m */,
+				286C79171C957601009E129E /* GoldLibraryViewController.h */,
+				286C79181C957601009E129E /* GoldLibraryViewController.m */,
+				286C791A1C95B044009E129E /* MoneyDetailVC.h */,
+				286C791B1C95B044009E129E /* MoneyDetailVC.m */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -2201,9 +2257,12 @@
 				CE11AE2D1C7490020017181E /* icon_navbar_sys_up.png in Resources */,
 				CE80C3991C78ADC200A7ADCA /* loading_10.png in Resources */,
 				CEAD123F1C7CDEFC00D2CAF2 /* icon_home_camera_up.png in Resources */,
+				286C79131C9561C2009E129E /* y1y_hb@2x.png in Resources */,
 				CEAD12421C7CDEFC00D2CAF2 /* icon_home_sale_down.png in Resources */,
 				286C78FB1C947419009E129E /* gold2@3x.png in Resources */,
 				CE80C3921C78ADC200A7ADCA /* loading_03.png in Resources */,
+				286C790F1C9561C2009E129E /* welcom_yhb.mp3 in Resources */,
+				286C79121C9561C2009E129E /* y1y_bg_2.jpg in Resources */,
 				CEAD7D5F1C8C9681008B5281 /* icon_usercenter_5_up.png in Resources */,
 				CE8BDD981C912CDB00472924 /* UMSCommentInputController.xib in Resources */,
 				CEAD7D621C8C9681008B5281 /* icon_usercenter_7_dwon.png in Resources */,
@@ -2255,6 +2314,7 @@
 				CE963AB21C91CA3C00DEEF2B /* area.plist in Resources */,
 				CEAD12431C7CDEFC00D2CAF2 /* icon_home_sale_up.png in Resources */,
 				CE80C38F1C78ADC200A7ADCA /* loading _10.png in Resources */,
+				286C790E1C9561C2009E129E /* HBGXQANTP.png in Resources */,
 				CE07DCA01C7EC4170090A9A5 /* icon_camera_net_down.png in Resources */,
 				CEAD12501C7CE58800D2CAF2 /* icon_home_alert_down.png in Resources */,
 				CE80C3961C78ADC200A7ADCA /* loading_07.png in Resources */,
@@ -2327,12 +2387,14 @@
 				CE14C3121C88872700C1D5A3 /* icon_defence_off_down.png in Resources */,
 				CEE4C1731C8719E300D8DA5E /* icon_speak_down.png in Resources */,
 				286C78E31C92AF2B009E129E /* img_tab_bg_2@2x.png in Resources */,
+				286C79111C9561C2009E129E /* y1y_bg_1.jpg in Resources */,
 				CE24B5801C8F240C00556775 /* big_icon.png in Resources */,
 				CEAD7D641C8C9681008B5281 /* icon_usercenter_8_down.png in Resources */,
 				CEAAA54B1C8B34E30006F804 /* icon_alarm_av_down.png in Resources */,
 				CE0A377C1C80A6D200A4B62B /* camera_icon@2x.png in Resources */,
 				CEE4C1771C8719E300D8DA5E /* manage_up.png in Resources */,
 				CEAAA54F1C8B34E30006F804 /* icon_alarm_play_down.png in Resources */,
+				286C79101C9561C2009E129E /* y1y_bg_3.jpg in Resources */,
 				CEAD12591C7CE58800D2CAF2 /* icon_home_shop_up.png in Resources */,
 				CEAD7D591C8C9681008B5281 /* icon_usercenter_2_up.png in Resources */,
 				CE14C3101C88872700C1D5A3 /* icon_back_video_down.png in Resources */,
@@ -2381,6 +2443,7 @@
 				CE8BE82A1C5F885000D6307D /* CommonTool.m in Sources */,
 				CEF796D01C853E630039909A /* RtspInterface.mm in Sources */,
 				CEF796C81C853E630039909A /* CameraManager.m in Sources */,
+				286C79161C956FA8009E129E /* Y1YDetail2ViewController.m in Sources */,
 				CE89E9461C8C1516006F6B4D /* SettingCameraMainViewController.m in Sources */,
 				CEF796AA1C853E630039909A /* Recent.m in Sources */,
 				CE8BE8431C5F885000D6307D /* AFHTTPRequestOperationManager.m in Sources */,
@@ -2407,6 +2470,7 @@
 				CE963AB31C91CA3C00DEEF2B /* STPickerArea.m in Sources */,
 				CE8BE8391C5F885000D6307D /* SDWebImageDownloaderOperation.m in Sources */,
 				CE98E1001C8A7DB20072A2FC /* ScreenshotCell.m in Sources */,
+				286C79191C957601009E129E /* GoldLibraryViewController.m in Sources */,
 				CEF796CC1C853E630039909A /* PAIOUnit.m in Sources */,
 				CEF796B71C853E630039909A /* UncaughtExceptionHandler.m in Sources */,
 				CEF796A81C853E630039909A /* Message.m in Sources */,
@@ -2415,15 +2479,18 @@
 				CEF796AE1C853E630039909A /* UDManager.m in Sources */,
 				CE211FE01C815BE4000453D0 /* AddCameraFailViewController.m in Sources */,
 				CE8BE8731C5F885700D6307D /* MJRefreshHeaderView.m in Sources */,
+				286C791C1C95B044009E129E /* MoneyDetailVC.m in Sources */,
 				CE8BE8441C5F885000D6307D /* AFHTTPSessionManager.m in Sources */,
 				CEAD7D311C8C500D008B5281 /* SetCameraPasswordViewController.m in Sources */,
 				CEF796CB1C853E630039909A /* P2PClient.m in Sources */,
 				CE963ABD1C91CAA500DEEF2B /* STConst.m in Sources */,
 				CEF796C11C853E630039909A /* qrspec.c in Sources */,
+				286C79071C953A1B009E129E /* Y1YDetailViewController.m in Sources */,
 				CE8BE8721C5F885700D6307D /* MJRefreshFooterView.m in Sources */,
 				CEF796B81C853E630039909A /* Utils.m in Sources */,
 				CE98E1121C8AA0970072A2FC /* Player.m in Sources */,
 				CE8BE8501C5F885000D6307D /* UIButton+AFNetworking.m in Sources */,
+				286C79201C95B27F009E129E /* MarqueeLabel.m in Sources */,
 				CEF796BF1C853E630039909A /* qrencode.c in Sources */,
 				CE8BE8491C5F885000D6307D /* AFURLResponseSerialization.m in Sources */,
 				CE8BE8421C5F885000D6307D /* AFHTTPRequestOperation.m in Sources */,
@@ -2471,6 +2538,7 @@
 				CEF796BE1C853E630039909A /* mask.c in Sources */,
 				CEF796B21C853E630039909A /* IPAdress.c in Sources */,
 				CE8BE8511C5F885000D6307D /* UIImageView+AFNetworking.m in Sources */,
+				286C79041C950222009E129E /* Y1YViewController.m in Sources */,
 				CEF796A61C853E630039909A /* FMResultSet.m in Sources */,
 				CEF796A21C853E630039909A /* ContactDAO.m in Sources */,
 				CE11AE341C7494930017181E /* LoginViewController.m in Sources */,
