@@ -200,7 +200,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *dic = _dataArray[indexPath.section];
+    NSDictionary *dic = _dataArray[indexPath.row];
     Y1YDetailViewController *detail = [[Y1YDetailViewController alloc] init];
     detail.dataDic = dic;
     [self.navigationController pushViewController:detail animated:YES];

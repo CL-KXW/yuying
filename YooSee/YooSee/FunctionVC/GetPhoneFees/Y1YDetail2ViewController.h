@@ -10,4 +10,6 @@
 //领取资格
 @interface Y1YDetail2ViewController : BasicViewController
 
+@property (nonatomic, copy) NSString *ggid;
+
 @end

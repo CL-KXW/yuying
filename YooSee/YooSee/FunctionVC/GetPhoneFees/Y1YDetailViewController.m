@@ -71,6 +71,7 @@
 - (void)buttonActino{
     NSLog(@"点击了感兴趣");
     Y1YDetail2ViewController *detail2  = [[Y1YDetail2ViewController alloc]init];
+    detail2.ggid = self.dataDic[@"ggid"];
     [self.navigationController pushViewController:detail2 animated:NO];
 }
 

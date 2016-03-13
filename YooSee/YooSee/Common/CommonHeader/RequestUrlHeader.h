@@ -82,6 +82,14 @@
 //红包图片
 #define GET_Y1Y_PIC                 Y1Y_MAKE_REQUEST_URL(@"yyw_redpacked_pic")
 
+//预约抢红包
+#define MAKE_ROB                    Y1Y_MAKE_REQUEST_URL(@"yyw_makerob")
+
+//红包详情
+
+
 //获取个人财产信息
 #define GET_GOLD_INFO               MAKE_REQUEST_URL(@"yyw_getcaichan")
+
+
 #endif
