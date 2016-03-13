@@ -22,6 +22,8 @@
 #import "ReplayRecordFileViewController.h"
 #import "SettingCameraMainViewController.h"
 #import "SetCameraInfoViewController.h"
+#import "CameraPasswordViewController.h"
+#import "Utils.h"
 
 @interface CameraListViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -71,7 +73,14 @@
 #pragma makr 返回
 - (void)backButtonPressed:(UIButton *)sender
 {
-    [self changedCameraMainView];
+    
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    if ([array[1] isKindOfClass:[CameraMainViewController class]])
+    {
+        CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
+        [array replaceObjectAtIndex:1 withObject:cameraMainViewController];
+        self.navigationController.viewControllers = array;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -301,7 +310,7 @@
 
 
 #pragma mark 检查状态
-//检查设备在线状态的定时器，该方法前3次每秒执行一次，后面每5秒执行一次
+//检查设备在线状态的定时器，该方法前3次每秒执行一次，后面每3秒执行一次
 - (void)checkDeviceState:(NSTimer *)timer
 {
     if (!_deviceIDArray || [_deviceIDArray count] == 0)
@@ -309,13 +318,24 @@
         return;
     }
     
+    for(int i = 0; i < [self.contactArray count]; i++)
+    {
+        
+        Contact *contact = self.contactArray[i];
+        //进入首页时，获取设备列表里的设备的可更新状态
+        //设备检查更新
+        [[P2PClient sharedClient] checkDeviceUpdateWithId:contact.contactId password:contact.contactPassword];
+    }
+    
     [[P2PClient sharedClient] getContactsStates:_deviceIDArray];
     [[FListManager sharedFList] getDefenceStates];
     
-    if(_checkStateTimes >= 5)
+    if(_checkStateTimes >= 3)
     {
-        [timer invalidate];
-        [self performSelector:@selector(checkDeviceState:) withObject:nil afterDelay:5];
+        if (_checkStateTimes % 3 != 0)
+        {
+            return;
+        }
     }
     _checkStateTimes++;
 }
@@ -367,21 +387,23 @@
     //设防
     cell.defenceButton.tag = 10000 + indexPath.section;
     [cell.defenceButton addTarget:self action:@selector(defenceButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    if(contact.defenceState == DEFENCE_STATE_OFF || contact.defenceState == DEFENCE_STATE_LOADING)
+    if(contact.defenceState == DEFENCE_STATE_ON)
     {
+        
+        cell.defenceLabel.text = @"设防已开启";
+        cell.defenceLabel.textColor = APP_MAIN_COLOR;
+        [cell.defenceButton setBackgroundImage:[UIImage imageNamed:@"icon_defence_on_up"] forState:UIControlStateNormal];
+        [cell.defenceButton setBackgroundImage:[UIImage imageNamed:@"icon_defence_on_down"] forState:UIControlStateHighlighted];
+
+    }
+    else
+    {
+        //(contact.defenceState == DEFENCE_STATE_OFF || contact.defenceState == DEFENCE_STATE_LOADING)
         //未设防
         cell.defenceLabel.text = @"未设防";
         cell.defenceLabel.textColor = DE_TEXT_COLOR;
         [cell.defenceButton setBackgroundImage:[UIImage imageNamed:@"icon_defence_off_up"] forState:UIControlStateNormal];
         [cell.defenceButton setBackgroundImage:[UIImage imageNamed:@"icon_defence_off_down"] forState:UIControlStateHighlighted];
-
-    }
-    else if(contact.defenceState == DEFENCE_STATE_ON)
-    {
-        cell.defenceLabel.text = @"设防已开启";
-        cell.defenceLabel.textColor = APP_MAIN_COLOR;
-        [cell.defenceButton setBackgroundImage:[UIImage imageNamed:@"icon_defence_on_up"] forState:UIControlStateNormal];
-        [cell.defenceButton setBackgroundImage:[UIImage imageNamed:@"icon_defence_on_down"] forState:UIControlStateHighlighted];
     }
     //安全警报
     cell.alarmButton.tag = 100000 + indexPath.section;
@@ -474,8 +496,6 @@
 #pragma mark 刷新设备状态
 - (void)refreshDeviceInfo
 {
-    
-    NSLog(@"refreshing device list.");
     if(self.contactArray == nil)
     {
         self.contactArray = [[NSMutableArray alloc] init];
@@ -492,7 +512,6 @@
     {
         [self.table reloadData];
     });
-    
 }
 
 #pragma mark 播放
@@ -502,6 +521,7 @@
     //Contact *currentDevice = [YooSeeApplication  shareApplication].contact;
     if (contact)
     {
+        //与第三方保持一致 播放不判断状态
         if (![self checkContactReady:contact])
         {
             return;
@@ -517,7 +537,14 @@
 {
     CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
     NSMutableArray *array = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-    [array replaceObjectAtIndex:1 withObject:cameraMainViewController];
+    if ([array[1] isKindOfClass:[CameraMainViewController class]])
+    {
+        [array replaceObjectAtIndex:1 withObject:cameraMainViewController];
+    }
+    else
+    {
+        [array insertObject:cameraMainViewController atIndex:1];
+    }
     self.navigationController.viewControllers = array;
 }
 
@@ -541,27 +568,43 @@
 
 - (void)defenceButtonPressed:(UIButton *)sender
 {
+
     int index = (int)sender.tag - 10000;
     Contact *contact = (Contact *)self.contactArray[index];
+    if (![self checkContactReady:contact])
+    {
+        return;
+    }
+//    [[FListManager sharedFList] setIsClickDefenceStateBtnWithId:contact.contactId isClick:YES];
+//    if (contact.defenceState == 2)
+//    {
+//        contact.defenceState = contact.defenceState > DEFENCE_STATE_ON ? 1 : 0;
+//    }
+//    else if(contact.defenceState == 0 || contact.defenceState == 1)
+//    {
+//        contact.defenceState = contact.defenceState > DEFENCE_STATE_OFF ? 0 : 1;
+//    }
+//    [[P2PClient sharedClient] setRemoteDefenceWithId:contact.contactId
+//                                            password:contact.contactPassword
+//                                               state:contact.defenceState];
+    
     [[FListManager sharedFList] setIsClickDefenceStateBtnWithId:contact.contactId isClick:YES];
-    if (contact.defenceState == 2)
+    if(contact.defenceState==DEFENCE_STATE_WARNING_NET||contact.defenceState == DEFENCE_STATE_WARNING_PWD)
     {
-        contact.defenceState = contact.defenceState > DEFENCE_STATE_ON ? 1 : 0;
+        contact.defenceState = DEFENCE_STATE_LOADING;
+        [[P2PClient sharedClient] getDefenceState:contact.contactId password:contact.contactPassword];
+        
     }
-    else if(contact.defenceState == 0 || contact.defenceState == 1)
+    else if(contact.defenceState==DEFENCE_STATE_ON)
     {
-        contact.defenceState = contact.defenceState > DEFENCE_STATE_OFF ? 0 : 1;
+        contact.defenceState = DEFENCE_STATE_LOADING;
+        [[P2PClient sharedClient] setRemoteDefenceWithId:contact.contactId password:contact.contactPassword state:SETTING_VALUE_REMOTE_DEFENCE_STATE_OFF];
     }
-    else
+    else if(contact.defenceState==DEFENCE_STATE_OFF)
     {
-        if (![self checkContactReady:contact])
-        {
-            return;
-        }
+        contact.defenceState = DEFENCE_STATE_LOADING;
+        [[P2PClient sharedClient] setRemoteDefenceWithId:contact.contactId password:contact.contactPassword state:SETTING_VALUE_REMOTE_DEFENCE_STATE_ON];
     }
-    [[P2PClient sharedClient] setRemoteDefenceWithId:contact.contactId
-                                            password:contact.contactPassword
-                                               state:contact.defenceState];
 }
 
 #pragma mark 报警
@@ -639,15 +682,52 @@
         [CommonTool addPopTipWithMessage:@"设备已离线"];
         return NO;
     }
-    NSString *password = contact.contactPassword;
-    password = password ? password : @"";
-    if (password.length == 0)
+    else
     {
-        [CommonTool addPopTipWithMessage:@"设备密码为空，请在编辑界面输入密码!"];
-        return NO;
+        
+        NSString *password = contact.contactPassword;
+        password = password ? password : @"";
+        if (password.length == 0)
+        {
+            [CommonTool addPopTipWithMessage:@"设备密码为空"];
+            [self goToChangePasswordView:contact.contactId];
+             return NO;
+        }
+        else
+        {
+            if (contact.defenceState == DEFENCE_STATE_WARNING_PWD)
+            {
+                [CommonTool addPopTipWithMessage:@"设备密码错误"];
+                [self goToChangePasswordView:contact.contactId];
+                return NO;
+            }
+            if (contact.defenceState > 3)
+            {
+                if (contact.defenceState > 5)
+                {
+                    [CommonTool addPopTipWithMessage:@"设备异常"];
+                    return NO;
+                }
+                [CommonTool addPopTipWithMessage:contact.defenceState == 4 ? @"网络异常" : @"权限不足"];
+                return NO;
+            }
+            
+        }
     }
-    
     return YES;
+}
+
+- (void)goToChangePasswordView:(NSString *)deviceID
+{
+    deviceID = deviceID ? deviceID : @"";
+    if (deviceID.length == 0)
+    {
+        return;
+    }
+    CameraPasswordViewController *cameraPasswordViewController = [[CameraPasswordViewController alloc] init];
+    cameraPasswordViewController.deviceID = deviceID;
+    cameraPasswordViewController.isChange = YES;
+    [self.navigationController pushViewController:cameraPasswordViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

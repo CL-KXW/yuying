@@ -14,7 +14,7 @@
 #define REMOTEVIEW_HEIGHT       195.0 * CURRENT_SCALE
 #define PLAYER_HEADER_HEIGHT    35.0 * CURRENT_SCALE
 #define NUMBER_LABEL_HEIGHT     30.0
-#define PROCESS_HEIGHT          2.0
+#define PROCESS_HEIGHT          5.0
 #define PROCESS_COLOR           RGB(55.0, 171.0, 55.0)
 #define PROCESS_LABEL_WIDTH     35.0
 #define PROCESS_LABEL_HEIGHT    15.0
@@ -39,8 +39,9 @@
 #import "UDManager.h"
 #import "FListManager.h"
 #import "CameraListViewController.h"
-#import "CameraPasswordViewController.h"
 #import "ContactDAO.h"
+#import "WebViewController.h"
+#import "PlayerAdvDetailViewController.h"
 
 @interface CameraMainViewController ()<P2PClientDelegate,OpenGLViewDelegate,UIAlertViewDelegate>
 
@@ -50,7 +51,7 @@
 @property (nonatomic, strong) BannerView *bannerView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UIProgressView *videoProgressView;
+@property (nonatomic, strong) UILabel *videoProgressView;
 @property (nonatomic, strong) NSTimer  *progressingTimer;
 @property (nonatomic, strong) UILabel  *videoProgressLabel;
 @property (nonatomic, strong) UIImageView *controlView;
@@ -59,6 +60,8 @@
 @property (nonatomic, strong) UIImageView *ratiosView;
 @property (nonatomic, strong) UIImageView *voiceView;
 @property (nonatomic, strong) UIImageView *playView;
+@property (nonatomic, strong) UIImageView *advImageView;
+@property (nonatomic, strong) NSDictionary *playerDic;
 @property (nonatomic, assign) BOOL getVideoFirstImg;//录像时获取第一张截图做为显示
 @property (nonatomic, assign) float count;
 
@@ -79,7 +82,8 @@
     
     [self addGestures];
     
-    [self getAdvRequest];
+    [self getAdvRequestWithPostion:5];
+    [self getAdvRequestWithPostion:9];
     
     [[PAIOUnit sharedUnit] setMuteAudio:NO];
     [[PAIOUnit sharedUnit] setSpeckState:YES];
@@ -92,6 +96,21 @@
 {
     [super viewWillAppear:animated];
 
+    [self connectCamera];
+    [self addNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.remoteView setCaptureFinishScreen:YES];
+    [[P2PClient sharedClient] p2pHungUp];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
+
+- (void)connectCamera
+{
     Contact *contact = [YooSeeApplication  shareApplication].contact;
     ContactDAO *contactDAO = [[ContactDAO alloc] init];
     contact = [contactDAO isContact:contact.contactId];
@@ -103,15 +122,14 @@
         
         self.nameLabel.text = contact.contactName;
     }
-    [self addNotifications];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)enterBackground
 {
-    [super viewWillDisappear:animated];
-    [[P2PClient sharedClient] p2pHungUp];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    if (self.navigationController.topViewController == self)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark 返回
@@ -124,16 +142,17 @@
 - (void)initUI
 {
     [self addScrollView];
+    [self addAdvView];
     [self addPlayerView];
 }
 
 - (void)addAdvView
 {
-    //    if (_bannerView)
-    //    {
-    //        _bannerView = nil;
-    //        [self.table setTableHeaderView:nil];
-    //    }
+    if (_bannerView)
+    {
+        [_bannerView removeFromSuperview];
+        _bannerView = nil;
+    }
     
     NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:0];
     
@@ -158,6 +177,8 @@
             
         }
     }
+    
+    __weak typeof(self) weakSelf = self;
     _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(SPACE_X, SPACE_Y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
     _bannerView.AutoScrollDelay = 3;
     _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
@@ -165,6 +186,17 @@
     [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
      {
          NSLog(@"网络图片 %d",index);
+         NSDictionary *dic = weakSelf.bannerListArray[index];
+         NSString *urlString = dic[@"linkurl"];
+         urlString = urlString ? urlString : @"";
+         if (urlString.length == 0)
+         {
+             return;
+         }
+         WebViewController *webViewController = [[WebViewController alloc] init];
+         webViewController.urlString = urlString;
+         webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
+         [weakSelf.navigationController pushViewController:webViewController animated:YES];
      }];
     [_scrollView addSubview:_bannerView];
 }
@@ -213,22 +245,23 @@
     _numberLabel.textAlignment = NSTextAlignmentRight;
     [self.remoteView addSubview:_numberLabel];
     
+    
+    _advImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.remoteView.frame.size.width, self.remoteView.frame.size.height) placeholderImage:[UIImage imageNamed:@"adv_default"]];
+    [self.remoteView addSubview:_advImageView];
+    UIButton *button = [CreateViewTool createButtonWithFrame:_advImageView.frame buttonImage:@"" selectorName:@"platerAdvPressed" tagDelegate:self];
+    [_advImageView addSubview:button];
+    
     //进度
-    y = self.remoteView.frame.origin.y + self.remoteView.frame.size.height - PROCESS_HEIGHT;
-    _videoProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, y, self.remoteView.frame.size.width, PROCESS_HEIGHT)];
-    _videoProgressView.progressViewStyle = UIProgressViewStyleDefault;
-    _videoProgressView.tintColor = PROCESS_COLOR;
-    _videoProgressView.trackTintColor = [UIColor clearColor];
-    _videoProgressView.progress = 0;
-    _videoProgressView.transform = CGAffineTransformMakeScale(1.0, 2.5);
-    [_playView addSubview:_videoProgressView];
+    _videoProgressView = [CreateViewTool createLabelWithFrame:CGRectMake(0, self.remoteView.frame.size.height, PROCESS_HEIGHT, self.remoteView.frame.size.height) textString:@"" textColor:nil textFont:FONT(14)];
+    _videoProgressView.backgroundColor = PROCESS_COLOR;
+    [self.remoteView addSubview:_videoProgressView];
     
     float lable_width = PROCESS_LABEL_WIDTH;
     float lable_height = PROCESS_LABEL_HEIGHT;
-    y = self.remoteView.frame.origin.y + self.remoteView.frame.size.height;
-    _videoProgressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(self.videoProgressView.frame.size.width - lable_width, y, lable_width, lable_height) textString:@"" textColor:PROCESS_COLOR textFont:FONT(10.0)];
+    
+    _videoProgressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(PROCESS_HEIGHT, 0, lable_width, lable_height) textString:@"" textColor:PROCESS_COLOR textFont:FONT(10.0)];
     _videoProgressLabel.textAlignment = NSTextAlignmentCenter;
-    [_playView addSubview:self.videoProgressLabel];
+    [self.remoteView addSubview:self.videoProgressLabel];
     
     //控制按钮
     y = self.remoteView.frame.origin.y + self.remoteView.frame.size.height;
@@ -255,6 +288,8 @@
     float icon_H = image.size.height/3 * CURRENT_SCALE;
     _soundImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(x - icon_W, y, icon_W, icon_H) placeholderImage:iconImage];
     [_controlView addSubview:_soundImageView];
+    
+
     
     
     lable_height = TIPLABEL_HEIGHT;
@@ -296,6 +331,7 @@
         _remoteView.delegate = self;
         [_remoteView.layer setMasksToBounds:YES];
         _remoteView.backgroundColor = [UIColor blackColor];
+        self.remoteView.clipsToBounds = YES;
     }
     [self.playView addSubview:_remoteView];
 }
@@ -359,10 +395,12 @@
 
 - (void)videoProgressViewProgressing
 {
-    [self.videoProgressView setProgress:_count animated:YES];
-    self.videoProgressLabel.text = [NSString stringWithFormat:@"%d％", (int)(_count * 100)];
+    CGRect frame = self.videoProgressView.frame;
+    frame.origin.y -= (0.01 * self.remoteView.frame.size.height);
+    self.videoProgressView.frame = frame;
     _count += 0.01;
-    if (self.videoProgressView.progress >= 0.99)
+    self.videoProgressLabel.text = [NSString stringWithFormat:@"%d％", (int)(_count * 100)];
+    if (_count >= 0.99)
     {
         _count = 0;
         [self.progressingTimer invalidate];
@@ -430,7 +468,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivePlayingCommand:) name:RECEIVE_PLAYING_CMD object:nil];
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(P2PClientRejectHandler:) name:@"P2PClientReject" object:nil];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChangeNotification:) name:UIDeviceOrientationDidChangeNotification object:nil];    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChangeNotification:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackground) name:@"EnterBackground" object:nil];
 }
 
 
@@ -454,14 +493,27 @@
     
 }
 
+#pragma mark 点击播放器广告
+- (void)platerAdvPressed
+{
+    NSString *title = self.playerDic[@"title"];
+    title = title ? title : @"";
+    NSString *url = self.playerDic[@"linkurl"];
+    url = url ? url : @"";
+    PlayerAdvDetailViewController *playerAdvDetailViewController = [[PlayerAdvDetailViewController alloc] init];
+    playerAdvDetailViewController.urlString = url;
+    playerAdvDetailViewController.title = title;
+    [self.navigationController pushViewController:playerAdvDetailViewController animated:YES];
+}
+
 #pragma mark 获取广告
-- (void)getAdvRequest
+//postion 5 家生活 9视频广告
+- (void)getAdvRequestWithPostion:(int)postion
 {
     __weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    int pos = 5;
-    NSDictionary *requestDic = @{@"uid":uid,@"pos":@(pos)};
+    NSDictionary *requestDic = @{@"uid":uid,@"pos":@(postion)};
     [[RequestTool alloc] desRequestWithUrl:GET_ADV_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -475,15 +527,28 @@
          if (errorCode == 1)
          {
              //[weakSelf setDataWithDictionary:dataDic];
-             weakSelf.bannerListArray = dataDic[@"body"];
-             [weakSelf addAdvView];
+             if (postion == 5)
+             {
+                 weakSelf.bannerListArray = dataDic[@"body"];
+                 [weakSelf addAdvView];
+             }
+             else if (postion == 9)
+             {
+                 NSArray *array = dataDic[@"body"];
+                 NSDictionary *dic = array[0];
+                 NSString *imageUrl = dic[@"meitiurl"];
+                 imageUrl = imageUrl ? imageUrl : @"";
+                 weakSelf.playerDic = array[0];
+                 [weakSelf.advImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"adv_default"]];
+             }
+
          }
          else
          {
              //[SVProgressHUD showErrorWithStatus:errorMessage];
          }
      }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"GET_ADV_URL====%@",error);
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
@@ -738,7 +803,7 @@
     __weak typeof(self) weakSelf = self;
     [[P2PClient sharedClient] setP2pCallState:P2PCALL_STATE_NONE];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        usleep(500000);
+        usleep(1000);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -816,6 +881,7 @@
     _progressingTimer = nil;
     _videoProgressLabel.hidden = YES;
     _videoProgressView.hidden = YES;
+    _advImageView.hidden = YES;
     
      _ratiosView.hidden = NO;
     _controlView.userInteractionEnabled = YES;
@@ -852,25 +918,12 @@
     _videoProgressView.hidden = YES;
     _controlView.userInteractionEnabled = NO;
     [[P2PClient sharedClient] p2pHungUp];
-    
     if (errorCode == CALL_ERROR_PW_WRONG)
     {
-        
-        [[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"设备密码错误" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"修改", nil] show];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangedPassword" object:nil];
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([title isEqualToString:@"修改"])
-    {
-        CameraPasswordViewController *cameraPasswordViewController = [[CameraPasswordViewController alloc] init];
-        cameraPasswordViewController.deviceID = [YooSeeApplication shareApplication].contact.contactId;
-        cameraPasswordViewController.isChange = YES;
-        [self.navigationController pushViewController:cameraPasswordViewController animated:YES];
-    }
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -886,6 +939,7 @@
     }
     self.remoteView.delegate = nil;
     self.remoteView = nil;
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }

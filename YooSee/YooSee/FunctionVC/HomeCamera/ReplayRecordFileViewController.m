@@ -161,8 +161,7 @@
                 {
                     [CommonTool addPopTipWithMessage:@"网络异常"];
                 }
-                
-                
+
             });
         }
             break;

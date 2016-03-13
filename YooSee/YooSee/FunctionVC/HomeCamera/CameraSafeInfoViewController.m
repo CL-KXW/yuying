@@ -32,7 +32,10 @@
     
     [self initUI];
     
-    [self getSafeInfoRequest];
+    //if (self.contact)
+    {
+        [self getSafeInfoRequest];
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -54,6 +57,7 @@
 {
     if (!self.contact)
     {
+        [SVProgressHUD showErrorWithStatus:@"暂无数据"];
         return;
     }
     [LoadingView showLoadingView];
@@ -63,7 +67,7 @@
                           @"SessionID" : loginResult.sessionId,
                           @"PageSize" : @"20",
                           @"Option" :  @"2",
-                          @"SenderList" : self.contact.contactId,
+                          @"SenderList" : (self.contact) ? self.contact.contactId : @"",
                           @"CheckLevelType" : @"1",
                           @"VKey" : [libPwdEncrypt passwordEncryptWithPassword:self.contact.contactPassword]};
     NSLog(@"%@",requestDic);
