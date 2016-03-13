@@ -25,6 +25,8 @@
 #import "Utils.h"
 #import "P2PClient.h"
 #import "ContactDAO.h"
+#import "RegisterViewController.h"
+#import "FindPasswordViewController.h"
 
 @interface LoginViewController ()
 
@@ -40,14 +42,16 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    [self.navigationController.navigationBar setBackgroundImage:[CommonTool imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     [self setNavBarItemWithImageName:@"icon_navbar_close_green" navItemType:LeftItem selectorName:@"closeButtonPressed:"];
-    [self.navigationController.navigationBar setBackgroundImage:[CommonTool imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerSucess:) name:@"RegisterSucess" object:nil];
     
     [self initUI];
     // Do any additional setup after loading the view.
 }
+
 
 #pragma mark 初始化UI
 - (void)initUI
@@ -91,7 +95,7 @@
     [footView addSubview:loginButton];
     
     y += loginButton.frame.size.height + FOOT_ADD_Y;
-    UIButton *registerButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, height) buttonTitle:@"注册" titleColor:[UIColor grayColor] normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:nil selectorName:@"" tagDelegate:self];
+    UIButton *registerButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, height) buttonTitle:@"注册" titleColor:[UIColor grayColor] normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:nil selectorName:@"registerButtonPressed:" tagDelegate:self];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [CommonTool clipView:registerButton withCornerRadius:BUTTON_RADIUS];
     [CommonTool setViewLayer:registerButton withLayerColor:[UIColor grayColor] bordWidth:1.0];
@@ -100,7 +104,7 @@
     [self.table setTableFooterView:footView];
     
     y = self.table.frame.size.height - FOOT_SPACE_B_Y - BUTTON_HEIGHT;
-    UIButton *getPwdButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, height) buttonTitle:@"忘记登录密码？" titleColor:[UIColor grayColor] normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:[UIColor clearColor] selectorName:@"" tagDelegate:self];
+    UIButton *getPwdButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, height) buttonTitle:@"忘记登录密码？" titleColor:[UIColor grayColor] normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:[UIColor clearColor] selectorName:@"getPwdButtonPressed:" tagDelegate:self];
     [self.view addSubview:getPwdButton];
 }
 
@@ -254,7 +258,7 @@
              if (defaultDeviceID.length != 0)
              {
                  ContactDAO *contactDAO = [[ContactDAO alloc] init];
-                 Contact *contact =[contactDAO isContact:defaultDeviceID];
+                 Contact *contact = [contactDAO isContact:defaultDeviceID];
                  if (contact)
                  {
                      [YooSeeApplication shareApplication].contact = contact;
@@ -377,6 +381,31 @@
 //                break;
 //        }
 //    }];
+}
+
+
+#pragma mark 忘记密码
+- (void)getPwdButtonPressed:(UIButton *)sender
+{
+    FindPasswordViewController *findPasswordViewController = [[FindPasswordViewController alloc] init];
+    [self.navigationController pushViewController:findPasswordViewController animated:YES];
+}
+
+#pragma mark 注册
+- (void)registerButtonPressed:(UIButton *)sender
+{
+    RegisterViewController *registerViewController = [[RegisterViewController alloc] init];
+    [self.navigationController pushViewController:registerViewController animated:YES];
+}
+
+
+#pragma mark 注册成功
+- (void)registerSucess:(NSNotification *)notification
+{
+    NSArray *array = (NSArray *)notification.object;
+    self.usernameTextField.textField.text = array[0];
+    self.passwordTextField.textField.text = array[1];
+    [self loginButtonPressed:nil];
 }
 
 #pragma mark UITableViewDelegate&UITableViewDataSource
