@@ -290,6 +290,9 @@
 		CEAD7D641C8C9681008B5281 /* icon_usercenter_8_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CEAD7D541C8C9681008B5281 /* icon_usercenter_8_down.png */; };
 		CEAD7D651C8C9681008B5281 /* icon_usercenter_8_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CEAD7D551C8C9681008B5281 /* icon_usercenter_8_up.png */; };
 		CEAD7D671C8C9D1F008B5281 /* user_icon_default.png in Resources */ = {isa = PBXBuildFile; fileRef = CEAD7D661C8C9D1F008B5281 /* user_icon_default.png */; };
+		CEC7FEBE1C9657C000759DFC /* SetCameraAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEBD1C9657C000759DFC /* SetCameraAlarmViewController.m */; };
+		CEC7FEC11C96E8E700759DFC /* SetCameraDefenceAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEC01C96E8E700759DFC /* SetCameraDefenceAreaViewController.m */; };
+		CEC7FEC41C9708DA00759DFC /* SetCameraNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEC31C9708DA00759DFC /* SetCameraNetworkViewController.m */; };
 		CED4706E1C7BE5B500153520 /* Base64Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CED4706D1C7BE5B500153520 /* Base64Util.m */; };
 		CEE4C1631C87048800D8DA5E /* adv_default.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE4C1621C87048800D8DA5E /* adv_default.png */; };
 		CEE4C16F1C8719E300D8DA5E /* icon_av_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE4C1661C8719E300D8DA5E /* icon_av_down.png */; };
@@ -831,6 +834,12 @@
 		CEAD7D541C8C9681008B5281 /* icon_usercenter_8_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_usercenter_8_down.png; sourceTree = "<group>"; };
 		CEAD7D551C8C9681008B5281 /* icon_usercenter_8_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_usercenter_8_up.png; sourceTree = "<group>"; };
 		CEAD7D661C8C9D1F008B5281 /* user_icon_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_icon_default.png; sourceTree = "<group>"; };
+		CEC7FEBC1C9657C000759DFC /* SetCameraAlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCameraAlarmViewController.h; sourceTree = "<group>"; };
+		CEC7FEBD1C9657C000759DFC /* SetCameraAlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCameraAlarmViewController.m; sourceTree = "<group>"; };
+		CEC7FEBF1C96E8E700759DFC /* SetCameraDefenceAreaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCameraDefenceAreaViewController.h; sourceTree = "<group>"; };
+		CEC7FEC01C96E8E700759DFC /* SetCameraDefenceAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCameraDefenceAreaViewController.m; sourceTree = "<group>"; };
+		CEC7FEC21C9708DA00759DFC /* SetCameraNetworkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCameraNetworkViewController.h; sourceTree = "<group>"; };
+		CEC7FEC31C9708DA00759DFC /* SetCameraNetworkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCameraNetworkViewController.m; sourceTree = "<group>"; };
 		CED4706C1C7BE5B500153520 /* Base64Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Util.h; sourceTree = "<group>"; };
 		CED4706D1C7BE5B500153520 /* Base64Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Util.m; sourceTree = "<group>"; };
 		CEE4C1621C87048800D8DA5E /* adv_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adv_default.png; sourceTree = "<group>"; };
@@ -1586,6 +1595,12 @@
 				CEE85F8F1C959EF700E63471 /* SetCameraTimeViewController.m */,
 				CEE85F9B1C95B46800E63471 /* SetCameraRecordAudioViewController.h */,
 				CEE85F9C1C95B46800E63471 /* SetCameraRecordAudioViewController.m */,
+				CEC7FEBC1C9657C000759DFC /* SetCameraAlarmViewController.h */,
+				CEC7FEBD1C9657C000759DFC /* SetCameraAlarmViewController.m */,
+				CEC7FEBF1C96E8E700759DFC /* SetCameraDefenceAreaViewController.h */,
+				CEC7FEC01C96E8E700759DFC /* SetCameraDefenceAreaViewController.m */,
+				CEC7FEC21C9708DA00759DFC /* SetCameraNetworkViewController.h */,
+				CEC7FEC31C9708DA00759DFC /* SetCameraNetworkViewController.m */,
 			);
 			path = SettingCamera;
 			sourceTree = "<group>";
@@ -2461,6 +2476,7 @@
 				CEAD7D441C8C8660008B5281 /* UserCenterMainViewController.m in Sources */,
 				CE8BDDA71C912E2800472924 /* GetMoneryViewController.m in Sources */,
 				CEF796A11C853E630039909A /* Contact.m in Sources */,
+				CEC7FEC11C96E8E700759DFC /* SetCameraDefenceAreaViewController.m in Sources */,
 				CEF796B11C853E630039909A /* GlobalThread.m in Sources */,
 				286C78DE1C92A11F009E129E /* AdListCell.m in Sources */,
 				CEF796BD1C853E630039909A /* bitstream.c in Sources */,
@@ -2481,6 +2497,7 @@
 				CE8BE8541C5F885000D6307D /* UIWebView+AFNetworking.m in Sources */,
 				CE8BE8521C5F885000D6307D /* UIProgressView+AFNetworking.m in Sources */,
 				CEF796A91C853E630039909A /* MessageDAO.m in Sources */,
+				CEC7FEBE1C9657C000759DFC /* SetCameraAlarmViewController.m in Sources */,
 				CEF796C91C853E630039909A /* des2.c in Sources */,
 				CEF4C4951C928A0C004D6A4F /* NewsListCell.m in Sources */,
 				CEF796B31C853E630039909A /* QRCodeGenerator.m in Sources */,
@@ -2513,6 +2530,7 @@
 				CE211FE01C815BE4000453D0 /* AddCameraFailViewController.m in Sources */,
 				CE8BE8731C5F885700D6307D /* MJRefreshHeaderView.m in Sources */,
 				286C791C1C95B044009E129E /* MoneyDetailVC.m in Sources */,
+				CEC7FEC41C9708DA00759DFC /* SetCameraNetworkViewController.m in Sources */,
 				CE8BE8441C5F885000D6307D /* AFHTTPSessionManager.m in Sources */,
 				CEAD7D311C8C500D008B5281 /* SetCameraPasswordViewController.m in Sources */,
 				CEF796CB1C853E630039909A /* P2PClient.m in Sources */,
