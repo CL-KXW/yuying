@@ -18,6 +18,9 @@
 #import "SetCameraPasswordViewController.h"
 #import "SetCameraTimeViewController.h"
 #import "SetCameraRecordAudioViewController.h"
+#import "SetCameraAlarmViewController.h"
+#import "SetCameraNetworkViewController.h"
+#import "SetCameraDefenceAreaViewController.h"
 
 @interface SettingCameraMainViewController ()
 
@@ -131,26 +134,34 @@
         [self.navigationController pushViewController:setCameraInfoViewController animated:YES];
         return;
     }
+    if (indexPath.row == 1)
+    {
+        viewController = [[SetCameraAlarmViewController alloc] init];
+    }
     if (indexPath.row == 2)
     {
         viewController = [[SetCameraRecordAudioViewController alloc] init];
-        viewController.imageUrl = self.imageUrl;
-        viewController.contact = self.contact;
+    }
+    if (indexPath.row == 3)
+    {
+        viewController = [[SetCameraDefenceAreaViewController alloc] init];
     }
     if (indexPath.row == 4)
     {
         viewController = [[SetCameraTimeViewController alloc] init];
-        viewController.imageUrl = self.imageUrl;
-        viewController.contact = self.contact;
+    }
+    if (indexPath.row == 5)
+    {
+        viewController = [[SetCameraNetworkViewController alloc] init];
     }
     if (indexPath.row == 6)
     {
         viewController = [[SetCameraPasswordViewController alloc] init];
-        viewController.imageUrl = self.imageUrl;
-        viewController.contact = self.contact;
     }
     if (viewController)
     {
+        viewController.imageUrl = self.imageUrl;
+        viewController.contact = self.contact;
         [self.navigationController pushViewController:viewController animated:YES];
     }
 }
@@ -160,6 +171,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    
+}
 /*
 #pragma mark - Navigation
 

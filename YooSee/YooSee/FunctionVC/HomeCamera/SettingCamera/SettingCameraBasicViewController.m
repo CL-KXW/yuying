@@ -6,7 +6,7 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
-#define SPACE_Y         15.0 * CURRENT_SCALE
+#define SPACE_Y         25.0 * CURRENT_SCALE
 #define LABEL_HEIGHT    30.0 * CURRENT_SCALE
 #define IMAGEVIEW_WH    100.0 * CURRENT_SCALE
 #define SECTION_HEIGHT  LABEL_HEIGHT + IMAGEVIEW_WH + SPACE_Y
@@ -25,12 +25,22 @@
     [super viewDidLoad];
     [self addBackItem];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMessage:) name:RECEIVE_REMOTE_MESSAGE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ack_receiveRemoteMessage:) name:ACK_RECEIVE_REMOTE_MESSAGE object:nil];
-    
     [self initUI];
     
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMessage:) name:RECEIVE_REMOTE_MESSAGE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ack_receiveRemoteMessage:) name:ACK_RECEIVE_REMOTE_MESSAGE object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark 初始化UI
@@ -66,6 +76,15 @@
 {
     
 }
+
+#pragma mark 密码错误
+- (void)passwordError
+{
+    [CommonTool addPopTipWithMessage:@"设备密码错误"];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

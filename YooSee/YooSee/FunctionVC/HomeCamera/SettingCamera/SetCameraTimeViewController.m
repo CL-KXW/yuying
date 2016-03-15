@@ -8,7 +8,7 @@
 
 #define TEXTFIELD_HEIGHT    40.0 * CURRENT_SCALE
 #define SPACE_X             30.0 * CURRENT_SCALE
-#define SPACE_Y             30.0 * CURRENT_SCALE
+#define SPACE_Y             35.0 * CURRENT_SCALE
 #define ADD_Y               15.0
 #define BUTTON_HEIGHT       50.0 * CURRENT_SCALE
 #define BUTTON_RADIUS       BUTTON_HEIGHT/2
@@ -39,17 +39,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMessage:) name:RECEIVE_REMOTE_MESSAGE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ack_receiveRemoteMessage:) name:ACK_RECEIVE_REMOTE_MESSAGE object:nil];
+
     [LoadingView showLoadingView];
-    [[P2PClient sharedClient] getDeviceTimeWithId:self.contact.contactId password:[Utils GetTreatedPassword:self.contact.contactPassword]];
+    [[P2PClient sharedClient] getDeviceTimeWithId:self.contact.contactId password:self.contact.contactPassword];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+
 
 - (void)addTextField
 {
@@ -93,7 +88,7 @@
 - (void)changeDeviceTime
 {
     NSDateComponents *dateComponents = [Utils getDateComponentsByDate:_datePicker.date];
-    [[P2PClient sharedClient] setDeviceTimeWithId:self.contact.contactId password:[Utils GetTreatedPassword:self.contact.contactPassword] year:dateComponents.year month:dateComponents.month day:dateComponents.day hour:dateComponents.hour minute:dateComponents.minute];
+    [[P2PClient sharedClient] setDeviceTimeWithId:self.contact.contactId password:self.contact.contactPassword year:dateComponents.year month:dateComponents.month day:dateComponents.day hour:dateComponents.hour minute:dateComponents.minute];
 }
 
 
@@ -159,15 +154,7 @@
                 [LoadingView dismissLoadingView];
                 if(result==1)
                 {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
-                    {
-                        usleep(800000);
-                        dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                            [CommonTool  addPopTipWithMessage:@"设备密码错误"];
-                            [weakSelf.navigationController popViewControllerAnimated:YES];
-                        });
-                    });
+                    [weakSelf passwordError];
                 }
                 else if(result==2)
                 {
@@ -186,15 +173,7 @@
                 [LoadingView dismissLoadingView];
                 if(result==1)
                 {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
-                    {
-                        usleep(800000);
-                        dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                            [CommonTool  addPopTipWithMessage:@"设备密码错误"];
-                            [weakSelf.navigationController popViewControllerAnimated:YES];
-                        });
-                    });
+                    [weakSelf passwordError];
                 }
                 else if(result==2)
                 {

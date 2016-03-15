@@ -56,10 +56,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self observingDeviceList];
-    //设备列表刷新定时器
-    _checkStateTimes = 0;
-    _checkStateTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkDeviceState:) userInfo:nil repeats:YES];
+    if ([self.dataArray count] && self.dataArray)
+    {
+        [self createTimer];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -68,6 +68,17 @@
     [_checkStateTimer invalidate];
     _checkStateTimer = nil;
     [self unObservingDeviceList];
+}
+
+- (void)createTimer
+{
+    if (!_checkStateTimer)
+    {
+        //设备列表刷新定时器
+        _checkStateTimes = 0;
+        _checkStateTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkDeviceState:) userInfo:nil repeats:YES];
+        [self observingDeviceList];
+    }
 }
 
 #pragma makr 返回
@@ -180,13 +191,17 @@
     
     NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
     
-    if ([bodyArray count] == 0)
+    if ([bodyArray count] == 0 || !bodyArray)
     {
+        [CommonTool addPopTipWithMessage:@"暂无数据"];
         [YooSeeApplication shareApplication].contact = nil;
         [USER_DEFAULT removeObjectForKey:@"DefaultDeviceID"];
+        [self.table reloadData];
+        return;
     }
     else
     {
+        [self createTimer];
         for (int i = 0; i < [bodyArray count]; i++)
         {
             NSDictionary *dict = bodyArray[i];

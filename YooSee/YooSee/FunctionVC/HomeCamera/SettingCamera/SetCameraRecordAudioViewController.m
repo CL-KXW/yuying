@@ -6,8 +6,8 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
-#define SPACE_Y      40.0 * CURRENT_SCALE
-#define SPACE_X      20.0 * CURRENT_SCALE
+#define SPACE_Y      35.0 * CURRENT_SCALE
+#define SPACE_X      15.0 * CURRENT_SCALE
 #define ROW_HEIGHT   50.0 * CURRENT_SCALE
 
 #import "SetCameraRecordAudioViewController.h"
@@ -38,24 +38,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMessage:) name:RECEIVE_REMOTE_MESSAGE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ack_receiveRemoteMessage:) name:ACK_RECEIVE_REMOTE_MESSAGE object:nil];
     
     [LoadingView showLoadingView];
-    [[P2PClient sharedClient] getNpcSettingsWithId:self.contact.contactId password:[Utils GetTreatedPassword:self.contact.contactPassword]];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[P2PClient sharedClient] getNpcSettingsWithId:self.contact.contactId password:self.contact.contactPassword];
 }
 
 - (void)addTableView
 {
     [self addTableViewWithFrame:CGRectMake(SPACE_X, start_y + SPACE_Y, self.view.frame.size.width - 2 * SPACE_X, ROW_HEIGHT * [_titleArray count]) tableType:UITableViewStylePlain tableDelegate:self];
     self.table.scrollEnabled = NO;
-    [CommonTool setViewLayer:self.table withLayerColor:[DE_TEXT_COLOR colorWithAlphaComponent:.6] bordWidth:.4];
+    [CommonTool setViewLayer:self.table withLayerColor:[DE_TEXT_COLOR colorWithAlphaComponent:.6] bordWidth:.5];
     [CommonTool clipView:self.table withCornerRadius:10.0];
     
 }
@@ -85,7 +77,6 @@
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
     cell.textLabel.text = self.titleArray[indexPath.row];
@@ -108,7 +99,7 @@
     
     self.shouldType = indexPath.row;
     [LoadingView showLoadingView];
-    [[P2PClient sharedClient] setRecordTypeWithId:self.contact.contactId password:[Utils GetTreatedPassword:self.contact.contactPassword] type:self.shouldType];
+    [[P2PClient sharedClient] setRecordTypeWithId:self.contact.contactId password:self.contact.contactPassword type:self.shouldType];
 }
 
 
@@ -123,11 +114,10 @@
         {
 
             NSInteger type = [[parameter valueForKey:@"type"] intValue];
-            
-            weakSelf.lastType = type;
     
             dispatch_async(dispatch_get_main_queue(), ^
             {
+                weakSelf.lastType = type;
                 [LoadingView dismissLoadingView];
                 [weakSelf.table reloadData];
             });
@@ -248,7 +238,7 @@
     int result   = [[parameter valueForKey:@"result"] intValue];
     __weak typeof(self) weakSelf = self;
     NSString *deviceID = [weakSelf.contact contactId];
-    NSString *password = [Utils GetTreatedPassword:weakSelf.contact.contactPassword];
+    NSString *password = weakSelf.contact.contactPassword;
     switch(key){
         case ACK_RET_GET_NPC_SETTINGS:
         {
@@ -257,13 +247,12 @@
                 [LoadingView dismissLoadingView];
                 if(result==1)
                 {
-                    [CommonTool  addPopTipWithMessage:@"设备密码错误"];
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                    [weakSelf passwordError];
                 }
                 else if(result==2)
                 {
                     NSLog(@"再次获取设备设置信息");
-                    [[P2PClient sharedClient] getNpcSettingsWithId:deviceID password:[Utils GetTreatedPassword:password]];
+                    [[P2PClient sharedClient] getNpcSettingsWithId:deviceID password:password];
                 }
             });
         }
@@ -275,10 +264,11 @@
             dispatch_async(dispatch_get_main_queue(), ^
             {
                 [LoadingView dismissLoadingView];
-                if(result==1){
-                    [CommonTool  addPopTipWithMessage:@"设备密码错误"];
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                }else if(result==2)
+                if(result==1)
+                {
+                    [weakSelf passwordError];
+                }
+                else if(result==2)
                 {
                     NSLog(@"再次设置设备录像类型");
                     //设置定时录像
@@ -315,8 +305,7 @@
                 [LoadingView dismissLoadingView];
                 if(result==1)
                 {
-                    [CommonTool  addPopTipWithMessage:@"设备密码错误"];
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                    [weakSelf passwordError];
                 }
                 else if(result==2)
                 {

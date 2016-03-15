@@ -8,7 +8,7 @@
 
 #define TEXTFIELD_HEIGHT    40.0 * CURRENT_SCALE
 #define SPACE_X             30.0 * CURRENT_SCALE
-#define SPACE_Y             30.0 * CURRENT_SCALE
+#define SPACE_Y             35.0 * CURRENT_SCALE
 #define ADD_Y               15.0
 #define BUTTON_HEIGHT       50.0 * CURRENT_SCALE
 #define BUTTON_RADIUS       BUTTON_HEIGHT/2
@@ -171,8 +171,7 @@
                 [LoadingView dismissLoadingView];
                 if(result == 1)
                 {
-                    [CommonTool addPopTipWithMessage:@"原始密码错误"];
-                    
+                    [weakSelf passwordError];
                 }
                 else if(result == 2)
                 {

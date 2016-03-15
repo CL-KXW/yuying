@@ -16,4 +16,7 @@
 @property (nonatomic, strong) Contact *contact;
 @property (nonatomic, strong) NSString *imageUrl;
 
+
+- (void)passwordError;
+
 @end
