@@ -36,6 +36,11 @@
 		286C79191C957601009E129E /* GoldLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C79181C957601009E129E /* GoldLibraryViewController.m */; };
 		286C791C1C95B044009E129E /* MoneyDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C791B1C95B044009E129E /* MoneyDetailVC.m */; };
 		286C79201C95B27F009E129E /* MarqueeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C791F1C95B27F009E129E /* MarqueeLabel.m */; };
+		286C79241C9800B0009E129E /* yyy1.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C79221C9800B0009E129E /* yyy1.png */; };
+		286C79251C9800B0009E129E /* yyy2.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C79231C9800B0009E129E /* yyy2.png */; };
+		286C79271C9803C6009E129E /* shake_sound_male.wav in Resources */ = {isa = PBXBuildFile; fileRef = 286C79261C9803C6009E129E /* shake_sound_male.wav */; };
+		286C79291C9813AD009E129E /* kuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C79281C9813AD009E129E /* kuang.png */; };
+		286C792B1C98173C009E129E /* face.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C792A1C98173C009E129E /* face.png */; };
 		CE07DC8F1C7EA87F0090A9A5 /* CameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */; };
 		CE07DC921C7EA88E0090A9A5 /* CameraListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC911C7EA88E0090A9A5 /* CameraListViewController.m */; };
 		CE07DC961C7EA9200090A9A5 /* AddCameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC951C7EA9200090A9A5 /* AddCameraMainViewController.m */; };
@@ -403,6 +408,11 @@
 		286C791B1C95B044009E129E /* MoneyDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyDetailVC.m; sourceTree = "<group>"; };
 		286C791E1C95B27F009E129E /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
 		286C791F1C95B27F009E129E /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
+		286C79221C9800B0009E129E /* yyy1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yyy1.png; sourceTree = "<group>"; };
+		286C79231C9800B0009E129E /* yyy2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yyy2.png; sourceTree = "<group>"; };
+		286C79261C9803C6009E129E /* shake_sound_male.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shake_sound_male.wav; sourceTree = "<group>"; };
+		286C79281C9813AD009E129E /* kuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kuang.png; sourceTree = "<group>"; };
+		286C792A1C98173C009E129E /* face.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face.png; sourceTree = "<group>"; };
 		CE07DC8D1C7EA87F0090A9A5 /* CameraMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraMainViewController.h; sourceTree = "<group>"; };
 		CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraMainViewController.m; sourceTree = "<group>"; };
 		CE07DC901C7EA88E0090A9A5 /* CameraListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraListViewController.h; sourceTree = "<group>"; };
@@ -1007,6 +1017,11 @@
 		286C78DF1C92ADFB009E129E /* getmoney */ = {
 			isa = PBXGroup;
 			children = (
+				286C792A1C98173C009E129E /* face.png */,
+				286C79281C9813AD009E129E /* kuang.png */,
+				286C79261C9803C6009E129E /* shake_sound_male.wav */,
+				286C79221C9800B0009E129E /* yyy1.png */,
+				286C79231C9800B0009E129E /* yyy2.png */,
 				286C79081C9561C2009E129E /* HBGXQANTP.png */,
 				286C79091C9561C2009E129E /* welcom_yhb.mp3 */,
 				286C790A1C9561C2009E129E /* y1y_bg_3.jpg */,
@@ -2342,11 +2357,13 @@
 				CEAD7D651C8C9681008B5281 /* icon_usercenter_8_up.png in Resources */,
 				CE8BDD8F1C912CDB00472924 /* WeiboSDK.bundle in Resources */,
 				CE80C3A61C78B32600A7ADCA /* error@2x.png in Resources */,
+				286C79241C9800B0009E129E /* yyy1.png in Resources */,
 				CE80C3A51C78B32600A7ADCA /* error.png in Resources */,
 				CE8BDD9F1C912CDB00472924 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				CEE4C1741C8719E300D8DA5E /* icon_speak_up.png in Resources */,
 				CE77F2F61C7D9A9800CE0D98 /* back_down.png in Resources */,
 				CEAD12561C7CE58800D2CAF2 /* icon_home_public_down.png in Resources */,
+				286C79251C9800B0009E129E /* yyy2.png in Resources */,
 				CE8BDD9D1C912CDB00472924 /* UMSnsAccountViewController.xib in Resources */,
 				CE89E9501C8C1B16006F6B4D /* setting_password.png in Resources */,
 				CE07DCC21C7F17A80090A9A5 /* camera_search.png in Resources */,
@@ -2368,6 +2385,7 @@
 				CEAD7D5B1C8C9681008B5281 /* icon_usercenter_3_up.png in Resources */,
 				CEE4C1721C8719E300D8DA5E /* icon_photos_up.png in Resources */,
 				CEAD7D5E1C8C9681008B5281 /* icon_usercenter_5_down.png in Resources */,
+				286C79291C9813AD009E129E /* kuang.png in Resources */,
 				CEAD125F1C7CEC9E00D2CAF2 /* icon_home_phone_up.png in Resources */,
 				CE80C3981C78ADC200A7ADCA /* loading_09.png in Resources */,
 				CE89E94E1C8C1B16006F6B4D /* setting_defence.png in Resources */,
@@ -2383,6 +2401,7 @@
 				CEAD12521C7CE58800D2CAF2 /* icon_home_charge_down.png in Resources */,
 				CEAD7D5A1C8C9681008B5281 /* icon_usercenter_3_down.png in Resources */,
 				CE07DCB21C7EF16E0090A9A5 /* camera_link_on1.png in Resources */,
+				286C79271C9803C6009E129E /* shake_sound_male.wav in Resources */,
 				CE11AE391C749A420017181E /* icon_navbar_close_green_up.png in Resources */,
 				CE8BE86F1C5F885700D6307D /* MJRefresh.bundle in Resources */,
 				CEAD125E1C7CEC9E00D2CAF2 /* icon_home_phone_bg.png in Resources */,
@@ -2407,6 +2426,7 @@
 				CEAD125B1C7CE58800D2CAF2 /* icon_home_zxj_up.png in Resources */,
 				CEE4C1631C87048800D8DA5E /* adv_default.png in Resources */,
 				CEAAA5501C8B34E30006F804 /* icon_alarm_play_up.png in Resources */,
+				286C792B1C98173C009E129E /* face.png in Resources */,
 				CEAD7D571C8C9681008B5281 /* icon_usercenter_1_up.png in Resources */,
 				CEAD125A1C7CE58800D2CAF2 /* icon_home_zxj_down.png in Resources */,
 				CE89E9511C8C1B16006F6B4D /* setting_record.png in Resources */,
@@ -2736,8 +2756,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2769,9 +2789,9 @@
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dlkj.yuying;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youxin7.test;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "417e4ced-49d6-4257-afb5-f368b74bc48c";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -2783,8 +2803,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2815,9 +2835,9 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dlkj.yuying;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youxin7.test;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "417e4ced-49d6-4257-afb5-f368b74bc48c";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};

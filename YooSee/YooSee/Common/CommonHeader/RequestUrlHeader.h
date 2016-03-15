@@ -95,6 +95,13 @@
 #define MAKE_ROB                    Y1Y_MAKE_REQUEST_URL(@"yyw_makerob")
 
 //红包详情
+#define RED_POCKET_DETAIL           Y1Y_MAKE_REQUEST_URL(@"yyw_redpackedgg")
+
+//抢红包
+#define RED_POCKET_ROB              Y1Y_MAKE_REQUEST_URL(@"yyw_robredpacked")
+
+//抢红包排行榜
+#define RED_POCKET_ROBER_LIST       Y1Y_MAKE_REQUEST_URL(@"yyw_getrobredlist")
 
 
 //获取个人财产信息

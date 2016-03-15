@@ -7,7 +7,7 @@
 //
 
 #import "BasicViewController.h"
-//感兴趣
+//详情页面
 @interface Y1YDetailViewController : BasicViewController
 
 @property (nonatomic, strong) NSDictionary *dataDic;

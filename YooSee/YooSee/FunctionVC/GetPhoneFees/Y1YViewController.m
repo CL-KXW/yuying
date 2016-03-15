@@ -121,7 +121,6 @@
     UILabel *timeLabel5 = (UILabel *)[cell.contentView viewWithTag:107];
     
     
-    
     NSDictionary *dataDic = _dataArray[indexPath.row];
     //NSLog(@"dataDic == %@",dataDic);
     NSString *title= [dataDic objectForKey:@"title"];

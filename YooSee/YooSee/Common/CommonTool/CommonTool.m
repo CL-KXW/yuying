@@ -202,6 +202,12 @@
     return [formatter stringFromDate:date];
 }
 
++ (NSDate*)timeStringToDate:(NSString*)timeString format:(NSString*)format {
+    NSDateFormatter *formatter = [[NSDateFormatter  alloc]init];
+    [formatter setDateFormat:format];
+    return [formatter dateFromString:timeString];
+}
+
 ////URL编码
 //+ (NSString *)encodeToPercentEscapeString: (NSString *) input
 //{
@@ -389,4 +395,16 @@
     return [NSString stringWithFormat:@"%d月%d日", cmp1.month, cmp1.day];
 }
 
++ (NSString*)dateString2MDHMString:(NSString*)string {
+    NSDateFormatter *formatter = [[NSDateFormatter  alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *date = [formatter dateFromString:string];
+    if (!date) {
+        return @"";
+    }
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
+    NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:date];
+    return [NSString stringWithFormat:@"%d月%d日 %02d:%02d", cmp1.month, cmp1.day, cmp1.hour, cmp1.minute];
+}
 @end

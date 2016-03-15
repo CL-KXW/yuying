@@ -179,4 +179,8 @@
  */
 + (NSString*)dateString2MDString:(NSString*)string;
 
+
++ (NSString*)dateString2MDHMString:(NSString*)string;
+
++ (NSDate*)timeStringToDate:(NSString*)timeString format:(NSString*)format;
 @end
