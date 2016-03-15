@@ -12,10 +12,10 @@
 //#define SERVER_URL                  @"http://zhouqiubo.vicp.cc:9998/koi"
 //#define SERVER_URL                  @"http://1.199.40.48:8086/koi"
 #define SERVER_URL                  @"http://112.74.135.133/yyw/"
-#define Y1Y_SERVER_URL                  @"http://112.74.135.133/yywapp/"
+#define Y1Y_SERVER_URL              @"http://112.74.135.133/yywapp/"
 
 #define MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@.flow",SERVER_URL,inf]
-#define Y1Y_MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@.flow",Y1Y_SERVER_URL,inf]
+#define Y1Y_MAKE_REQUEST_URL(inf)   [NSString stringWithFormat:@"%@%@.flow",Y1Y_SERVER_URL,inf]
 //登录服务器
 #define LOGIN_SERVER_URL            MAKE_REQUEST_URL(@"yyw_getsysdata")
 
