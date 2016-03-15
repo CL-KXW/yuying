@@ -23,11 +23,15 @@
     int totalPage;
     UILabel *lblTimerExample3;
     int leftSecond;
-    AVAudioPlayer *audioPlayer;
+
     UIImageView *mainImageView;
-    AVAudioPlayer *audioPlayer2;
+
     UIView *robResultView;
-    
+
+    AVAudioPlayer *audioPlayer;
+    AVAudioPlayer *audioPlayer2;
+    AVAudioPlayer *audioPlayer3;
+    AVAudioPlayer *audioPlayer4;
     NSMutableArray *roberArray;
 }
 @end
@@ -57,7 +61,24 @@
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"welcom_yhb.mp3" ofType:nil];
     NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:NULL];
-    //[audioPlayer play];
+    [audioPlayer prepareToPlay];
+    [audioPlayer play];
+    
+    filePath = [[NSBundle mainBundle] pathForResource:@"shake_sound_male.mp3" ofType:nil];
+    fileUrl = [NSURL fileURLWithPath:filePath];
+    audioPlayer2 = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:NULL];
+    [audioPlayer2 prepareToPlay];
+
+    filePath = [[NSBundle mainBundle] pathForResource:@"weiqiangdao_yhb.mp3" ofType:nil];
+    fileUrl = [NSURL fileURLWithPath:filePath];
+    audioPlayer3 = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:NULL];
+    [audioPlayer3 prepareToPlay];
+
+    filePath = [[NSBundle mainBundle] pathForResource:@"ZSYY.mp3" ofType:nil];
+    fileUrl = [NSURL fileURLWithPath:filePath];
+    audioPlayer4 = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:NULL];
+    [audioPlayer4 prepareToPlay];
+
     
     imageV= [[UIImageView alloc]initWithFrame:CGRectMake(0, START_HEIGHT ,WIDTH, HEIGHT)];
     imageV.animationImages = [NSArray arrayWithObjects:
@@ -528,8 +549,10 @@
              NSString *robsum = dataDic[@"body"][@"robsum"];
              if ([state intValue] == 1 || [state intValue] == 2) {
                  [self robFailView:message];
+                 [audioPlayer3 play];
              } else if ([state intValue] == 3) {
                  [self robSuccessView:company robsum:robsum];
+                 [audioPlayer4 play];
              }
              [self requestDetail];
          }
@@ -649,7 +672,6 @@
         
         [mainImageView startAnimating];
         NSLog(@"开始要一摇");
-        audioPlayer2 = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"shake_sound_male.wav" ofType:nil]] error:nil];
         [audioPlayer2 play];
     }
 }
