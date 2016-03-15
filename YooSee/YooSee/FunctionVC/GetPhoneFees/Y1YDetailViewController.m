@@ -76,6 +76,7 @@
                                         WIDTH,
                                         WIDTH*1.005)];
     imageV2.image = [UIImage imageNamed:@"y1y_hb.png"];
+    imageV2.userInteractionEnabled = YES;
     [imageV addSubview:imageV2];
     
     advContentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, WIDTH,WIDTH*0.73333 )];
@@ -230,10 +231,10 @@
     
     //感兴趣
     
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((WIDTH-130)/2, imageV2.frame.size.height*0.4+WIDTH*0.73333,130, 40)];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((WIDTH-130)/2, imageV2.frame.size.height*0.4,130, 40)];
     [button addTarget:self action:@selector(ganxingquAction) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"感兴趣" forState:UIControlStateNormal];
-    [imageV addSubview:button];
+    [imageV2 addSubview:button];
     [button setBackgroundImage:[UIImage imageNamed:@"HBGXQANTP.png"] forState:UIControlStateNormal];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(50, imageV2.frame.size.height*0.55+5, WIDTH - 100, 20)];
@@ -555,7 +556,6 @@
     if (leftSecond > 0) {
         [self startCountTimer];
     }
-    
     if (orderType == 1) {
         //已预约
         if (state == 1) {
