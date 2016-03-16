@@ -702,7 +702,7 @@
         
         NSString *password = contact.contactPassword;
         password = password ? password : @"";
-        if (password.length == 0)
+        if (password.length == 0 || [password rangeOfString:@"null"].length > 0)
         {
             [CommonTool addPopTipWithMessage:@"设备密码为空"];
             [self goToChangePasswordView:contact.contactId];
