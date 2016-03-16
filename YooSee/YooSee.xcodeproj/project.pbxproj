@@ -44,6 +44,11 @@
 		286C792F1C9875CB009E129E /* shake_sound_male.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 286C792C1C9875CB009E129E /* shake_sound_male.mp3 */; };
 		286C79301C9875CB009E129E /* weiqiangdao_yhb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 286C792D1C9875CB009E129E /* weiqiangdao_yhb.mp3 */; };
 		286C79311C9875CB009E129E /* ZSYY.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 286C792E1C9875CB009E129E /* ZSYY.mp3 */; };
+		286C79771C99A76D009E129E /* icon_bongbao1.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C79751C99A76D009E129E /* icon_bongbao1.png */; };
+		286C79781C99A76D009E129E /* img_hongbao_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 286C79761C99A76D009E129E /* img_hongbao_bg.png */; };
+		286C797B1C99A813009E129E /* RobRedPackgeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C797A1C99A813009E129E /* RobRedPackgeListCell.m */; };
+		286C797E1C99AB53009E129E /* RobRedPackgeListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C797D1C99AB53009E129E /* RobRedPackgeListVC.m */; };
+		286C79811C99ABA1009E129E /* RobRedPackgeDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C79801C99ABA1009E129E /* RobRedPackgeDetailVC.m */; };
 		CE07DC8F1C7EA87F0090A9A5 /* CameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */; };
 		CE07DC921C7EA88E0090A9A5 /* CameraListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC911C7EA88E0090A9A5 /* CameraListViewController.m */; };
 		CE07DC961C7EA9200090A9A5 /* AddCameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC951C7EA9200090A9A5 /* AddCameraMainViewController.m */; };
@@ -426,6 +431,14 @@
 		286C792C1C9875CB009E129E /* shake_sound_male.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shake_sound_male.mp3; sourceTree = "<group>"; };
 		286C792D1C9875CB009E129E /* weiqiangdao_yhb.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = weiqiangdao_yhb.mp3; sourceTree = "<group>"; };
 		286C792E1C9875CB009E129E /* ZSYY.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ZSYY.mp3; sourceTree = "<group>"; };
+		286C79751C99A76D009E129E /* icon_bongbao1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_bongbao1.png; sourceTree = "<group>"; };
+		286C79761C99A76D009E129E /* img_hongbao_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_hongbao_bg.png; sourceTree = "<group>"; };
+		286C79791C99A812009E129E /* RobRedPackgeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RobRedPackgeListCell.h; sourceTree = "<group>"; };
+		286C797A1C99A813009E129E /* RobRedPackgeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RobRedPackgeListCell.m; sourceTree = "<group>"; };
+		286C797C1C99AB53009E129E /* RobRedPackgeListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RobRedPackgeListVC.h; sourceTree = "<group>"; };
+		286C797D1C99AB53009E129E /* RobRedPackgeListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RobRedPackgeListVC.m; sourceTree = "<group>"; };
+		286C797F1C99ABA1009E129E /* RobRedPackgeDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RobRedPackgeDetailVC.h; sourceTree = "<group>"; };
+		286C79801C99ABA1009E129E /* RobRedPackgeDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RobRedPackgeDetailVC.m; sourceTree = "<group>"; };
 		CE07DC8D1C7EA87F0090A9A5 /* CameraMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraMainViewController.h; sourceTree = "<group>"; };
 		CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraMainViewController.m; sourceTree = "<group>"; };
 		CE07DC901C7EA88E0090A9A5 /* CameraListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraListViewController.h; sourceTree = "<group>"; };
@@ -1037,6 +1050,8 @@
 		286C78DF1C92ADFB009E129E /* getmoney */ = {
 			isa = PBXGroup;
 			children = (
+				286C79751C99A76D009E129E /* icon_bongbao1.png */,
+				286C79761C99A76D009E129E /* img_hongbao_bg.png */,
 				286C792C1C9875CB009E129E /* shake_sound_male.mp3 */,
 				286C792D1C9875CB009E129E /* weiqiangdao_yhb.mp3 */,
 				286C792E1C9875CB009E129E /* ZSYY.mp3 */,
@@ -1283,6 +1298,8 @@
 				CEAAA5431C8B2F8D0006F804 /* AlarmListCell.m */,
 				286C78DC1C92A11F009E129E /* AdListCell.h */,
 				286C78DD1C92A11F009E129E /* AdListCell.m */,
+				286C79791C99A812009E129E /* RobRedPackgeListCell.h */,
+				286C797A1C99A813009E129E /* RobRedPackgeListCell.m */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -1488,6 +1505,10 @@
 				286C79061C953A1B009E129E /* Y1YDetailViewController.m */,
 				286C79141C956FA8009E129E /* Y1YDetail2ViewController.h */,
 				286C79151C956FA8009E129E /* Y1YDetail2ViewController.m */,
+				286C797C1C99AB53009E129E /* RobRedPackgeListVC.h */,
+				286C797D1C99AB53009E129E /* RobRedPackgeListVC.m */,
+				286C797F1C99ABA1009E129E /* RobRedPackgeDetailVC.h */,
+				286C79801C99ABA1009E129E /* RobRedPackgeDetailVC.m */,
 			);
 			path = GetPhoneFees;
 			sourceTree = "<group>";
@@ -2353,6 +2374,7 @@
 				286C78FB1C947419009E129E /* gold2@3x.png in Resources */,
 				CE80C3921C78ADC200A7ADCA /* loading_03.png in Resources */,
 				286C790F1C9561C2009E129E /* welcom_yhb.mp3 in Resources */,
+				286C79781C99A76D009E129E /* img_hongbao_bg.png in Resources */,
 				286C79121C9561C2009E129E /* y1y_bg_2.jpg in Resources */,
 				CEAD7D5F1C8C9681008B5281 /* icon_usercenter_5_up.png in Resources */,
 				CE8BDD981C912CDB00472924 /* UMSCommentInputController.xib in Resources */,
@@ -2402,6 +2424,7 @@
 				CE89E9501C8C1B16006F6B4D /* setting_password.png in Resources */,
 				CE07DCC21C7F17A80090A9A5 /* camera_search.png in Resources */,
 				CE07DCA11C7EC4170090A9A5 /* icon_camera_net_up.png in Resources */,
+				286C79771C99A76D009E129E /* icon_bongbao1.png in Resources */,
 				CE14C3181C88872700C1D5A3 /* icon_file_up.png in Resources */,
 				CE77F2E71C7D946B00CE0D98 /* asset in Resources */,
 				CEAD7D5D1C8C9681008B5281 /* icon_usercenter_4_up.png in Resources */,
@@ -2579,6 +2602,7 @@
 				CE8BE8391C5F885000D6307D /* SDWebImageDownloaderOperation.m in Sources */,
 				CE98E1001C8A7DB20072A2FC /* ScreenshotCell.m in Sources */,
 				286C79191C957601009E129E /* GoldLibraryViewController.m in Sources */,
+				286C797B1C99A813009E129E /* RobRedPackgeListCell.m in Sources */,
 				CEF796CC1C853E630039909A /* PAIOUnit.m in Sources */,
 				CE0985851C94505B0077253E /* PlayerAdvDetailViewController.m in Sources */,
 				CEF796B71C853E630039909A /* UncaughtExceptionHandler.m in Sources */,
@@ -2652,6 +2676,7 @@
 				CEF4C49B1C9294EB004D6A4F /* FindPasswordViewController.m in Sources */,
 				CE8BE8511C5F885000D6307D /* UIImageView+AFNetworking.m in Sources */,
 				286C79041C950222009E129E /* Y1YViewController.m in Sources */,
+				286C797E1C99AB53009E129E /* RobRedPackgeListVC.m in Sources */,
 				CEF796A61C853E630039909A /* FMResultSet.m in Sources */,
 				CEF796A21C853E630039909A /* ContactDAO.m in Sources */,
 				CE11AE341C7494930017181E /* LoginViewController.m in Sources */,
@@ -2679,6 +2704,7 @@
 				CE24B5791C8F1FA800556775 /* SettingViewController.m in Sources */,
 				CEF796C71C853E630039909A /* OBGradientView.m in Sources */,
 				CE211FE51C81721E000453D0 /* SetCameraInfoViewController.m in Sources */,
+				286C79811C99ABA1009E129E /* RobRedPackgeDetailVC.m in Sources */,
 				286C78EB1C94730E009E129E /* YCMoneyAnimation.m in Sources */,
 				CE8BE83E1C5F885000D6307D /* UIImage+MultiFormat.m in Sources */,
 				CED4706E1C7BE5B500153520 /* Base64Util.m in Sources */,

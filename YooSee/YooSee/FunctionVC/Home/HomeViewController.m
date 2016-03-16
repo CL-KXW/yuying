@@ -37,7 +37,7 @@
 #import "CameraSafeInfoViewController.h"
 #import "CameraPasswordViewController.h"
 #import "Y1YViewController.h"
-
+#import "RobRedPackgeListVC.h"
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -479,6 +479,8 @@
         if (tag == 0)
         {
             //抢红包
+            RobRedPackgeListVC *robRP = [[RobRedPackgeListVC alloc] init];
+            [self.navigationController pushViewController:robRP animated:YES];
         }
         if (tag == 1)
         {
