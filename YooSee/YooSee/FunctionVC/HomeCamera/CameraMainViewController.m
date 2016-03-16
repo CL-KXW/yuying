@@ -64,6 +64,7 @@
 @property (nonatomic, strong) NSDictionary *playerDic;
 @property (nonatomic, assign) BOOL getVideoFirstImg;//录像时获取第一张截图做为显示
 @property (nonatomic, assign) float count;
+@property (nonatomic, assign) CGRect originalFrame;
 
 @end
 
@@ -95,7 +96,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    self.isReject = YES;
     [self connectCamera];
     [self addNotifications];
 }
@@ -103,6 +104,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    self.isReject = YES;
     [self.remoteView setCaptureFinishScreen:YES];
     [[P2PClient sharedClient] p2pHungUp];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -332,7 +334,9 @@
         [_remoteView.layer setMasksToBounds:YES];
         _remoteView.backgroundColor = [UIColor blackColor];
         self.remoteView.clipsToBounds = YES;
+        self.originalFrame = _remoteView.frame;
     }
+    
     [self.playView addSubview:_remoteView];
 }
 
@@ -490,6 +494,55 @@
 #pragma mark 设备方位变化
 - (void)deviceOrientationDidChangeNotification:(NSNotification *)notification
 {
+    UIDevice *device = (UIDevice *)[notification object];
+    if (self.isReject)
+    {
+        return;
+    }
+    if (self.remoteView)
+    {
+        CGRect frame;
+        float angel = 0;
+        if (device.orientation == UIDeviceOrientationPortrait || device.orientation == UIDeviceOrientationLandscapeRight)
+        {
+            self.remoteView.transform = CGAffineTransformIdentity;
+            if (device.orientation == UIDeviceOrientationPortrait)
+            {
+                angel = 0;
+                frame = self.originalFrame;
+            }
+            if (device.orientation == UIDeviceOrientationLandscapeRight)
+            {
+                frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                if ([SYSTEM_VERSION floatValue] < 8.0)
+                {
+                    frame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
+                }
+                angel = -M_PI_2;
+            }
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:.35 animations:^
+             {
+                 weakSelf.remoteView.transform = CGAffineTransformMakeRotation(angel);
+                 weakSelf.remoteView.frame = frame;
+                 [[UIApplication sharedApplication] setStatusBarHidden:!(angel == 0) withAnimation:UIStatusBarAnimationFade];
+                 if (angel == 0)
+                 {
+                     [weakSelf.playView addSubview:weakSelf.remoteView];
+                 }
+                 else
+                 {
+                     [[DELEGATE window] addSubview:weakSelf.remoteView];
+                 }
+                 weakSelf.numberLabel.frame = CGRectMake(0, 0, ((angel == 0) ? frame.size.width : frame.size.height) - SPACE_X, NUMBER_LABEL_HEIGHT) ;
+                 float x = ((angel == 0) ? frame.size.width : frame.size.height) - RATIOS_BUTTON_WIDTH - RATIOS_BUTTON_SPACE_X;
+                 float height = RATIOS_BUTTON_HEIGHT * 3;
+                 float y = (((angel == 0) ? frame.size.height : frame.size.width) - height)/2;
+                 weakSelf.ratiosView.frame = CGRectMake(x, y, RATIOS_BUTTON_WIDTH, height);
+                 
+             }];
+        }
+    }
     
 }
 
@@ -799,7 +852,7 @@
 -(void)P2PClientReject:(NSDictionary*)info{
     DLog("P2PClientReject");
     
-    
+    self.isReject = YES;
     __weak typeof(self) weakSelf = self;
     [[P2PClient sharedClient] setP2pCallState:P2PCALL_STATE_NONE];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
