@@ -21,6 +21,8 @@
 {
     [super viewDidLoad];
     
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+    
     self.view.backgroundColor = VIEW_BG_COLOR;
     
     //[self.navigationController.navigationBar setBackgroundImage:[CommonTool imageWithColor:NAVBAR_COLOR] forBarMetrics:UIBarMetricsDefault];
