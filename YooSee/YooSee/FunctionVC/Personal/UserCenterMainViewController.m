@@ -28,6 +28,7 @@
 #import "WebViewController.h"
 #import "NewsListViewController.h"
 #import "GoldLibraryViewController.h"
+#import "RedPackgeLibraryVC.h"
 
 @interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -326,6 +327,8 @@
     if (tag == 2)
     {
         //红包库
+        RedPackgeLibraryVC *vc = [[RedPackgeLibraryVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
