@@ -107,5 +107,13 @@
 //获取个人财产信息
 #define GET_GOLD_INFO               MAKE_REQUEST_URL(@"yyw_getcaichan")
 
+//创建订单
+#define CREATEORDER_URL             MAKE_REQUEST_URL(@"yyw_zfb_createorder")
+
+//获取提现信息
+#define MONEY_DRAWCASHCHECK         MAKE_REQUEST_URL(@"yyw_money_drawcashcheck")
+
+//提现申请
+#define MONEY_DRAWCASHSUBMIT        MAKE_REQUEST_URL(@"yyw_money_drawcashsubmit")
 
 #endif

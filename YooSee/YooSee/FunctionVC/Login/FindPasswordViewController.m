@@ -220,7 +220,12 @@
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = @{@"phone":self.phoneString,@"passwd":[CommonTool md5:self.surePassword],@"verifysms":self.codeString,@"method":@(2)};
+    
     NSString *url =  REGISTER_URL;
+    if (self.isPayPassword) {
+        url = SET_PAY_PASSWOR_URL;
+        requestDic = @{@"paypasswd":[CommonTool md5:self.surePassword], @"uid":[[YooSeeApplication shareApplication] uid], @"smscode":self.codeString};
+    }
     [[RequestTool alloc] desRequestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous

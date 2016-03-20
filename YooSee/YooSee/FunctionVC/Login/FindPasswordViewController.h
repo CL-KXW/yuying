@@ -9,5 +9,5 @@
 #import "BasicViewController.h"
 
 @interface FindPasswordViewController : BasicViewController
-
+@property (nonatomic, assign) BOOL isPayPassword;
 @end

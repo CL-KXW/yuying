@@ -8,6 +8,8 @@
 
 #import "GoldLibraryViewController.h"
 #import "MoneyDetailVC.h"
+#import "RechargeViewController.h"
+#import "WithdrawViewcontroller.h"
 
 #define kTableHeaderHeight    35
 #define ktenementCellHeight   90
@@ -115,10 +117,14 @@
 
 - (void)buttonAction1 {
     //充值
+    RechargeViewController *vc = [[RechargeViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)buttonAction3 {
     //提现
+    WithdrawViewcontroller *vc = [[WithdrawViewcontroller alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)HFMXAction {
