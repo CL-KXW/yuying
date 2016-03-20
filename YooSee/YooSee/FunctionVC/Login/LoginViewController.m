@@ -122,9 +122,9 @@
     {
         return;
     }
-    [self.usernameTextField.textField resignFirstResponder];
-    [self.passwordTextField.textField resignFirstResponder];
-    [self userLoginRequest];
+    NSString *username = self.usernameTextField.textField.text;
+    NSString *password = self.passwordTextField.textField.text;
+    [self userLoginRequestWithUsername:username password:password];
 }
 
 - (BOOL)isCanCommit
@@ -161,12 +161,10 @@
 }
 
 #pragma mark 登录请求
-- (void)userLoginRequest
+- (void)userLoginRequestWithUsername:(NSString *)username password:(NSString *)password
 {
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *username = self.usernameTextField.textField.text;
-    NSString *password = self.passwordTextField.textField.text;
     NSDictionary *requestDic = @{@"phone":username,@"passwd":[CommonTool md5:password]};
     [[RequestTool alloc] desRequestWithUrl:USER_LOGIN_URL
                          requestParamas:requestDic
@@ -180,11 +178,14 @@
          errorMessage = errorMessage ? errorMessage : LOADING_FAIL;
          if (errorCode == 1)
          {
+             [USER_DEFAULT setValue:username forKey:@"UserName"];
+             [USER_DEFAULT setValue:password forKey:@"Password"];
              [weakSelf setDataWithDictionary:dataDic];
          }
          else
          {
              [LoadingView dismissLoadingView];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
      }
@@ -192,6 +193,7 @@
      {
          NSLog(@"USER_LOGIN_URL====%@",error);
          [LoadingView dismissLoadingView];
+         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
          [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
     
@@ -204,8 +206,6 @@
     NSString *uid = dataDic[@"body"][0][@"uid"];
     uid = uid ? uid : @"";
     [YooSeeApplication shareApplication].uid = uid;
-    [USER_DEFAULT setValue:self.usernameTextField.textField.text forKey:@"UserName"];
-    [USER_DEFAULT setValue:self.passwordTextField.textField.text forKey:@"Password"];
     [self login2CU];
 
 }
@@ -265,15 +265,17 @@
                  }
              }
              [YooSeeApplication shareApplication].isLogin = YES;
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
              [weakSelf dismissViewControllerAnimated:YES completion:nil];
          }
          else
          {
-             
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
          [LoadingView dismissLoadingView];
          NSLog(@"2cu_USER_LOGIN_URL====%@",error);
      }];
@@ -445,7 +447,7 @@
         _usernameTextField = [[CustomTextField alloc] initWithFrame:CGRectMake(SPACE_X, 0, SCREEN_WIDTH - 2 * SPACE_X, ROW_HEIGHT)];
         _usernameTextField.textField.placeholder = @"手机号码";
         _usernameTextField.textField.keyboardType = UIKeyboardTypeNumberPad;
-        _usernameTextField.textField.text = @"15820790320";
+        _usernameTextField.textField.text = @"";
     }
     
     if (!_passwordTextField)
@@ -453,7 +455,7 @@
         _passwordTextField = [[CustomTextField alloc] initWithFrame:CGRectMake(SPACE_X, 0, SCREEN_WIDTH - 2 * SPACE_X, ROW_HEIGHT)];
         _passwordTextField.textField.secureTextEntry = YES;
         _passwordTextField.textField.placeholder = @"登录密码";
-        _passwordTextField.textField.text = @"520588";
+        _passwordTextField.textField.text = @"";
     }
     
     if (indexPath.row == 0)

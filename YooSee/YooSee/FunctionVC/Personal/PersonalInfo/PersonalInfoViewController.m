@@ -11,6 +11,9 @@
 #define SPACE_Y             10.0 * CURRENT_SCALE
 #define ARROW_WIDTH         35.0
 #define LABEL_WIDTH         120.0 * CURRENT_SCALE
+#define BUTTON_HEIGHT       50.0 * CURRENT_SCALE
+#define BUTTON_RADIUS       BUTTON_HEIGHT/2
+#define FOOTER_VIEW_HEIGHT  SPACE_Y * 4.0 + BUTTON_HEIGHT
 
 #import "PersonalInfoViewController.h"
 #import "ChangePasswordViewController.h"
@@ -51,6 +54,7 @@
 - (void)initUI
 {
     [self addTableView];
+    [self addFooterView];
 }
 
 - (void)addTableView
@@ -100,6 +104,19 @@
         [self.table setLayoutMargins:UIEdgeInsetsMake(0, 2 * SPACE_X, 0, SPACE_X)];
     }
 }
+
+- (void)addFooterView
+{
+    UIImageView *footerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.table.frame.size.width, FOOTER_VIEW_HEIGHT) placeholderImage:nil];
+    UIButton *exitButton = [CreateViewTool createButtonWithFrame:CGRectMake(SPACE_X, 2 * SPACE_Y, self.table.frame.size.width - 2 * SPACE_X, BUTTON_HEIGHT) buttonTitle:@"退出登录" titleColor:[UIColor grayColor] normalBackgroundColor:[UIColor whiteColor] highlightedBackgroundColor:nil selectorName:@"exitButtonPressed:" tagDelegate:self];
+    [exitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [CommonTool clipView:exitButton withCornerRadius:BUTTON_RADIUS];
+    [CommonTool setViewLayer:exitButton withLayerColor:[UIColor grayColor] bordWidth:1.0];
+    [footerView addSubview:exitButton];
+    self.table.tableFooterView = footerView;
+}
+
+
 
 #pragma mark 检查实名
 - (void)getRealNamedRequest:(int)type
@@ -210,6 +227,16 @@
 }
 
 
+#pragma mark 退出登录
+- (void)exitButtonPressed:(UIButton *)sender
+{
+    [YooSeeApplication shareApplication].isLogin = NO;
+    [USER_DEFAULT removeObjectForKey:@"UserName"];
+    [USER_DEFAULT removeObjectForKey:@"Password"];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
 #pragma mark - tableView datasource and delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -267,6 +294,8 @@
     {
         [cell setLayoutMargins:UIEdgeInsetsMake(0, 2 * SPACE_X, 0, SPACE_X)];
     }
+    
+    
     
     return cell;
 }

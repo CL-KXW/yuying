@@ -17,6 +17,8 @@
 #define LABEL_HEIGHT     20.0 * CURRENT_SCALE
 #define LABEL_WIDTH      180.0 * CURRENT_SCALE
 #define ROW_SPACE_Y      10.0
+#define BUTTON_HEIGHT    50.0 * CURRENT_SCALE
+#define BUTTON_RADIUS    BUTTON_HEIGHT/2
 
 #import "UserCenterMainViewController.h"
 #import "BannerView.h"

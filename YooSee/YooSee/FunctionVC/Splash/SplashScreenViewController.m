@@ -9,8 +9,12 @@
 #import "SplashScreenViewController.h"
 #import "AvPlayerView.h"
 #import "HomeViewController.h"
+#import "LoginViewController.h"
 
 @interface SplashScreenViewController ()<UIAlertViewDelegate>
+{
+    LoginViewController *loginViewController;
+}
 
 @property (nonatomic, strong) AvPlayerView *avPlayerView;
 
@@ -53,6 +57,7 @@
 - (void)addNotification
 {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(videoPlayFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFinish) name:@"LoginFinish" object:nil];
 }
 
 - (void)videoPlayFinished:(NSNotification *)notification
@@ -81,19 +86,19 @@
          }
          else
          {
-             [weakSelf adNSLoginFailTip];
+             [weakSelf addLoginFailTip];
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"LOGIN_SERVER_URL====%@",error);
          [LoadingView dismissLoadingView];
-         [weakSelf adNSLoginFailTip];
+         [weakSelf addLoginFailTip];
      }];
 }
 
 #pragma mark 登录服务器失败
-- (void)adNSLoginFailTip
+- (void)addLoginFailTip
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"登录服务器失败,是否重试?" delegate:self cancelButtonTitle:@"重试" otherButtonTitles:@"取消", nil];
     [alertView show];
@@ -125,12 +130,23 @@
         [self.view addSubview:splashImageView];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [self.avPlayerView removeFromSuperview];
-        [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(addMainView) userInfo:nil repeats:NO];
+        //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(addMainView) userInfo:nil repeats:NO];
     }
-    else
-    {
-        [self addMainView];
-    }
+//    else
+//    {
+//        [self addMainView];
+//    }
+    NSString *username = [USER_DEFAULT objectForKey:@"UserName"];
+    username = username ? username : @"";
+    NSString *password = [USER_DEFAULT objectForKey:@"Password"];
+    password = password ? password : @"";
+    loginViewController =[[LoginViewController alloc] init];
+    [loginViewController userLoginRequestWithUsername:username password:password];
+}
+
+- (void)loginFinish
+{
+    [self addMainView];
 }
 
 
@@ -151,7 +167,7 @@
 
 - (void)dealloc
 {
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*

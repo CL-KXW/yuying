@@ -6,8 +6,12 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
+
 #import "BasicViewController.h"
 
 @interface LoginViewController : BasicViewController
+
+
+- (void)userLoginRequestWithUsername:(NSString *)username password:(NSString *)password;
 
 @end
