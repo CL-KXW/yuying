@@ -503,7 +503,7 @@
     {
         CGRect frame;
         float angel = 0;
-        if (device.orientation == UIDeviceOrientationPortrait || device.orientation == UIDeviceOrientationLandscapeRight)
+        if (device.orientation == UIDeviceOrientationLandscapeRight || device.orientation == UIDeviceOrientationLandscapeLeft || device.orientation == UIDeviceOrientationPortrait)
         {
             self.remoteView.transform = CGAffineTransformIdentity;
             if (device.orientation == UIDeviceOrientationPortrait)
@@ -511,14 +511,14 @@
                 angel = 0;
                 frame = self.originalFrame;
             }
-            if (device.orientation == UIDeviceOrientationLandscapeRight)
+            if (device.orientation == UIDeviceOrientationLandscapeRight || device.orientation == UIDeviceOrientationLandscapeLeft)
             {
                 frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                 if ([SYSTEM_VERSION floatValue] < 8.0)
                 {
                     frame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
                 }
-                angel = -M_PI_2;
+                angel = device.orientation == UIDeviceOrientationLandscapeRight ? - M_PI_2 : M_PI_2;
             }
             __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:.35 animations:^

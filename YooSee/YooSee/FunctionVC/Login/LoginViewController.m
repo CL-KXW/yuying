@@ -118,6 +118,8 @@
 #pragma mark 登录按钮 
 - (void)loginButtonPressed:(UIButton *)sender
 {
+    [self.usernameTextField.textField resignFirstResponder];
+    [self.passwordTextField.textField resignFirstResponder];
     if (![self isCanCommit])
     {
         return;

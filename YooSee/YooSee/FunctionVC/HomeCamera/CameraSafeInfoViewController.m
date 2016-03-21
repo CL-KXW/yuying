@@ -15,6 +15,9 @@
 #import "GetAlarmRecordResult.h"
 #import "Alarm.h"
 #import "AlarmListCell.h"
+#import "CameraPasswordViewController.h"
+#import "ContactDAO.h"
+#import "CameraMainViewController.h"
 
 @interface CameraSafeInfoViewController ()
 
@@ -191,13 +194,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellName = @"DeviceListCell";
-    AlarmListCell *cell   = (AlarmListCell *)[tableView dequeueReusableCellWithIdentifier:cellName];
+    AlarmListCell *cell   = (AlarmListCell *)[tableView dequeueReusableCellWithIdentifier:cellName ];
     if(cell == nil)
     {
         cell = [[AlarmListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
+    [cell.videoButton addTarget:self action:@selector(itemButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.playButton addTarget:self action:@selector(itemButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.imageButton addTarget:self action:@selector(itemButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    cell.videoButton.tag = 10000 * indexPath.section + 1;
+    cell.playButton.tag = 10000 * indexPath.section + 3;
+    cell.imageButton.tag = 10000 * indexPath.section + 2;
+
     
     if(indexPath.section >= self.dataArray.count)
         return cell;
@@ -206,6 +217,118 @@
     [cell setDeviceName:self.contact.contactName];
     
     return cell;
+}
+
+
+#pragma mark 按钮事件
+- (void)itemButtonPressed:(UIButton *)sender
+{
+    int row = (int)sender.tag/10000;
+    int tag = (int)sender.tag%10000;
+    Alarm *alarm = self.dataArray[row];
+    if (tag == 3)
+    {
+        //播放
+        if ([self checkContactReady:self.contact])
+        {
+            [YooSeeApplication  shareApplication].contact = self.contact;
+            [self changedCameraMainView];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else
+    {
+        if (tag == 1)
+        {
+            //视频
+        }
+        else if (tag == 2)
+        {
+            //图片
+        }
+    }
+}
+
+
+
+- (BOOL)checkContactReady:(Contact *)contact
+{
+    ContactDAO *contactDAO = [[ContactDAO alloc] init];
+    contact = [contactDAO isContact:contact.contactId];
+    if (!contact)
+    {
+        [CommonTool addPopTipWithMessage:@"程序内部错误"];
+        return NO;
+    }
+    if (contact.onLineState == 0)
+    {
+        [CommonTool addPopTipWithMessage:@"设备已离线"];
+        return NO;
+    }
+    else
+    {
+        
+        NSString *password = contact.contactPassword;
+        password = password ? password : @"";
+        if (password.length == 0 || [password rangeOfString:@"null"].length > 0)
+        {
+            [CommonTool addPopTipWithMessage:@"设备密码为空"];
+            [self goToChangePasswordView:contact.contactId];
+            return NO;
+        }
+        else
+        {
+            if (contact.defenceState == DEFENCE_STATE_WARNING_PWD)
+            {
+                [CommonTool addPopTipWithMessage:@"设备密码错误"];
+                [self goToChangePasswordView:contact.contactId];
+                return NO;
+            }
+            if (contact.defenceState > 3)
+            {
+                if (contact.defenceState > 5)
+                {
+                    [CommonTool addPopTipWithMessage:@"设备异常"];
+                    return NO;
+                }
+                [CommonTool addPopTipWithMessage:contact.defenceState == 4 ? @"网络异常" : @"权限不足"];
+                return NO;
+            }
+            
+        }
+    }
+    return YES;
+}
+
+
+- (void)goToChangePasswordView:(NSString *)deviceID
+{
+    deviceID = deviceID ? deviceID : @"";
+    if (deviceID.length == 0)
+    {
+        return;
+    }
+    CameraPasswordViewController *cameraPasswordViewController = [[CameraPasswordViewController alloc] init];
+    cameraPasswordViewController.deviceID = deviceID;
+    cameraPasswordViewController.isChange = YES;
+    [self.navigationController pushViewController:cameraPasswordViewController animated:YES];
+}
+
+
+#pragma mark 返回播放视图
+- (void)changedCameraMainView
+{
+    CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    if ([array[1] isKindOfClass:[CameraMainViewController class]])
+    {
+        [array replaceObjectAtIndex:1 withObject:cameraMainViewController];
+    }
+    else
+    {
+        [array insertObject:cameraMainViewController atIndex:1];
+    }
+    self.navigationController.viewControllers = array;
 }
 
 

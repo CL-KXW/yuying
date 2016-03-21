@@ -76,7 +76,6 @@
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         [LoadingView dismissLoadingView];
          NSLog(@"LOGIN_SERVER_URL===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int returnCode = [dataDic[@"returnCode"] intValue];
@@ -92,7 +91,6 @@
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"LOGIN_SERVER_URL====%@",error);
-         [LoadingView dismissLoadingView];
          [weakSelf addLoginFailTip];
      }];
 }
@@ -100,6 +98,7 @@
 #pragma mark 登录服务器失败
 - (void)addLoginFailTip
 {
+    [LoadingView dismissLoadingView];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"登录服务器失败,是否重试?" delegate:self cancelButtonTitle:@"重试" otherButtonTitles:@"取消", nil];
     [alertView show];
 };
@@ -140,8 +139,16 @@
     username = username ? username : @"";
     NSString *password = [USER_DEFAULT objectForKey:@"Password"];
     password = password ? password : @"";
-    loginViewController =[[LoginViewController alloc] init];
-    [loginViewController userLoginRequestWithUsername:username password:password];
+    if ([CommonTool isEmailOrPhoneNumber:username] && password.length > 0)
+    {
+        loginViewController =[[LoginViewController alloc] init];
+        [loginViewController userLoginRequestWithUsername:username password:password];
+    }
+    else
+    {
+        [LoadingView dismissLoadingView];
+        [self loginFinish];
+    }
 }
 
 - (void)loginFinish
