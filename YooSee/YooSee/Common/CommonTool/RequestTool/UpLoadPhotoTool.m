@@ -66,7 +66,6 @@
     //manager.requestSerializer.timeoutInterval = TIMEOUT;
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
-
     self.requestDic = [RequestDataTool makeRequestDictionary:self.requestDic];
     self.requestDic = @{@"json":[RequestDataTool encryptWithDictionary:self.requestDic]};
     requestOperation =  [manager POST:weakSelf.upLoadUrl parameters:self.requestDic
@@ -79,18 +78,19 @@
                 UIImage *image = self.photoArray[i];
                 //NSData *data = UIImageJPEGRepresentation(image, .1);
                 NSData *data = UIImagePNGRepresentation(image);
-                //NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
-                //NSString *nameStr = [NSString stringWithFormat:@"%@%d.jpg",FILE_NAME,i + 1];
-                NSString *nameStr = FILE_NAME;
+                NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+                NSString *nameStr = [NSString stringWithFormat:@"%@%d.jpg",FILE_NAME,i + 1];
+                nameStr = FILE_NAME;
                 nameStr = ([self.photoArray count] == 1) ? FILE_NAME : nameStr;
-                //[NSString stringWithFormat:@"%.0f%d.png",time,i]
-                [formData appendPartWithFileData:data name:nameStr fileName:@"headpic.png" mimeType:@"image/png"];
+                NSString *picName = [NSString stringWithFormat:@"%.0f%d.png",time,i];
+                [formData appendPartWithFileData:data name:nameStr fileName:picName mimeType:@"image/png"];
             }
 
         }
     }
     success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
+        NSLog(@"------%@",operation.responseString);
         weakSelf.responseDic = [RequestDataTool decryptJSON:operation.responseString];
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(uploadPhotoSucessed:)])
         {
