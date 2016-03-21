@@ -35,7 +35,7 @@
     // Initialization code
 }
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier 
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
@@ -82,8 +82,21 @@
         titleLabel.textAlignment = NSTextAlignmentCenter;
         [bgView addSubview:titleLabel];
         
-        UIButton *itembutton = [CreateViewTool createButtonWithFrame:CGRectMake(titleLabel.frame.origin.x + button_space_x, y, ITEM_WH, ITEM_WH) buttonImage:imageArray[i] selectorName:@"itemButtonPressed:" tagDelegate:self];
+        UIButton *itembutton = [CreateViewTool createButtonWithFrame:CGRectMake(titleLabel.frame.origin.x + button_space_x, y, ITEM_WH, ITEM_WH) buttonImage:imageArray[i] selectorName:@"" tagDelegate:nil];
         [bgView addSubview:itembutton];
+       
+        if ( i == 0)
+        {
+            _videoButton = itembutton;
+        }
+        if ( i == 1)
+        {
+            _imageButton = itembutton;
+        }
+        if ( i == 2)
+        {
+            _playButton = itembutton;
+        }
     }
 }
 

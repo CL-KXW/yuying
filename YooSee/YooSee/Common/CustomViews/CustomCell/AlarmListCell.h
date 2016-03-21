@@ -13,6 +13,11 @@
 
 @property (nonatomic, strong) Alarm *alarmInfo;
 
+@property (nonatomic, strong) UIButton *videoButton;
+@property (nonatomic, strong) UIButton *imageButton;
+@property (nonatomic, strong) UIButton *playButton;
+
 - (void)setDeviceName:(NSString *)name;
+
 
 @end
