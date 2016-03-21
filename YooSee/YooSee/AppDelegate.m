@@ -151,7 +151,7 @@
                                                                     object:self
                                                                   userInfo:nil];
             });
-            DLog(@"RET_GET_NPCSETTINGS_REMOTE_DEFENCE");
+            NSLog(@"RET_GET_NPCSETTINGS_REMOTE_DEFENCE");
             
         }
             break;
@@ -318,19 +318,14 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-//    UIApplication *app = [UIApplication sharedApplication];
-//    UIBackgroundTaskIdentifier taskID;
-//    taskID = [app beginBackgroundTaskWithExpirationHandler:^{
-//        [[P2PClient sharedClient] p2pDisconnect];
-//        [app endBackgroundTask:taskID];
-//    }];
-//    
-//    if (taskID == UIBackgroundTaskInvalid) {
-//        [[P2PClient sharedClient] p2pDisconnect];
-//        NSLog(@"Failed to start background task!");
-//        return;
-//    }
-//     [[P2PClient sharedClient] p2pDisconnect];
+    
+    if ([[P2PClient sharedClient] p2pCallState] == P2PCALL_STATE_READY)
+    {
+        [[P2PClient sharedClient] setP2pCallState:P2PCALL_STATE_NONE];
+        [[PAIOUnit sharedUnit] stopAudio];
+    }
+    [[P2PClient sharedClient] p2pHungUp];
+    [[P2PClient sharedClient] p2pDisconnect];
     
 }
 
