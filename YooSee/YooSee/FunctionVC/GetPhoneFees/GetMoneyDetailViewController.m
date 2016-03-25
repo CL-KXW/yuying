@@ -86,7 +86,7 @@
     NSString *ggid = self.dataDic[@"ggid"];
     ggid = ggid ? ggid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"ggid":ggid,@"grade":@"1"};
-    [[RequestTool alloc] desRequestWithUrl:GET_AD_REWARD
+    [[RequestTool alloc] requestWithUrl:GET_AD_REWARD
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

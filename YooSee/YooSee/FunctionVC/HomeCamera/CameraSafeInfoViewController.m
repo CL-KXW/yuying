@@ -18,6 +18,7 @@
 #import "CameraPasswordViewController.h"
 #import "ContactDAO.h"
 #import "CameraMainViewController.h"
+#import "PhotoHandleView.h"
 
 @interface CameraSafeInfoViewController ()
 
@@ -141,6 +142,11 @@
                     alarm.alarmTime = detailArray[i];
                 }
                     break;
+                case 3:
+                {
+                    alarm.alarmTime = detailArray[i];
+                }
+                    break;
                 case 4:
                 {
                     alarm.alarmType = [detailArray[i] intValue];
@@ -241,10 +247,22 @@
         if (tag == 1)
         {
             //视频
+            [CommonTool addPopTipWithMessage:@"暂无视频"];
         }
         else if (tag == 2)
         {
             //图片
+            NSString *imageUrl = alarm.imageUrl;
+            if (imageUrl.length == 0)
+            {
+                [CommonTool addPopTipWithMessage:@"暂无图片"];
+            }
+            else
+            {
+                CGRect rect = [[sender superview] convertRect:[sender frame] toView:nil];
+                PhotoHandleView *handleView = [[PhotoHandleView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]] transFrom:rect target:self];
+                [handleView show];
+            }
         }
     }
 }

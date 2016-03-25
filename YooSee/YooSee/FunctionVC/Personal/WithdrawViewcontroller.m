@@ -163,7 +163,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:BANK_CARD_LIST_URL
+    [[RequestTool alloc] requestWithUrl:BANK_CARD_LIST_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -221,7 +221,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:MONEY_DRAWCASHCHECK
+    [[RequestTool alloc] requestWithUrl:MONEY_DRAWCASHCHECK
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

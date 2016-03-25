@@ -100,7 +100,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"oldpwd":[CommonTool md5:self.password]};
-    [[RequestTool alloc] desRequestWithUrl:SET_PAY_PASSWOR_URL
+    [[RequestTool alloc] requestWithUrl:SET_PAY_PASSWOR_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

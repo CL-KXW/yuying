@@ -237,7 +237,7 @@
     uid = uid ? uid : @"";
     int pos = 4;
     NSDictionary *requestDic = @{@"uid":uid,@"pos":@(pos)};
-    [[RequestTool alloc] desRequestWithUrl:GET_ADV_URL
+    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -276,7 +276,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:USER_INFO_URL
+    [[RequestTool alloc] requestWithUrl:USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

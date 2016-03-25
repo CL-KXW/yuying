@@ -86,6 +86,10 @@
     [self getAdvRequestWithPostion:5];
     [self getAdvRequestWithPostion:9];
     
+    self.isReject = YES;
+    [self connectCamera];
+    [self addNotifications];
+    
     [[PAIOUnit sharedUnit] setMuteAudio:NO];
     [[PAIOUnit sharedUnit] setSpeckState:YES];
     [[P2PClient sharedClient] setDelegate:self];
@@ -96,9 +100,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.isReject = YES;
-    [self connectCamera];
-    [self addNotifications];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -567,7 +568,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"pos":@(postion)};
-    [[RequestTool alloc] desRequestWithUrl:GET_ADV_URL
+    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -974,6 +975,14 @@
     if (errorCode == CALL_ERROR_PW_WRONG)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangedPassword" object:nil];
+    }
+    else
+    {
+        if (errorCode != CALL_ERROR_PW_WRONG)
+        {
+            //[self manageButtonPressed:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 

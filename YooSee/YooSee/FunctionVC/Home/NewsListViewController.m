@@ -53,7 +53,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:GET_HEADNEWS_URL
+    [[RequestTool alloc] requestWithUrl:GET_HEADNEWS_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

@@ -10,6 +10,11 @@
 #import "AvPlayerView.h"
 #import "HomeViewController.h"
 #import "LoginViewController.h"
+#import "LoginResult.h"
+#import "UDManager.h"
+#import "Utils.h"
+#import "P2PClient.h"
+#import "ContactDAO.h"
 
 @interface SplashScreenViewController ()<UIAlertViewDelegate>
 {
@@ -57,7 +62,6 @@
 - (void)addNotification
 {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(videoPlayFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFinish) name:@"LoginFinish" object:nil];
 }
 
 - (void)videoPlayFinished:(NSNotification *)notification
@@ -70,16 +74,17 @@
 {
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = nil;
+    NSDictionary *requestDic = @{@"os":PLATFORM};
     [[RequestTool alloc] requestWithUrl:LOGIN_SERVER_URL
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"LOGIN_SERVER_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         
+         NSDictionary *dataDic = responseDic;
          int returnCode = [dataDic[@"returnCode"] intValue];
-         if (returnCode == 1)
+         if (returnCode == 8)
          {
              [weakSelf setDataWithDictionary:responseDic];
          }
@@ -115,46 +120,153 @@
 #pragma mark设置数据
 - (void)setDataWithDictionary:(NSMutableDictionary *)dataDic
 {
-    NSDictionary *responseDic = dataDic[@"body"][0];
+    NSDictionary *responseDic = dataDic[@"resultList"];
     [YooSeeApplication shareApplication].loginServerDic = responseDic;
-    [YooSeeTool saveSystemData:responseDic];
     [DELEGATE checkUpdateShowTip:NO];
-    BOOL isShow = [responseDic[@"ifshow"] boolValue];
     [YooSeeApplication shareApplication].pwd2cu = responseDic[@"pwd2cu"];
-    NSString *imageUrl = responseDic[@"startgg"];
-    imageUrl = imageUrl ? imageUrl : @"";
-    if (isShow && imageUrl.length > 0)
-    {
-        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:nil imageUrl:imageUrl isShowProcess:YES];
-        [self.view addSubview:splashImageView];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self.avPlayerView removeFromSuperview];
-        //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(addMainView) userInfo:nil repeats:NO];
-    }
-//    else
+//    BOOL isShow = [responseDic[@"ifshow"] boolValue];
+//    NSString *imageUrl = responseDic[@"startgg"];
+//    imageUrl = imageUrl ? imageUrl : @"";
+//    if (isShow && imageUrl.length > 0)
 //    {
-//        [self addMainView];
+//        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:nil imageUrl:imageUrl isShowProcess:YES];
+//        [self.view addSubview:splashImageView];
+//        [[NSNotificationCenter defaultCenter] removeObserver:self];
+//        [self.avPlayerView removeFromSuperview];
+//        //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(addMainView) userInfo:nil repeats:NO];
 //    }
+////    else
+////    {
+////        [self addMainView];
+////    }
     NSString *username = [USER_DEFAULT objectForKey:@"UserName"];
     username = username ? username : @"";
-    NSString *password = [USER_DEFAULT objectForKey:@"Password"];
-    password = password ? password : @"";
-    if ([CommonTool isEmailOrPhoneNumber:username] && password.length > 0)
+    NSString *token = [USER_DEFAULT objectForKey:@"Token"];
+    token = token ? token : @"";
+    if ([CommonTool isEmailOrPhoneNumber:username] && token.length > 0)
     {
-        loginViewController =[[LoginViewController alloc] init];
-        [loginViewController userLoginRequestWithUsername:username password:password];
+        [self autoLoginWithUserName:username token:token];
     }
     else
     {
         [LoadingView dismissLoadingView];
-        [self loginFinish];
+        [self addMainView];
     }
 }
 
-- (void)loginFinish
+
+- (void)autoLoginWithUserName:(NSString *)userName token:(NSString *)token
 {
-    [self addMainView];
+    [LoadingView showLoadingView];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = @{@"phone":userName,@"token":token};
+    [[RequestTool alloc] requestWithUrl:AUTO_USER_LOGIN_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"LOGIN_SERVER_URL===%@",responseDic);
+         
+         NSDictionary *dataDic = responseDic;
+         int returnCode = [dataDic[@"returnCode"] intValue];
+         if (returnCode == 8)
+         {
+             [USER_DEFAULT setValue:userName forKey:@"UserName"];
+             [weakSelf setLoginDataWithDictionary:responseDic];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"LOGIN_SERVER_URL====%@",error);
+         [LoadingView dismissLoadingView];
+         [weakSelf addMainView];
+     }];
 }
+
+
+#pragma mark 保存系统数据
+- (void)setLoginDataWithDictionary:(NSDictionary *)dataDic
+{
+    [YooSeeApplication shareApplication].userDic = dataDic[@"resultList"][0];
+    [USER_DEFAULT setValue:dataDic[@"resultList"][0][@"token"] forKey:@"Token"];
+    NSString *uid = dataDic[@"resultList"][0][@"user_id"];
+    uid = uid ? uid : @"";
+    [YooSeeApplication shareApplication].uid = uid;
+    [self login2CU];
+    
+}
+
+- (void)login2CU
+{
+    NSString *password = [YooSeeApplication shareApplication].pwd2cu;
+    NSString *email = [NSString stringWithFormat:@"newyywapp%@@yywapp.com",[USER_DEFAULT objectForKey:@"UserName"]];
+    // 登陆2cu
+    NSString *username = email;
+    
+    NSString *clientId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    clientId = [clientId stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    
+    LoginResult *loginResult = [[LoginResult alloc] init];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String],@"Token":clientId,@"StoreID":@"0"};
+    requestDic = [RequestDataTool makeRequestDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:LOGIN_2CU_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeSynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"2cu_USER_LOGIN_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"error_code"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 0)
+         {
+             [YooSeeApplication shareApplication].user2CUDic = dataDic;
+             int iContactId = ((NSString*)dataDic[@"UserID"]).intValue & 0x7fffffff;
+             loginResult.contactId = [NSString stringWithFormat:@"0%i",iContactId];
+             loginResult.rCode1 = dataDic[@"P2PVerifyCode1"];
+             loginResult.rCode2 = dataDic[@"P2PVerifyCode2"];
+             loginResult.phone = dataDic[@"PhoneNO"];
+             loginResult.email = dataDic[@"Email"];
+             loginResult.sessionId = dataDic[@"SessionID"];
+             loginResult.countryCode = dataDic[@"CountryCode"];
+             loginResult.error_code = [dataDic[@"error_code"] integerValue];
+             [UDManager setIsLogin:YES];
+             [UDManager setLoginInfo:loginResult];
+             
+             BOOL result = [[P2PClient sharedClient] p2pConnectWithId:loginResult.contactId  codeStr1:loginResult.rCode1 codeStr2:loginResult.rCode2];
+             NSLog(@"p2pConnect success.===%d",result);
+             
+             NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
+             defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
+             if (defaultDeviceID.length != 0)
+             {
+                 ContactDAO *contactDAO = [[ContactDAO alloc] init];
+                 Contact *contact = [contactDAO isContact:defaultDeviceID];
+                 if (contact)
+                 {
+                     [YooSeeApplication shareApplication].contact = contact;
+                 }
+             }
+             [YooSeeApplication shareApplication].isLogin = YES;
+             [weakSelf dismissViewControllerAnimated:YES completion:nil];
+         }
+         else
+         {
+             
+         }
+         [weakSelf addMainView];
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         [LoadingView dismissLoadingView];
+         [weakSelf addMainView];
+         NSLog(@"2cu_USER_LOGIN_URL====%@",error);
+     }];
+}
+
 
 
 - (void)addMainView

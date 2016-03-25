@@ -293,7 +293,7 @@
         return YES;
     }
     
-    NSArray *deviceArray = [USER_DEFAULT objectForKey:@"devInfoList"];
+    NSArray *deviceArray = [YooSeeApplication shareApplication].devInfoListArray;
     if (!deviceArray || [deviceArray count] == 0)
     {
         isAdd = NO;

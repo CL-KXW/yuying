@@ -167,8 +167,8 @@
 {
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"phone":username,@"passwd":[CommonTool md5:password]};
-    [[RequestTool alloc] desRequestWithUrl:USER_LOGIN_URL
+    NSDictionary *requestDic = @{@"phone":username,@"password":[RequestDataTool aesDataWithString:[CommonTool md5:password]]};
+    [[RequestTool alloc] requestWithUrl:USER_LOGIN_URL
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -178,16 +178,14 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : LOADING_FAIL;
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [USER_DEFAULT setValue:username forKey:@"UserName"];
-             [USER_DEFAULT setValue:password forKey:@"Password"];
              [weakSelf setDataWithDictionary:dataDic];
          }
          else
          {
              [LoadingView dismissLoadingView];
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
      }
@@ -195,7 +193,6 @@
      {
          NSLog(@"USER_LOGIN_URL====%@",error);
          [LoadingView dismissLoadingView];
-         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
          [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
     
@@ -204,8 +201,9 @@
 #pragma mark 保存系统数据
 - (void)setDataWithDictionary:(NSDictionary *)dataDic
 {
-    [YooSeeApplication shareApplication].userDic = dataDic[@"body"][0];
-    NSString *uid = dataDic[@"body"][0][@"uid"];
+    [YooSeeApplication shareApplication].userDic = dataDic[@"resultList"][0];
+    [USER_DEFAULT setValue:dataDic[@"resultList"][0][@"token"] forKey:@"Token"];
+    NSString *uid = dataDic[@"resultList"][0][@"user_id"];
     uid = uid ? uid : @"";
     [YooSeeApplication shareApplication].uid = uid;
     [self login2CU];
@@ -225,6 +223,7 @@
     LoginResult *loginResult = [[LoginResult alloc] init];
     __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String],@"Token":clientId,@"StoreID":@"0"};
+    requestDic = [RequestDataTool makeRequestDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:LOGIN_2CU_URL
                             requestParamas:requestDic
                                requestType:RequestTypeSynchronous
@@ -267,124 +266,19 @@
                  }
              }
              [YooSeeApplication shareApplication].isLogin = YES;
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
              [weakSelf dismissViewControllerAnimated:YES completion:nil];
          }
          else
          {
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
+             
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginFinish" object:nil];
          [LoadingView dismissLoadingView];
          NSLog(@"2cu_USER_LOGIN_URL====%@",error);
      }];
 
-    
-    
-//    [[NetManager sharedManager] loginWithUserName:username password:password token:/*[UserDefaults objectForKey:@"2cu_token"]*/[NSString UUID] callBack:^(id result) {
-//        
-//        LoginResult *loginResult = (LoginResult*)result;
-//        /*! *设置登录状态 */
-//        [UDManager setIsLogin:loginResult.error_code == NET_RET_LOGIN_SUCCESS];
-//        switch (loginResult.error_code) {
-//            case NET_RET_LOGIN_SUCCESS:
-//                
-//                NSLog(@"contactId:%@",loginResult.contactId);
-//                NSLog(@"Email:%@",loginResult.email);
-//                NSLog(@"Phone:%@",loginResult.phone);
-//                NSLog(@"CountryCode:%@",loginResult.countryCode);
-//                [UDManager setLoginInfo:loginResult];
-//                
-//                [[NetManager sharedManager] getAccountInfo:loginResult.contactId sessionId:loginResult.sessionId callBack:^(id JSON)
-//                {
-//                    AccountResult *accountResult = (AccountResult*)JSON;
-//                    loginResult.email = accountResult.email;
-//                    loginResult.phone = accountResult.phone;
-//                    loginResult.countryCode = accountResult.countryCode;
-//                    [UDManager setLoginInfo:loginResult];
-//                }];
-//                
-//                
-//                [[NetManager sharedManager] checkNewMessage:loginResult.contactId sessionId:loginResult.sessionId callBack:^(id JSON)
-//                 {
-//                     CheckNewMessageResult *checkNewMessageResult = (CheckNewMessageResult*)JSON;
-//                     
-//                     if(checkNewMessageResult.error_code == NET_RET_CHECK_NEW_MESSAGE_SUCCESS){
-//                         if(checkNewMessageResult.isNewContactMessage){
-//                             DLog(@"have new");
-//                             [[NetManager sharedManager] getContactMessageWithUsername:loginResult.contactId sessionId:loginResult.sessionId callBack:^(id JSON){
-//                                 NSArray *datas = [NSArray arrayWithArray:JSON];
-//                                 if([datas count]<=0){
-//                                     return;
-//                                 }
-//                                 BOOL haveContact = NO;
-//                                 for(GetContactMessageResult *result in datas){
-//                                     DLog(@"%@",result.message);
-//                                     ContactDAO *contactDAO = [[ContactDAO alloc] init];
-//                                     Contact *contact = [contactDAO isContact:result.contactId];
-//                                     if(nil!=contact){
-//                                         haveContact = YES;
-//                                     }
-//                                     [contactDAO release];
-//                                     
-//                                     MessageDAO *messageDAO = [[MessageDAO alloc] init];
-//                                     Message *message = [[Message alloc] init];
-//                                     
-//                                     message.fromId = result.contactId;
-//                                     message.toId = loginResult.contactId;
-//                                     message.message = [NSString stringWithFormat:@"%@",result.message];
-//                                     message.state = MESSAGE_STATE_NO_READ;
-//                                     message.time = [NSString stringWithFormat:@"%@",result.time];
-//                                     message.flag = result.flag;
-//                                     [messageDAO insert:message];
-//                                     [message release];
-//                                     [messageDAO release];
-//                                     int lastCount = [[FListManager sharedFList] getMessageCount:result.contactId];
-//                                     [[FListManager sharedFList] setMessageCountWithId:result.contactId count:lastCount+1];
-//                                     
-//                                 }
-//                                 if(haveContact)
-//                                 {
-//                                     [Utils playMusicWithName:@"message" type:@"mp3"];
-//                                 }
-//                                 
-//                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMessage"
-//                                                                                     object:self
-//                                                                                   userInfo:nil];
-//                             }];
-//                         }
-//                     }else{
-//                         
-//                     }
-//                 }];
-//                if(succes)succes();
-//                break;
-//            case NET_RET_LOGIN_USER_UNEXIST:
-//                // 用户不存在
-//                //[self.view makeToast:NSLocalizedString(@"user_unexist", nil)];
-//                [self register2Cu:succes];
-//                break;
-//            case NET_RET_LOGIN_PWD_ERROR:
-//                //  密码错误
-//                [self.view makeToast:NSLocalizedString(@"2cu平台帐号密码错误", nil)];
-//                break;
-//            case NET_RET_LOGIN_EMAIL_FORMAT_ERROR:
-//                
-//                
-//                //                    [self.view makeToast:NSLocalizedString(@"user_unexist", nil)];
-//                break;
-//            default:
-//                /*[[UIApplication sharedApplication].keyWindow makeToast:
-//                 [NSString stringWithFormat:@"%@:%i",NSLocalizedString(@"login_failure", nil),loginResult.error_code]
-//                 duration:2 position:@"center"];*/
-//                //弹出登陆视图
-//                //[[NSNotificationCenter defaultCenter] postNotificationName:@"doShowLoginVC" object:nil];
-//                break;
-//        }
-//    }];
 }
 
 

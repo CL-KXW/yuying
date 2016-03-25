@@ -141,7 +141,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"moneytype":@(3)};
-    [[RequestTool alloc] desRequestWithUrl:GET_GOLD_INFO
+    [[RequestTool alloc] requestWithUrl:GET_GOLD_INFO
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

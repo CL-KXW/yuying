@@ -113,7 +113,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"pageid":@(_currentPage),@"verytype":@"2"};
-    [[RequestTool alloc] desRequestWithUrl:GET_AD_LIST
+    [[RequestTool alloc] requestWithUrl:GET_AD_LIST
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

@@ -103,7 +103,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"account":self.idTextField.text,@"accinfo":@"支付宝",@"idname":self.nameTextField.text,@"acctype":@(2)};
-    [[RequestTool alloc] desRequestWithUrl:BIND_CARD_URL
+    [[RequestTool alloc] requestWithUrl:BIND_CARD_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

@@ -139,7 +139,7 @@
                                  @"hid" : @"",
                                  @"ifimg" : @"",
                                  @"dname" : self.deviceID};
-    [[RequestTool alloc] desRequestWithUrl:SET_DEVICE_URL
+    [[RequestTool alloc] requestWithUrl:SET_DEVICE_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

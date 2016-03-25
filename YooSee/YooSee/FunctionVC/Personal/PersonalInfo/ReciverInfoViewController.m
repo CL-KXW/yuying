@@ -156,7 +156,7 @@
 {
     [LoadingView showLoadingView];
     //__weak typeof(self) weakSelf = self;
-    [[RequestTool alloc] desRequestWithUrl:UPDATE_USER_INFO_URL
+    [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

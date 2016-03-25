@@ -202,7 +202,7 @@
     if(money.length == 0)
         return;
     NSDictionary *dic = @{@"uid":[[YooSeeApplication shareApplication] userDic][@"uid"],@"moneynum":money};
-    [[RequestTool alloc] desRequestWithUrl:CREATEORDER_URL requestParamas:dic requestType:RequestTypeAsynchronous requestSucess:^(AFHTTPRequestOperation *operation, id responseDic) {
+    [[RequestTool alloc] requestWithUrl:CREATEORDER_URL requestParamas:dic requestType:RequestTypeAsynchronous requestSucess:^(AFHTTPRequestOperation *operation, id responseDic) {
         if ([responseDic[@"returnCode"] intValue] == 1) {
             
             NSDictionary *dic = responseDic[@"body"];

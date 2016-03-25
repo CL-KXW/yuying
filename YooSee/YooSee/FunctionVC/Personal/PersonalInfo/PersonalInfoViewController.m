@@ -129,7 +129,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:BANK_CARD_LIST_URL
+    [[RequestTool alloc] requestWithUrl:BANK_CARD_LIST_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -410,7 +410,7 @@
     paramasDic[key] = string;
     paramasDic[@"uid"] = uid;
     NSDictionary *requestDic = paramasDic;
-    [[RequestTool alloc] desRequestWithUrl:UPDATE_USER_INFO_URL
+    [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -453,7 +453,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"paypasswd":@""};
-    [[RequestTool alloc] desRequestWithUrl:CHECK_PAY_PASSWORD_URL
+    [[RequestTool alloc] requestWithUrl:CHECK_PAY_PASSWORD_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

@@ -145,7 +145,7 @@
     __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = @{@"phone":self.phoneString,@"method":@(2)};
     NSString *url =  PHONE_CODE_URL;
-    [[RequestTool alloc] desRequestWithUrl:url
+    [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -226,7 +226,7 @@
         url = SET_PAY_PASSWOR_URL;
         requestDic = @{@"paypasswd":[CommonTool md5:self.surePassword], @"uid":[[YooSeeApplication shareApplication] uid], @"smscode":self.codeString};
     }
-    [[RequestTool alloc] desRequestWithUrl:url
+    [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

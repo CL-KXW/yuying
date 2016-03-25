@@ -126,7 +126,7 @@
         requestDic = @{@"uid":uid,@"oldpasswd":self.oldPassword,@"paypasswd":self.surePassword};
     }
     NSString *url =  weakSelf.isPayPassword ? SET_PAY_PASSWOR_URL : UPDATE_LOGIN_PWD_URL;
-    [[RequestTool alloc] desRequestWithUrl:url
+    [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

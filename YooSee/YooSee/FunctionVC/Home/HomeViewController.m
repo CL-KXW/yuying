@@ -336,7 +336,7 @@
     uid = uid ? uid : @"";
     int pos = 4;
     NSDictionary *requestDic = @{@"uid":uid,@"pos":@(pos)};
-    [[RequestTool alloc] desRequestWithUrl:GET_ADV_URL
+    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -374,7 +374,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:GET_HEADNEWS_URL
+    [[RequestTool alloc] requestWithUrl:GET_HEADNEWS_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -449,16 +449,82 @@
     }
     if (tag == 1)
     {
-        //AddCameraMainViewController *addCameraMainViewController = [[AddCameraMainViewController alloc] init];
-        //viewController = addCameraMainViewController;
-        CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
-        viewController = cameraMainViewController;
+        NSArray *array = [YooSeeApplication shareApplication].devInfoListArray;
+        if (!array)
+        {
+            [self getDeviceListRequest];
+        }
+        else
+        {
+            if ([array count] == 0)
+            {
+                AddCameraMainViewController *addCameraMainViewController = [[AddCameraMainViewController alloc] init];
+                viewController = addCameraMainViewController;
+            }
+            else
+            {
+                CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
+                viewController = cameraMainViewController;
+            }
+        }
+
+      
     }
     
     if (viewController)
     {
         [self.navigationController pushViewController:viewController animated:YES];
     }
+}
+
+
+#pragma mark 获取设备列表
+- (void)getDeviceListRequest
+{
+    [LoadingView showLoadingView];
+    __weak typeof(self) weakSelf = self;
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    NSDictionary *requestDic = @{@"uid":uid};
+    [[RequestTool alloc] requestWithUrl:DEVICE_LIST_URL
+                            requestParamas:requestDic
+                               requestType:RequestTypeAsynchronous
+                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"DEVICE_LIST_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 1)
+         {
+             NSArray *bodyArray = dataDic[@"body"];
+             if ([bodyArray count] == 0 || !bodyArray)
+             {
+                 [YooSeeApplication shareApplication].devInfoListArray = [NSArray array];
+                 AddCameraMainViewController *addCameraMainViewController = [[AddCameraMainViewController alloc] init];
+                 [weakSelf.navigationController pushViewController:addCameraMainViewController animated:YES];
+             }
+             else
+             {
+                 [YooSeeApplication shareApplication].devInfoListArray = bodyArray;
+                 CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
+                 [weakSelf.navigationController pushViewController:cameraMainViewController animated:YES];
+             }
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"GET_ADV_URL====%@",error);
+         [LoadingView dismissLoadingView];
+         [SVProgressHUD showErrorWithStatus:@"加载失败"];
+     }];
+    
 }
 
 #pragma mark item功能按钮

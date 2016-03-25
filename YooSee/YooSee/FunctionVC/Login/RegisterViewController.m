@@ -169,12 +169,13 @@
 
 - (void)getCodeRequest
 {
+    
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"phone":self.phoneString,@"method":@(1)};
+    NSDictionary *requestDic = @{@"phone":self.phoneString,@"ip":IP_ADDRESS};
     NSString *url =  PHONE_CODE_URL;
-    [[RequestTool alloc] desRequestWithUrl:url
+    [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -185,7 +186,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"发送成功"];
              [weakSelf createTimer];
@@ -250,9 +251,10 @@
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"phone":self.phoneString,@"passwd":[CommonTool md5:self.surePassword],@"verifysms":self.codeString,@"method":@(1)};
+    NSDictionary *requestDic = @{@"phone":self.phoneString,@"userpwd":[CommonTool md5:self.surePassword],@"code":self.codeString,@"ip":IP_ADDRESS};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     NSString *url =  REGISTER_URL;
-    [[RequestTool alloc] desRequestWithUrl:url
+    [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -263,7 +265,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              //[SVProgressHUD showSuccessWithStatus:@"修改成功"];
              [[NSNotificationCenter defaultCenter] postNotificationName:@"RegisterSucess" object:@[self.phoneString,self.surePassword]];

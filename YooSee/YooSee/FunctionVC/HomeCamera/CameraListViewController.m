@@ -150,7 +150,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] desRequestWithUrl:DEVICE_LIST_URL
+    [[RequestTool alloc] requestWithUrl:DEVICE_LIST_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -193,10 +193,15 @@
     
     if ([bodyArray count] == 0 || !bodyArray)
     {
+        [YooSeeApplication shareApplication].devInfoListArray = [NSArray array];
         [CommonTool addPopTipWithMessage:@"暂无数据"];
         [YooSeeApplication shareApplication].contact = nil;
         [USER_DEFAULT removeObjectForKey:@"DefaultDeviceID"];
         [self.table reloadData];
+        
+        AddCameraMainViewController *addCameraMainViewContorller = [[AddCameraMainViewController alloc] init];
+        [self.navigationController pushViewController:addCameraMainViewContorller animated:YES];
+        
         return;
     }
     else
@@ -238,7 +243,7 @@
     self.dataArray = [NSArray arrayWithArray:bodyArray];
     //[self setDataSourceArray:[NSMutableArray arrayWithArray:body]];
     
-    [USER_DEFAULT setObject:bodyArray forKey:@"devInfoList"];
+    [YooSeeApplication shareApplication].devInfoListArray = bodyArray;
     
     // 检查是否在线
     [[P2PClient sharedClient] getContactsStates:_deviceIDArray];
@@ -289,7 +294,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"uid":uid,@"did":deviceID};
-    [[RequestTool alloc] desRequestWithUrl:DELETE_DEVICE_URL
+    [[RequestTool alloc] requestWithUrl:DELETE_DEVICE_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
