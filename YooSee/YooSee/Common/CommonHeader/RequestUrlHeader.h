@@ -41,10 +41,13 @@
 #define ALARM_2CU_URL               @"http://cloudlinks.cn/Alarm/AlarmRecordEx.ashx"
 
 //个人信息
-#define USER_INFO_URL               MAKE_REQUEST_URL(@"yyw_userinfo")
+#define USER_INFO_URL               MAKE_REQUEST_URL(@"app/user/querybyID")
+
+//上传图片
+#define UPLOAD_PIC_URL              MAKE_REQUEST_URL(@"image/file/upload")
 
 //更新个人信息
-#define UPDATE_USER_INFO_URL        MAKE_REQUEST_URL(@"yyw_userinfo_update")
+#define UPDATE_USER_INFO_URL        MAKE_REQUEST_URL(@"app/user/update/material")
 
 //修改密码
 #define UPDATE_LOGIN_PWD_URL        MAKE_REQUEST_URL(@"yyw_updatepwd")
@@ -68,7 +71,7 @@
 #define GET_ADV_URL                 MAKE_REQUEST_URL(@"app/guanggaowei/querybyUserId")
 
 //获取头条
-#define GET_HEADNEWS_URL            MAKE_REQUEST_URL(@"yyw_headlines_list")
+#define GET_HEADNEWS_URL            MAKE_REQUEST_URL(@"app/system/headline")
 
 //设置设备信息
 #define SET_DEVICE_URL              MAKE_REQUEST_URL(@"yyw_setdevice")
