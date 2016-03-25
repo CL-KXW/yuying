@@ -31,13 +31,15 @@
 #import "NewsListViewController.h"
 #import "GoldLibraryViewController.h"
 #import "RedPackgeLibraryVC.h"
+#import "UpLoadPhotoTool.h"
 
-@interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface UserCenterMainViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UploadPhotoDelegate>
 
 @property (nonatomic, strong) NSArray *otherTitleArray;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) BannerView *bannerView;
 @property (nonatomic, strong) UITableView *otherTableView;
+@property (nonatomic, strong) UpLoadPhotoTool *uploadTool;
 
 
 @end
@@ -177,29 +179,15 @@
     NSDictionary *userInfoDic = [YooSeeApplication shareApplication].userInfoDic;
     NSDictionary *dataDic = (userInfoDic) ? userInfoDic : userDic;
     
-    NSString *imageUrl = dataDic[@"headpicurl"];
+    NSString *imageUrl = dataDic[@"head_url"];
     imageUrl = imageUrl ? imageUrl : @"";
     
     NSString *username = dataDic[@"username"];
     username = username ? username : @"";
+
     
-    NSString *home = NSHomeDirectory();
-    
-    // 2.document路径
-    NSString *docPath = [home stringByAppendingPathComponent:@"Documents"];
-    
-    // 3.文件路径
-    NSString *filepath = [docPath stringByAppendingPathComponent:@"headerPic.jpg"];
-    
-    UIImage *image = [UIImage imageWithContentsOfFile:filepath];
-    
-    UIImageView *imageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) placeholderImage:[UIImage imageNamed:@"user_icon_default"] borderColor:DE_TEXT_COLOR imageUrl:(image) ? @"" : imageUrl];
+    UIImageView *imageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) placeholderImage:[UIImage imageNamed:@"user_icon_default"] borderColor:DE_TEXT_COLOR imageUrl:imageUrl];
     [view addSubview:imageView];
-    
-    if (image)
-    {
-        imageView.image = image;
-    }
     
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
@@ -275,7 +263,7 @@
     __weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
+    NSDictionary *requestDic = @{@"id":uid};
     [[RequestTool alloc] requestWithUrl:USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -286,9 +274,9 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
-             [YooSeeApplication shareApplication].userInfoDic = dataDic[@"body"];
+             [YooSeeApplication shareApplication].userInfoDic = dataDic[@"resultList"];
              [weakSelf.table reloadData];
          }
          else
@@ -378,11 +366,108 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
 {
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [LoadingView showLoadingView];
+    _uploadTool = [[UpLoadPhotoTool alloc] initWithPhotoArray:@[image] upLoadUrl:UPLOAD_PIC_URL requestData:nil];
+    _uploadTool.delegate = self;
     
-    NSData *data = UIImageJPEGRepresentation(image, 1.0);
-    NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents/headerPic.jpg"];
-    [data writeToFile:path atomically:YES];
-    [picker dismissViewControllerAnimated:YES completion:Nil];
+}
+
+#pragma mark UpLoadPhotoDelegate
+- (void)uploadPhotoSucessed:(UpLoadPhotoTool *)upLoadPhotoTool
+{
+    [LoadingView dismissLoadingView];
+    NSDictionary *dataDic = upLoadPhotoTool.responseDic;
+    if (!dataDic)
+    {
+        [SVProgressHUD showErrorWithStatus:@"上传失败"];
+        return;
+    }
+    int status = [dataDic[@"returnCode"] intValue];
+    NSString *message = dataDic[@"returnMessage"];
+    message = message ? message : @"上传失败";
+    if (status == 8)
+    {
+        [self updateUseInfoWithImageUrl:dataDic[@"access_url"]];
+    }
+    else
+    {
+        [SVProgressHUD showErrorWithStatus:message];
+    }
+    
+}
+- (void)uploadPhotoFailed:(UpLoadPhotoTool *)upLoadPhotoTool
+{
+    [LoadingView dismissLoadingView];
+    [SVProgressHUD showErrorWithStatus:@"上传失败"];
+}
+
+- (void)isUploadingPhotoWithProcess:(float)process
+{
+    //[SVProgressHUD showWithStatus:[NSString stringWithFormat:@"已上传%.1f％",process * 100]];
+}
+
+- (void)updateUseInfoWithImageUrl:(NSString *)imageUrl
+{
+    imageUrl = imageUrl ? imageUrl : @"";
+    if (imageUrl.length == 0)
+    {
+        return;
+    }
+    [self changeUserInfoRequest:imageUrl forKey:@"head_url"];
+}
+
+#pragma mark 修改个人信息
+- (void)changeUserInfoRequest:(NSString *)string forKey:(NSString *)key
+{
+    string = string ? string : @"";
+    key = key ? key : @"";
+    if (key.length == 0)
+    {
+        return;
+    }
+    [LoadingView showLoadingView];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *dataDic = [YooSeeApplication shareApplication].userInfoDic;
+    NSMutableDictionary *paramasDic = [NSMutableDictionary dictionaryWithCapacity:0];
+    paramasDic[@"id"] = dataDic[@"id"];
+    paramasDic[@"alipay"] = dataDic[@"alipay"] ? dataDic[@"alipay"] : @"";
+    paramasDic[@"head_url"] = dataDic[@"head_url"] ? dataDic[@"head_url"] : @"";
+    paramasDic[@"avg"] = dataDic[@"avg"] ? dataDic[@"avg"] : @"1";
+    paramasDic[@"sex"] = (dataDic[@"sex"] && [dataDic[@"sex"] isEqualToString:@"女"]) ? @"2" : @"1";
+    paramasDic[@"name"] = dataDic[@"name"] ? dataDic[@"name"] : @"";
+    paramasDic[@"xingqu_id"] = dataDic[@"xingqu_id"] ? dataDic[@"xingqu_id"] : @"1";
+    paramasDic[@"username"] = dataDic[@"username"] ? dataDic[@"username"] : @"";
+    paramasDic[key] = string;
+    NSDictionary *requestDic = [RequestDataTool encryptWithDictionary:paramasDic];
+    [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"UPDATE_USER_INFO_URL===%@",responseDic);
+         [LoadingView dismissLoadingView];
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         if (errorCode == 8)
+         {
+             [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+             [YooSeeApplication shareApplication].userInfoDic = paramasDic;
+             [weakSelf.table reloadData];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"UPDATE_USER_INFO_URL====%@",error);
+         [LoadingView dismissLoadingView];
+         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+     }];
 }
 
 

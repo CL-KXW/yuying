@@ -74,9 +74,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePassword) name:@"ChangedPassword" object:nil];
     
     [self initUI];
+
     
-    //获取广告
-    [self getAdvRequest];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAdvSucess:) name:@"GetAdvSucess" object:nil];
+
     //获取头条消息
     [self getHeadNewsRequest];
     // Do any additional setup after loading the view.
@@ -86,6 +87,7 @@
 - (void)initUI
 {
     [self addTableView];
+    [self addTableViewHeader];
     [self addTelephoneView];
 }
 
@@ -98,6 +100,17 @@
 
 - (void)addTableViewHeader
 {
+    NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
+    NSArray *array = infoDic[@"home_page_List"];
+    if (array && array.count > 0)
+    {
+        self.bannerListArray = [NSArray arrayWithArray:array];
+    }
+    else
+    {
+        [self.table setTableHeaderView:nil];
+        return;
+    }
     UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.table.frame.size.width, ADV_HEIGHT + SPACE_Y) placeholderImage:nil];
     
     float y = SPACE_Y;
@@ -112,7 +125,7 @@
         }
         for (NSDictionary *dataDic in self.bannerListArray)
         {
-            NSString *imageUrl = dataDic[@"meitiurl"];
+            NSString *imageUrl = dataDic[@"image_url"];
             imageUrl = imageUrl ? imageUrl : @"";
             if (imageUrl.length > 0)
             {
@@ -122,29 +135,42 @@
         }
     }
     __weak typeof(self) weakSelf = self;
-    _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(x, y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
-    _bannerView.AutoScrollDelay = 3;
-    _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
-    [CommonTool clipView:_bannerView withCornerRadius:10.0];
-    [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
-     {
-         NSLog(@"网络图片 %d",index);
-         NSDictionary *dic = weakSelf.bannerListArray[index];
-         NSString *urlString = dic[@"linkurl"];
-         urlString = urlString ? urlString : @"";
-         if (urlString.length == 0)
+    if (!_bannerView)
+    {
+        _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(x, y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
+        _bannerView.AutoScrollDelay = 3;
+        _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
+        [CommonTool clipView:_bannerView withCornerRadius:10.0];
+        [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
          {
-             return;
-         }
-         WebViewController *webViewController = [[WebViewController alloc] init];
-         webViewController.urlString = urlString;
-         webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
-         [weakSelf.navigationController pushViewController:webViewController animated:YES];
-     }];
+             NSLog(@"网络图片 %d",index);
+             NSDictionary *dic = weakSelf.bannerListArray[index];
+             NSString *urlString = dic[@"image_href_url"];
+             urlString = urlString ? urlString : @"";
+             if (urlString.length == 0)
+             {
+                 return;
+             }
+             WebViewController *webViewController = [[WebViewController alloc] init];
+             webViewController.urlString = urlString;
+             webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
+             [weakSelf.navigationController pushViewController:webViewController animated:YES];
+         }];
+    }
+
     [headerView addSubview:_bannerView];
     
     [self.table setTableHeaderView:headerView];
 }
+
+
+
+
+- (void)getAdvSucess:(NSNotification *)notification
+{
+    [self addTableViewHeader];
+}
+
 
 #pragma mark 新闻头条
 - (void)initHeadNewView
@@ -221,9 +247,9 @@
     {
         //详情
         NSDictionary *dataDic = self.headNewsListArray[_newIndex];
-        if ([dataDic[@"targettype"] integerValue] == 2)
+        //if ([dataDic[@"targettype"] integerValue] == 2)
         {
-            NSString *url = dataDic[@"targetpage"];
+            NSString *url = dataDic[@"url"];
             url = url ? url : @"";
             NSString *title = dataDic[@"title"];
             title = title ? title : @"点亮科技";
@@ -327,53 +353,15 @@
     }
 }
 
-
-#pragma mark 获取广告
-- (void)getAdvRequest
-{
-    __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    int pos = 4;
-    NSDictionary *requestDic = @{@"uid":uid,@"pos":@(pos)};
-    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"GET_ADV_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
-         {
-             //[weakSelf setDataWithDictionary:dataDic];
-             weakSelf.bannerListArray = dataDic[@"body"];
-             if (weakSelf.bannerListArray && [weakSelf.bannerListArray count] > 0)
-             {
-                 [weakSelf addTableViewHeader];
-             }
-         }
-         else
-         {
-             //[SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"GET_ADV_URL====%@",error);
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
-     }];
-}
-
 #pragma mark 获取头条消息
 - (void)getHeadNewsRequest
 {
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
+    NSString *cityID = [YooSeeApplication shareApplication].cityID;
+    cityID = cityID ? cityID : @"1";
+    NSString *provinceID = [YooSeeApplication shareApplication].provinceID;
+    provinceID = provinceID ? provinceID : @"1";
+    NSDictionary *requestDic = @{@"city_id":cityID,@"province_id":provinceID};
     [[RequestTool alloc] requestWithUrl:GET_HEADNEWS_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -384,10 +372,10 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              //[weakSelf setDataWithDictionary:dataDic];
-             weakSelf.headNewsListArray = dataDic[@"body"];
+             weakSelf.headNewsListArray = dataDic[@"resultList"];
              [weakSelf.table reloadData];
          }
          else

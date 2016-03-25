@@ -22,6 +22,7 @@
 }
 
 @property (nonatomic, strong) AvPlayerView *avPlayerView;
+@property (nonatomic, strong) NSString *imageUrl;
 
 @end
 
@@ -30,9 +31,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self initUI];
     [self initData];
     [self addNotification];
+    
+    [DELEGATE getAdvListWithRequestType:RequestTypeSynchronous];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -62,6 +67,21 @@
 - (void)addNotification
 {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(videoPlayFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAdvSucess:) name:@"GetAdvSucess" object:nil];
+    
+}
+
+
+- (void)getAdvSucess:(NSNotification *)notification
+{
+    NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
+    NSArray *array = infoDic[@"start_diagram_List"];
+    if (array && [array count] > 0)
+    {
+        NSString *imageUrl =  array[0][@"image_url"];
+        imageUrl = imageUrl ? imageUrl : @"";
+        self.imageUrl = imageUrl;
+    }
 }
 
 - (void)videoPlayFinished:(NSNotification *)notification
@@ -124,21 +144,23 @@
     [YooSeeApplication shareApplication].loginServerDic = responseDic;
     [DELEGATE checkUpdateShowTip:NO];
     [YooSeeApplication shareApplication].pwd2cu = responseDic[@"pwd2cu"];
-//    BOOL isShow = [responseDic[@"ifshow"] boolValue];
-//    NSString *imageUrl = responseDic[@"startgg"];
-//    imageUrl = imageUrl ? imageUrl : @"";
-//    if (isShow && imageUrl.length > 0)
-//    {
-//        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:nil imageUrl:imageUrl isShowProcess:YES];
-//        [self.view addSubview:splashImageView];
-//        [[NSNotificationCenter defaultCenter] removeObserver:self];
-//        [self.avPlayerView removeFromSuperview];
-//        //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(addMainView) userInfo:nil repeats:NO];
-//    }
-////    else
-////    {
-////        [self addMainView];
-////    }
+    
+    if (self.imageUrl.length > 0)
+    {
+        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:[UIImage imageNamed:@"KJ.jpg"] imageUrl:self.imageUrl isShowProcess:YES];
+        [self.view addSubview:splashImageView];
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [self.avPlayerView removeFromSuperview];
+        [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(next) userInfo:nil repeats:NO];
+    }
+    else
+    {
+        [self next];
+    }
+}
+
+- (void)next
+{
     NSString *username = [USER_DEFAULT objectForKey:@"UserName"];
     username = username ? username : @"";
     NSString *token = [USER_DEFAULT objectForKey:@"Token"];
@@ -188,9 +210,9 @@
 - (void)setLoginDataWithDictionary:(NSDictionary *)dataDic
 {
     NSDictionary *dic = dataDic[@"resultList"][0];
-    [YooSeeApplication shareApplication].userDic = dataDic;
-    [USER_DEFAULT setValue:dataDic[@"token"] forKey:@"Token"];
-    NSString *uid = dataDic[@"user_id"];
+    [YooSeeApplication shareApplication].userDic = dic;
+    [USER_DEFAULT setValue:dic[@"token"] forKey:@"Token"];
+    NSString *uid = dic[@"id"];
     uid = uid ? uid : @"";
     [YooSeeApplication shareApplication].uid = uid;
     
@@ -204,7 +226,7 @@
     
     [self login2CU];
     
-    [DELEGATE getAdvList];
+    [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
     
 }
 

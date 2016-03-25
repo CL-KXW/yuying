@@ -232,7 +232,7 @@
 {
     [YooSeeApplication shareApplication].isLogin = NO;
     [USER_DEFAULT removeObjectForKey:@"UserName"];
-    [USER_DEFAULT removeObjectForKey:@"Password"];
+    [USER_DEFAULT removeObjectForKey:@"Token"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

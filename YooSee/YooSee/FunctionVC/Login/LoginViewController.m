@@ -202,9 +202,9 @@
 - (void)setDataWithDictionary:(NSDictionary *)dataDic
 {
     NSDictionary *dic = dataDic[@"resultList"][0];
-    [YooSeeApplication shareApplication].userDic = dataDic;
-    [USER_DEFAULT setValue:dataDic[@"token"] forKey:@"Token"];
-    NSString *uid = dataDic[@"user_id"];
+    [YooSeeApplication shareApplication].userDic = dic;
+    [USER_DEFAULT setValue:dic[@"token"] forKey:@"Token"];
+    NSString *uid = dic[@"user_id"];
     uid = uid ? uid : @"";
     [YooSeeApplication shareApplication].uid = uid;
     
@@ -218,7 +218,7 @@
     
     [self login2CU];
     
-    [DELEGATE getAdvList];
+    [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
 
 }
 

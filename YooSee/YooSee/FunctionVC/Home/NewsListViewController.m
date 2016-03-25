@@ -50,9 +50,11 @@
 {
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
+    NSString *cityID = [YooSeeApplication shareApplication].cityID;
+    cityID = cityID ? cityID : @"1";
+    NSString *provinceID = [YooSeeApplication shareApplication].provinceID;
+    provinceID = provinceID ? provinceID : @"1";
+    NSDictionary *requestDic = @{@"city_id":cityID,@"province_id":provinceID};
     [[RequestTool alloc] requestWithUrl:GET_HEADNEWS_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -64,10 +66,10 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              //[weakSelf setDataWithDictionary:dataDic];
-             weakSelf.dataArray = dataDic[@"body"];
+             weakSelf.dataArray = dataDic[@"resultList"];
              [weakSelf.table reloadData];
          }
          else
@@ -122,8 +124,8 @@
     
     cell.headerImageView.image = [UIImage imageNamed:@"icon_news"];
     cell.nameLabel.text = dataDic[@"title"];
-    cell.timeLabel.text = dataDic[@"logtime"];
-    cell.titleLabel.text = dataDic[@"info"];
+    cell.timeLabel.text = dataDic[@"begin_time"];
+    cell.titleLabel.text = dataDic[@"description"];
     
     return cell;
 }
