@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) NSString *deviceId;
 @property (strong, nonatomic) NSString *alarmTime;
+@property (strong, nonatomic) NSString *imageUrl;
 @property (nonatomic) int alarmType;
 @property (nonatomic) int alarmGroup;
 @property (nonatomic) int alarmItem;

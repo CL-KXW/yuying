@@ -24,22 +24,24 @@
 {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
     manager.requestSerializer = [AFHTTPRequestSerializer  serializer];
-    //[manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSLog(@"manager.requestSerializer===%@",manager.requestSerializer.HTTPRequestHeaders);
     manager.requestSerializer.timeoutInterval = TIMEOUT;
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
     NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
-    NSDictionary *requestDic = [RequestDataTool makeRequestDictionary:paramas];
-    requestOperation = [manager POST:url parameters:requestDic
+    requestOperation = [manager POST:url parameters:paramas
           success:^(AFHTTPRequestOperation *operation,id responeDic)
           {
+              NSString *response = operation.responseString;
               NSLog(@"allHeaders===%@",operation.response.allHeaderFields);
-              if ([responeDic isKindOfClass:[NSDictionary class]] || [responeDic isKindOfClass:[NSMutableDictionary class]])
+              if (response)
               {
+                  NSDictionary *dataDic = [RequestDataTool decryptMessage:response];
+                  responeDic = (dataDic) ? dataDic : [RequestDataTool decryptJSON:response];
                   if (sucess)
                   {
-                      sucess(operation,responeDic);
+                      sucess(operation, responeDic);
                   }
               }
               else
@@ -65,56 +67,6 @@
     }
 }
 
-//发起请求
-- (void)desRequestWithUrl:(NSString *)url requestParamas:(NSDictionary *)paramas requestType:(RequestType)type requestSucess:(void (^)(AFHTTPRequestOperation *operation,id responseDic))sucess requestFail:(void (^)(AFHTTPRequestOperation *operation,NSError *error))fail
-{
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
-    manager.requestSerializer = [AFHTTPRequestSerializer  serializer];
-    //[manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    NSLog(@"manager.requestSerializer===%@",manager.requestSerializer.HTTPRequestHeaders);
-    manager.requestSerializer.timeoutInterval = TIMEOUT;
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
-    NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
-    NSDictionary *requestDic = [RequestDataTool makeRequestDictionary:paramas];
-    NSString *requestString = [RequestDataTool encryptWithDictionary:requestDic];
-    requestDic = @{@"json":requestString};
-    requestOperation = [manager POST:url parameters:requestDic
-                             success:^(AFHTTPRequestOperation *operation,id responeData)
-                        {
-                            NSLog(@"operation.responseString===%@",operation.responseString);
-                            NSDictionary *responeDic = [RequestDataTool decryptJSON:operation.responseString];
-                            NSLog(@"responeDic===%@",responeDic);
-                            if ([responeDic isKindOfClass:[NSDictionary class]] || [responeDic isKindOfClass:[NSArray class]])
-                            {
-                                if (sucess)
-                                {
-                                    sucess(operation,responeDic);
-                                }
-                            }
-                            else
-                            {
-                                //服务器异常
-                                if (fail)
-                                {
-                                    fail(operation,nil);
-                                }
-                            }
-                        }
-                             failure:^(AFHTTPRequestOperation *operation,NSError *error)
-                        {
-                            if (fail)
-                            {
-                                fail(operation,error);
-                            }
-                        }];
-    
-    if (RequestTypeSynchronous == type)
-    {
-        [requestOperation waitUntilFinished];
-    }
-}
-
 
 //发起请求
 - (void)getRequestWithUrl:(NSString *)url requestParamas:(NSDictionary *)paramas requestType:(RequestType)type requestSucess:(void (^)(AFHTTPRequestOperation *operation,id responseDic))sucess requestFail:(void (^)(AFHTTPRequestOperation *operation,NSError *error))fail
@@ -128,7 +80,7 @@
     requestOperation = [manager GET:url parameters:paramas
                         success:^(AFHTTPRequestOperation *operation,id responeDic)
                         {
-                            responeDic = [RequestDataTool decryptJSON:operation.responseString];
+                            //responeDic = [RequestDataTool decryptJSON:operation.responseString];
                             if ([responeDic isKindOfClass:[NSDictionary class]] || [responeDic isKindOfClass:[NSMutableDictionary class]])
                             {
                                 if (sucess)

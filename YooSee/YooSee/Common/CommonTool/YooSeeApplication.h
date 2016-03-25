@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSString *pwd2cu;
 @property (nonatomic, strong) LoginResult *loginResult;
 @property (nonatomic, strong) NSDictionary *loginServerDic;
+@property (nonatomic, strong) NSArray *devInfoListArray;
 
 + (instancetype)shareApplication;
 

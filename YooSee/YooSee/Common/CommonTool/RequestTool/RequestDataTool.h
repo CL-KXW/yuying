@@ -6,19 +6,28 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
-#define DESKEY          @"DESKEY"
-#define SERVICE         @"SERVICE"
-#define SERVICE_URL     @"SERVICEURL"
+
+#define AES_KEY                     @"4934505598453075"
 
 #import <Foundation/Foundation.h>
-#import "DesUtil.h"
 
 @interface RequestDataTool : NSObject
 
+//拼接数据
 + (NSDictionary *)makeRequestDictionary:(NSDictionary *)dataDic;
 
-+ (NSString *)encryptWithDictionary:(NSDictionary *)requestDic;
+//单一加密
++ (NSString *)aesDataWithString:(NSString *)string;
 
+//整体加密
++ (NSDictionary *)encryptWithDictionary:(NSDictionary *)requestDic;
+
+//Aes
 + (id)decryptJSON:(NSString *)response;
+
+//明文
++ (id)decryptMessage:(NSString *)response;
+
+
 
 @end

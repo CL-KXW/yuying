@@ -11,22 +11,25 @@
 
 //#define SERVER_URL                  @"http://zhouqiubo.vicp.cc:9998/koi"
 //#define SERVER_URL                  @"http://1.199.40.48:8086/koi"
-#define SERVER_URL                  @"http://112.74.135.133/yyw/"
+#define SERVER_URL                  @"http://yyw.dianliangtech.com/dianliang/"
 #define Y1Y_SERVER_URL              @"http://112.74.135.133/yywapp/"
 
-#define MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@.flow",SERVER_URL,inf]
+#define MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@",SERVER_URL,inf]
 #define Y1Y_MAKE_REQUEST_URL(inf)   [NSString stringWithFormat:@"%@%@.flow",Y1Y_SERVER_URL,inf]
 //登录服务器
-#define LOGIN_SERVER_URL            MAKE_REQUEST_URL(@"yyw_getsysdata")
+#define LOGIN_SERVER_URL            MAKE_REQUEST_URL(@"app/system/version")
 
 //登录
-#define USER_LOGIN_URL              MAKE_REQUEST_URL(@"yyw_login")
+#define USER_LOGIN_URL              MAKE_REQUEST_URL(@"app/user/login")
+
+//自动登录
+#define AUTO_USER_LOGIN_URL         MAKE_REQUEST_URL(@"app/user/loginByToken")
 
 //注册/忘记密码
-#define REGISTER_URL                MAKE_REQUEST_URL(@"yyw_register")
+#define REGISTER_URL                MAKE_REQUEST_URL(@"app/user/register")
 
-//短信验证码
-#define PHONE_CODE_URL              MAKE_REQUEST_URL(@"yyw_sendverifysms")
+//注册短信验证码
+#define PHONE_CODE_URL              MAKE_REQUEST_URL(@"send/message/code")
 
 //2cu_login
 #define LOGIN_2CU_URL               @"http://cloudlinks.cn/Users/LoginCheck.ashx"

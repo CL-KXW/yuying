@@ -18,13 +18,15 @@
 //渠道号
 #define CHANNEL_ID                  @"0001"
 //平台
-#define PLATFORM                    @"IOS"
+#define PLATFORM                    @"ios"
 //系统版本号
 #define SYSTEM_VERSION              [[UIDevice currentDevice] systemVersion]
 
 /******设置参数*****/
 #define ISFIRST_KEY                 @"IsFirst"
 //#define DES_KEY                    @"DES_KEY"
+#define IP_ADDRESS                  @"110.110.100.110"
+
 
 /******网页相关*****/
 //商城优惠
