@@ -57,9 +57,10 @@
 #pragma mark 检查更新
 - (void)checkUpdateShowTip:(BOOL)isShow
 {
-    float minVersion = [[YooSeeApplication shareApplication].loginServerDic[@"minversion"] floatValue];
-    float appVersion = [PRODUCT_VERSION floatValue];
-    float newVersion = [[YooSeeApplication shareApplication].loginServerDic[@"minversion"] floatValue];
+    float newVersion = [[YooSeeApplication shareApplication].loginServerDic[@"version_number"] floatValue];
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = infoDict[@"CFBundleShortVersionString"];
+    float appVersion = [version floatValue];
     if (appVersion == newVersion)
     {
         if (isShow)
@@ -68,12 +69,7 @@
         }
         return;
     }
-    if (appVersion < minVersion)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发现新版本" delegate:self cancelButtonTitle:@"升级" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    if (appVersion > minVersion && appVersion < newVersion)
+    if (appVersion < newVersion)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发现新版本" delegate:self cancelButtonTitle:@"升级" otherButtonTitles:@"取消", nil];
         [alert show];
