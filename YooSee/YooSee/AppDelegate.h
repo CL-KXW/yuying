@@ -15,7 +15,7 @@
 
 - (void)checkUpdateShowTip:(BOOL)isShow;
 
-- (void)getAdvList;
+- (void)getAdvListWithRequestType:(RequestType)requestType;
 
 @end
 

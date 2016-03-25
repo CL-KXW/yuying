@@ -95,12 +95,11 @@
 
 
 #pragma mark 获取广告
-- (void)getAdvList
+- (void)getAdvListWithRequestType:(RequestType)requestType
 {
-    [LoadingView showLoadingView];
-    __weak typeof(self) weakSelf = self;
+    //__weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
+    uid = uid ? uid : @"0";
     NSString *cityID = [YooSeeApplication shareApplication].cityID;
     cityID = cityID ? cityID : @"1";
     NSString *provinceID = [YooSeeApplication shareApplication].provinceID;
@@ -108,7 +107,7 @@
     NSDictionary *requestDic = @{@"user_id":uid,@"city_id":cityID,@"province_id":provinceID};
     [[RequestTool alloc] requestWithUrl:GET_ADV_URL
                          requestParamas:requestDic
-                            requestType:RequestTypeAsynchronous
+                            requestType:requestType
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"GET_ADV_URL===%@",responseDic);
@@ -117,14 +116,13 @@
          int returnCode = [dataDic[@"returnCode"] intValue];
          if (returnCode == 8)
          {
-             //[USER_DEFAULT setValue:userName forKey:@"UserName"];
-             //[weakSelf setLoginDataWithDictionary:responseDic];
+             [USER_DEFAULT setValue:responseDic forKey:@"AdvInfo"];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"GetAdvSucess" object:nil userInfo:nil];
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"GET_ADV_URL====%@",error);
-         [LoadingView dismissLoadingView];
      }];
 }
 
