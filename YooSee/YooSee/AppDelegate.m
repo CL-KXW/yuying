@@ -32,16 +32,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    
+    
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window = window;
     [self.window makeKeyAndVisible];
     
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
     
-    [self getAdvList];
-    
     SplashScreenViewController *splashScreenViewController = [[SplashScreenViewController alloc] init];
     self.window.rootViewController = splashScreenViewController;
+    
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMessage:) name:RECEIVE_REMOTE_MESSAGE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ack_receiveRemoteMessage:) name:ACK_RECEIVE_REMOTE_MESSAGE object:nil];
@@ -105,7 +108,7 @@
     NSDictionary *requestDic = @{@"user_id":uid,@"city_id":cityID,@"province_id":provinceID};
     [[RequestTool alloc] requestWithUrl:GET_ADV_URL
                          requestParamas:requestDic
-                            requestType:RequestTypeSynchronous
+                            requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"GET_ADV_URL===%@",responseDic);
