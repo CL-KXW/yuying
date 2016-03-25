@@ -38,6 +38,8 @@
     
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
     
+    [self getAdvList];
+    
     SplashScreenViewController *splashScreenViewController = [[SplashScreenViewController alloc] init];
     self.window.rootViewController = splashScreenViewController;
     
@@ -88,6 +90,40 @@
     }
 }
 
+
+#pragma mark 获取广告
+- (void)getAdvList
+{
+    [LoadingView showLoadingView];
+    __weak typeof(self) weakSelf = self;
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    NSString *cityID = [YooSeeApplication shareApplication].cityID;
+    cityID = cityID ? cityID : @"1";
+    NSString *provinceID = [YooSeeApplication shareApplication].provinceID;
+    provinceID = provinceID ? provinceID : @"1";
+    NSDictionary *requestDic = @{@"user_id":uid,@"city_id":cityID,@"province_id":provinceID};
+    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeSynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"GET_ADV_URL===%@",responseDic);
+         
+         NSDictionary *dataDic = responseDic;
+         int returnCode = [dataDic[@"returnCode"] intValue];
+         if (returnCode == 8)
+         {
+             //[USER_DEFAULT setValue:userName forKey:@"UserName"];
+             //[weakSelf setLoginDataWithDictionary:responseDic];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"GET_ADV_URL====%@",error);
+         [LoadingView dismissLoadingView];
+     }];
+}
 
 
 #pragma mark - NSNotification

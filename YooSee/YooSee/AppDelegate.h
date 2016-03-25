@@ -15,5 +15,7 @@
 
 - (void)checkUpdateShowTip:(BOOL)isShow;
 
+- (void)getAdvList;
+
 @end
 

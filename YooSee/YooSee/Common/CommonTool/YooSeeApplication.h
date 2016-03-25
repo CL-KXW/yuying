@@ -22,6 +22,8 @@
 @property (nonatomic, strong) LoginResult *loginResult;
 @property (nonatomic, strong) NSDictionary *loginServerDic;
 @property (nonatomic, strong) NSArray *devInfoListArray;
+@property (nonatomic, strong) NSString *cityID;
+@property (nonatomic, strong) NSString *provinceID;
 
 + (instancetype)shareApplication;
 

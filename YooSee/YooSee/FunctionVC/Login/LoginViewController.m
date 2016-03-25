@@ -209,14 +209,16 @@
     [YooSeeApplication shareApplication].uid = uid;
     
     NSString *cityID = dic[@"city_id"];
-    cityID = cityID ? cityID : @"";
+    cityID = cityID ? cityID : @"1";
     [YooSeeApplication shareApplication].cityID = cityID;
     
     NSString *provinceID = dic[@"province_id"];
-    provinceID = provinceID ? provinceID : @"";
+    provinceID = provinceID ? provinceID : @"1";
     [YooSeeApplication shareApplication].provinceID = provinceID;
     
     [self login2CU];
+    
+    [DELEGATE getAdvList];
 
 }
 
