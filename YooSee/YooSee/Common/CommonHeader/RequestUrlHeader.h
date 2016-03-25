@@ -65,7 +65,7 @@
 #define BIND_CARD_URL               MAKE_REQUEST_URL(@"yyw_user_bindcard")
 
 //获取广告
-#define GET_ADV_URL                 MAKE_REQUEST_URL(@"yyw_getgg_new")
+#define GET_ADV_URL                 MAKE_REQUEST_URL(@"app/guanggaowei/querybyUserId")
 
 //获取头条
 #define GET_HEADNEWS_URL            MAKE_REQUEST_URL(@"yyw_headlines_list")

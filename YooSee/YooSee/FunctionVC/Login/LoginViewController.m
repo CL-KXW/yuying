@@ -201,11 +201,21 @@
 #pragma mark 保存系统数据
 - (void)setDataWithDictionary:(NSDictionary *)dataDic
 {
-    [YooSeeApplication shareApplication].userDic = dataDic[@"resultList"][0];
-    [USER_DEFAULT setValue:dataDic[@"resultList"][0][@"token"] forKey:@"Token"];
-    NSString *uid = dataDic[@"resultList"][0][@"user_id"];
+    NSDictionary *dic = dataDic[@"resultList"][0];
+    [YooSeeApplication shareApplication].userDic = dataDic;
+    [USER_DEFAULT setValue:dataDic[@"token"] forKey:@"Token"];
+    NSString *uid = dataDic[@"user_id"];
     uid = uid ? uid : @"";
     [YooSeeApplication shareApplication].uid = uid;
+    
+    NSString *cityID = dic[@"city_id"];
+    cityID = cityID ? cityID : @"";
+    [YooSeeApplication shareApplication].cityID = cityID;
+    
+    NSString *provinceID = dic[@"province_id"];
+    provinceID = provinceID ? provinceID : @"";
+    [YooSeeApplication shareApplication].provinceID = provinceID;
+    
     [self login2CU];
 
 }
