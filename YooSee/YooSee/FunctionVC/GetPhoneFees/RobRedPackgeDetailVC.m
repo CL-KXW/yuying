@@ -65,6 +65,7 @@
     } else {
         scroll.contentSize = CGSizeMake(SCREEN_WIDTH ,SCREEN_HEIGHT + 1);
     }
+    [self request];
 }
 
 - (void)unrobView {
@@ -85,4 +86,41 @@
     self.resultDescLabel.hidden = YES;
 }
 
+- (void)request {
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    
+    NSDictionary *requestDic = @{
+                                 @"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.redPackgeId]};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_DETAIL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"ROB_RED_PACKGE_DETAIL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"ROB_RED_PACKGE_DETAIL====%@",error);
+     }];
+}
 @end

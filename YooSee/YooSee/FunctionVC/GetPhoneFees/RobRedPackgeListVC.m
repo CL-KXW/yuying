@@ -9,15 +9,25 @@
 #import "RobRedPackgeListVC.h"
 #import "RobRedPackgeListCell.h"
 #import "RobRedPackgeDetailVC.h"
+@interface RobRedPackgeListVC ()
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@end
 
 @implementation RobRedPackgeListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"抢红包";
+    self.dataArray = [NSMutableArray array];
+    
     [self addBackItem];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:1 tableDelegate:self];
     self.table.separatorStyle = 0;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self refreshData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -37,25 +47,27 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return _dataArray.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *dic = _dataArray[indexPath.section];
     static NSString *key = @"cellID";
     RobRedPackgeListCell *cell = [tableView dequeueReusableCellWithIdentifier:key];
     if (!cell) {
         cell = [[RobRedPackgeListCell alloc] initWithStyle:0 reuseIdentifier:key];
     }
-    [cell.iconImageView setImageWithURL:[NSURL URLWithString:@""]];
-    cell.descLabel.text = @"测试测试";
+    [cell.iconImageView setImageWithURL:[NSURL URLWithString:dic[@"logo"]]];
+    cell.descLabel.text = dic[@"shop_name"];
     return cell;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    NSDictionary *dic = _dataArray[section];
     UIView *header = [[UIView alloc] init];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 20)];
     label.textColor = [UIColor grayColor];
-    label.text = @" 12:30 ";
+    label.text = [NSString stringWithFormat:@" %@ ", dic[@"publish_time"]];
     label.backgroundColor = [UIColor lightGrayColor];
     label.layer.cornerRadius = 2;
     label.layer.masksToBounds = YES;
@@ -72,13 +84,76 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *dic = _dataArray[indexPath.section];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     RobRedPackgeDetailVC *detail = [[RobRedPackgeDetailVC alloc] init];
-    detail.redPackgeId = @"1";
+    detail.redPackgeId = dic[@"only_number"];
     [self.navigationController pushViewController:detail animated:YES];
 }
 
 - (void)request {
-    
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    NSString *pid = [[YooSeeApplication shareApplication] provinceID];
+    NSString *cid = [[YooSeeApplication shareApplication] cityID];
+    NSDictionary *requestDic = @{
+                                 @"province_id":[NSString stringWithFormat:@"%@",pid],
+                                 @"city_id":[NSString stringWithFormat:@"%@",cid],
+                                 @"hongbao_type":@"1",
+                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
+                                 @"startid":@"0"};
+    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_LIST
+                            requestParamas:requestDic
+                               requestType:RequestTypeAsynchronous
+                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"ROB_RED_PACKGE_LIST===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             @synchronized(_dataArray) {
+                 if (_currentPage == 1) {
+                     [_dataArray removeAllObjects];
+                 }
+                 NSArray *ary = dataDic[@"resultList"];
+                 if (ary && [ary isKindOfClass:[NSArray class]]) {
+                     [_dataArray addObjectsFromArray:ary];
+                 } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
+                     [_dataArray addObject:ary];
+                 }
+                 [self.table reloadData];
+             }
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }
+                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"ROB_RED_PACKGE_LIST====%@",error);
+         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }];
+}
+
+- (void)refreshData {
+    [super refreshData];
+    [self request];
+}
+
+- (void)getMoreData {
+    [super getMoreData];
+    [self request];
 }
 @end

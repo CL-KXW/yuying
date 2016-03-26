@@ -153,4 +153,12 @@
 //提现申请
 #define MONEY_DRAWCASHSUBMIT        MAKE_REQUEST_URL(@"yyw_money_drawcashsubmit")
 
+//抢红包列表
+#define ROB_RED_PACKGE_LIST             MAKE_REQUEST_URL(@"app/red/send/querybyCity_id")
+
+//点击红包进入红包详情
+#define ROB_RED_PACKGE_DETAIL       MAKE_REQUEST_URL(@"app/red/get/add")
+
+//我的红包列表
+#define MY_RED_PACKGE_LIST          MAKE_REQUEST_URL(@"app/red/get/querybylingqu_user_id")
 #endif

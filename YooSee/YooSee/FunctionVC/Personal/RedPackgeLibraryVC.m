@@ -25,15 +25,15 @@
     [self addBackItem];
     self.title = @"红包库";
     self.hasGetArray = [NSMutableArray array];
-    [self.hasGetArray addObject:@"1"];
-    [self.hasGetArray addObject:@"1"];
-    [self.hasGetArray addObject:@"1"];
+//    [self.hasGetArray addObject:@"1"];
+//    [self.hasGetArray addObject:@"1"];
+//    [self.hasGetArray addObject:@"1"];
 
     self.ungetArray = [NSMutableArray array];
-    [self.ungetArray addObject:@"1"];
-    [self.ungetArray addObject:@"1"];
-    [self.ungetArray addObject:@"1"];
-    [self.ungetArray addObject:@"1"];
+//    [self.ungetArray addObject:@"1"];
+//    [self.ungetArray addObject:@"1"];
+//    [self.ungetArray addObject:@"1"];
+//    [self.ungetArray addObject:@"1"];
     [self performSelector:@selector(initViews) withObject:nil afterDelay:0.1];
 }
 
@@ -85,6 +85,7 @@
     _selectView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH * 0.5, 4)];
     _selectView.backgroundColor = RGB(252, 100, 45);
     [_ungetBtn addSubview:_selectView];
+    [self segmentViewAction:_ungetBtn];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -108,15 +109,21 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *dic = nil;
+    if (tableView == self.ungetTable) {
+        dic = self.ungetArray[indexPath.row];
+    } else {
+        dic = self.hasGetArray[indexPath.row];
+    }
     static NSString *key = @"cellID";
     RedPackgeLibraryCell *cell = [tableView dequeueReusableCellWithIdentifier:key];
     if (!cell) {
         cell = [[RedPackgeLibraryCell alloc] initWithStyle:0 reuseIdentifier:key];
     }
-    cell.nameLabel.text = @"gagagaga";
-    cell.descLabel.text = @"hahahahaha";
-    cell.timeLabel.text = @"2016.10.10";
-    cell.moneyLabel.text = @"0.25元";
+    cell.nameLabel.text = dic[@"shop_name"];
+    cell.descLabel.text = dic[@"contact_phone"];
+    cell.timeLabel.text = dic[@"update_time"];
+    cell.moneyLabel.text = dic[@"lingqu_money"];
     if (tableView == _ungetTable) {
         cell.moneyLabel.hidden = YES;
     } else {
@@ -139,5 +146,108 @@
     } else {
         [_hasGetBtn addSubview:_selectView];
     }
+    if (self.hasGetBtn.selected == YES) {
+        if (self.hasGetArray.count == 0) {
+            [self requestHadGetRedPackage];
+        }
+    } else {
+        if (self.ungetArray.count == 0) {
+            [self requestUngetRedPackage];
+        }
+    }
+}
+
+- (void)requestHadGetRedPackage {
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    
+    NSDictionary *requestDic = @{
+                                 @"lingqu_user_id":uid,
+                                 @"type":@"2",
+                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
+                                 @"startid":@"0"};
+    [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"MY_RED_PACKGE_LIST===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             [_hasGetArray removeAllObjects];
+             NSArray *ary = dataDic[@"resultList"];
+             if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
+                 [_hasGetArray addObjectsFromArray:ary];
+             } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
+                 [_hasGetArray addObject:ary];
+             }
+             [self.hasGetTable reloadData];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"MY_RED_PACKGE_LIST====%@",error);
+     }];
+}
+
+- (void)requestUngetRedPackage {
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    
+    NSDictionary *requestDic = @{
+                                 @"lingqu_user_id":uid,
+                                 @"type":@"1",
+                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
+                                 @"startid":@"0"};
+    [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"MY_RED_PACKGE_LIST===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             [_ungetArray removeAllObjects];
+             NSArray *ary = dataDic[@"resultList"];
+             if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
+                 [_ungetArray addObjectsFromArray:ary];
+             } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
+                 [_ungetArray addObject:ary];
+             }
+             [self.ungetTable reloadData];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"MY_RED_PACKGE_LIST====%@",error);
+     }];
 }
 @end
