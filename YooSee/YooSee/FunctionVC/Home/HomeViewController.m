@@ -472,8 +472,7 @@
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
+    NSDictionary *requestDic = @{@"userid":uid};
     [[RequestTool alloc] requestWithUrl:DEVICE_LIST_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -485,17 +484,27 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
-             NSArray *bodyArray = dataDic[@"body"];
+             NSArray *bodyArray = dataDic[@"resultList"];
              if ([bodyArray count] == 0 || !bodyArray)
              {
-                 [YooSeeApplication shareApplication].devInfoListArray = [NSArray array];
+                 [YooSeeApplication shareApplication].devInfoListArray = nil;
                  AddCameraMainViewController *addCameraMainViewController = [[AddCameraMainViewController alloc] init];
                  [weakSelf.navigationController pushViewController:addCameraMainViewController animated:YES];
              }
              else
              {
+                 NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
+                 if (!defaultDeviceID)
+                 {
+                     defaultDeviceID = [NSString stringWithFormat:@"%@",bodyArray[0][@"camera_number"]];
+                     [USER_DEFAULT setObject:defaultDeviceID forKey:@"DefaultDeviceID"];
+                     Contact *contact = [[Contact alloc] init];
+                     contact.contactId = defaultDeviceID;
+                     contact.contactName = defaultDeviceID;
+                     [YooSeeApplication shareApplication].contact = contact;
+                 }
                  [YooSeeApplication shareApplication].devInfoListArray = bodyArray;
                  CameraMainViewController *cameraMainViewController = [[CameraMainViewController alloc] init];
                  [weakSelf.navigationController pushViewController:cameraMainViewController animated:YES];

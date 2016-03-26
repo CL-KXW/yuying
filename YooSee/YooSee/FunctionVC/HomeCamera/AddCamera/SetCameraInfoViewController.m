@@ -30,7 +30,7 @@
 @property (nonatomic, strong) CustomTextField *nameTextField;
 @property (nonatomic, strong) UIButton *imageButton;
 @property (nonatomic, strong) UIImage *headImage;
-@property (nonatomic, strong) UpLoadPhotoTool *upLoadTool;
+@property (nonatomic, strong) UpLoadPhotoTool *uploadTool;
 
 @end
 
@@ -93,6 +93,7 @@
     if (self.imageUrl && self.imageUrl.length > 0)
     {
         [_imageButton setBackgroundImageWithURL:[NSURL URLWithString:self.imageUrl] forState:UIControlStateNormal];
+        [_imageButton setTitle:@"" forState:UIControlStateNormal];
     }
     
     y += _imageButton.frame.size.height + 3 * VIEW_ADD_Y;
@@ -152,30 +153,11 @@
     self.headImage = image;
     NSLog(@"info===%@",info);
     [picker dismissViewControllerAnimated:YES completion:Nil];
-}
-
-
-#pragma mark 完成
-- (void)infoButtonPressed:(UIButton *)sender
-{
     [LoadingView showLoadingView];
-    NSString *name = self.nameTextField.textField.text;
-    name = name ? name : self.deviceID;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
+    _uploadTool = [[UpLoadPhotoTool alloc] initWithPhotoArray:@[image] upLoadUrl:UPLOAD_PIC_URL requestData:nil];
+    _uploadTool.delegate = self;
     
-    NSDictionary *requestDic = @{@"uid" : uid,
-                                 @"did" : self.deviceID,
-                                 @"optype" : @"2",
-                                 @"hid" : @"0",
-                                 @"ifimg" : self.headImage ? @"Y" : @"N",
-                                 @"dname" : name};
-    _upLoadTool = [[UpLoadPhotoTool alloc] initWithPhotoArray:self.headImage ? @[self.headImage] : nil upLoadUrl:SET_DEVICE_URL requestData:requestDic];
-    _upLoadTool.delegate = self;
-    //[self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-
 
 #pragma mark UpLoadPhotoDelegate
 - (void)uploadPhotoSucessed:(UpLoadPhotoTool *)upLoadPhotoTool
@@ -190,10 +172,15 @@
     int status = [dataDic[@"returnCode"] intValue];
     NSString *message = dataDic[@"returnMessage"];
     message = message ? message : @"上传失败";
-    if (status == 1)
+    if (status == 8)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        self.imageUrl = dataDic[@"access_url"];
+        self.imageUrl = self.imageUrl ? self.imageUrl : @"";
+        if (self.imageUrl && self.imageUrl.length > 0)
+        {
+            [_imageButton setBackgroundImageWithURL:[NSURL URLWithString:self.imageUrl] forState:UIControlStateNormal];
+            [_imageButton setTitle:@"" forState:UIControlStateNormal];
+        }
     }
     else
     {
@@ -211,6 +198,63 @@
 {
     //[SVProgressHUD showWithStatus:[NSString stringWithFormat:@"已上传%.1f％",process * 100]];
 }
+
+#pragma mark 完成
+- (void)infoButtonPressed:(UIButton *)sender
+{
+    [LoadingView showLoadingView];
+    NSString *name = self.nameTextField.textField.text;
+    name = name ? name : self.deviceID;
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = @{@"camera_name" : name,
+                                 @"id" : self.deviceID,
+                                 @"address_gps" : @"",
+                                 @"longitude" : @"",
+                                 @"latitude" : @"",
+                                 @"camera_cover" : self.imageUrl ? self.imageUrl : @""};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:UPDATE_DEVICE_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"UPDATE_DEVICE_URL===%@",responseDic);
+         [LoadingView dismissLoadingView];
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         if (errorCode == 8)
+         {
+             [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
+             if (weakSelf.contact)
+             {
+                 
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+             }
+             else
+             {
+                 [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+             }
+
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"UPDATE_DEVICE_URL====%@",error);
+         [LoadingView dismissLoadingView];
+         [SVProgressHUD showErrorWithStatus:@"保存失败"];
+     }];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

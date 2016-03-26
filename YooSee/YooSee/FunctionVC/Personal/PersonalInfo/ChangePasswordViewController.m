@@ -118,14 +118,14 @@
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"oldpwd":[CommonTool md5:self.oldPassword],@"newpwd":[CommonTool md5:self.surePassword]};
+    NSString *phone = [USER_DEFAULT objectForKey:@"UserName"];
+    NSDictionary *requestDic = @{@"phone":phone,@"userpwd":[CommonTool md5:self.oldPassword],@"newpaypwd":[CommonTool md5:self.surePassword]};
     if (self.isPayPassword)
     {
-        requestDic = @{@"uid":uid,@"oldpasswd":self.oldPassword,@"paypasswd":self.surePassword};
+        requestDic = @{@"paypwd_old":[CommonTool md5:self.oldPassword],@"paypwd_new":[CommonTool md5:self.surePassword],@"phone":phone};
     }
-    NSString *url =  weakSelf.isPayPassword ? SET_PAY_PASSWOR_URL : UPDATE_LOGIN_PWD_URL;
+    NSString *url =  weakSelf.isPayPassword ? UPDATE_PAY_PASSWOR_URL : UPDATE_LOGIN_PWD_URL;
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -137,7 +137,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"修改成功"];
              [USER_DEFAULT setObject:self.surePassword forKey:@"Password"];

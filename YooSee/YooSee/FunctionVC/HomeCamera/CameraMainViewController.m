@@ -83,9 +83,6 @@
     
     [self addGestures];
     
-    [self getAdvRequestWithPostion:5];
-    [self getAdvRequestWithPostion:9];
-    
     self.isReject = YES;
     [self connectCamera];
     [self addNotifications];
@@ -116,14 +113,22 @@
 {
     Contact *contact = [YooSeeApplication  shareApplication].contact;
     ContactDAO *contactDAO = [[ContactDAO alloc] init];
-    contact = [contactDAO isContact:contact.contactId];
-    if (contact)
+    Contact *contact1 = [contactDAO isContact:contact.contactId];
+    if (contact1)
     {
-        [self setUpCallWithId:contact.contactId
-                     password:contact.contactPassword
+        [self setUpCallWithId:contact1.contactId
+                     password:contact1.contactPassword
                      callType:P2PCALL_TYPE_MONITOR];
         
         self.nameLabel.text = contact.contactName;
+    }
+    else
+    {
+        [self setUpCallWithId:contact.contactId
+                     password:@""
+                     callType:P2PCALL_TYPE_MONITOR];
+        
+        self.nameLabel.text = contact.contactId;
     }
 }
 
@@ -157,6 +162,13 @@
         _bannerView = nil;
     }
     
+    NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
+    NSArray *array = infoDic[@"camera_List"];
+    if (array && array.count > 0)
+    {
+        self.bannerListArray = [NSArray arrayWithArray:array];
+    }
+    
     NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:0];
     
     if (self.bannerListArray && [self.bannerListArray count] > 0)
@@ -171,7 +183,7 @@
         }
         for (NSDictionary *dataDic in self.bannerListArray)
         {
-            NSString *imageUrl = dataDic[@"meitiurl"];
+            NSString *imageUrl = dataDic[@"image_url"];
             imageUrl = imageUrl ? imageUrl : @"";
             if (imageUrl.length > 0)
             {
@@ -190,7 +202,7 @@
      {
          NSLog(@"网络图片 %d",index);
          NSDictionary *dic = weakSelf.bannerListArray[index];
-         NSString *urlString = dic[@"linkurl"];
+         NSString *urlString = dic[@"image_href_url"];
          urlString = urlString ? urlString : @"";
          if (urlString.length == 0)
          {
@@ -253,6 +265,15 @@
     [self.remoteView addSubview:_advImageView];
     UIButton *button = [CreateViewTool createButtonWithFrame:_advImageView.frame buttonImage:@"" selectorName:@"platerAdvPressed" tagDelegate:self];
     [_advImageView addSubview:button];
+    
+    NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
+    NSArray *array = infoDic[@"phomeVideo"];
+    if (array && array.count > 0)
+    {
+        self.playerDic = array[0];
+        [_advImageView setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]]];
+    }
+    
     
     //进度
     _videoProgressView = [CreateViewTool createLabelWithFrame:CGRectMake(0, self.remoteView.frame.size.height, PROCESS_HEIGHT, self.remoteView.frame.size.height) textString:@"" textColor:nil textFont:FONT(14)];
@@ -551,62 +572,13 @@
 - (void)platerAdvPressed
 {
     NSString *title = self.playerDic[@"title"];
-    title = title ? title : @"";
-    NSString *url = self.playerDic[@"linkurl"];
+    title = title ? title : @"点亮科技";
+    NSString *url = self.playerDic[@"image_href_url"];
     url = url ? url : @"";
     PlayerAdvDetailViewController *playerAdvDetailViewController = [[PlayerAdvDetailViewController alloc] init];
     playerAdvDetailViewController.urlString = url;
     playerAdvDetailViewController.title = title;
     [self.navigationController pushViewController:playerAdvDetailViewController animated:YES];
-}
-
-#pragma mark 获取广告
-//postion 5 家生活 9视频广告
-- (void)getAdvRequestWithPostion:(int)postion
-{
-    __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"pos":@(postion)};
-    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"GET_ADV_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
-         {
-             //[weakSelf setDataWithDictionary:dataDic];
-             if (postion == 5)
-             {
-                 weakSelf.bannerListArray = dataDic[@"body"];
-                 [weakSelf addAdvView];
-             }
-             else if (postion == 9)
-             {
-                 NSArray *array = dataDic[@"body"];
-                 NSDictionary *dic = array[0];
-                 NSString *imageUrl = dic[@"meitiurl"];
-                 imageUrl = imageUrl ? imageUrl : @"";
-                 weakSelf.playerDic = array[0];
-                 [weakSelf.advImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"adv_default"]];
-             }
-
-         }
-         else
-         {
-             //[SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"GET_ADV_URL====%@",error);
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
-     }];
 }
 
 

@@ -148,8 +148,7 @@
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
+    NSDictionary *requestDic = @{@"userid":uid};
     [[RequestTool alloc] requestWithUrl:DEVICE_LIST_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -161,7 +160,7 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [weakSelf setDataWithDictionary:dataDic];
          }
@@ -182,7 +181,7 @@
 #pragma mark 设置数据
 - (void)setDataWithDictionary:(NSDictionary *)dataDic
 {
-    NSArray *bodyArray = dataDic[@"body"];
+    NSArray *bodyArray = dataDic[@"resultList"];
     if (!_deviceIDArray)
     {
         _deviceIDArray = [NSMutableArray array];
@@ -193,7 +192,7 @@
     
     if ([bodyArray count] == 0 || !bodyArray)
     {
-        [YooSeeApplication shareApplication].devInfoListArray = [NSArray array];
+        [YooSeeApplication shareApplication].devInfoListArray = nil;
         [CommonTool addPopTipWithMessage:@"暂无数据"];
         [YooSeeApplication shareApplication].contact = nil;
         [USER_DEFAULT removeObjectForKey:@"DefaultDeviceID"];
@@ -210,30 +209,31 @@
         for (int i = 0; i < [bodyArray count]; i++)
         {
             NSDictionary *dict = bodyArray[i];
-            NSString *deviceid = dict[@"deviceid"];
+            NSString *deviceid = [NSString stringWithFormat:@"%@",dict[@"camera_number"]];
             
             [_deviceIDArray addObject:deviceid];
             ContactDAO *contactDAO = [[ContactDAO alloc] init];
             Contact *contact = [contactDAO isContact:deviceid];
             NSLog(@"%ld",(long)contact.defenceState);
-            NSLog(@"%@",dict[@"dname"]);
+            NSLog(@"%@",dict[@"camera_name"]);
             NSLog(@"%@",[bodyArray description]);
             if(!contact)
             {
                 contact = [[Contact alloc] init];
                 contact.contactId = deviceid;
-                contact.contactName = dict[@"dname"];
+                contact.contactName = dict[@"camera_name"];
                 [[FListManager sharedFList] insertContact:contact];
             }
             else
             {
-                contact.contactName = dict[@"dname"];
+                contact.contactName = dict[@"camera_name"];
                 [[FListManager sharedFList] update:contact];
             }
             
             if (!defaultDeviceID)
             {
-                defaultDeviceID = bodyArray[0][@"deviceid"];
+                
+                defaultDeviceID = [NSString stringWithFormat:@"%@",bodyArray[0][@"camera_number"]];
                 [USER_DEFAULT setObject:defaultDeviceID forKey:@"DefaultDeviceID"];
                 [YooSeeApplication shareApplication].contact = contact;
             }
@@ -263,7 +263,7 @@
         {
             for(NSDictionary *dic in bodyArray)
             {
-                if([contact.contactId isEqualToString:[dic objectForKey:@"deviceid"]])
+                if([contact.contactId isEqualToString:[NSString stringWithFormat:@"%@",dic[@"id"]]])
                 {
                     [self.contactArray addObject:contact];
                     [self.deviceIDArray addObject:contact.contactId];
@@ -291,9 +291,8 @@
     //DELETE_DEVICE_URL
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"did":deviceID};
+    NSDictionary *requestDic = @{@"id":deviceID};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:DELETE_DEVICE_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -305,7 +304,7 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [weakSelf getDeviceListRequest];
              [[FListManager sharedFList] deleteContact:contact];
@@ -328,6 +327,50 @@
      }];
 }
 
+//- (void)deleteDeviceRequestWithID:(NSString *)deviceID contact:(Contact *)contact
+//{
+//    if (!contact || deviceID.length == 0)
+//    {
+//        return;
+//    }
+//    //DELETE_DEVICE_URL
+//    [LoadingView showLoadingView];
+//    __weak typeof(self) weakSelf = self;
+//    NSDictionary *requestDic = @{@"id":deviceID};
+//    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+//    [[RequestTool alloc] requestWithUrl:DELETE_DEVICE_URL
+//                         requestParamas:requestDic
+//                            requestType:RequestTypeAsynchronous
+//                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+//     {
+//         NSLog(@"DELETE_DEVICE_URL===%@",responseDic);
+//         NSDictionary *dataDic = (NSDictionary *)responseDic;
+//         int errorCode = [dataDic[@"returnCode"] intValue];
+//         NSString *errorMessage = dataDic[@"returnMessage"];
+//         errorMessage = errorMessage ? errorMessage : @"";
+//         [LoadingView dismissLoadingView];
+//         if (errorCode == 8)
+//         {
+//             [weakSelf getDeviceListRequest];
+//             [[FListManager sharedFList] deleteContact:contact];
+//             NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
+//             defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
+//             if ([defaultDeviceID isEqualToString:contact.contactId])
+//             {
+//                 [USER_DEFAULT removeObjectForKey:@"DefaultDeviceID"];
+//             }
+//         }
+//         else
+//         {
+//             [SVProgressHUD showErrorWithStatus:errorMessage];
+//         }
+//     }
+//                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         NSLog(@"DELETE_DEVICE_URL====%@",error);
+//         [LoadingView dismissLoadingView];
+//     }];
+//}
 
 #pragma mark 检查状态
 //检查设备在线状态的定时器，该方法前3次每秒执行一次，后面每3秒执行一次
@@ -643,7 +686,7 @@
     SetCameraInfoViewController *setCameraInfoViewController = [[SetCameraInfoViewController alloc] init];
     setCameraInfoViewController.deviceID = contact.contactId;
     setCameraInfoViewController.contact = contact;
-    setCameraInfoViewController.imageUrl = self.dataArray[index][@"picurl"];
+    setCameraInfoViewController.imageUrl = self.dataArray[index][@"camera_cover"];
     [self.navigationController pushViewController:setCameraInfoViewController animated:YES];
 }
 
@@ -668,7 +711,7 @@
             return;
         }
         SettingCameraMainViewController *settingCameraMainViewController = [[SettingCameraMainViewController alloc] init];
-        settingCameraMainViewController.imageUrl = self.dataArray[row][@"picurl"];
+        settingCameraMainViewController.imageUrl = self.dataArray[row][@"camera_cover"];
         settingCameraMainViewController.contact = contact;
         viewController = settingCameraMainViewController;
     }
@@ -680,7 +723,7 @@
             return;
         }
         ReplayRecordFileViewController *replayRecordFileViewController = [[ReplayRecordFileViewController alloc] init];
-        replayRecordFileViewController.imageUrl = self.dataArray[row][@"picurl"];
+        replayRecordFileViewController.imageUrl = self.dataArray[row][@"camera_cover"];
         replayRecordFileViewController.contact = contact;
         viewController = replayRecordFileViewController;
     }

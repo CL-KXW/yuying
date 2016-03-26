@@ -56,9 +56,7 @@
     _otherTitleArray = @[@" 邀请好友",@" 分享",@" 软件升级"];
     
     [self initUI];
-    
-    //获取广告
-    [self getAdvRequest];
+
     //获取个人信息
     [self getUserInfoRequest];
 
@@ -75,6 +73,7 @@
 - (void)initUI
 {
     [self addTableView];
+    [self addTableViewHeader];
 }
 
 - (void)addTableView
@@ -88,7 +87,18 @@
 
 - (void)addTableViewHeader
 {
-    UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.table.frame.size.width, ADV_HEIGHT + HEADER_HEIGHT) placeholderImage:nil];
+    NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
+    NSArray *array = infoDic[@"personal_center_List"];
+    if (array && array.count > 0)
+    {
+        self.bannerListArray = [NSArray arrayWithArray:array];
+    }
+    else
+    {
+        [self.table setTableHeaderView:nil];
+        return;
+    }
+    UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.table.frame.size.width, ADV_HEIGHT + SPACE_Y) placeholderImage:nil];
     
     float y = SPACE_Y;
     float x = SPACE_X;
@@ -102,7 +112,7 @@
         }
         for (NSDictionary *dataDic in self.bannerListArray)
         {
-            NSString *imageUrl = dataDic[@"meitiurl"];
+            NSString *imageUrl = dataDic[@"image_url"];
             imageUrl = imageUrl ? imageUrl : @"";
             if (imageUrl.length > 0)
             {
@@ -112,29 +122,32 @@
         }
     }
     __weak typeof(self) weakSelf = self;
-    _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(x, y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
-    _bannerView.AutoScrollDelay = 3;
-    _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
-    [CommonTool clipView:_bannerView withCornerRadius:10.0];
-    [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
-     {
-         NSLog(@"网络图片 %d",index);
-         NSDictionary *dic = weakSelf.bannerListArray[index];
-         NSString *urlString = dic[@"linkurl"];
-         urlString = urlString ? urlString : @"";
-         if (urlString.length == 0)
+    if (!_bannerView)
+    {
+        _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(x, y, self.view.frame.size.width - 2 * SPACE_X, ADV_HEIGHT) WithNetImages:imageArray];
+        _bannerView.AutoScrollDelay = 3;
+        _bannerView.placeImage = [UIImage imageNamed:@"adv_default"];
+        [CommonTool clipView:_bannerView withCornerRadius:10.0];
+        [_bannerView setSmartImgdidSelectAtIndex:^(NSInteger index)
          {
-             return;
-         }
-         WebViewController *webViewController = [[WebViewController alloc] init];
-         webViewController.urlString = urlString;
-         webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
-         [weakSelf.navigationController pushViewController:webViewController animated:YES];
-     }];
+             NSLog(@"网络图片 %d",index);
+             NSDictionary *dic = weakSelf.bannerListArray[index];
+             NSString *urlString = dic[@"image_href_url"];
+             urlString = urlString ? urlString : @"";
+             if (urlString.length == 0)
+             {
+                 return;
+             }
+             WebViewController *webViewController = [[WebViewController alloc] init];
+             webViewController.urlString = urlString;
+             webViewController.title = dic[@"title"] ? dic[@"title"] : @"点亮科技";
+             [weakSelf.navigationController pushViewController:webViewController animated:YES];
+         }];
+    }
+    
     [headerView addSubview:_bannerView];
     
     [self.table setTableHeaderView:headerView];
-    
 }
 
 - (void)addItemButtonToView:(UIView *)view
@@ -185,21 +198,22 @@
     NSString *username = dataDic[@"username"];
     username = username ? username : @"";
 
+    UIImage *image = [UIImage imageNamed:@"user_icon_default"];
     
-    UIImageView *imageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) placeholderImage:[UIImage imageNamed:@"user_icon_default"] borderColor:DE_TEXT_COLOR imageUrl:imageUrl];
-    [view addSubview:imageView];
+    UIButton *button = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) buttonImage:@"" selectorName:@"tapGestureHandler:" tagDelegate:self];
+    [button setImage:image forState:UIControlStateNormal];
+    [button setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal];
+    [CommonTool clipView:button withCornerRadius:imageView_wh/2];
+    [view addSubview:button];
+
     
+    x += 2 * SPACE_X + button.frame.size.width;
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
-    [imageView addGestureRecognizer:tapGesture];
-    
-    x += 2 * SPACE_X + imageView.frame.size.width;
-    
-    UILabel *nicknameLabel = [CreateViewTool createLabelWithFrame:CGRectMake(x, y, LABEL_WIDTH, imageView.frame.size.height/2) textString:username textColor:DE_TEXT_COLOR textFont:FONT(16.0)];
+    UILabel *nicknameLabel = [CreateViewTool createLabelWithFrame:CGRectMake(x, y, LABEL_WIDTH, button.frame.size.height/2) textString:username textColor:DE_TEXT_COLOR textFont:FONT(16.0)];
     [view addSubview:nicknameLabel];
     
     y += nicknameLabel.frame.size.height;
-    UILabel *usernameLabel = [CreateViewTool createLabelWithFrame:CGRectMake(x, y, LABEL_WIDTH, imageView.frame.size.height/2) textString:[@"ID: " stringByAppendingString:[USER_DEFAULT objectForKey:@"UserName"]] textColor:DE_TEXT_COLOR textFont:FONT(16.0)];
+    UILabel *usernameLabel = [CreateViewTool createLabelWithFrame:CGRectMake(x, y, LABEL_WIDTH, button.frame.size.height/2) textString:[@"ID: " stringByAppendingString:[USER_DEFAULT objectForKey:@"UserName"]] textColor:DE_TEXT_COLOR textFont:FONT(16.0)];
     [view addSubview:usernameLabel];
 }
 
@@ -217,45 +231,6 @@
 
 }
 
-#pragma mark 获取广告
-- (void)getAdvRequest
-{
-    __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    int pos = 4;
-    NSDictionary *requestDic = @{@"uid":uid,@"pos":@(pos)};
-    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"GET_ADV_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
-         {
-             //[weakSelf setDataWithDictionary:dataDic];
-             weakSelf.bannerListArray = dataDic[@"body"];
-             if (weakSelf.bannerListArray && [weakSelf.bannerListArray count] > 0)
-             {
-                 [weakSelf addTableViewHeader];
-             }
-             
-         }
-         else
-         {
-             //[SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"GET_ADV_URL====%@",error);
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
-     }];
-}
 
 #pragma mark 获取用户信息
 - (void)getUserInfoRequest
@@ -324,7 +299,7 @@
 
 
 #pragma mark 修改头像
-- (void)tapGestureHandler:(UITapGestureRecognizer *)gesture
+- (void)tapGestureHandler:(UIButton *)button
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
@@ -429,17 +404,10 @@
     }
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *dataDic = [YooSeeApplication shareApplication].userInfoDic;
+    NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
     NSMutableDictionary *paramasDic = [NSMutableDictionary dictionaryWithCapacity:0];
-    paramasDic[@"id"] = dataDic[@"id"];
-    paramasDic[@"alipay"] = dataDic[@"alipay"] ? dataDic[@"alipay"] : @"";
-    paramasDic[@"head_url"] = dataDic[@"head_url"] ? dataDic[@"head_url"] : @"";
-    paramasDic[@"avg"] = dataDic[@"avg"] ? dataDic[@"avg"] : @"";
-    paramasDic[@"avg"] = @([paramasDic[@"avg"] intValue]);
-    paramasDic[@"sex"] = dataDic[@"sex"]  ? dataDic[@"sex"] : @"男";
-    paramasDic[@"name"] = dataDic[@"name"] ? dataDic[@"name"] : @"haha";
-    paramasDic[@"xingqu_id"] = dataDic[@"xingqu_id"] ? dataDic[@"xingqu_id"] : @"";
-    paramasDic[@"username"] = dataDic[@"username"] ? dataDic[@"username"] : @"";
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    paramasDic[@"id"] = uid;
     paramasDic[key] = string;
     NSDictionary *requestDic = [RequestDataTool encryptWithDictionary:paramasDic];
     [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
@@ -456,7 +424,8 @@
          if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"修改成功"];
-             [YooSeeApplication shareApplication].userInfoDic = paramasDic;
+             userInfoDic[key] = string;
+             [YooSeeApplication shareApplication].userInfoDic = userInfoDic;
              [weakSelf.table reloadData];
          }
          else

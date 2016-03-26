@@ -196,6 +196,11 @@
              [USER_DEFAULT setValue:userName forKey:@"UserName"];
              [weakSelf setLoginDataWithDictionary:responseDic];
          }
+         else
+         {
+             [LoadingView dismissLoadingView];
+             [weakSelf addMainView];
+         }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -214,7 +219,7 @@
     [USER_DEFAULT setValue:dic[@"token"] forKey:@"Token"];
     NSString *uid = dic[@"id"];
     uid = uid ? uid : @"";
-    [YooSeeApplication shareApplication].uid = uid;
+    [YooSeeApplication shareApplication].uid = [NSString stringWithFormat:@"%@",uid];
     
     NSString *cityID = dic[@"city_id"];
     cityID = cityID ? cityID : @"1";

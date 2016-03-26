@@ -97,9 +97,9 @@
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"oldpwd":[CommonTool md5:self.password]};
+    NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
+    NSDictionary *requestDic = @{@"phone":[USER_DEFAULT objectForKey:@"UserName"],@"paypwd":self.password,@"userpwd":[CommonTool md5:[USER_DEFAULT objectForKey:@"Password"]]};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:SET_PAY_PASSWOR_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -111,9 +111,11 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"设置成功"];
+             userInfoDic[@"paytype"] = @"1";
+             [YooSeeApplication shareApplication].userInfoDic = userInfoDic;
              [weakSelf.navigationController popViewControllerAnimated:YES];
          }
          else

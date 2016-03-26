@@ -143,8 +143,8 @@
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"phone":self.phoneString,@"method":@(2)};
-    NSString *url =  PHONE_CODE_URL;
+    NSDictionary *requestDic = @{@"phone":self.phoneString,@"ip":IP_ADDRESS};
+    NSString *url =  (self.isPayPassword) ? FIND_PAY_PHONE_CODE_URL : FIND_PHONE_CODE_URL;
     [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -156,7 +156,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"发送成功"];
              [weakSelf createTimer];
@@ -213,19 +213,15 @@
     [self updatePasswordRequest];
 }
 
-#pragma mark 更新密码
+#pragma mark 找回密码
 - (void)updatePasswordRequest
 {
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"phone":self.phoneString,@"passwd":[CommonTool md5:self.surePassword],@"verifysms":self.codeString,@"method":@(2)};
-    
-    NSString *url =  REGISTER_URL;
-    if (self.isPayPassword) {
-        url = SET_PAY_PASSWOR_URL;
-        requestDic = @{@"paypasswd":[CommonTool md5:self.surePassword], @"uid":[[YooSeeApplication shareApplication] uid], @"smscode":self.codeString};
-    }
+    NSDictionary *requestDic = @{@"phone":self.phoneString,@"userped":[CommonTool md5:self.surePassword],@"code":self.codeString,@"ip":IP_ADDRESS};
+    NSString *url =  (self.isPayPassword) ? FIND_PAY_PWD_URL : FIND_LOGIN_PWD_URL;
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:url
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous

@@ -121,25 +121,27 @@
     }
     else
     {
-        [self setDeviceRequest];
+        [self addDeviceRequest];
     }
     
 }
 
 #pragma mark 设置设备请求
-- (void)setDeviceRequest
+- (void)addDeviceRequest
 {
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid" : uid,
-                                 @"did" : self.deviceID,
-                                 @"optype" : @"1",
-                                 @"hid" : @"",
-                                 @"ifimg" : @"",
-                                 @"dname" : self.deviceID};
-    [[RequestTool alloc] requestWithUrl:SET_DEVICE_URL
+    NSDictionary *requestDic = @{@"user_id" : uid,
+                                 @"user_phone":[USER_DEFAULT objectForKey:@"UserName"],
+                                 @"camera_number" : self.deviceID,
+                                 @"camera_cover" : @"",
+                                 @"camera_name" : self.deviceID,
+                                 @"address_gps" : @"",
+                                 @"longitude" : @"",
+                                 @"latitude" : @""};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:ADD_DEVICE_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -156,14 +158,14 @@
      {
          NSLog(@"SET_DEVICE_URL====%@",error);
          [LoadingView dismissLoadingView];
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+         [SVProgressHUD showErrorWithStatus:@"添加失败"];
      }];
 }
 
 #pragma mark 设置或绑定
 - (void)setDataWithErrorCode:(int)errorCode errorMessage:(NSString *)message
 {
-    if (errorCode == 1)
+    if (errorCode == 8)
     {
         AddCameraSucessViewController *addCameraSucessViewController = [[AddCameraSucessViewController alloc] init];
         addCameraSucessViewController.deviceID = self.deviceID;

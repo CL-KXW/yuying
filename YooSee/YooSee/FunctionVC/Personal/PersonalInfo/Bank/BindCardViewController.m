@@ -50,12 +50,18 @@
     y += tiplabel.frame.size.height + ADD_Y;
     _nameTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(0, y, self.view.frame.size.width, TEXTFIELD_HEIGHT) textColor:MAIN_TEXT_COLOR textFont:FONT(16.0) placeholderText:@"姓名"];
     _nameTextField.backgroundColor = [UIColor whiteColor];
+    NSString *name = [YooSeeApplication shareApplication].userInfoDic[@"name"];
+    name = name ? name : @"";
+    _nameTextField.text = name;
     [self.view addSubview:_nameTextField];
     
     
     y += _nameTextField.frame.size.height + ADD_Y;
     _idTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(0, y, self.view.frame.size.width, TEXTFIELD_HEIGHT) textColor:MAIN_TEXT_COLOR textFont:FONT(16.0) placeholderText:@"支付宝帐号"];
     _idTextField.backgroundColor = [UIColor whiteColor];
+    NSString *alipay = [YooSeeApplication shareApplication].userInfoDic[@"alipay"];
+    alipay = alipay ? alipay : @"";
+    _idTextField.text = alipay;
     [self.view addSubview:_idTextField];
     
 //    if (_isBinded)
@@ -75,6 +81,8 @@
 #pragma mark 确认
 - (void)commitButtonPressed:(UIButton *)sender
 {
+    [self.nameTextField resignFirstResponder];
+    [self.idTextField resignFirstResponder];
     NSString *username = self.nameTextField.text;
     username = username ? username : @"";
     NSString *cardID = self.idTextField.text;
@@ -91,33 +99,39 @@
     }
     else
     {
-        [self addCardRequest];
+        [self changeUserInfoRequest];
     }
 }
 
 #pragma mark 添加卡
-- (void)addCardRequest
+- (void)changeUserInfoRequest
 {
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"account":self.idTextField.text,@"accinfo":@"支付宝",@"idname":self.nameTextField.text,@"acctype":@(2)};
-    [[RequestTool alloc] requestWithUrl:BIND_CARD_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+    NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
+    NSMutableDictionary *paramasDic = [NSMutableDictionary dictionaryWithCapacity:0];
+    paramasDic[@"id"] = [YooSeeApplication shareApplication].uid;
+    paramasDic[@"name"] = self.nameTextField.text;
+    paramasDic[@"alipay"] = self.idTextField.text;
+    NSDictionary *requestDic = [RequestDataTool encryptWithDictionary:paramasDic];
+    [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         NSLog(@"BIND_CARD_URL===%@",responseDic);
+         NSLog(@"UPDATE_USER_INFO_URL===%@",responseDic);
+         [LoadingView dismissLoadingView];
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
+             [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+             userInfoDic[@"name"] = self.nameTextField.text;
+             userInfoDic[@"alipay"] = self.idTextField.text;
+             [YooSeeApplication shareApplication].userInfoDic = userInfoDic;
              [weakSelf.navigationController popViewControllerAnimated:YES];
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"BindCardSucess" object:self.idTextField.text];
          }
          else
          {
@@ -126,10 +140,9 @@
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-
-        [LoadingView dismissLoadingView];
-         NSLog(@"BIND_CARD_URL====%@",error);
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+         NSLog(@"UPDATE_USER_INFO_URL====%@",error);
+         [LoadingView dismissLoadingView];
+         [SVProgressHUD showErrorWithStatus:@"保存失败"];
      }];
 }
 

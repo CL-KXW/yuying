@@ -21,6 +21,12 @@
 
 @property (nonatomic, strong) NSMutableArray *textFiledArray;
 @property (nonatomic, strong) STPickerArea *areaPicker;
+@property (nonatomic, strong) NSDictionary *addressInfo;
+@property (nonatomic, strong) NSString *province;
+@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *area;
+
+
 
 @end
 
@@ -32,8 +38,50 @@
     self.title = @"收货地址";
     [self addBackItem];
     
-    [self initUI];
+    [self getAddressListRequest];
+    
+    //[self initUI];
     // Do any additional setup after loading the view.
+}
+
+
+#pragma mark 获取地址列表
+- (void)getAddressListRequest
+{
+    __weak typeof(self) weakSelf = self;
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    NSDictionary *requestDic = @{@"user_id":uid};
+    [[RequestTool alloc] requestWithUrl:ADDRESS_LIST_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"ADDRESS_LIST_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         if (errorCode == 8)
+         {
+             NSArray *array = dataDic[@"resultList"];
+             if (array && [array count] > 0)
+             {
+                 weakSelf.addressInfo = array[0];
+             }
+             [weakSelf initUI];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+             [weakSelf.navigationController popViewControllerAnimated:YES];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"ADDRESS_LIST_URL====%@",error);
+         [SVProgressHUD showErrorWithStatus:@"获取失败"];
+         [weakSelf.navigationController popViewControllerAnimated:YES];
+     }];
 }
 
 #pragma mark 初始化UI
@@ -48,8 +96,29 @@
     
     NSArray *array = @[@"收货人", @"联系人电话",@"省份地区",@"详细地址",@"邮政编码"];
     
-    NSDictionary *dic = [YooSeeApplication shareApplication].userInfoDic;
-    NSArray *valueArray = @[dic[@"receiver"],dic[@"contact"],dic[@"address"],dic[@"fulladdress"],[dic[@"areacode"] stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    NSDictionary *dic = self.addressInfo;
+    
+    NSString *receiver = dic[@"user_name"];
+    receiver = receiver ? receiver : @"";
+    
+    NSString *contact = dic[@"user_phone"];
+    contact = contact ? contact : @"";
+    
+    NSString *province_name = dic[@"province_name"];
+    province_name = province_name ? province_name : @"";
+    NSString *city_name = dic[@"city_name"];
+    city_name = city_name ? city_name : @"";
+    NSString *area_name = dic[@"area_name"];
+    area_name = area_name ? area_name : @"";
+    NSString *address = [NSString stringWithFormat:@"%@%@%@",province_name,city_name,area_name];
+    
+    NSString *fulladdress = dic[@"address"];
+    fulladdress = fulladdress ? fulladdress : @"";
+    
+    NSString *areacode = dic[@"zcode"];
+    areacode = areacode ? areacode : @"";
+    
+    NSArray *valueArray = @[receiver,contact,address,fulladdress,areacode];
     
     for (int i = 0; i < [array count]; i++)
     {
@@ -106,6 +175,9 @@
 - (void)pickerArea:(STPickerArea *)pickerArea province:(NSString *)province city:(NSString *)city area:(NSString *)area;
 {
     ((CustomTextField *)self.textFiledArray[2]).textField.text = [NSString stringWithFormat:@"%@%@%@",province,city,area];
+    self.province = province;
+    self.city = city;
+    self.area = area;
 }
 
 #pragma mark 保存按钮
@@ -144,11 +216,15 @@
         return;
     }
     
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *userInfo = [YooSeeApplication shareApplication].userInfoDic;
-    NSDictionary *requestDic = @{@"uid":uid,@"username":userInfo[@"username"],@"sex":userInfo[@"sex"],@"receiver":contact,@"contact":phone,@"address":address,@"fulladdress":fullAddress,@"areacode":proCode};
-    [self saveAddressInfoRequest:requestDic];
+//    NSString *uid = [YooSeeApplication shareApplication].uid;
+//    if (self.addressInfo)
+//    {
+//        
+//    }
+//    NSDictionary *userInfo = [YooSeeApplication shareApplication].userInfoDic;
+    
+//    NSDictionary *requestDic = @{@"id":addressID,@"username":userInfo[@"username"],@"sex":userInfo[@"sex"],@"receiver":contact,@"contact":phone,@"address":address,@"fulladdress":fullAddress,@"areacode":proCode};
+//    [self saveAddressInfoRequest:requestDic];
 }
 
 #pragma mark 保存地址
@@ -156,12 +232,13 @@
 {
     [LoadingView showLoadingView];
     //__weak typeof(self) weakSelf = self;
-    [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
+    NSString *urlString = (self.addressInfo) ? UPDATE_ADDRESS_URL : ADD_ADDRESS_URL;
+    [[RequestTool alloc] requestWithUrl:urlString
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         NSLog(@"UPDATE_USER_INFO_URL===%@",responseDic);
+         NSLog(@"UPDATE_ADDRESS_URL===%@",responseDic);
          [LoadingView dismissLoadingView];
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -179,7 +256,7 @@
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"UPDATE_USER_INFO_URL====%@",error);
+         NSLog(@"UPDATE_ADDRESS_URL====%@",error);
          [LoadingView dismissLoadingView];
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];

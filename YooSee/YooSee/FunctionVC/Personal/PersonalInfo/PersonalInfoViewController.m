@@ -39,15 +39,31 @@
     [self addBackItem];
     
     _titleArray = @[@[@"  姓名",@"  电话(ID)",@"  性别"],@[@"  收获地址"],@[@"  支付宝绑定",@"  支付密码"],@[@"  修改登录密码"]];
-    NSDictionary *dataDic = [YooSeeApplication shareApplication].userInfoDic;
-    _valueArray = [NSMutableArray arrayWithArray:@[@[dataDic[@"username"],[USER_DEFAULT objectForKey:@"UserName"],dataDic[@"sex"]],@[@""],@[@"",@""],@[@""]]];
 
     [self initUI];
-    
-    [self getRealNamedRequest:0];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindCardSucess:) name:@"BindCardSucess" object:nil];
+
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self initData];
+}
+
+
+#pragma mark 初始化数据
+- (void)initData
+{
+    NSDictionary *dataDic = [YooSeeApplication shareApplication].userInfoDic;
+    NSString *userName = dataDic[@"username"];
+    userName = userName ? userName : @"";
+    NSString *sex = dataDic[@"sex"];
+    sex = sex ? sex : @"";
+    NSString *alipay = dataDic[@"alipay"];
+    alipay = alipay ? alipay : @"";
+    _valueArray = [NSMutableArray arrayWithArray:@[@[userName,[USER_DEFAULT objectForKey:@"UserName"],sex],@[@""],@[alipay,@""],@[@""]]];
+    [self.table reloadData];
 }
 
 #pragma mark 初始化UI
@@ -116,105 +132,6 @@
     self.table.tableFooterView = footerView;
 }
 
-
-
-#pragma mark 检查实名
-- (void)getRealNamedRequest:(int)type
-{
-    if (type)
-    {
-        [LoadingView showLoadingView];
-    }
-    __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] requestWithUrl:BANK_CARD_LIST_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"BANK_CARD_LIST_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         if (type)
-         {
-             [LoadingView dismissLoadingView];
-         }
-         if (errorCode == 1)
-         {
-             [weakSelf setDataWithDictionary:dataDic type:type];
-         }
-         else
-         {
-             if (type)
-                 [SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         if (type)
-         {
-             [LoadingView dismissLoadingView];
-         }
-         NSLog(@"BANK_CARD_LIST_URL====%@",error);
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
-     }];
-
-}
-
-#pragma mark 设置数据
-- (void)setDataWithDictionary:(NSDictionary *)dataDic type:(int)type
-{
-    if (!dataDic)
-    {
-        return;
-    }
-    NSArray *array = dataDic[@"body"];
-    if (!array || [array count] == 0)
-    {
-        if (type)
-        {
-            [self goToNextView];
-        }
-    }
-    else
-    {
-        for (NSDictionary *dic in array)
-        {
-            if ([dic[@"acctype"] intValue] == 2)
-            {
-                self.cardDic = dic;
-                NSString *idName = dic[@"account"];
-                idName = idName ? idName : @"";
-                NSMutableArray *array = [NSMutableArray arrayWithArray:self.valueArray[2]];
-                [array replaceObjectAtIndex:0 withObject:idName];
-                [self.valueArray replaceObjectAtIndex:2 withObject:array];
-                [self.table reloadData];
-                if (type == 1)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"已绑定"];
-                }
-                break;
-            }
-        }
-        if (!self.cardDic)
-        {
-            if (type)
-            {
-                [self goToNextView];
-            }
-        }
-    }
-}
-
-- (void)goToNextView
-{
-    BindCardViewController *realNameCheckViewController = [[BindCardViewController alloc] init];
-    [self.navigationController pushViewController:realNameCheckViewController animated:YES];
-}
 
 #pragma mark 绑定成功
 - (void)bindCardSucess:(NSNotification *)notification
@@ -326,18 +243,13 @@
     {
         if (indexPath.row == 0)
         {
-            if (self.cardDic)
-            {
-                [SVProgressHUD showErrorWithStatus:@"已绑定"];
-                return;
-            }
-           [self getRealNamedRequest:1];
+            BindCardViewController *realNameCheckViewController = [[BindCardViewController alloc] init];
+            [self.navigationController pushViewController:realNameCheckViewController animated:YES];
         }
         else if (indexPath.row == 1)
         {
-            [self checkPayPasswordRequest];
+            [self payPasswordChange];
         }
-        
     }
     if (indexPath.section == 3)
     {
@@ -404,12 +316,11 @@
     }
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSMutableDictionary *paramasDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
+    NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
+    NSMutableDictionary *paramasDic = [NSMutableDictionary dictionaryWithCapacity:0];
+    paramasDic[@"id"] = [YooSeeApplication shareApplication].uid;
     paramasDic[key] = string;
-    paramasDic[@"uid"] = uid;
-    NSDictionary *requestDic = paramasDic;
+    NSDictionary *requestDic = [RequestDataTool encryptWithDictionary:paramasDic];
     [[RequestTool alloc] requestWithUrl:UPDATE_USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -421,10 +332,11 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"修改成功"];
-             [YooSeeApplication shareApplication].userInfoDic = paramasDic;
+             userInfoDic[key] = string;
+             [YooSeeApplication shareApplication].userInfoDic = userInfoDic;
              NSMutableArray *array = [NSMutableArray arrayWithArray:weakSelf.valueArray[0]];
              [array replaceObjectAtIndex:([key isEqualToString:@"username"] ? 0 : 2) withObject:string];
              [weakSelf.valueArray replaceObjectAtIndex:0 withObject:array];
@@ -444,55 +356,23 @@
 }
 
 
-#pragma mark 校验支付密码
-- (void)checkPayPasswordRequest
+#pragma mark 支付密码
+- (void)payPasswordChange
 {
-    
-    [LoadingView showLoadingView];
-    __weak typeof(self) weakSelf = self;
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"paypasswd":@""};
-    [[RequestTool alloc] requestWithUrl:CHECK_PAY_PASSWORD_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"CHECK_PAY_PASSWORD_URL===%@",responseDic);
-         [LoadingView dismissLoadingView];
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         [weakSelf goToPasswordViewWithType:errorCode];
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"CHECK_PAY_PASSWORD_URL====%@",error);
-         [LoadingView dismissLoadingView];
-         [SVProgressHUD showErrorWithStatus:@"加载失败"];
-     }];
-}
-
-- (void)goToPasswordViewWithType:(int)type
-{
-    if (type == 0)
+    int payType = [[YooSeeApplication shareApplication].userInfoDic[@"paytype"] intValue];
+    if (payType == 2)
     {
         //未设置密码
         SetPayPasswordViewController *setPayPasswordViewController = [[SetPayPasswordViewController alloc] init];
         [self.navigationController pushViewController:setPayPasswordViewController animated:YES];
     }
-    else if (type == 1)
+    else if (payType == 1)
     {
         //修改密码
         ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
         changePasswordViewController.isPayPassword = YES;
         [self.navigationController pushViewController:changePasswordViewController animated:YES];
         
-    }
-    else
-    {
-        [SVProgressHUD showErrorWithStatus:@"数据异常"];
     }
 }
 

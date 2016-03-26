@@ -28,8 +28,20 @@
 //注册/忘记密码
 #define REGISTER_URL                MAKE_REQUEST_URL(@"app/user/register")
 
+//忘记登录密码
+#define FIND_LOGIN_PWD_URL          MAKE_REQUEST_URL(@"app/user/update/userpwd")
+
+//忘记支付密码
+#define FIND_PAY_PWD_URL            MAKE_REQUEST_URL(@"app/user/update/paypwd")
+
 //注册短信验证码
 #define PHONE_CODE_URL              MAKE_REQUEST_URL(@"send/message/code")
+
+//找回密码 code
+#define FIND_PHONE_CODE_URL         MAKE_REQUEST_URL(@"send/message/back/userpwd/code")
+
+//找回密码 pay code
+#define FIND_PAY_PHONE_CODE_URL     MAKE_REQUEST_URL(@"send/message/back/paypwd/code")
 
 //2cu_login
 #define LOGIN_2CU_URL               @"http://cloudlinks.cn/Users/LoginCheck.ashx"
@@ -49,14 +61,27 @@
 //更新个人信息
 #define UPDATE_USER_INFO_URL        MAKE_REQUEST_URL(@"app/user/update/material")
 
+//收获地址列表
+#define ADDRESS_LIST_URL            MAKE_REQUEST_URL(@"shipping/addr/list")
+
+//更新收获地址
+#define UPDATE_ADDRESS_URL          MAKE_REQUEST_URL(@"shipping/addr/update")
+
+//添加收获地址
+#define ADD_ADDRESS_URL             MAKE_REQUEST_URL(@"shipping/addr/add")
+
 //修改密码
-#define UPDATE_LOGIN_PWD_URL        MAKE_REQUEST_URL(@"yyw_updatepwd")
+#define UPDATE_LOGIN_PWD_URL        MAKE_REQUEST_URL(@"app/user/set/pwd")
+
+//设置支付密码
+#define SET_PAY_PASSWOR_URL         MAKE_REQUEST_URL(@"app/user/set/pay")
+
+//修改支付密码
+#define UPDATE_PAY_PASSWOR_URL      MAKE_REQUEST_URL(@"app/user/set/paypwd_update")
+
 
 //校验支付密码
 #define CHECK_PAY_PASSWORD_URL      MAKE_REQUEST_URL(@"yyw_user_paypasswdcheck")
-
-//设置支付密码
-#define SET_PAY_PASSWOR_URL         MAKE_REQUEST_URL(@"yyw_user_setpaypasswd")
 
 //获取绑定卡列表
 #define BANK_CARD_LIST_URL          MAKE_REQUEST_URL(@"yyw_user_getcardlist")
@@ -74,13 +99,19 @@
 #define GET_HEADNEWS_URL            MAKE_REQUEST_URL(@"app/system/headline")
 
 //设置设备信息
-#define SET_DEVICE_URL              MAKE_REQUEST_URL(@"yyw_setdevice")
+#define SET_DEVICE_URL              MAKE_REQUEST_URL(@"/app/camera/add")
+
+//添加设备
+#define ADD_DEVICE_URL              MAKE_REQUEST_URL(@"app/camera/add")
 
 //获取设备列表
-#define DEVICE_LIST_URL             MAKE_REQUEST_URL(@"yyw_getdevicelist")
+#define DEVICE_LIST_URL             MAKE_REQUEST_URL(@"app/camera/queryListByUserId")
 
 //删除设备
-#define DELETE_DEVICE_URL           MAKE_REQUEST_URL(@"yyw_deldevice")
+#define DELETE_DEVICE_URL           MAKE_REQUEST_URL(@"app/camera/delete")
+
+//更新摄像头
+#define UPDATE_DEVICE_URL           MAKE_REQUEST_URL(@"app/camera/update")
 
 //帮助
 #define HELP_URL                    @"http://dianliangtech.com/help/app"

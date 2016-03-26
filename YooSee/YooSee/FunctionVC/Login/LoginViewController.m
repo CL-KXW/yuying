@@ -181,6 +181,7 @@
          if (errorCode == 8)
          {
              [USER_DEFAULT setValue:username forKey:@"UserName"];
+             [USER_DEFAULT setValue:password forKey:@"Password"];
              [weakSelf setDataWithDictionary:dataDic];
          }
          else
@@ -206,7 +207,7 @@
     [USER_DEFAULT setValue:dic[@"token"] forKey:@"Token"];
     NSString *uid = dic[@"user_id"];
     uid = uid ? uid : @"";
-    [YooSeeApplication shareApplication].uid = uid;
+    [YooSeeApplication shareApplication].uid = [NSString stringWithFormat:@"%@",uid];
     
     NSString *cityID = dic[@"city_id"];
     cityID = cityID ? cityID : @"1";
