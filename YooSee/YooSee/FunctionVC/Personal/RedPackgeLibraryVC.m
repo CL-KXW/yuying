@@ -102,9 +102,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == _ungetTable) {
-        return [_hasGetArray count];
-    } else {
         return [_ungetArray count];
+    } else {
+        return [_hasGetArray count];
     }
 }
 
@@ -120,10 +120,10 @@
     if (!cell) {
         cell = [[RedPackgeLibraryCell alloc] initWithStyle:0 reuseIdentifier:key];
     }
-    cell.nameLabel.text = dic[@"shop_name"];
-    cell.descLabel.text = dic[@"contact_phone"];
-    cell.timeLabel.text = dic[@"update_time"];
-    cell.moneyLabel.text = dic[@"lingqu_money"];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@", dic[@"shop_name"]];
+    cell.descLabel.text = [NSString stringWithFormat:@"%@", dic[@"contact_phone"]];
+    cell.timeLabel.text = [NSString stringWithFormat:@"%@", dic[@"update_time"]];
+    cell.moneyLabel.text = [NSString stringWithFormat:@"%@", dic[@"lingqu_money"]];
     if (tableView == _ungetTable) {
         cell.moneyLabel.hidden = YES;
     } else {
