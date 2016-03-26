@@ -420,6 +420,7 @@
 #pragma mark 修改个人信息
 - (void)changeUserInfoRequest:(NSString *)string forKey:(NSString *)key
 {
+    
     string = string ? string : @"";
     key = key ? key : @"";
     if (key.length == 0)
@@ -433,10 +434,11 @@
     paramasDic[@"id"] = dataDic[@"id"];
     paramasDic[@"alipay"] = dataDic[@"alipay"] ? dataDic[@"alipay"] : @"";
     paramasDic[@"head_url"] = dataDic[@"head_url"] ? dataDic[@"head_url"] : @"";
-    paramasDic[@"avg"] = dataDic[@"avg"] ? dataDic[@"avg"] : @"1";
-    paramasDic[@"sex"] = (dataDic[@"sex"] && [dataDic[@"sex"] isEqualToString:@"女"]) ? @"2" : @"1";
-    paramasDic[@"name"] = dataDic[@"name"] ? dataDic[@"name"] : @"";
-    paramasDic[@"xingqu_id"] = dataDic[@"xingqu_id"] ? dataDic[@"xingqu_id"] : @"1";
+    paramasDic[@"avg"] = dataDic[@"avg"] ? dataDic[@"avg"] : @"";
+    paramasDic[@"avg"] = @([paramasDic[@"avg"] intValue]);
+    paramasDic[@"sex"] = dataDic[@"sex"]  ? dataDic[@"sex"] : @"男";
+    paramasDic[@"name"] = dataDic[@"name"] ? dataDic[@"name"] : @"haha";
+    paramasDic[@"xingqu_id"] = dataDic[@"xingqu_id"] ? dataDic[@"xingqu_id"] : @"";
     paramasDic[@"username"] = dataDic[@"username"] ? dataDic[@"username"] : @"";
     paramasDic[key] = string;
     NSDictionary *requestDic = [RequestDataTool encryptWithDictionary:paramasDic];
