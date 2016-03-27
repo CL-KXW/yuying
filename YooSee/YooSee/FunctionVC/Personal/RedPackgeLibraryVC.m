@@ -34,6 +34,7 @@
 //    [self.ungetArray addObject:@"1"];
 //    [self.ungetArray addObject:@"1"];
 //    [self.ungetArray addObject:@"1"];
+    _currentPage = 1;
     [self performSelector:@selector(initViews) withObject:nil afterDelay:0.1];
 }
 

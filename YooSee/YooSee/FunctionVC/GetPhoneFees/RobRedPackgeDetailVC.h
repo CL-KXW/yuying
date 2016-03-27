@@ -11,5 +11,6 @@
 @interface RobRedPackgeDetailVC : BasicViewController
 
 @property (nonatomic, copy) NSString *redPackgeId;
-
+@property (nonatomic, copy) NSString *logoUrl;
+@property (nonatomic, copy) NSString *desc;
 @end

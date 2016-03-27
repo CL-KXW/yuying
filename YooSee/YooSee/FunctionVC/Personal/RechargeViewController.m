@@ -201,14 +201,15 @@
     NSString *money = _rechargeLabel.text;
     if(money.length == 0)
         return;
-    NSDictionary *dic = @{@"uid":[[YooSeeApplication shareApplication] userDic][@"uid"],@"moneynum":money};
+    NSDictionary *dic = @{@"user_id":[[YooSeeApplication shareApplication] uid],@"recharge_money":money, @"type":@"1"};
+    dic = [RequestDataTool encryptWithDictionary:dic];
     [[RequestTool alloc] requestWithUrl:CREATEORDER_URL requestParamas:dic requestType:RequestTypeAsynchronous requestSucess:^(AFHTTPRequestOperation *operation, id responseDic) {
-        if ([responseDic[@"returnCode"] intValue] == 1) {
+        if ([responseDic[@"returnCode"] intValue] == 8) {
             
-            NSDictionary *dic = responseDic[@"body"];
+            NSDictionary *dic = responseDic;
             //orderno pid sellermail publickey notifyurl moneynum
             if (dic) {
-                [self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"sellermail"] tradeNO:dic[@"orderno"] notifyURL:dic[@"notifyurl"] price:dic[@"moneynum"] privateKey:dic[@"privatekey"]];
+                [self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"seller_account"] tradeNO:dic[@"only_number"] notifyURL:dic[@"notifyurl"] price:dic[@"recharge_money"] privateKey:dic[@"alipaykey"]];
             }
         } else {
             [SVProgressHUD showErrorWithStatus:responseDic[@"returnMessage"] duration:2.0];

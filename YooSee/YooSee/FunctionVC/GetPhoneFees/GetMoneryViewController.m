@@ -16,6 +16,7 @@
 {
     NSMutableArray *_dataArray;
 }
+@property (nonatomic, strong) NSString *startID;
 @end
 
 @implementation GetMoneryViewController
@@ -27,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"看广告赚话费";
+    self.title = @"赚钱";
     _dataArray = [[NSMutableArray alloc] init];
     
     [self addBackItem];
@@ -85,12 +86,12 @@
     if (!cell) {
         cell = [[AdListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    cell.nameLabel.text = dic[@"title"];
-    NSString *logtime = dic[@"logtime"];
+    cell.nameLabel.text = dic[@"content_1"];
+    NSString *logtime = dic[@"begin_time"];
     logtime = [CommonTool dateString2MDString:logtime];
     cell.timeLabel.text = logtime;
-    [cell.adView setImageWithURL:[NSURL URLWithString:dic[@"smallpic"]]];
-    [cell dealHadGet:NO descTitle:[NSString stringWithFormat:@"%d亮币", [dic[@"leftnum"] intValue]]];
+    [cell.adView setImageWithURL:[NSURL URLWithString:dic[@"url_1"]]];
+    [cell dealHadGet:NO descTitle:[NSString stringWithFormat:@"%d元", [dic[@"shengyu_money"] intValue]]];
     return cell;
 }
 
@@ -112,7 +113,14 @@
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"pageid":@(_currentPage),@"verytype":@"2"};
+    NSString *pid = [[YooSeeApplication shareApplication] provinceID];
+    pid = pid ? pid : @"";
+    NSString *cid = [[YooSeeApplication shareApplication] cityID];
+    cid = cid ? cid : @"";
+    NSDictionary *requestDic = @{@"province_id":pid,@"city_id":cid,
+                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
+                                 @"startid":self.startID,
+                                 @"page":@(_currentPage)};
     [[RequestTool alloc] requestWithUrl:GET_AD_LIST
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -124,16 +132,17 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              @synchronized(_dataArray) {
                  if (_currentPage == 1) {
                      [_dataArray removeAllObjects];
                  }
-                 NSDictionary *dic = dataDic[@"body"];
-                 NSArray *ary = dic[@"data"];
-                 if (ary) {
+                 id ary = dataDic[@"resultList"];
+                 if (ary && [ary isKindOfClass:[NSArray class]] && [ary count] > 0) {
                      [_dataArray addObjectsFromArray:ary];
+                 } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
+                     [_dataArray addObject:ary];
                  }
                  [self.table reloadData];
              }
@@ -158,6 +167,7 @@
 
 - (void)refreshData {
     [super refreshData];
+    self.startID = @"0";
     [self request];
 }
 

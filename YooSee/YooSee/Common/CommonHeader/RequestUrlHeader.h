@@ -117,13 +117,10 @@
 #define HELP_URL                    @"http://dianliangtech.com/help/app"
 
 //获取广告列表
-#define GET_AD_LIST                 MAKE_REQUEST_URL(@"yyw_getlookgglist_new")
+#define GET_AD_LIST                 MAKE_REQUEST_URL(@"app/ab/queryList")
 
 //获取广告奖励
-#define GET_AD_REWARD               MAKE_REQUEST_URL(@"yyw_getlookmoney")
-
-//获取摇一摇列表
-#define GET_Y1Y_LIST                Y1Y_MAKE_REQUEST_URL(@"yyw_getredpackedlist")
+#define GET_AD_REWARD               MAKE_REQUEST_URL(@"app/ab/get/add")
 
 //红包图片
 #define GET_Y1Y_PIC                 Y1Y_MAKE_REQUEST_URL(@"yyw_redpacked_pic")
@@ -145,7 +142,7 @@
 #define GET_GOLD_INFO               MAKE_REQUEST_URL(@"yyw_getcaichan")
 
 //创建订单
-#define CREATEORDER_URL             MAKE_REQUEST_URL(@"yyw_zfb_createorder")
+#define CREATEORDER_URL             MAKE_REQUEST_URL(@"account/recharge/add")
 
 //获取提现信息
 #define MONEY_DRAWCASHCHECK         MAKE_REQUEST_URL(@"yyw_money_drawcashcheck")
@@ -161,4 +158,7 @@
 
 //我的红包列表
 #define MY_RED_PACKGE_LIST          MAKE_REQUEST_URL(@"app/red/get/querybylingqu_user_id")
+
+//获取红包状态
+#define RED_PACKAGE_STATE           MAKE_REQUEST_URL(@"app/red/send/getByOnly_numberAndUser_id")
 #endif

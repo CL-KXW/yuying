@@ -384,7 +384,7 @@
 
 + (NSString*)dateString2MDString:(NSString*)string {
     NSDateFormatter *formatter = [[NSDateFormatter  alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *date = [formatter dateFromString:string];
     if (!date) {
         return @"";

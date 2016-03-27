@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIButton *robButton;
 
 @property (nonatomic, strong) UILabel *resultDescLabel;
+
 @end
 
 @implementation RobRedPackgeDetailVC
@@ -26,46 +27,57 @@
     [super viewDidLoad];
     self.title = @"抢红包";
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    self.view = scroll;
+    [self.view addSubview:scroll];
     [self addBackItem];
     self.view.backgroundColor = RGB(205, 11, 36);
-    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SPACE_X, 64 + SPACE_Y, IMG_H, IMG_H)];
-    self.imageView.backgroundColor = [UIColor greenColor];
-    [self.view addSubview:self.imageView];
+    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SPACE_X, SPACE_Y, IMG_H, IMG_H)];
+    [self.imageView setImageWithURL:[NSURL URLWithString:self.logoUrl]];
+    [scroll addSubview:self.imageView];
     
-    self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_X, 64 + SPACE_Y * 2 + IMG_H, IMG_H, 80)];
+    self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_X, SPACE_Y * 2 + IMG_H, IMG_H, 80)];
     self.descLabel.font = FONT(30);
     self.descLabel.textColor = [UIColor orangeColor];
-    self.descLabel.text = @"祝爸爸妈妈身体健康，幸福安康";
+    self.descLabel.text = self.desc;
     self.descLabel.numberOfLines = 0;
     self.descLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.descLabel];
+    [scroll addSubview:self.descLabel];
     
     self.robButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 95 * CURRENT_SCALE, 95 * CURRENT_SCALE)];
-    self.robButton.backgroundColor = [UIColor yellowColor];
-    self.robButton.center = CGPointMake(SCREEN_WIDTH * 0.5, 70 + IMG_H + SPACE_Y * 3 + 95 *CURRENT_SCALE * 0.5 + 64);
-    [self.view addSubview:self.robButton];
+    self.robButton.backgroundColor = [UIColor orangeColor];
+    [self.robButton setTitle:@"抢" forState:UIControlStateNormal];
+    self.robButton.titleLabel.font = FONT(50);
+    [self.robButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.robButton.layer.cornerRadius = 95 * CURRENT_SCALE * 0.5;
+    [self.robButton setShowsTouchWhenHighlighted:YES];
+    self.robButton.center = CGPointMake(SCREEN_WIDTH * 0.5, 70 + IMG_H + SPACE_Y * 3 + 95 *CURRENT_SCALE * 0.5);
+    [self.robButton addTarget:self action:@selector(request) forControlEvents:UIControlEventTouchUpInside];
+    [scroll addSubview:self.robButton];
     
     CGRect rect = self.robButton.frame;
     rect.size.width = IMG_H;
     rect.size.height = 45;
     self.resultDescLabel = [[UILabel alloc] initWithFrame:rect];
     self.resultDescLabel.center = self.robButton.center;
-    self.resultDescLabel.backgroundColor = [UIColor blackColor];
     self.resultDescLabel.textColor = [UIColor whiteColor];
     self.resultDescLabel.font = FONT(18);
     self.resultDescLabel.textAlignment = NSTextAlignmentCenter;
     self.resultDescLabel.numberOfLines = 0;
     self.resultDescLabel.text = @"已存入红包库\n请12小时内收取红包";
-    [self.view addSubview:self.resultDescLabel];
+    [scroll addSubview:self.resultDescLabel];
     
-    [self robedView];
     if (SCREEN_HEIGHT == 480) {
         scroll.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + 100);
     } else {
         scroll.contentSize = CGSizeMake(SCREEN_WIDTH ,SCREEN_HEIGHT + 1);
     }
-    [self request];
+    [self unknowState];
+    [self requestState];
+}
+
+- (void)unknowState {
+    self.descLabel.hidden = YES;
+    self.robButton.hidden = YES;
+    self.resultDescLabel.hidden = YES;
 }
 
 - (void)unrobView {
@@ -84,6 +96,49 @@
     self.descLabel.hidden = NO;
     self.robButton.hidden = YES;
     self.resultDescLabel.hidden = YES;
+}
+
+- (void)dealResponse:(NSDictionary*)dic {
+    /*
+     returnCode	Integer
+     状态码("1", "参数错误","2","太慢了已抢完","3","红包已经领取过了不能再次被领取","4","时间还没有到","8","已领到红包")
+     
+     returnMessage	String
+     返回状态消息
+     
+     lingqu_money	String
+     红包领取金额
+     
+     only_number	String
+     红包唯一号 息
+     
+     lingqu_user_id	String
+     抢红包的用户id
+     
+     title_url_1	String	
+     红包图片
+     
+     title_1	String	
+     红包标题
+     */
+/*    @property (nonatomic, strong) UIImageView *imageView;
+    
+    @property (nonatomic, strong) UILabel *descLabel;
+    @property (nonatomic, strong) UIButton *robButton;
+    
+    @property (nonatomic, strong) UILabel *resultDescLabel;*/
+    int code = [dic[@"returnCode"] intValue];
+    if (code == 2 || code == 3 || code == 8) {
+        [self robedView];
+        self.descLabel.text = [NSString stringWithFormat:@"%@元",dic[@"lingqu_money"]];
+        if (code == 8) {
+            self.resultDescLabel.text = @"已存入红包库\n请12小时内收取红包";
+        }
+    } else if (code == 4) {
+        [self unrobView];
+        self.descLabel.text = [NSString stringWithFormat:@"%@元",dic[@"title_1"]];
+    }
+    //[self unrobView];
 }
 
 - (void)request {
@@ -106,21 +161,72 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 8)
-         {
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-         [self.refreshFooterView setState:MJRefreshStateNormal];
-         [self.refreshHeaderView setState:MJRefreshStateNormal];
+//         if (errorCode == 8)
+//         {
+//             
+//         }
+//         else
+//         {
+//             [SVProgressHUD showErrorWithStatus:errorMessage];
+//         }
+         [self dealResponse:dataDic];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          
          [LoadingView dismissLoadingView];
          NSLog(@"ROB_RED_PACKGE_DETAIL====%@",error);
+     }];
+}
+
+- (void)requestState {
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    
+    NSDictionary *requestDic = @{
+                                 @"user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.redPackgeId]};
+    //requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:RED_PACKAGE_STATE
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"RED_PACKAGE_STATE===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             [self unrobView];
+         }
+         else if (errorCode == 3) {
+             //未开始
+             self.robButton.hidden = YES;
+             self.resultDescLabel.text = @"红包还未开始";
+         }
+         else if (errorCode == 4) {
+             //已抢光
+             self.robButton.hidden = YES;
+             self.resultDescLabel.text = @"你来迟了，红包已被抢光";
+         }
+         else if (errorCode == 7) {
+             [self request];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         [self dealResponse:dataDic];
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"RED_PACKAGE_STATE====%@",error);
      }];
 }
 @end

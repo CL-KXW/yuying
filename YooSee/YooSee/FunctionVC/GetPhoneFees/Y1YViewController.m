@@ -11,6 +11,7 @@
 
 @interface Y1YViewController ()
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSString *startID;
 @end
 
 @implementation Y1YViewController
@@ -101,13 +102,13 @@
         [view addSubview:timeLabel4];
         
         
-        UILabel *timeLabel5 = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-225+110, (SCREEN_WIDTH-20)/2+50, 80, 20)];
-        timeLabel5.tag = 107;
-        timeLabel5.textColor = [UIColor blackColor];
-        timeLabel5.backgroundColor = [UIColor orangeColor];
-        timeLabel5.font = [UIFont systemFontOfSize:14];
-        timeLabel5.textAlignment = NSTextAlignmentCenter;
-        [view addSubview:timeLabel5];
+//        UILabel *timeLabel5 = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-225+110, (SCREEN_WIDTH-20)/2+50, 80, 20)];
+//        timeLabel5.tag = 107;
+//        timeLabel5.textColor = [UIColor blackColor];
+//        timeLabel5.backgroundColor = [UIColor orangeColor];
+//        timeLabel5.font = [UIFont systemFontOfSize:14];
+//        timeLabel5.textAlignment = NSTextAlignmentCenter;
+//        [view addSubview:timeLabel5];
         
     }
     
@@ -123,8 +124,8 @@
     
     NSDictionary *dataDic = _dataArray[indexPath.row];
     //NSLog(@"dataDic == %@",dataDic);
-    NSString *title= [dataDic objectForKey:@"title"];
-    NSString *smallpic = [dataDic objectForKey:@"smallpic"];
+    NSString *title= [dataDic objectForKey:@"title_1"];
+    NSString *smallpic = [dataDic objectForKey:@"logo"];
     
     NSURL *url = [NSURL URLWithString:smallpic];
     [ImageV setImageWithURL:url placeholderImage:[UIImage imageNamed:@"qhbletup.jpg"]];
@@ -133,7 +134,7 @@
     
     titleLabel.text = title;//@"鱼鹰手机广告精准投放平台5000000金币红包等你抢"; //dataDic[@"title"];
     
-    NSString *begintime = [dataDic objectForKey:@"begintime"];
+    NSString *begintime = [dataDic objectForKey:@"begin_time"];
     NSString *month, *day, *hour, *minute;
     NSRange rang1 = NSMakeRange(5, 1);
     month = [begintime substringWithRange:rang1];
@@ -211,32 +212,39 @@
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
+    NSString *pid = [[YooSeeApplication shareApplication] provinceID];
+    NSString *cid = [[YooSeeApplication shareApplication] cityID];
     NSDictionary *requestDic = @{
-                                 @"uid":uid,
-                                 @"pageid":@(_currentPage),
-                                 @"type":@(1),
-                                 @"pagenum":@(5)};
-    [[RequestTool alloc] getRequestWithUrl:GET_Y1Y_LIST
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+                                 @"province_id":[NSString stringWithFormat:@"%@",pid],
+                                 @"city_id":[NSString stringWithFormat:@"%@",cid],
+                                 @"hongbao_type":@"2",
+                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
+                                 @"startid":self.startID};
+    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_LIST
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         NSLog(@"GET_Y1Y_LIST===%@",responseDic);
+         NSLog(@"ROB_RED_PACKGE_LIST===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              @synchronized(_dataArray) {
                  if (_currentPage == 1) {
                      [_dataArray removeAllObjects];
                  }
-                 NSDictionary *dic = dataDic[@"body"];
-                 NSArray *ary = dic[@"redpacketlist"];
-                 if (ary) {
+                 NSArray *ary = dataDic[@"resultList"];
+                 if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
                      [_dataArray addObjectsFromArray:ary];
+                     self.startID = [ary lastObject][@"id"];
+                 } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
+                     [_dataArray addObject:ary];
+                     NSDictionary *d = (NSDictionary*)ary;
+                     self.startID = d[@"id"];
                  }
                  [self.table reloadData];
              }
@@ -248,11 +256,11 @@
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];
      }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          
          [LoadingView dismissLoadingView];
-         NSLog(@"GET_Y1Y_LIST====%@",error);
+         NSLog(@"ROB_RED_PACKGE_LIST====%@",error);
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];
@@ -261,6 +269,7 @@
 
 - (void)refreshData {
     [super refreshData];
+    self.startID = @"0";
     [self request];
 }
 

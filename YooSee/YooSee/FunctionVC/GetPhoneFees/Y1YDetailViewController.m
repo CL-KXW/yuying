@@ -484,11 +484,12 @@
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
+    
     NSDictionary *requestDic = @{
-                                 @"uid":uid,
-                                 @"ggid":_dataDic[@"ggid"]
-                                 };
-    [[RequestTool alloc] getRequestWithUrl:RED_POCKET_DETAIL
+                                 @"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_DETAIL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

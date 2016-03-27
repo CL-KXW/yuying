@@ -11,6 +11,7 @@
 #import "RobRedPackgeDetailVC.h"
 @interface RobRedPackgeListVC ()
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSString *startID;
 @end
 
 @implementation RobRedPackgeListVC
@@ -22,6 +23,8 @@
     
     [self addBackItem];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:1 tableDelegate:self];
+    [self addRefreshHeaderView];
+    [self addRefreshFooterView];
     self.table.separatorStyle = 0;
 }
 
@@ -88,6 +91,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     RobRedPackgeDetailVC *detail = [[RobRedPackgeDetailVC alloc] init];
     detail.redPackgeId = dic[@"only_number"];
+    detail.logoUrl = dic[@"logo"];
+    detail.desc = dic[@"title_1"];
     [self.navigationController pushViewController:detail animated:YES];
 }
 
@@ -102,7 +107,7 @@
                                  @"city_id":[NSString stringWithFormat:@"%@",cid],
                                  @"hongbao_type":@"1",
                                  @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
-                                 @"startid":@"0"};
+                                 @"startid":self.startID};
     [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_LIST
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -121,10 +126,13 @@
                      [_dataArray removeAllObjects];
                  }
                  NSArray *ary = dataDic[@"resultList"];
-                 if (ary && [ary isKindOfClass:[NSArray class]]) {
+                 if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
                      [_dataArray addObjectsFromArray:ary];
+                     self.startID = [ary lastObject][@"id"];
                  } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                      [_dataArray addObject:ary];
+                     NSDictionary *d = (NSDictionary*)ary;
+                     self.startID = d[@"id"];
                  }
                  [self.table reloadData];
              }
@@ -149,6 +157,7 @@
 
 - (void)refreshData {
     [super refreshData];
+    self.startID = @"0";
     [self request];
 }
 
