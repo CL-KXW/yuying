@@ -126,7 +126,7 @@
 #define GET_Y1Y_PIC                 Y1Y_MAKE_REQUEST_URL(@"yyw_redpacked_pic")
 
 //预约抢红包
-#define MAKE_ROB                    Y1Y_MAKE_REQUEST_URL(@"yyw_makerob")
+#define MAKE_ROB                    Y1Y_MAKE_REQUEST_URL(@"app/register/add")
 
 //红包详情
 #define RED_POCKET_DETAIL           Y1Y_MAKE_REQUEST_URL(@"yyw_redpackedgg")

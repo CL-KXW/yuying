@@ -24,6 +24,8 @@
     UILabel *lblTimerExample3;
     int leftSecond;
 
+    NSDictionary *_stateDic;
+    
     UIImageView *mainImageView;
 
     UIView *robResultView;
@@ -110,6 +112,7 @@
     [self.view addSubview:imageV];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self requestState];
 }
 
 #pragma mark 点击事件
@@ -117,7 +120,7 @@
 - (void)ganxingquAction {
     NSLog(@"点击了感兴趣");
     Y1YDetail2ViewController *detail2  = [[Y1YDetail2ViewController alloc]init];
-    detail2.ggid = self.dataDic[@"ggid"];
+    detail2.ggid = self.dataDic[@"only_number"];
     [self.navigationController pushViewController:detail2 animated:NO];
 }
 
@@ -289,7 +292,7 @@
     [imageV2 addSubview:label2];
     
     UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake((WIDTH -200)/2, imageV2.frame.size.height*0.35+15+44+20 + 25,200,25)];
-    label3.text = [CommonTool dateString2MDHMString:_dataDic[@"begintime"]];//begintime;//@"2015年9月12日  18:00:00";
+    label3.text = [CommonTool dateString2MDHMString:_dataDic[@"begin_time"]];//begintime;//@"2015年9月12日  18:00:00";
     label3.textColor = [UIColor orangeColor];
     label3.font = FONT(16);
     label3.textAlignment = NSTextAlignmentCenter;
@@ -478,6 +481,58 @@
 }
 
 #pragma mark 网络请求
+- (void)requestState {
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    
+    NSDictionary *requestDic = @{
+                                 @"user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
+    //requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:RED_PACKAGE_STATE
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"RED_PACKAGE_STATE===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             //[self unrobView];
+         }
+         else if (errorCode == 3) {
+             //未开始
+             //self.robButton.hidden = YES;
+             //self.resultDescLabel.text = @"红包还未开始";
+         }
+         else if (errorCode == 4) {
+             //已抢光
+             //self.robButton.hidden = YES;
+             //self.resultDescLabel.text = @"你来迟了，红包已被抢光";
+         }
+         else if (errorCode == 7) {
+             //[self request];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         _stateDic = dataDic;
+         [self dealViews];
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"RED_PACKAGE_STATE====%@",error);
+     }];
+}
+
 - (void)requestDetail {
     //红包详情
     //yyw_redpackedgg
@@ -522,58 +577,95 @@
 }
 
 - (void)requestRob {
-    //抢红包
-    //yyw_robredpacked
+    
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
+    
     NSDictionary *requestDic = @{
-                                 @"uid":uid,
-                                 @"ggid":_dataDic[@"ggid"]
-                                 };
-    [[RequestTool alloc] getRequestWithUrl:RED_POCKET_ROB
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+                                 @"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_DETAIL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         NSLog(@"RED_POCKET_ROB===%@",responseDic);
+         NSLog(@"ROB_RED_PACKGE_DETAIL===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
-         {
-             NSString *state = dataDic[@"body"][@"state"];
-             NSString *message = dataDic[@"body"][@"message"];
-             NSString *company = dataDic[@"body"][@"company"];
-             NSString *robsum = dataDic[@"body"][@"robsum"];
-             if ([state intValue] == 1 || [state intValue] == 2) {
-                 [self robFailView:message];
-                 [audioPlayer3 play];
-             } else if ([state intValue] == 3) {
-                 [self robSuccessView:company robsum:robsum];
-                 [audioPlayer4 play];
-             }
-             [self requestDetail];
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage];
-         }
+         self.dataDic = dataDic;
+         //         if (errorCode == 8)
+         //         {
+         //
+         //         }
+         //         else
+         //         {
+         //             [SVProgressHUD showErrorWithStatus:errorMessage];
+         //         }
+         [self requestDetail];
      }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          
          [LoadingView dismissLoadingView];
-         NSLog(@"RED_POCKET_ROB====%@",error);
+         NSLog(@"ROB_RED_PACKGE_DETAIL====%@",error);
      }];
+    
+//    //抢红包
+//    //yyw_robredpacked
+//    [LoadingView showLoadingView];
+//    NSString *uid = [YooSeeApplication shareApplication].uid;
+//    uid = uid ? uid : @"";
+//    NSDictionary *requestDic = @{
+//                                 @"uid":uid,
+//                                 @"ggid":_dataDic[@"ggid"]
+//                                 };
+//    [[RequestTool alloc] getRequestWithUrl:RED_POCKET_ROB
+//                            requestParamas:requestDic
+//                               requestType:RequestTypeAsynchronous
+//                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+//     {
+//         NSLog(@"RED_POCKET_ROB===%@",responseDic);
+//         NSDictionary *dataDic = (NSDictionary *)responseDic;
+//         int errorCode = [dataDic[@"returnCode"] intValue];
+//         NSString *errorMessage = dataDic[@"returnMessage"];
+//         errorMessage = errorMessage ? errorMessage : @"";
+//         [LoadingView dismissLoadingView];
+//         if (errorCode == 1)
+//         {
+//             NSString *state = dataDic[@"body"][@"state"];
+//             NSString *message = dataDic[@"body"][@"message"];
+//             NSString *company = dataDic[@"body"][@"company"];
+//             NSString *robsum = dataDic[@"body"][@"robsum"];
+//             if ([state intValue] == 1 || [state intValue] == 2) {
+//                 [self robFailView:message];
+//                 [audioPlayer3 play];
+//             } else if ([state intValue] == 3) {
+//                 [self robSuccessView:company robsum:robsum];
+//                 [audioPlayer4 play];
+//             }
+//             [self requestDetail];
+//         }
+//         else
+//         {
+//             [SVProgressHUD showErrorWithStatus:errorMessage];
+//         }
+//     }
+//                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         
+//         [LoadingView dismissLoadingView];
+//         NSLog(@"RED_POCKET_ROB====%@",error);
+//     }];
 }
 
 - (void)dealViews {
-    int orderType = [_dataDic[@"ordertype"] intValue];
-    int state = [_dataDic[@"state"] intValue];
-    NSString *ifwin = _dataDic[@"ifwin"];
+    int orderType = [_stateDic[@"renzheng_type"] intValue];
+    int state = [_stateDic[@"returnCode"] intValue];
     NSDate *date = [CommonTool timeStringToDate:_dataDic[@"begintime"] format:@"yyyy-MM-dd HH:mm:ss"];
     ;
     leftSecond = [date timeIntervalSinceNow];
@@ -582,27 +674,18 @@
     }
     if (orderType == 1) {
         //已预约
-        if (state == 1) {
+        if (state == 3) {
             //未开始
             if (leftSecond <= 0) {
                 [self yaoyiyao];
             } else {
                 [self daojishi];
             }
-        } else if (state == 2) {
+        } else if (state == 8) {
             //进行中
-            if ([ifwin isEqualToString:@"Y"]) {
-                //抢到
-                [self resultView];
-            } else if ([ifwin isEqualToString:@"N"]) {
-                //没去抢
-                [self yaoyiyao];
-            } else if ([ifwin isEqualToString:@"U"]) {
-                //没抢到
-                [self resultView];
-            }
+            [self yaoyiyao];
             
-        } else if (state == 3) {
+        } else if (state == 7 || state == 4) {
             //已结束
             [self resultView];
         }

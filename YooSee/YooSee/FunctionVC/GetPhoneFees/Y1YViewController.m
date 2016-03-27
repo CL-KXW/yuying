@@ -41,22 +41,6 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-     {
-     begintime = "2016-03-28 15:38:00.0";
-     endtime = "2016-03-28 15:38:00.0";
-     ggid = 2598;
-     ifread = Y;
-     ifwin = N;
-     largepic = "http://112.74.135.133/yywht/uploadfile/ggpic/093800380_1.PNG";
-     moneytype = 3;
-     ordertype = 1;
-     robsum = null;
-     smallpic = "http://112.74.135.133/yywht/uploadfile/ggpic/0959535953_1.JPG";
-     state = 1;
-     title = "\U6d4b\U8bd5";
-     }
-     */
     static NSString *identify = @"identifyCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];

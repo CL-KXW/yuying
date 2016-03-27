@@ -14,7 +14,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
-    self.title = @"金币明细";
+    self.title = @"现金明细";
     self.detailArray = [NSMutableArray array];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
 }

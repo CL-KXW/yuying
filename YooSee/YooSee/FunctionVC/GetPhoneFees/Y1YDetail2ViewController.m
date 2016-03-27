@@ -20,7 +20,7 @@
     [self addBackItem];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
     self.table.separatorStyle = 0;
-    [self getPicRequest];
+    //[self getPicRequest];
 }
 
 #pragma mark UITableViewDelegate
@@ -73,7 +73,10 @@
     }
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"ggid":self.ggid, @"uid":uid};
+    
+    NSDictionary *requestDic = @{
+                                 @"user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.ggid]};
     [[RequestTool alloc] getRequestWithUrl:MAKE_ROB
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -85,7 +88,7 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              //body =     {
              //message = "\U60a8\U5df2\U62a5\U540d\U6210\U529f\Uff0c\U8bf7\U7559\U610f\U6d3b\U52a8\U5f00\U59cb\Uff01";

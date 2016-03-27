@@ -33,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"金币库";
+    self.title = @"现金库";
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:scrollView];
@@ -54,26 +54,26 @@
     float gg = 40;
     
     UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake(0, 205-gg, CongWIDTH-25, 40)];
-    label.text = @"我的金币";
+    label.text = @"我的现金";
     label.textAlignment = NSTextAlignmentCenter;
     label.font = FONT(20);
     label.textColor = [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
     [button addSubview:label];
     
-    
+    NSString *paymoney = [[YooSeeApplication shareApplication] userDic][@"paymoney"];
     label2 =[[UILabel alloc]initWithFrame:CGRectMake(0, 255-gg, CongWIDTH-25, 40)];
-    label2.text = @"0金币";
+    label2.text = [NSString stringWithFormat:@"%@元", paymoney];
     label2.textAlignment = NSTextAlignmentCenter;
     label2.font = FONT(38);
     label2.textColor = [UIColor colorWithRed:253.0/255.0 green:133.0/255.0 blue:63.0/255.0 alpha:1.0];
     [button addSubview:label2];
     
-    label3 =[[UILabel alloc]initWithFrame:CGRectMake(0, 295-gg, CongWIDTH-25, 50)];
-    label3.text = @"可用于消费与提现";
-    label3.textAlignment = NSTextAlignmentCenter;
-    label3.font = FONT(13);
-    label3.textColor =  [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0];
-    [button addSubview:label3];
+//    label3 =[[UILabel alloc]initWithFrame:CGRectMake(0, 295-gg, CongWIDTH-25, 50)];
+//    label3.text = @"可用于消费与提现";
+//    label3.textAlignment = NSTextAlignmentCenter;
+//    label3.font = FONT(13);
+//    label3.textColor =  [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0];
+//    [button addSubview:label3];
     
     
     
@@ -102,7 +102,7 @@
     
     UIButton *ba4 = [[UIButton alloc]initWithFrame:CGRectMake((CongWIDTH-150-25)/2,440, 150, 40)];
     ba4.titleLabel.font = [UIFont systemFontOfSize:12];
-    [ba4 setTitle:@"查看金币明细" forState:UIControlStateNormal];
+    [ba4 setTitle:@"查看现金明细" forState:UIControlStateNormal];
     [ba4 setTitleColor:[UIColor colorWithRed:119.0/255.0 green:170.0/255.0 blue:227.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [ba4 addTarget:self action:@selector(HFMXAction) forControlEvents:UIControlEventTouchUpInside];
     [button addSubview:ba4];
@@ -128,20 +128,21 @@
 }
 
 - (void)HFMXAction {
-    //查看金币明细
+    //查看现金明细
     MoneyDetailVC *detail = [[MoneyDetailVC alloc] init];
     detail.detailArray = _listArray;
     [self.navigationController pushViewController:detail animated:YES];
 }
 
 #pragma mark 网络请求
-//请求金币信息
+//请求现金信息
 -(void)requestGoldInfo {
     
     NSString *uid = [YooSeeApplication shareApplication].uid;
+    
     uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid,@"moneytype":@(3)};
-    [[RequestTool alloc] requestWithUrl:GET_GOLD_INFO
+    NSDictionary *requestDic = @{@"id":uid};
+    [[RequestTool alloc] requestWithUrl:USER_INFO_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -151,22 +152,12 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
-             NSDictionary *dic = dataDic[@"body"];
-             label2.text = [NSString stringWithFormat:@"%ld 金币",(long)[dic[@"money"] integerValue] ];
-             
-             id data = [dataDic objectForKey:@"data"];
-             if ([data isKindOfClass:[NSArray class]])
-             {
-                 if (!_listArray)
-                 {
-                     _listArray = [[NSMutableArray alloc] init];
-                 }
-                 [_listArray removeAllObjects];
-                 [_listArray addObjectsFromArray:data];
+             NSDictionary *dic = dataDic[@"resultList"];
+             if (dic && [dic isKindOfClass:[NSDictionary class]] && dic[@"paymoney"]) {
+                 label2.text = [NSString stringWithFormat:@"%@元",dic[@"paymoney"]];
              }
-
          }
          else
          {
