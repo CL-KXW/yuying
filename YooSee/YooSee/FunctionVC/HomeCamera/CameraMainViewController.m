@@ -60,7 +60,7 @@
 @property (nonatomic, strong) UIImageView *ratiosView;
 @property (nonatomic, strong) UIImageView *voiceView;
 @property (nonatomic, strong) UIImageView *playView;
-@property (nonatomic, strong) UIImageView *advImageView;
+@property (nonatomic, strong) UIButton *advImageView;
 @property (nonatomic, strong) NSDictionary *playerDic;
 @property (nonatomic, assign) BOOL getVideoFirstImg;//录像时获取第一张截图做为显示
 @property (nonatomic, assign) float count;
@@ -261,17 +261,17 @@
     [self.remoteView addSubview:_numberLabel];
     
     
-    _advImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.remoteView.frame.size.width, self.remoteView.frame.size.height) placeholderImage:[UIImage imageNamed:@"adv_default"]];
+    _advImageView = [CreateViewTool createButtonWithFrame:CGRectMake(0, 0, self.remoteView.frame.size.width, self.remoteView.frame.size.height) buttonImage:@"" selectorName:@"platerAdvPressed" tagDelegate:self];
     [self.remoteView addSubview:_advImageView];
-    UIButton *button = [CreateViewTool createButtonWithFrame:_advImageView.frame buttonImage:@"" selectorName:@"platerAdvPressed" tagDelegate:self];
-    [_advImageView addSubview:button];
+    
+    [_advImageView setImage:[UIImage imageNamed:@"adv_default"] forState:UIControlStateNormal];
     
     NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
-    NSArray *array = infoDic[@"phomeVideo"];
+    NSArray *array = infoDic[@"homeVideo"];
     if (array && array.count > 0)
     {
         self.playerDic = array[0];
-        [_advImageView setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]]];
+        [_advImageView setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]] forState:UIControlStateNormal];
     }
     
     

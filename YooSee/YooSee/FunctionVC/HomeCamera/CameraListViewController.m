@@ -45,6 +45,10 @@
     [self addBackItem];
     [self setNavBarItemWithImageName:@"icon_navbar_add" navItemType:RightItem selectorName:@"addCameraButtonPressed:"];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDeviceListRequest)
+                                                 name:@"refreshDeviceListFromServer" object:nil];
+    
     [self initUI];
     
     [self getDeviceListRequest];
@@ -58,6 +62,7 @@
     [super viewWillAppear:animated];
     if ([self.dataArray count] && self.dataArray)
     {
+        [self observingDeviceList];
         [self createTimer];
     }
 }
@@ -77,7 +82,6 @@
         //设备列表刷新定时器
         _checkStateTimes = 0;
         _checkStateTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkDeviceState:) userInfo:nil repeats:YES];
-        [self observingDeviceList];
     }
 }
 
@@ -111,15 +115,12 @@
                                                  name:@"refreshMessage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshDeviceInfo)
                                                  name:@"updateContactState" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDeviceListRequest)
-                                                 name:@"refreshDeviceListFromServer" object:nil];
 }
 
 - (void)unObservingDeviceList
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshMessage" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"updateContactState" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshDeviceListFromServer" object:nil];
 }
 
 #pragma mark  初始化UI
