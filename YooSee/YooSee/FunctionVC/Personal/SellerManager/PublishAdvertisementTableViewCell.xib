@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="130" id="KGk-i7-Jjw" customClass="PublishAdvertisementTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广告封面" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68g-5I-pkj">
+                        <rect key="frame" x="10" y="10" width="60" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="F20-f8-0Ne"/>
+                            <constraint firstAttribute="width" constant="60" id="gMl-m7-ccz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广告内容图片" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1B-av-6h3">
+                        <rect key="frame" x="110" y="10" width="200" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="ceL-sW-wxF"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKo-uJ-dfE">
+                        <rect key="frame" x="10" y="34" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="NBS-dL-TqT"/>
+                            <constraint firstAttribute="width" constant="60" id="cRZ-x9-TEB"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="Common_addPictureSquare"/>
+                    </button>
+                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zdd-Vf-krU">
+                        <rect key="frame" x="180" y="34" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="Bcu-YL-Kwc"/>
+                            <constraint firstAttribute="height" constant="60" id="Ikf-JM-zeR"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="Common_addPictureSquare"/>
+                    </button>
+                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ROk-SF-OQv">
+                        <rect key="frame" x="250" y="34" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="AO9-Kp-dC6"/>
+                            <constraint firstAttribute="height" constant="60" id="R3S-7l-Ynm"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="Common_addPictureSquare"/>
+                    </button>
+                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2F-zs-QZT">
+                        <rect key="frame" x="110" y="34" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="tzr-OQ-raP"/>
+                            <constraint firstAttribute="height" constant="60" id="wyI-Dm-PrM"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="Common_addPictureSquare"/>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="Zdd-Vf-krU" secondAttribute="bottom" constant="10" id="066-eg-t5i"/>
+                    <constraint firstItem="68g-5I-pkj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="5Sd-s5-xra"/>
+                    <constraint firstAttribute="bottom" secondItem="ROk-SF-OQv" secondAttribute="bottom" constant="10" id="AvI-nv-E6J"/>
+                    <constraint firstItem="a1B-av-6h3" firstAttribute="leading" secondItem="t2F-zs-QZT" secondAttribute="leading" id="Ti6-KT-wsh"/>
+                    <constraint firstItem="ROk-SF-OQv" firstAttribute="leading" secondItem="Zdd-Vf-krU" secondAttribute="trailing" constant="10" id="V64-rg-veA"/>
+                    <constraint firstItem="a1B-av-6h3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="aEa-H9-2gO"/>
+                    <constraint firstItem="zKo-uJ-dfE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="dIY-Mo-2On"/>
+                    <constraint firstAttribute="bottom" secondItem="zKo-uJ-dfE" secondAttribute="bottom" constant="10" id="fKZ-Bf-eD9"/>
+                    <constraint firstItem="Zdd-Vf-krU" firstAttribute="leading" secondItem="t2F-zs-QZT" secondAttribute="trailing" constant="10" id="hVv-S1-fZU"/>
+                    <constraint firstAttribute="bottom" secondItem="t2F-zs-QZT" secondAttribute="bottom" constant="10" id="mQw-7q-OmC"/>
+                    <constraint firstAttribute="trailing" secondItem="ROk-SF-OQv" secondAttribute="trailing" constant="10" id="r21-zH-Paz"/>
+                    <constraint firstAttribute="trailing" secondItem="a1B-av-6h3" secondAttribute="trailing" constant="10" id="vBq-qK-eCv"/>
+                    <constraint firstItem="68g-5I-pkj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="vTJ-Q7-XdS"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="addPicture1" destination="t2F-zs-QZT" id="wEa-Rg-LLB"/>
+                <outlet property="addPicture2" destination="Zdd-Vf-krU" id="xqG-4k-vQD"/>
+                <outlet property="addPicture3" destination="ROk-SF-OQv" id="MkK-wm-Amq"/>
+                <outlet property="contentLabel" destination="a1B-av-6h3" id="E9h-0O-IZx"/>
+                <outlet property="coverButton" destination="zKo-uJ-dfE" id="FOr-LF-vDH"/>
+                <outlet property="titleLabel" destination="68g-5I-pkj" id="3eA-pM-7bA"/>
+            </connections>
+            <point key="canvasLocation" x="746" y="321.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Common_addPictureSquare" width="70" height="70"/>
+    </resources>
+</document>

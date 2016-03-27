@@ -13,4 +13,7 @@
 @property (nonatomic, assign) CGFloat y;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;
+
+-(void)viewRadius:(float)radius backgroundColor:(UIColor *)color;
+
 @end

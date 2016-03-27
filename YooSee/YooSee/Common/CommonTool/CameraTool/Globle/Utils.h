@@ -64,6 +64,18 @@ enum
 //返回录像
 +(NSString*) getRecordPathWithUserId:(NSString*)userId contactId:(NSString*)contactId;
 
++ (BOOL) isCameraAvailable;
++ (BOOL) isRearCameraAvailable;
++ (BOOL) isFrontCameraAvailable;
++ (BOOL) doesCameraSupportTakingPhotos;
++ (BOOL) isPhotoLibraryAvailable;
++ (BOOL) canUserPickVideosFromPhotoLibrary;
++ (BOOL) canUserPickPhotosFromPhotoLibrary;
++ (BOOL) cameraSupportsMedia:(NSString *)paramMediaType sourceType:(UIImagePickerControllerSourceType)paramSourceType;
+
++(UIImage*)createImageWithColor:(UIColor*)color;
++(NSString *)aesStingDictionary:(NSMutableDictionary *)dic;
+
 @end
 
 @interface NSString(Utils)

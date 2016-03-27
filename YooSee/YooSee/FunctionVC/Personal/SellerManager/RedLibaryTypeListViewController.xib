@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RedLibaryTypeListViewController">
+            <connections>
+                <outlet property="tableView" destination="wd3-ib-gEE" id="oJa-Wq-SWt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wd3-ib-gEE">
+                    <rect key="frame" x="0.0" y="10" width="600" height="590"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="CVh-P6-bwa"/>
+                        <outlet property="delegate" destination="-1" id="JcD-lj-SnA"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="wd3-ib-gEE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="FPr-Jh-yOc"/>
+                <constraint firstAttribute="bottom" secondItem="wd3-ib-gEE" secondAttribute="bottom" id="i5L-42-lTS"/>
+                <constraint firstAttribute="trailing" secondItem="wd3-ib-gEE" secondAttribute="trailing" id="kdH-9D-tQs"/>
+                <constraint firstItem="wd3-ib-gEE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="m8s-x7-cOY"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

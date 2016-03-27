@@ -24,7 +24,106 @@
 #import "AppDelegate.h"
 #import "YooSeeApplication.h"
 #import "Utils.h"
-#import "FBEncryptorAES.h";
+#import "FBEncryptorAES.h"
+
+
+#define ButtonColor_Common    RGB(253.0,112.0,40.0)
+#define ButtonColor_Green    RGB(24,168,2)
+#define ButtonRadius_Common   40/2
+
+//横线颜色
+#define Color_line RGB(240.0,240.0,240.0)
+
+//与默认logo背景图片保持一致
+#define Color_imageBackground RGB(234, 234, 234)
+
+#define Alloc(className) [[className alloc] init]
+#define Alloc_viewControllerNibName(className) [[className alloc] initWithNibName:NSStringFromClass([className class]) bundle:nil]
+
+#pragma mark - W 弱引用
+#define WeakSelf(weakSelf) __weak __typeof(self) weakSelf = self
+
+//产品环境
+#define Is_Production 0
+
+//#if Is_Production
+//#define Url_Host @"http://123.56.236.38/"
+//#else
+#define Url_Host @"http://yyw.dianliangtech.com/dianliang/"
+//#define Url_Host @"http://192.168.10.19:8081/dianliang/"
+//#endif
+
+#define SucessFlag 8
+#define AesKey @"4934505598453075"
+
+#pragma mark - H
+#pragma mark 提示框
+#define Hud_Loading         @"加载中..."
+#define Hud_NoNetworkConnection      @"无网络连接"
+#define Hud_NetworkConnectionTimeout @"网络连接超时"
+#define Hud_NetworkConnectionError   @"网络连接出错"
+#define Hud_NetworkConnectionFail    @"网络连接失败"
+#define Hud_NetworkRequestFail       @"网络请求失败"
+
+#define Url_sellerMessage [Url_Host stringByAppendingString:@"shop/querybyID"]
+#define Url_uploadImage [Url_Host stringByAppendingString:@"image/file/upload"]
+#define Url_sendLuckRedLibary [Url_Host stringByAppendingString:@"app/red/send/luck"]
+#define Url_sendQRcodeRedLibary [Url_Host stringByAppendingString:@"app/red/send/saoma"]
+#define Url_sendShakeRedLibary [Url_Host stringByAppendingString:@"app/red/send/yaoyiyao/send"]
+#define Url_systemRate [Url_Host stringByAppendingString:@"app/config/system/getRate"]
+
+#define LoadNibName(className) [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([className class]) owner:self options:nil] firstObject]
+
+
+#define InitWithStyleUseXib(className) \
+\
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{ \
+self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]; \
+if (self) { \
+self = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([className class]) owner:self options:nil] firstObject]; \
+} \
+\
+return self; \
+}
+
+#define InitWithStyleWithXib \
+\
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{ \
+self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]; \
+if (self) { \
+self = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject]; \
+} \
+\
+return self; \
+}
+
+#define InitWithXib \
+- (instancetype)init \
+{ \
+if (self = [super init]) { \
+self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject; \
+} \
+return self; \
+}
+
+//#import "ACMacros.h"
+
+#import "Masonry.h"
+
+#import "IQKeyboardManager.h"
+
+#import "UIView+UIView_Frame.h"
+
+#import "Utils.h"
+#import "ZHYBaseResponse.h"
+#import "ResponseUploadImage.h"
+#import "YYModel.h"
+
+#import "HttpManager.h"
+#import "AesEncrypt.h"
+
+//#import "AesEncrypt.h"
+#import "UMSocial.h"
 
 
 //#import "ACMacros.h"

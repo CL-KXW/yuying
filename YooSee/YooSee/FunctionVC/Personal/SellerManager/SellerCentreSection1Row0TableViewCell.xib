@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="91" id="KGk-i7-Jjw" customClass="SellerCentreSection1Row0TableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_navbar_close_green_up.png" translatesAutoresizingMaskIntoConstraints="NO" id="p3x-ax-8wn">
+                        <rect key="frame" x="10" y="10" width="70" height="70"/>
+                        <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="p3x-ax-8wn" secondAttribute="height" multiplier="1:1" id="Yy6-rN-lkT"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15222.21元" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7A-qs-Tk6">
+                        <rect key="frame" x="90" y="10" width="220" height="35"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可用于发红包、发布广告、提现等" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YmB-SQ-Ipw">
+                        <rect key="frame" x="90" y="45" width="220" height="35"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="YmB-SQ-Ipw" secondAttribute="trailing" constant="10" id="IGQ-sj-qp4"/>
+                    <constraint firstItem="p3x-ax-8wn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="L57-q9-VoC"/>
+                    <constraint firstAttribute="bottom" secondItem="p3x-ax-8wn" secondAttribute="bottom" constant="10" id="Rk8-a4-teo"/>
+                    <constraint firstItem="I7A-qs-Tk6" firstAttribute="height" secondItem="p3x-ax-8wn" secondAttribute="height" multiplier="1:2" id="Uhw-0h-nfU"/>
+                    <constraint firstItem="YmB-SQ-Ipw" firstAttribute="leading" secondItem="p3x-ax-8wn" secondAttribute="trailing" constant="10" id="Z2b-53-fIF"/>
+                    <constraint firstItem="p3x-ax-8wn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="nR0-Vl-Ve8"/>
+                    <constraint firstItem="I7A-qs-Tk6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="owu-I7-7xq"/>
+                    <constraint firstItem="I7A-qs-Tk6" firstAttribute="leading" secondItem="p3x-ax-8wn" secondAttribute="trailing" constant="10" id="two-Cq-48O"/>
+                    <constraint firstAttribute="trailing" secondItem="I7A-qs-Tk6" secondAttribute="trailing" constant="10" id="u01-Ll-1IW"/>
+                    <constraint firstItem="YmB-SQ-Ipw" firstAttribute="height" secondItem="p3x-ax-8wn" secondAttribute="height" multiplier="1:2" id="utw-I9-G4G"/>
+                    <constraint firstAttribute="bottom" secondItem="YmB-SQ-Ipw" secondAttribute="bottom" constant="10" id="zzR-bp-Yv0"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="customImageView" destination="p3x-ax-8wn" id="Mmo-op-06s"/>
+                <outlet property="fundsLibraryLabel" destination="I7A-qs-Tk6" id="Agg-ri-d7i"/>
+            </connections>
+            <point key="canvasLocation" x="333" y="221.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_navbar_close_green_up.png" width="50" height="50"/>
+    </resources>
+</document>

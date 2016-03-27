@@ -52,4 +52,19 @@
 -(CGFloat)height {
     return self.frame.size.height;
 }
+
+-(void)viewRadius:(float)radius backgroundColor:(UIColor *)color{
+    UIImage *image = [Utils createImageWithColor:color];
+    if ([self isKindOfClass:[UIButton class]]) {
+        UIButton *button = (UIButton *)self;
+        [button setBackgroundImage:image forState:UIControlStateNormal];
+    }else if ([self isKindOfClass:[UIImageView class]]){
+        UIImageView *imageView = (UIImageView *)self;
+        imageView.image = image;
+    }
+    
+    self.layer.cornerRadius = radius;
+    self.layer.masksToBounds = YES;
+}
+
 @end

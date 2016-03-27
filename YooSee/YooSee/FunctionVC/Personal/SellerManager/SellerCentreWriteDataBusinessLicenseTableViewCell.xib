@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="259" id="KGk-i7-Jjw" customClass="SellerCentreWriteDataBusinessLicenseTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="259"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="258"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0h-6N-VhP" customClass="SelectPictureButton">
+                        <rect key="frame" x="8" y="18" width="304" height="201"/>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ysn-Aa-SBF">
+                        <rect key="frame" x="8" y="238" width="304" height="1"/>
+                        <color key="backgroundColor" red="0.98431372549019602" green="0.4392156862745098" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="igo-SJ-45e"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请输入法人信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCD-za-MAF">
+                        <rect key="frame" x="100" y="229" width="120" height="21"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="1Cw-nb-WhO"/>
+                            <constraint firstAttribute="height" constant="21" id="R45-PU-ZJh"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.98431372549999996" green="0.43921568630000002" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Ysn-Aa-SBF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="2R6-kt-uJi"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="uCD-za-MAF" secondAttribute="bottom" id="6Jv-w3-Ah7"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Ysn-Aa-SBF" secondAttribute="trailing" id="AE5-IV-DtF"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Ysn-Aa-SBF" secondAttribute="bottom" constant="11" id="Lci-9M-4CZ"/>
+                    <constraint firstItem="t0h-6N-VhP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="VYf-94-Beq"/>
+                    <constraint firstItem="t0h-6N-VhP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="XE8-U9-dQ2"/>
+                    <constraint firstItem="uCD-za-MAF" firstAttribute="top" secondItem="t0h-6N-VhP" secondAttribute="bottom" constant="10" id="arC-7x-DTD"/>
+                    <constraint firstItem="uCD-za-MAF" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="bD6-2B-VGd"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="t0h-6N-VhP" secondAttribute="trailing" id="xZv-3B-Qcs"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="businessLicenseView" destination="t0h-6N-VhP" id="ZBW-U4-TJl"/>
+                <outlet property="promptLabel" destination="uCD-za-MAF" id="2et-As-qLj"/>
+            </connections>
+            <point key="canvasLocation" x="211" y="431.5"/>
+        </tableViewCell>
+    </objects>
+</document>

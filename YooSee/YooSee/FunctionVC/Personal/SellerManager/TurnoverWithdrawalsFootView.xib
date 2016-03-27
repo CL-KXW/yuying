@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TurnoverWithdrawalsFootView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="营业额提现与转出到余额将扣除10%手续费" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lt2-xR-0Zj">
+                    <rect key="frame" x="20" y="40" width="560" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="kaj-Zy-fTf"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击提现申请与转出，表示您以阅读并同意" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vv8-7Q-cg2">
+                    <rect key="frame" x="20" y="76" width="560" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etK-to-Wqf">
+                    <rect key="frame" x="258" y="101" width="84" height="29"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="商家服务条款">
+                        <color key="titleColor" red="0.98431372549999996" green="0.43921568630000002" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提现一个工作日内到账，转出到余额即时到账。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x67-RG-oyG">
+                    <rect key="frame" x="20" y="160" width="560" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="saq-Be-BEc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eiw-Gz-454">
+                    <rect key="frame" x="20" y="271" width="560" height="40"/>
+                    <color key="backgroundColor" red="0.98431372549999996" green="0.43921568630000002" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="LL2-Ut-mKE"/>
+                    </constraints>
+                    <state key="normal" title="转出到余额"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X2k-Nr-lk9">
+                    <rect key="frame" x="20" y="211" width="560" height="40"/>
+                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="JEl-HF-xsy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="提现申请"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Eiw-Gz-454" firstAttribute="top" secondItem="X2k-Nr-lk9" secondAttribute="bottom" constant="20" id="K22-bT-uLz"/>
+                <constraint firstItem="etK-to-Wqf" firstAttribute="top" secondItem="Vv8-7Q-cg2" secondAttribute="bottom" constant="10" id="PMa-Ju-2Mk"/>
+                <constraint firstItem="Lt2-xR-0Zj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QFo-cc-vJ0"/>
+                <constraint firstItem="x67-RG-oyG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Qt9-j1-3ck"/>
+                <constraint firstAttribute="trailing" secondItem="x67-RG-oyG" secondAttribute="trailing" constant="20" id="UYe-nL-Cmw"/>
+                <constraint firstAttribute="trailing" secondItem="X2k-Nr-lk9" secondAttribute="trailing" constant="20" id="YJ7-wZ-xU6"/>
+                <constraint firstItem="Eiw-Gz-454" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="coN-Tx-TP5"/>
+                <constraint firstItem="Vv8-7Q-cg2" firstAttribute="top" secondItem="Lt2-xR-0Zj" secondAttribute="bottom" constant="15" id="etR-zD-rWa"/>
+                <constraint firstAttribute="trailing" secondItem="Eiw-Gz-454" secondAttribute="trailing" constant="20" id="fKJ-ko-LLt"/>
+                <constraint firstItem="etK-to-Wqf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fyv-xA-XUM"/>
+                <constraint firstAttribute="trailing" secondItem="Lt2-xR-0Zj" secondAttribute="trailing" constant="20" id="qJh-gp-3rx"/>
+                <constraint firstItem="X2k-Nr-lk9" firstAttribute="top" secondItem="x67-RG-oyG" secondAttribute="bottom" constant="30" id="r2b-ZU-KkA"/>
+                <constraint firstAttribute="trailing" secondItem="Vv8-7Q-cg2" secondAttribute="trailing" constant="20" id="s4s-Jn-PVZ"/>
+                <constraint firstItem="Lt2-xR-0Zj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="tzV-iH-urp"/>
+                <constraint firstItem="Vv8-7Q-cg2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="u8F-OI-oE5"/>
+                <constraint firstItem="X2k-Nr-lk9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="wgU-6m-OGc"/>
+                <constraint firstItem="x67-RG-oyG" firstAttribute="top" secondItem="etK-to-Wqf" secondAttribute="bottom" constant="30" id="zUH-9L-vbJ"/>
+            </constraints>
+            <connections>
+                <outlet property="serviceAgreementButton" destination="etK-to-Wqf" id="yaY-lP-6Ix"/>
+                <outlet property="transferToSurplusButton" destination="Eiw-Gz-454" id="0hz-E3-gm4"/>
+                <outlet property="withdrawalsApplyButton" destination="X2k-Nr-lk9" id="Ej9-45-YH1"/>
+            </connections>
+            <point key="canvasLocation" x="163" y="183"/>
+        </view>
+    </objects>
+</document>

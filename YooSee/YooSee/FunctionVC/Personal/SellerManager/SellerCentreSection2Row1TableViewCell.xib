@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SellerCentreSection2Row1TableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AT-pt-gxv">
+                        <rect key="frame" x="0.0" y="0.0" width="160" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="转移">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vab-2V-mi1">
+                        <rect key="frame" x="160" y="2" width="1" height="39"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="hRH-jz-AOc"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="plA-nr-9py">
+                        <rect key="frame" x="160" y="0.0" width="160" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="提现">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="plA-nr-9py" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6FH-Ht-VWa"/>
+                    <constraint firstAttribute="trailing" secondItem="plA-nr-9py" secondAttribute="trailing" id="Mns-99-IN1"/>
+                    <constraint firstItem="1AT-pt-gxv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="X1G-bl-mFT"/>
+                    <constraint firstItem="plA-nr-9py" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1:2" id="XC0-Na-bkT"/>
+                    <constraint firstItem="vab-2V-mi1" firstAttribute="leading" secondItem="1AT-pt-gxv" secondAttribute="trailing" id="cYo-wa-dat"/>
+                    <constraint firstAttribute="leading" secondItem="1AT-pt-gxv" secondAttribute="leading" id="cmu-az-sS6"/>
+                    <constraint firstAttribute="bottom" secondItem="1AT-pt-gxv" secondAttribute="bottom" id="grK-XX-efx"/>
+                    <constraint firstAttribute="bottom" secondItem="vab-2V-mi1" secondAttribute="bottom" constant="2" id="in9-Ne-b4f"/>
+                    <constraint firstItem="1AT-pt-gxv" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1:2" id="lU8-Uy-oC9"/>
+                    <constraint firstAttribute="bottom" secondItem="plA-nr-9py" secondAttribute="bottom" id="tiK-of-KOx"/>
+                    <constraint firstItem="vab-2V-mi1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="yzy-oI-PIs"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="moveButton" destination="1AT-pt-gxv" id="f9T-8D-7ui"/>
+                <outlet property="withdrawalsButton" destination="plA-nr-9py" id="tvj-dI-e8V"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

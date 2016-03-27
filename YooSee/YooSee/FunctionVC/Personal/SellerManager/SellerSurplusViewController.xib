@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SellerSurplusViewController">
+            <connections>
+                <outlet property="rechargeButton" destination="wP9-jm-oZU" id="9JD-zU-7OP"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="withdrawalsButton" destination="wcD-53-FTi" id="Umi-B1-vk7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SellerSurplus_surplus" translatesAutoresizingMaskIntoConstraints="NO" id="llh-ly-r9H">
+                    <rect key="frame" x="260" y="104" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="tz7-DE-eLZ"/>
+                        <constraint firstAttribute="width" constant="80" id="xQK-wo-ofj"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的余额" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HcK-KJ-kRf">
+                    <rect key="frame" x="260" y="224" width="80" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="50q-I2-5MY"/>
+                        <constraint firstAttribute="width" constant="80" id="T2e-6i-mN3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="90.08元" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1p-1K-jio">
+                    <rect key="frame" x="20" y="250" width="560" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="2H4-Zl-Nry"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcD-53-FTi">
+                    <rect key="frame" x="20" y="371" width="560" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="XUp-z0-tTm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="提现">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="withdrawalsButtonClick:" destination="-1" eventType="touchUpInside" id="LkJ-ti-FYg"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2u-9w-hPJ">
+                    <rect key="frame" x="250" y="441" width="100" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="SeL-vI-Ei6"/>
+                        <constraint firstAttribute="width" constant="100" id="lGA-QY-YEh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="查看资金明细">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="capitalDetailButtonClick:" destination="-1" eventType="touchUpInside" id="WGd-UT-SJs"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wP9-jm-oZU">
+                    <rect key="frame" x="20" y="311" width="560" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="xtw-8g-iE8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="充值">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="rechargeButtonClick:" destination="-1" eventType="touchUpInside" id="pio-Le-zH8"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="wcD-53-FTi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="3ea-b1-S1f"/>
+                <constraint firstItem="H2u-9w-hPJ" firstAttribute="top" secondItem="wcD-53-FTi" secondAttribute="bottom" constant="30" id="4Hs-1g-dMY"/>
+                <constraint firstItem="wcD-53-FTi" firstAttribute="top" secondItem="wP9-jm-oZU" secondAttribute="bottom" constant="20" id="AQ2-sU-VOT"/>
+                <constraint firstAttribute="trailing" secondItem="X1p-1K-jio" secondAttribute="trailing" constant="20" id="CD1-mc-UnG"/>
+                <constraint firstItem="wP9-jm-oZU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="CgC-xl-O01"/>
+                <constraint firstItem="X1p-1K-jio" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="JNM-DF-ZNr"/>
+                <constraint firstItem="H2u-9w-hPJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="M6Z-Cn-17H"/>
+                <constraint firstItem="X1p-1K-jio" firstAttribute="top" secondItem="HcK-KJ-kRf" secondAttribute="bottom" constant="5" id="QEE-Yv-Spm"/>
+                <constraint firstAttribute="trailing" secondItem="wP9-jm-oZU" secondAttribute="trailing" constant="20" id="QXj-5w-2SU"/>
+                <constraint firstAttribute="trailing" secondItem="wcD-53-FTi" secondAttribute="trailing" constant="20" id="ekV-OX-6PC"/>
+                <constraint firstItem="wP9-jm-oZU" firstAttribute="top" secondItem="X1p-1K-jio" secondAttribute="bottom" constant="40" id="f6T-ZB-DyY"/>
+                <constraint firstItem="wcD-53-FTi" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="nmR-UB-uX2"/>
+                <constraint firstItem="llh-ly-r9H" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ow2-lB-0In"/>
+                <constraint firstItem="HcK-KJ-kRf" firstAttribute="top" secondItem="llh-ly-r9H" secondAttribute="bottom" constant="40" id="tTW-Ay-NDh"/>
+                <constraint firstItem="HcK-KJ-kRf" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="zcD-Dk-m9X"/>
+                <constraint firstItem="llh-ly-r9H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="104" id="znU-b7-6xr"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="SellerSurplus_surplus" width="108" height="108"/>
+    </resources>
+</document>

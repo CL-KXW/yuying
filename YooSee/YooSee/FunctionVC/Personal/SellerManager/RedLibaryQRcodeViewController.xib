@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RedLibaryQRcodeViewController">
+            <connections>
+                <outlet property="logoImageView" destination="ccD-De-gqa" id="fq4-j9-G7b"/>
+                <outlet property="qrCodeImageView" destination="rSo-PC-kXV" id="zKb-bt-nF1"/>
+                <outlet property="shareButton" destination="sGh-c6-Epy" id="8ic-ko-2gk"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rSo-PC-kXV">
+                    <rect key="frame" x="230" y="140" width="140" height="140"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="140" id="Szv-2n-Gpj"/>
+                        <constraint firstAttribute="height" constant="140" id="pak-Ld-S2Z"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大家拉拢的经费卡积分" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2p-Bq-Hjm">
+                    <rect key="frame" x="230" y="315" width="140" height="49"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="VYP-Zm-Wfb"/>
+                        <constraint firstAttribute="width" constant="140" id="YDq-z0-bia"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGh-c6-Epy">
+                    <rect key="frame" x="20" y="424" width="560" height="40"/>
+                    <color key="backgroundColor" red="0.094117647058823528" green="0.6588235294117647" blue="0.0078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="oxH-HB-bd5"/>
+                    </constraints>
+                    <state key="normal" title="分享"/>
+                    <connections>
+                        <action selector="shareButtonClick:" destination="-1" eventType="touchUpInside" id="zPI-9R-n7e"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SellerSurplus_surplus" translatesAutoresizingMaskIntoConstraints="NO" id="ccD-De-gqa">
+                    <rect key="frame" x="285" y="195" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="Wmy-f0-N80"/>
+                        <constraint firstAttribute="height" constant="30" id="kPD-Ep-wnx"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="rSo-PC-kXV" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3RN-rN-w82"/>
+                <constraint firstItem="L2p-Bq-Hjm" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="L1o-4P-JPG"/>
+                <constraint firstAttribute="trailing" secondItem="sGh-c6-Epy" secondAttribute="trailing" constant="20" id="RVI-LV-3c9"/>
+                <constraint firstItem="ccD-De-gqa" firstAttribute="leading" secondItem="rSo-PC-kXV" secondAttribute="leading" constant="55" id="ZOe-EN-I3z"/>
+                <constraint firstItem="sGh-c6-Epy" firstAttribute="top" secondItem="L2p-Bq-Hjm" secondAttribute="bottom" constant="60" id="bUp-5H-Ys6"/>
+                <constraint firstItem="L2p-Bq-Hjm" firstAttribute="top" secondItem="rSo-PC-kXV" secondAttribute="bottom" constant="35" id="l7k-lJ-DmH"/>
+                <constraint firstItem="rSo-PC-kXV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="140" id="yPd-SK-6dV"/>
+                <constraint firstItem="sGh-c6-Epy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="yla-o2-9vd"/>
+                <constraint firstItem="ccD-De-gqa" firstAttribute="top" secondItem="rSo-PC-kXV" secondAttribute="top" constant="55" id="ypP-ya-gGu"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="SellerSurplus_surplus" width="108" height="108"/>
+    </resources>
+</document>
