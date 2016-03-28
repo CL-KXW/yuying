@@ -11,5 +11,5 @@
 @interface Y1YDetail2ViewController : BasicViewController
 
 @property (nonatomic, copy) NSString *ggid;
-
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @end

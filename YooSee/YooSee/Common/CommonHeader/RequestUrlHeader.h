@@ -12,10 +12,9 @@
 //#define SERVER_URL                  @"http://zhouqiubo.vicp.cc:9998/koi"
 //#define SERVER_URL                  @"http://1.199.40.48:8086/koi"
 #define SERVER_URL                  @"http://yyw.dianliangtech.com/dianliang/"
-#define Y1Y_SERVER_URL              @"http://112.74.135.133/yywapp/"
 
 #define MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@",SERVER_URL,inf]
-#define Y1Y_MAKE_REQUEST_URL(inf)   [NSString stringWithFormat:@"%@%@.flow",Y1Y_SERVER_URL,inf]
+
 //登录服务器
 #define LOGIN_SERVER_URL            MAKE_REQUEST_URL(@"app/system/version")
 
@@ -122,33 +121,23 @@
 //获取广告奖励
 #define GET_AD_REWARD               MAKE_REQUEST_URL(@"app/ab/get/add")
 
-//红包图片
-#define GET_Y1Y_PIC                 Y1Y_MAKE_REQUEST_URL(@"yyw_redpacked_pic")
-
 //预约抢红包
-#define MAKE_ROB                    Y1Y_MAKE_REQUEST_URL(@"app/register/add")
+#define MAKE_ROB                    MAKE_REQUEST_URL(@"app/register/add")
 
 //红包详情
-#define RED_POCKET_DETAIL           Y1Y_MAKE_REQUEST_URL(@"yyw_redpackedgg")
+#define RED_POCKET_DETAIL           MAKE_REQUEST_URL(@"yyw_redpackedgg")
 
 //抢红包
-#define RED_POCKET_ROB              Y1Y_MAKE_REQUEST_URL(@"yyw_robredpacked")
+#define RED_POCKET_ROB              MAKE_REQUEST_URL(@"app/red/getyiyao/add")
 
 //抢红包排行榜
-#define RED_POCKET_ROBER_LIST       Y1Y_MAKE_REQUEST_URL(@"yyw_getrobredlist")
-
-
-//获取个人财产信息
-#define GET_GOLD_INFO               MAKE_REQUEST_URL(@"yyw_getcaichan")
+#define RED_POCKET_ROBER_LIST       MAKE_REQUEST_URL(@"app/red/get/sort")
 
 //创建订单
 #define CREATEORDER_URL             MAKE_REQUEST_URL(@"account/recharge/add")
 
-//获取提现信息
-#define MONEY_DRAWCASHCHECK         MAKE_REQUEST_URL(@"yyw_money_drawcashcheck")
-
 //提现申请
-#define MONEY_DRAWCASHSUBMIT        MAKE_REQUEST_URL(@"yyw_money_drawcashsubmit")
+#define MONEY_DRAWCASHSUBMIT        MAKE_REQUEST_URL(@"app/account/personal/tixian/add")
 
 //抢红包列表
 #define ROB_RED_PACKGE_LIST             MAKE_REQUEST_URL(@"app/red/send/querybyCity_id")

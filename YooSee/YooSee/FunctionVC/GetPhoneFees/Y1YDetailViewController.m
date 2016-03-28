@@ -35,6 +35,10 @@
     AVAudioPlayer *audioPlayer3;
     AVAudioPlayer *audioPlayer4;
     NSMutableArray *roberArray;
+    
+    BOOL _isAuth;
+    int _userSort;
+    float _userRobNum;
 }
 @end
 
@@ -47,7 +51,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self requestDetail];
+    [self requestState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -102,7 +106,7 @@
     imageV2.userInteractionEnabled = YES;
     [imageV addSubview:imageV2];
     
-    advContentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, WIDTH,WIDTH*0.73333 )];
+    advContentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, WIDTH,WIDTH*0.73333 )];
     advContentView.showsHorizontalScrollIndicator = NO;
     advContentView.showsVerticalScrollIndicator = NO;
     advContentView.pagingEnabled = YES;
@@ -111,7 +115,7 @@
     
     [self.view addSubview:imageV];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestDetail) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestState) name:UIApplicationDidBecomeActiveNotification object:nil];
     [self requestState];
 }
 
@@ -121,6 +125,20 @@
     NSLog(@"点击了感兴趣");
     Y1YDetail2ViewController *detail2  = [[Y1YDetail2ViewController alloc]init];
     detail2.ggid = self.dataDic[@"only_number"];
+    NSMutableArray *ary = [NSMutableArray array];
+    if ([self isVaildURL:self.dataDic[@"title_url_1"]]) {
+        [ary addObject:self.dataDic[@"title_url_1"]];
+    }
+    if ([self isVaildURL:self.dataDic[@"title_url_2"]]) {
+        [ary addObject:self.dataDic[@"title_url_2"]];
+    }
+    if ([self isVaildURL:self.dataDic[@"title_url_3"]]) {
+        [ary addObject:self.dataDic[@"title_url_3"]];
+    }
+    if ([self isVaildURL:self.dataDic[@"title_url_4"]]) {
+        [ary addObject:self.dataDic[@"title_url_4"]];
+    }
+    detail2.dataArray = ary;
     [self.navigationController pushViewController:detail2 animated:NO];
 }
 
@@ -216,22 +234,28 @@
     //添加滚动广告
     [[advContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     totalPage = 0;
-    if ([self isVaildURL:_dataDic[@"url1"]]) {
+    if ([self isVaildURL:_dataDic[@"title_url_1"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"url1"]]];
+        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_1"]]];
         totalPage++;
     }
-    if ([self isVaildURL:_dataDic[@"url2"]]) {
+    if ([self isVaildURL:_dataDic[@"title_url_2"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"url2"]]];
+        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_2"]]];
         totalPage++;
     }
-    if ([self isVaildURL:_dataDic[@"url3"]]) {
+    if ([self isVaildURL:_dataDic[@"title_url_3"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"url3"]]];
+        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_3"]]];
+        totalPage++;
+    }
+    if ([self isVaildURL:_dataDic[@"title_url_4"]]) {
+        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
+        [advContentView addSubview:view];
+        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_4"]]];
         totalPage++;
     }
     [advContentView setContentSize:CGSizeMake(advContentView.frame.size.width * totalPage, advContentView.frame.size.height)];
@@ -262,7 +286,7 @@
     [button setBackgroundImage:[UIImage imageNamed:@"HBGXQANTP.png"] forState:UIControlStateNormal];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(50, imageV2.frame.size.height*0.55+5, WIDTH - 100, 20)];
-    label.text =[NSString stringWithFormat:@"%@  准时抢",self.dataDic[@"begintime"]]; //@"2015年9月10日  15:30 准时抢!";
+    label.text =[NSString stringWithFormat:@"%@  准时抢",self.dataDic[@"begin_time"]]; //@"2015年9月10日  15:30 准时抢!";
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor orangeColor];
     label.font = FONT(14);
@@ -275,7 +299,7 @@
     NSLog(@"倒计时");
     [self removeOtherViews];
     self.title = @"倒计时";
-    NSString *bcount = _dataDic[@"bcount"];
+    NSString *bcount = _dataDic[@"rezheng_number"];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((WIDTH -200)/2, imageV2.frame.size.height*0.35,200,25)];
     label.text = @"倒计时";
@@ -481,6 +505,7 @@
 }
 
 #pragma mark 网络请求
+
 - (void)requestState {
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
@@ -586,7 +611,7 @@
                                  @"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],
                                  @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
-    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_DETAIL
+    [[RequestTool alloc] requestWithUrl:RED_POCKET_ROB
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -606,7 +631,7 @@
          //         {
          //             [SVProgressHUD showErrorWithStatus:errorMessage];
          //         }
-         [self requestDetail];
+         [self requestState];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -666,7 +691,7 @@
 - (void)dealViews {
     int orderType = [_stateDic[@"renzheng_type"] intValue];
     int state = [_stateDic[@"returnCode"] intValue];
-    NSDate *date = [CommonTool timeStringToDate:_dataDic[@"begintime"] format:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *date = [CommonTool timeStringToDate:_dataDic[@"begin_time"] format:@"yyyy-MM-dd HH:mm:ss"];
     ;
     leftSecond = [date timeIntervalSinceNow];
     if (leftSecond > 0) {
@@ -703,8 +728,8 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{
-                                 @"uid":uid,
-                                 @"ggid":_dataDic[@"ggid"]
+                                 @"user_id":uid,
+                                 @"only_number":_dataDic[@"only_number"]
                                  };
     [[RequestTool alloc] getRequestWithUrl:RED_POCKET_ROBER_LIST
                             requestParamas:requestDic
@@ -717,9 +742,12 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
-             NSArray *ary = dataDic[@"body"];
+             _userSort = [dataDic[@"count"] intValue];
+             _userRobNum = [dataDic[@"user_lingqu_money"] floatValue];
+
+             NSArray *ary = dataDic[@"resultList"];
              if (ary && [ary isKindOfClass:[NSArray class]]) {
                  @synchronized(roberArray) {
                      [roberArray removeAllObjects];
@@ -831,8 +859,8 @@
 //    }
     
     
-    titleLabel.text = dataDic[@"id"];
-    NSString  *SJH = dataDic[@"account"];
+    titleLabel.text = dataDic[@"sort"];
+    NSString  *SJH = dataDic[@"lingqu_user_phone"];
     //    NSRange rang1 = NSMakeRange(5, 1);
     // month = [begintime substringWithRange:rang1];
     NSLog(@"1111%@",SJH);
@@ -851,7 +879,7 @@
     commentLabel.text = [NSString stringWithFormat:@"%@****%@",SJHsan,SJHHSi];
     
     
-    timeLabel.text = [NSString stringWithFormat:@"%@金币",dataDic[@"robsum"]];
+    timeLabel.text = [NSString stringWithFormat:@"%.2f元",[dataDic[@"lingqu_money"] floatValue]];
     if (indexPath.row == 10) {
         //设置cell的背景颜色
         cell.backgroundColor = [UIColor orangeColor];

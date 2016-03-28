@@ -23,17 +23,17 @@
 }
 
 - (void)initViews {
-    _moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, self.frame.size.width - 10, 20)];
+    _moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 15, self.frame.size.width - 10, 20)];
     _moneyLabel.font = FONT(16);
     _moneyLabel.textAlignment = NSTextAlignmentCenter;
     _moneyLabel.textColor = [UIColor grayColor];
     [self addSubview:_moneyLabel];
     
-    _goldLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 27, self.frame.size.width - 10, 20)];
-    _goldLabel.textAlignment = NSTextAlignmentCenter;
-    _goldLabel.textColor = [UIColor grayColor];
-    _goldLabel.font = FONT(14);
-    [self addSubview:_goldLabel];
+//    _goldLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 27, self.frame.size.width - 10, 20)];
+//    _goldLabel.textAlignment = NSTextAlignmentCenter;
+//    _goldLabel.textColor = [UIColor grayColor];
+//    _goldLabel.font = FONT(14);
+//    [self addSubview:_goldLabel];
 }
 
 @end
@@ -65,7 +65,7 @@
     [self.view addSubview:_acountView];
     
     _leftMoneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, SCREEN_WIDTH - 20, 20)];
-    _leftMoneyLabel.text = @"0金币";
+    _leftMoneyLabel.text = @"";
     _leftMoneyLabel.textAlignment = NSTextAlignmentCenter;
     _leftMoneyLabel.font = FONT(14);
     _leftMoneyLabel.textColor = [UIColor lightGrayColor];
@@ -107,7 +107,7 @@
         [self.view addSubview:btn];
         btn.tag = [dic[@"allownum"] intValue];
         btn.moneyLabel.text = [NSString stringWithFormat:@"%d元", [dic[@"allownum"] intValue]];
-        btn.goldLabel.text = [NSString stringWithFormat:@"消耗%d金币", [dic[@"neednum"] intValue]];
+//        btn.goldLabel.text = [NSString stringWithFormat:@"消耗%d金币", [dic[@"neednum"] intValue]];
         if (_selectMoney != btn.tag) {
             btn.backgroundColor = [UIColor whiteColor];
         } else {
@@ -126,7 +126,7 @@
 - (void)selectButtonClick:(UIButton*)sender {
     if (sender.tag > _canUseMoney) {
         //没那么多钱可以取
-        [SVProgressHUD showErrorWithStatus:@"亲，金币不足" duration:2.0];
+        [SVProgressHUD showErrorWithStatus:@"亲，余额不足" duration:2.0];
         return;
     }
     for (UIView *view in [self.view subviews]) {
@@ -160,96 +160,38 @@
 
 - (void)reuqestCardList {
 //    BANK_CARD_LIST_URL
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] requestWithUrl:BANK_CARD_LIST_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"BANK_CARD_LIST_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
-         {
-             NSArray *ary = dataDic[@"body"];
-             BOOL hasZhifubao = NO;
-             if (ary && [ary isKindOfClass:[NSArray class]]) {
-                 for (NSDictionary * dic in ary) {
-                     if ([dic[@"acctype"] intValue] == 2) {
-                         _cardID = dic[@"id"];
-                         _acountView.textLabel.text = [NSString stringWithFormat:@"%@:%@", dic[@"accinfo"], dic[@"account"]];
-                         hasZhifubao = YES;
-                         break;
-                     }
-                 }
-             }
-             if (hasZhifubao == NO) {
-                 _acountView.textLabel.text = @"未绑定支付宝账户";
-                 UIButton *binding = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
-                 [binding setTitle:@"去绑定" forState:UIControlStateNormal];
-                 [binding setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-                 _acountView.accessoryView = binding;
-                 [binding addTarget:self action:@selector(tapAction:) forControlEvents:UIControlEventTouchUpInside];
-             } else {
-                 _acountView.accessoryView = nil;
-                 if (_selectMoney > 0) {
-                     _requestBtn.enabled = YES;
-                     _requestBtn.backgroundColor = RGB(80, 201, 45);
-                 } else {
-                     _requestBtn.backgroundColor = [UIColor lightGrayColor];
-                     _requestBtn.enabled = NO;
-                 }
-             }
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage duration:2.5];
-         }
-     }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         
-     }];
+    NSString *alipay = [[YooSeeApplication shareApplication] userInfoDic][@"alipay"];
+    _cardID = alipay;
+    if (alipay && [alipay isKindOfClass:[NSString class]] && alipay.length
+         > 0) {
+        _acountView.accessoryView = nil;
+        _acountView.textLabel.text = [NSString stringWithFormat:@"支付宝账号:%@", alipay];
+        if (_selectMoney > 0) {
+            _requestBtn.enabled = YES;
+            _requestBtn.backgroundColor = RGB(80, 201, 45);
+        } else {
+            _requestBtn.backgroundColor = [UIColor lightGrayColor];
+            _requestBtn.enabled = NO;
+        }
+    } else {
+        _acountView.textLabel.text = @"未绑定支付宝账户";
+        UIButton *binding = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
+        [binding setTitle:@"去绑定" forState:UIControlStateNormal];
+        [binding setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        _acountView.accessoryView = binding;
+        [binding addTarget:self action:@selector(tapAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 - (void)requestMoneyInfo {
-    //yyw_money_drawcashcheck
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid};
-    [[RequestTool alloc] requestWithUrl:MONEY_DRAWCASHCHECK
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"MONEY_DRAWCASHCHECK===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
-         {
-             NSDictionary *dic = dataDic[@"body"];
-             NSString *haveMoney = dic[@"havemoney"];
-             NSString *dcmoney = dic[@"dcmoney"];
-             _canUseMoney = [dcmoney floatValue];
-             _leftMoneyLabel.text = [NSString stringWithFormat:@"%@金币", haveMoney];
-             _canUseLabel.text = [NSString stringWithFormat:@"可提现人民币：%@元", dcmoney];
-             [self initMoneyView:dic[@"cashlist"]];
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage duration:2.5];
-         }
-     }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         
-     }];
+    NSString *paymoney = [[YooSeeApplication shareApplication] userInfoDic][@"paymoney"];
+    _canUseMoney = [paymoney floatValue];
+    _canUseLabel.text = [NSString stringWithFormat:@"可提现人民币：%@元", paymoney];
+    NSArray *ary = @[@{@"allownum":@"100"},
+                     @{@"allownum":@"200"},
+                     @{@"allownum":@"300"},
+                     @{@"allownum":@"400"},];
+    [self initMoneyView:ary];
 }
 
 @end

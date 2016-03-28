@@ -201,9 +201,9 @@
     NSDictionary *requestDic = @{
                                  @"province_id":[NSString stringWithFormat:@"%@",pid],
                                  @"city_id":[NSString stringWithFormat:@"%@",cid],
-                                 @"hongbao_type":@"2",
-                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
-                                 @"startid":self.startID};
+                                 @"hongbao_type":@(2),
+                                 @"loadtype":_currentPage == 1 ? @(1) : @(2),
+                                 @"startid":@(0)};
     [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous

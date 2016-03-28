@@ -8,19 +8,19 @@
 
 #import "Y1YDetail2ViewController.h"
 @interface Y1YDetail2ViewController ()
-
-@property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) BOOL hasMakedRob;
 @end
 //领取资格
 @implementation Y1YDetail2ViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataArray = [NSMutableArray array];
     [self addBackItem];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
     self.table.separatorStyle = 0;
-    //[self getPicRequest];
+    [[self table] reloadData];
+    if (self.dataArray.count == 0) {
+        [self.dataArray addObject:@"1"];
+    }
 }
 
 #pragma mark UITableViewDelegate
@@ -29,11 +29,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return SCREEN_HEIGHT;
+    return SCREEN_HEIGHT - 64;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
+    NSString *pic = [self.dataArray objectAtIndex:indexPath.row];
     NSString *cellID = @"cellID";
     if (indexPath.row == self.dataArray.count - 1) {
         cellID = @"lastCellID";
@@ -42,11 +42,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:cellID];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
         [cell.contentView addSubview:imageView];
         imageView.tag = 100;
         if ([cellID isEqualToString:@"lastCellID"]) {
-            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-130)/2, SCREEN_HEIGHT - 60,130, 40)];
+            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-130)/2, SCREEN_HEIGHT - 60 - 64,130, 40)];
             [button addTarget:self action:@selector(buttonActino) forControlEvents:UIControlEventTouchUpInside];
             [button setTitle:@"领取资格" forState:UIControlStateNormal];
             [cell.contentView addSubview:button];
@@ -61,7 +61,7 @@
     } else {
         btn.hidden = NO;
     }
-    [imgView setImageWithURL:[NSURL URLWithString:dic[@"pic"]] placeholderImage:nil];
+    [imgView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:nil];
     
     return cell;
 }
@@ -90,75 +90,61 @@
          [LoadingView dismissLoadingView];
          if (errorCode == 8)
          {
-             //body =     {
-             //message = "\U60a8\U5df2\U62a5\U540d\U6210\U529f\Uff0c\U8bf7\U7559\U610f\U6d3b\U52a8\U5f00\U59cb\Uff01";
-             //state = 1;
-                //}
-             NSDictionary *dic = dataDic[@"body"];
-             NSString *message = dic[@"message"];
-             int state = [dic[@"state"] intValue];
-             if (state == 0) {
-                 if (message) {
-                     [SVProgressHUD showErrorWithStatus:message duration:2.5];
-                 }
-             } else {
-                 self.hasMakedRob = YES;
-                 if (message) {
-                     [SVProgressHUD showSuccessWithStatus:message duration:2.5];
-                 }
-                 [self.table reloadData];
-             }
+             self.hasMakedRob = YES;
+             [self.table reloadData];
+             [SVProgressHUD showSuccessWithStatus:errorMessage duration:2.5];
          }
          else
          {
+             self.hasMakedRob = NO;
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
      }
                                requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         
+         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%d", error.code] duration:2.5];
      }];
 
 }
 
-- (void)getPicRequest {
-    if (!self.ggid) {
-        return;
-    }
-    NSDictionary *requestDic = @{@"ggid":self.ggid};
-    [[RequestTool alloc] getRequestWithUrl:GET_Y1Y_PIC
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"GET_Y1Y_LIST===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         [LoadingView dismissLoadingView];
-         if (errorCode == 1)
-         {
-             @synchronized(_dataArray) {
-                 if (_currentPage == 1) {
-                     [_dataArray removeAllObjects];
-                 }
-                 NSArray *ary = dataDic[@"body"];
-                 if (ary) {
-                     [_dataArray addObjectsFromArray:ary];
-                 }
-                 [self.table reloadData];
-             }
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         
-     }];
-
-}
+//- (void)getPicRequest {
+//    if (!self.ggid) {
+//        return;
+//    }
+//    NSDictionary *requestDic = @{@"ggid":self.ggid};
+//    [[RequestTool alloc] getRequestWithUrl:GET_Y1Y_PIC
+//                            requestParamas:requestDic
+//                               requestType:RequestTypeAsynchronous
+//                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+//     {
+//         NSLog(@"GET_Y1Y_LIST===%@",responseDic);
+//         NSDictionary *dataDic = (NSDictionary *)responseDic;
+//         int errorCode = [dataDic[@"returnCode"] intValue];
+//         NSString *errorMessage = dataDic[@"returnMessage"];
+//         errorMessage = errorMessage ? errorMessage : @"";
+//         [LoadingView dismissLoadingView];
+//         if (errorCode == 1)
+//         {
+//             @synchronized(_dataArray) {
+//                 if (_currentPage == 1) {
+//                     [_dataArray removeAllObjects];
+//                 }
+//                 NSArray *ary = dataDic[@"body"];
+//                 if (ary) {
+//                     [_dataArray addObjectsFromArray:ary];
+//                 }
+//                 [self.table reloadData];
+//             }
+//         }
+//         else
+//         {
+//             [SVProgressHUD showErrorWithStatus:errorMessage];
+//         }
+//     }
+//                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         
+//     }];
+//
+//}
 @end

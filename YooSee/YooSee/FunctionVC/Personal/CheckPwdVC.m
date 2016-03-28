@@ -78,9 +78,26 @@
     if (self.cardID == nil) {
         return;
     }
+    /*
+     user_id 	String 提现用户ID
+     tixian_money 	string     提现金额
+     poundage_money 	string     提现手续费 提现手续费 没有手续费传入0.00
+     name 	string     会员姓名
+     alipay 	string     支付宝账号
+     phone 	string     会员手机号
+     */
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid, @"moneynum":@(_money), @"cardid": _cardID};
+    NSString *phone = [[YooSeeApplication shareApplication] userInfoDic][@"phone"];
+    phone = phone ? phone : @"";
+    NSString *name = [[YooSeeApplication shareApplication] userInfoDic][@"name"];
+    name = name ? name : @"";
+    NSDictionary *requestDic = @{@"user_id":uid,
+                                 @"tixian_money":@(_money),
+                                 @"alipay": _cardID,
+                                 @"poundage_money":@(0.00),
+                                 @"phone":phone,
+                                 @"name":name};
     [[RequestTool alloc] requestWithUrl:MONEY_DRAWCASHSUBMIT
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -91,7 +108,8 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         //状态码(1失败,2资金不够,3支付密码验证失败,8成功)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:errorMessage duration:2.0];
              [self.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:2.0];
