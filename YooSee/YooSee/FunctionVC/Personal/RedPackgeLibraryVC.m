@@ -9,6 +9,11 @@
 #import "RedPackgeLibraryVC.h"
 #import "RedPackgeLibraryCell.h"
 @interface RedPackgeLibraryVC ()
+{
+    NSString *startID[2];
+    MJRefreshFooterView *refreshFooterView[2];
+    MJRefreshHeaderView *refreshHeaderView[2];
+}
 @property (nonatomic, strong) NSMutableArray *hasGetArray;
 @property (nonatomic, strong) NSMutableArray *ungetArray;
 @property (nonatomic, strong) UITableView *ungetTable;
@@ -34,7 +39,8 @@
 //    [self.ungetArray addObject:@"1"];
 //    [self.ungetArray addObject:@"1"];
 //    [self.ungetArray addObject:@"1"];
-    _currentPage = 1;
+    startID[0] = @"0";
+    startID[1] = @"0";
     [self performSelector:@selector(initViews) withObject:nil afterDelay:0.1];
 }
 
@@ -47,7 +53,6 @@
     UIView *view = [UIView new];
     _hasGetTable.tableFooterView = view;
     _hasGetTable.hidden = YES;
-    
     
     _ungetTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 44 + 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64) style:0];
     _ungetTable.dataSource = self;
@@ -87,6 +92,39 @@
     _selectView.backgroundColor = RGB(252, 100, 45);
     [_ungetBtn addSubview:_selectView];
     [self segmentViewAction:_ungetBtn];
+    
+    __weak typeof(self) weakSelf = self;
+    MJRefreshFooterView *_refreshFooterView1 = [MJRefreshFooterView footer];
+    _refreshFooterView1.scrollView = _ungetTable;
+    _refreshFooterView1.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView)
+    {
+        [weakSelf loadMore:0];
+    };
+    refreshFooterView[0] = _refreshFooterView1;
+    
+    MJRefreshFooterView *_refreshFooterView2 = [MJRefreshFooterView footer];
+    _refreshFooterView2.scrollView = _hasGetTable;
+    _refreshFooterView2.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView)
+    {
+        [weakSelf loadMore:1];
+    };
+    refreshFooterView[1] = _refreshFooterView2;
+    
+    MJRefreshHeaderView *_refreshHeaderView1 = [MJRefreshHeaderView header];
+    _refreshHeaderView1.scrollView = _ungetTable;
+    _refreshHeaderView1.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView)
+    {
+        [weakSelf refresh:0];
+    };
+    refreshHeaderView[0] = _refreshHeaderView1;
+    
+    MJRefreshHeaderView *_refreshHeaderView2 = [MJRefreshHeaderView header];
+    _refreshHeaderView2.scrollView = _hasGetTable;
+    _refreshHeaderView2.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView)
+    {
+        [weakSelf refresh:1];
+    };
+    refreshHeaderView[1] = _refreshHeaderView2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -166,8 +204,8 @@
     NSDictionary *requestDic = @{
                                  @"lingqu_user_id":uid,
                                  @"type":@"2",
-                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
-                                 @"startid":@"0"};
+                                 @"loadtype":[NSString stringWithFormat:@"%d",[startID[1] intValue] == 0 ? 1 : 2],
+                                 @"startid":startID[1]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -185,8 +223,10 @@
              NSArray *ary = dataDic[@"resultList"];
              if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
                  [_hasGetArray addObjectsFromArray:ary];
+                 startID[1] = [ary lastObject][@"id"];
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_hasGetArray addObject:ary];
+                 startID[1] = ((NSDictionary*)ary)[@"id"];
              }
              [self.hasGetTable reloadData];
          }
@@ -194,14 +234,16 @@
          {
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
-         [self.refreshFooterView setState:MJRefreshStateNormal];
-         [self.refreshHeaderView setState:MJRefreshStateNormal];
+         [refreshFooterView[1] setState:MJRefreshStateNormal];
+         [refreshHeaderView[1] setState:MJRefreshStateNormal];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          
          [LoadingView dismissLoadingView];
          NSLog(@"MY_RED_PACKGE_LIST====%@",error);
+         [refreshFooterView[1] setState:MJRefreshStateNormal];
+         [refreshHeaderView[1] setState:MJRefreshStateNormal];
      }];
 }
 
@@ -213,8 +255,8 @@
     NSDictionary *requestDic = @{
                                  @"lingqu_user_id":uid,
                                  @"type":@"1",
-                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
-                                 @"startid":@"0"};
+                                 @"loadtype":[NSString stringWithFormat:@"%d",[startID[0] intValue] == 0 ? 1 : 2],
+                                 @"startid":startID[0]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -232,8 +274,10 @@
              NSArray *ary = dataDic[@"resultList"];
              if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
                  [_ungetArray addObjectsFromArray:ary];
+                 startID[0] = [ary lastObject][@"id"];
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_ungetArray addObject:ary];
+                 startID[1] = ((NSDictionary*)ary)[@"id"];
              }
              [self.ungetTable reloadData];
          }
@@ -241,14 +285,33 @@
          {
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
-         [self.refreshFooterView setState:MJRefreshStateNormal];
-         [self.refreshHeaderView setState:MJRefreshStateNormal];
+         [refreshFooterView[0] setState:MJRefreshStateNormal];
+         [refreshHeaderView[0] setState:MJRefreshStateNormal];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          
          [LoadingView dismissLoadingView];
          NSLog(@"MY_RED_PACKGE_LIST====%@",error);
+         [refreshFooterView[0] setState:MJRefreshStateNormal];
+         [refreshHeaderView[0] setState:MJRefreshStateNormal];
      }];
+}
+
+- (void)loadMore:(int)type {
+    if (type == 0) {
+        [self requestUngetRedPackage];
+    } else {
+        [self requestHadGetRedPackage];
+    }
+}
+
+- (void)refresh:(int)type {
+    startID[type] = @"0";
+    if (type == 0) {
+        [self requestUngetRedPackage];
+    } else {
+        [self requestHadGetRedPackage];
+    }
 }
 @end
