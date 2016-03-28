@@ -8,7 +8,9 @@
 
 #import "MoneyDetailVC.h"
 #import "MarqueeLabel.h"
-
+@interface MoneyDetailVC ()
+@property (nonatomic, strong) NSString *startID;
+@end
 @implementation MoneyDetailVC
 
 - (void)viewDidLoad {
@@ -17,6 +19,9 @@
     self.title = @"现金明细";
     self.detailArray = [NSMutableArray array];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
+    [self addRefreshHeaderView];
+    [self addRefreshFooterView];
+    [self refreshData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -55,14 +60,79 @@
     }
     
     UILabel *timeLabel = (UILabel*)[cell.contentView viewWithTag:100];
-    NSString *time    = _detailArray[indexPath.row][@"logtime"];
+    NSString *time    = _detailArray[indexPath.row][@"createtime"];
     if(time.length > 19)
         time = [time substringToIndex:19];
     timeLabel.text = time;
     
     MarqueeLabel *contentLabel = (MarqueeLabel*)[cell.contentView viewWithTag:101];
-    contentLabel.text = _detailArray[indexPath.row][@"info"];
+    contentLabel.text = _detailArray[indexPath.row][@"tixian_money"];
     return cell;
 }
 
+- (void)request {
+    //GET_TIXIAN_LIST
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    NSDictionary *requestDic = @{@"user_id":uid,
+                                 @"loadtype":_currentPage == 1 ? @(1) : @(2),
+                                 @"startid":@(0)};
+    [[RequestTool alloc] requestWithUrl:GET_TIXIAN_LIST
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"ROB_RED_PACKGE_LIST===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             @synchronized(_detailArray) {
+                 if (_currentPage == 1) {
+                     [_detailArray removeAllObjects];
+                 }
+                 NSArray *ary = dataDic[@"resultList"];
+                 if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
+                     [_detailArray addObjectsFromArray:ary];
+                     self.startID = [ary lastObject][@"id"];
+                 } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
+                     [_detailArray addObject:ary];
+                     NSDictionary *d = (NSDictionary*)ary;
+                     self.startID = d[@"id"];
+                 }
+                 [self.table reloadData];
+             }
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         
+         [LoadingView dismissLoadingView];
+         NSLog(@"ROB_RED_PACKGE_LIST====%@",error);
+         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+         [self.refreshFooterView setState:MJRefreshStateNormal];
+         [self.refreshHeaderView setState:MJRefreshStateNormal];
+     }];
+}
+
+- (void)refreshData {
+    [super refreshData];
+    self.startID = @"0";
+    [self request];
+}
+
+- (void)getMoreData {
+    [super getMoreData];
+    [self request];
+}
 @end

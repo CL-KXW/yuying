@@ -150,4 +150,8 @@
 
 //获取红包状态
 #define RED_PACKAGE_STATE           MAKE_REQUEST_URL(@"app/red/send/getByOnly_numberAndUser_id")
+
+//查看提现明细
+#define GET_TIXIAN_LIST           MAKE_REQUEST_URL(@"app/account/personal/tixian/queryAccountPersonal")
 #endif
+

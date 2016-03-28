@@ -130,7 +130,6 @@
 - (void)HFMXAction {
     //查看现金明细
     MoneyDetailVC *detail = [[MoneyDetailVC alloc] init];
-    detail.detailArray = _listArray;
     [self.navigationController pushViewController:detail animated:YES];
 }
 
