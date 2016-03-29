@@ -42,7 +42,7 @@
 - (NSString*)getUserInfo
 {
     NSDictionary *userInfo = [YooSeeApplication shareApplication].userDic;
-    NSDictionary *dic = @{@"uid":userInfo[@"uid"],@"city":userInfo[@"cityname"],@"cityid":userInfo[@"cityid"],@"os":@"ios"};
+    NSDictionary *dic = @{@"uid":[YooSeeApplication shareApplication].uid,@"city":userInfo[@"city_name"],@"cityid":userInfo[@"city_id"],@"os":@"ios"};
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"%@",jsonStr);

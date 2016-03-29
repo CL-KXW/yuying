@@ -187,7 +187,7 @@
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         NSLog(@"LOGIN_SERVER_URL===%@",responseDic);
+         NSLog(@"AUTO_USER_LOGIN_URL===%@",responseDic);
          
          NSDictionary *dataDic = responseDic;
          int returnCode = [dataDic[@"returnCode"] intValue];
@@ -204,7 +204,7 @@
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"LOGIN_SERVER_URL====%@",error);
+         NSLog(@"AUTO_USER_LOGIN_URL====%@",error);
          [LoadingView dismissLoadingView];
          [weakSelf addMainView];
      }];

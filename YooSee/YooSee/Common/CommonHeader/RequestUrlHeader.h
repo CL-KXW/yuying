@@ -48,9 +48,6 @@
 //2cu_Alarm
 #define ALARM_2CU_URL               @"http://cloudlinks.cn/Alarm/AlarmRecordEx.ashx"
 
-//2cu_Alarm
-#define ALARM_2CU_URL               @"http://cloudlinks.cn/Alarm/AlarmRecordEx.ashx"
-
 //个人信息
 #define USER_INFO_URL               MAKE_REQUEST_URL(@"app/user/querybyID")
 
