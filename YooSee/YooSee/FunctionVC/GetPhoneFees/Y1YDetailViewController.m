@@ -126,19 +126,25 @@
     Y1YDetail2ViewController *detail2  = [[Y1YDetail2ViewController alloc]init];
     detail2.ggid = self.dataDic[@"only_number"];
     NSMutableArray *ary = [NSMutableArray array];
-    if ([self isVaildURL:self.dataDic[@"title_url_1"]]) {
-        [ary addObject:self.dataDic[@"title_url_1"]];
-    }
+    NSMutableArray *titleAry = [NSMutableArray array];
+    
     if ([self isVaildURL:self.dataDic[@"title_url_2"]]) {
         [ary addObject:self.dataDic[@"title_url_2"]];
+        [titleAry addObject:self.dataDic[@"title_2"]];
     }
     if ([self isVaildURL:self.dataDic[@"title_url_3"]]) {
         [ary addObject:self.dataDic[@"title_url_3"]];
+        [titleAry addObject:self.dataDic[@"title_3"]];
     }
     if ([self isVaildURL:self.dataDic[@"title_url_4"]]) {
         [ary addObject:self.dataDic[@"title_url_4"]];
+        [titleAry addObject:self.dataDic[@"title_4"]];
     }
     detail2.dataArray = ary;
+    detail2.descArray = titleAry;
+    detail2.timeString = self.dataDic[@"publish_time"];
+    detail2.authorString = self.dataDic[@"shop_name"];
+    detail2.nameString = self.dataDic[@"title_1"];
     [self.navigationController pushViewController:detail2 animated:NO];
 }
 
@@ -234,12 +240,7 @@
     //添加滚动广告
     [[advContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     totalPage = 0;
-    if ([self isVaildURL:_dataDic[@"title_url_1"]]) {
-        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
-        [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_1"]]];
-        totalPage++;
-    }
+    
     if ([self isVaildURL:_dataDic[@"title_url_2"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
@@ -354,67 +355,6 @@
     [self addTableViewWithFrame:CGRectMake(10, SCREEN_HEIGHT - 130, SCREEN_WIDTH - 20, 130) tableType:0 tableDelegate:self];
     self.table.backgroundColor = [UIColor whiteColor];
     [self requestRoberList];
-    
-    UIView *tabHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
-    tabHeadView.backgroundColor = [UIColor whiteColor];
-    //设置头视图
-    self.table.tableHeaderView = tabHeadView;
-    
-    NSDictionary *ZJdic = self.dataDic;
-    NSString *ZJid = [ZJdic objectForKey:@"id"];
-    NSString *robsum = [ZJdic objectForKey:@"robsum"];
-    NSString *state = [ZJdic objectForKey:@"ifwin"];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 15-5, 95, 30)];
-    label.text = @"你目前的排名:";
-    label.font = FONT(14);
-    [tabHeadView addSubview:label];
-    if ([state isEqualToString:@"Y"]) {
-        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(20+10+95, 15-5, 30, 30)];
-        //label1.backgroundColor = [UIColor orangeColor];
-        label1.textColor = [UIColor orangeColor];
-        label1.text = ZJid;
-        label1.font = [UIFont fontWithName:nil size:14];
-        [tabHeadView addSubview:label1];
-        
-        
-        UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width-140-20, 15-5, 120, 30)];
-        //label2.backgroundColor = [UIColor orangeColor];
-        label2.textColor = [UIColor orangeColor];
-        label2.text = [NSString stringWithFormat:@"%@金币",robsum];
-        label2.textAlignment = NSTextAlignmentRight;
-        label2.font = [UIFont fontWithName:nil size:14];
-        [tabHeadView addSubview:label2];
-        
-    }else if ([state isEqualToString:@"U"]){
-        
-        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(20+10+95-10, 0,self.view.frame.size.width-20+10+95-10, 50)];
-        //label1.backgroundColor = [UIColor orangeColor];
-        label1.textColor = [UIColor orangeColor];
-        label1.numberOfLines =0;
-        if (self.view.frame.size.width <= 320.000000) {
-            label1.font = [UIFont fontWithName:nil size:12];
-            
-        }else {
-            label1.font = [UIFont fontWithName:nil size:14];
-        }
-        label1.text = @"很遗憾您没有抢到红包，没有排名!";
-        //label1.font = [UIFont fontWithName:nil size:14];
-        [tabHeadView addSubview:label1];
-        
-        
-    }else if ([state isEqualToString:@"N"]){
-        
-        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(20+10+95-10, 0,self.view.frame.size.width-20+10+95-10, 50)];
-        label1.backgroundColor = [UIColor orangeColor];
-        label1.textColor = [UIColor orangeColor];
-        label1.numberOfLines = 0;
-        label1.text = @"很遗憾您没有抢到红包，没有排名!";
-        label1.font = [UIFont fontWithName:nil size:14];
-        [tabHeadView addSubview:label1];
-        
-        
-    }
-
 }
 
 - (void)robSuccessView:(NSString*)company robsum:(NSString*)robsum {
@@ -504,6 +444,51 @@
     [robResultView addSubview:button];
 }
 
+- (void)updateRobResult {
+    UIView *tabHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
+    tabHeadView.backgroundColor = [UIColor whiteColor];
+    //设置头视图
+    self.table.tableHeaderView = tabHeadView;
+    int state = [_stateDic[@"returnCode"] intValue];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 15-5, 95, 30)];
+    label.text = @"你目前的排名:";
+    label.font = FONT(14);
+    [tabHeadView addSubview:label];
+    if (state == 7) {
+        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(20+10+95, 15-5, 30, 30)];
+        //label1.backgroundColor = [UIColor orangeColor];
+        label1.textColor = [UIColor orangeColor];
+        label1.text = [NSString stringWithFormat:@"%d", _userSort];
+        label1.font = FONT(14);
+        [tabHeadView addSubview:label1];
+        
+        
+        UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width-140-20, 15-5, 120, 30)];
+        //label2.backgroundColor = [UIColor orangeColor];
+        label2.textColor = [UIColor orangeColor];
+        label2.text = [NSString stringWithFormat:@"%.2f金币",_userRobNum];
+        label2.textAlignment = NSTextAlignmentRight;
+        label2.font = FONT(14);
+        [tabHeadView addSubview:label2];
+        
+    }else if (state == 4){
+        
+        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(20+10+95-10, 0,self.view.frame.size.width-20+10+95-10, 50)];
+        //label1.backgroundColor = [UIColor orangeColor];
+        label1.textColor = [UIColor orangeColor];
+        label1.numberOfLines =0;
+        if (self.view.frame.size.width <= 320.000000) {
+            label1.font = FONT(12);
+            
+        }else {
+            label1.font = FONT(14);
+        }
+        label1.text = @"很遗憾您没有抢到红包，没有排名!";
+        //label1.font = [UIFont fontWithName:nil size:14];
+        [tabHeadView addSubview:label1];
+    }
+
+}
 #pragma mark 网络请求
 
 - (void)requestState {
@@ -697,8 +682,9 @@
     if (leftSecond > 0) {
         [self startCountTimer];
     }
-    if (orderType == 1) {
-        //已预约
+    if (orderType == 2) {
+        [self ganxingqu];
+    } else {
         if (state == 3) {
             //未开始
             if (leftSecond <= 0) {
@@ -714,9 +700,6 @@
             //已结束
             [self resultView];
         }
-    } else if (orderType == 2) {
-        //未预约
-        [self ganxingqu];
     }
     [self addAdvViews];
 }
@@ -731,7 +714,7 @@
                                  @"user_id":uid,
                                  @"only_number":_dataDic[@"only_number"]
                                  };
-    [[RequestTool alloc] getRequestWithUrl:RED_POCKET_ROBER_LIST
+    [[RequestTool alloc] requestWithUrl:RED_POCKET_ROBER_LIST
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
@@ -755,6 +738,7 @@
                      [self.table reloadData];
                  }
              }
+             [self updateRobResult];
          }
          else
          {
@@ -833,7 +817,7 @@
         [cell.contentView addSubview:commentLabel];
         
         //3.创建时间label
-        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-120, 10, 100, 30)];
+        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.table.frame.size.width-120, 10, 100, 30)];
         timeLabel.tag = 103;
         timeLabel.textAlignment = NSTextAlignmentRight;
         //timeLabel.backgroundColor = [UIColor orangeColor];
@@ -859,8 +843,8 @@
 //    }
     
     
-    titleLabel.text = dataDic[@"sort"];
-    NSString  *SJH = dataDic[@"lingqu_user_phone"];
+    titleLabel.text = [NSString stringWithFormat:@"%@",dataDic[@"sort"]];
+    NSString  *SJH = [NSString stringWithFormat:@"%@",dataDic[@"lingqu_user_phone"]];
     //    NSRange rang1 = NSMakeRange(5, 1);
     // month = [begintime substringWithRange:rang1];
     NSLog(@"1111%@",SJH);
@@ -880,14 +864,19 @@
     
     
     timeLabel.text = [NSString stringWithFormat:@"%.2f元",[dataDic[@"lingqu_money"] floatValue]];
-    if (indexPath.row == 10) {
+    if (_userSort == [dataDic[@"sort"] intValue] && _userRobNum > 0) {
         //设置cell的背景颜色
         cell.backgroundColor = [UIColor orangeColor];
         //cell.textLabel.text = [_data objectAtIndex:indexPath.row];
+    } else {
+        cell.backgroundColor = [UIColor colorWithRed:235.0/255.0 green:229.0/255.0 blue:218.0/255.0 alpha:1.0];
     }
     
     
     return cell;
 }
 
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self ganxingquAction];
+}
 @end

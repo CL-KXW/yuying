@@ -15,44 +15,91 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
-    [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
+    [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:1 tableDelegate:self];
     self.table.separatorStyle = 0;
     [[self table] reloadData];
-    if (self.dataArray.count == 0) {
-        [self.dataArray addObject:@"1"];
-    }
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 55)];
+    [self.table setTableHeaderView:headView];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 20, 20)];
+    titleLabel.text = self.nameString;
+    [headView addSubview:titleLabel];
+    
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 150, 20)];
+    timeLabel.text = self.timeString;
+    timeLabel.font = FONT(11);
+    [headView addSubview:timeLabel];
+    
+    UILabel *authorLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 35, 150, 20)];
+    authorLabel.text = self.authorString;
+    authorLabel.font = FONT(11);
+    authorLabel.textColor = [UIColor blueColor];
+    [headView addSubview:authorLabel];
+    
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+    [self.table setTableFooterView:footView];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-130)/2, 10, 130, 40)];
+    [button addTarget:self action:@selector(buttonActino) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"领取资格" forState:UIControlStateNormal];
+
+    [button setBackgroundImage:[UIImage imageNamed:@"HBGXQANTP.png"] forState:UIControlStateNormal];
+    [footView addSubview:button];
 }
 
 #pragma mark UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [self.dataArray count];
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return SCREEN_HEIGHT - 64;
+    return SCREEN_WIDTH;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20, 20)];
+    label.numberOfLines = 0;
+    label.text = self.descArray[section];
+    label.font = FONT(14);
+    [label sizeToFit];
+    return label.frame.size.height + 20;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, [self tableView:tableView heightForFooterInSection:section])];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 20, 20)];
+    label.numberOfLines = 0;
+    label.text = self.descArray[section];
+    label.font = FONT(14);
+    [label sizeToFit];
+    [view addSubview:label];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.0001;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [UIView new];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *pic = [self.dataArray objectAtIndex:indexPath.row];
+    NSString *pic = [self.dataArray objectAtIndex:indexPath.section];
     NSString *cellID = @"cellID";
-    if (indexPath.row == self.dataArray.count - 1) {
-        cellID = @"lastCellID";
-    }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:cellID];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.contentView addSubview:imageView];
+        imageView.backgroundColor = [UIColor whiteColor];
         imageView.tag = 100;
-        if ([cellID isEqualToString:@"lastCellID"]) {
-            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-130)/2, SCREEN_HEIGHT - 60 - 64,130, 40)];
-            [button addTarget:self action:@selector(buttonActino) forControlEvents:UIControlEventTouchUpInside];
-            [button setTitle:@"领取资格" forState:UIControlStateNormal];
-            [cell.contentView addSubview:button];
-            [button setBackgroundImage:[UIImage imageNamed:@"HBGXQANTP.png"] forState:UIControlStateNormal];
-            button.tag = 101;
-        }
     }
     UIImageView *imgView = (UIImageView*)[cell.contentView viewWithTag:100];
     UIButton *btn = (UIButton*)[cell.contentView viewWithTag:101];
@@ -77,7 +124,7 @@
     NSDictionary *requestDic = @{
                                  @"user_id":[NSString stringWithFormat:@"%@", uid],
                                  @"only_number":[NSString stringWithFormat:@"%@",self.ggid]};
-    [[RequestTool alloc] getRequestWithUrl:MAKE_ROB
+    [[RequestTool alloc] requestWithUrl:MAKE_ROB
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

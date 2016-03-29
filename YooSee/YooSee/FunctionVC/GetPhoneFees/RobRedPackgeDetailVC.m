@@ -81,7 +81,7 @@
 }
 
 - (void)unrobView {
-    self.descLabel.hidden = NO;
+    self.descLabel.hidden = YES;
     self.robButton.hidden = NO;
     self.resultDescLabel.hidden = YES;
 }

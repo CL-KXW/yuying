@@ -12,4 +12,8 @@
 
 @property (nonatomic, copy) NSString *ggid;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *descArray;
+@property (nonatomic, strong) NSString *nameString;
+@property (nonatomic, strong) NSString *timeString;
+@property (nonatomic, strong) NSString *authorString;
 @end

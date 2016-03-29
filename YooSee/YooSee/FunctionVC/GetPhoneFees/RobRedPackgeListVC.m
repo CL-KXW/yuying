@@ -61,7 +61,7 @@
         cell = [[RobRedPackgeListCell alloc] initWithStyle:0 reuseIdentifier:key];
     }
     [cell.iconImageView setImageWithURL:[NSURL URLWithString:dic[@"logo"]]];
-    cell.descLabel.text = dic[@"shop_name"];
+    cell.descLabel.text = dic[@"title_1"];
     return cell;
 }
 

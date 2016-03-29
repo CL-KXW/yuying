@@ -25,6 +25,14 @@
 @property (nonatomic, strong) UIView *selectView;
 @end
 @implementation RedPackgeLibraryVC
+
+- (void)dealloc {
+    [refreshFooterView[0] free];
+    [refreshFooterView[1] free];
+    [refreshHeaderView[0] free];
+    [refreshHeaderView[1] free];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
@@ -162,7 +170,7 @@
     cell.nameLabel.text = [NSString stringWithFormat:@"%@", dic[@"shop_name"]];
     cell.descLabel.text = [NSString stringWithFormat:@"%@", dic[@"contact_phone"]];
     cell.timeLabel.text = [NSString stringWithFormat:@"%@", dic[@"update_time"]];
-    cell.moneyLabel.text = [NSString stringWithFormat:@"%@", dic[@"lingqu_money"]];
+    cell.moneyLabel.text = [NSString stringWithFormat:@"%@元", dic[@"lingqu_money"]];
     if (tableView == _ungetTable) {
         cell.moneyLabel.hidden = YES;
     } else {
