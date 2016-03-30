@@ -12,6 +12,7 @@
 @end
 //领取资格
 @implementation Y1YDetail2ViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
@@ -19,31 +20,45 @@
     self.table.separatorStyle = 0;
     [[self table] reloadData];
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 55)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 130)];
     [self.table setTableHeaderView:headView];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 20, 20)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, SCREEN_WIDTH - 20, 70)];
+    titleLabel.numberOfLines = 0;
+    titleLabel.font = FONT(28);
+    titleLabel.textColor = RGB(74, 74, 74);
     titleLabel.text = self.nameString;
     [headView addSubview:titleLabel];
     
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 150, 20)];
-    timeLabel.text = self.timeString;
-    timeLabel.font = FONT(11);
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 70, 20)];
+    timeLabel.text = [CommonTool dateString2MDString:self.timeString];
+    timeLabel.font = FONT(15);
+    timeLabel.textColor = RGB(185, 185, 185);
     [headView addSubview:timeLabel];
     
-    UILabel *authorLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 35, 150, 20)];
+    UILabel *authorLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 100, 150, 20)];
     authorLabel.text = self.authorString;
-    authorLabel.font = FONT(11);
-    authorLabel.textColor = [UIColor blueColor];
+    authorLabel.font = FONT(15);
+    authorLabel.textColor = RGB(155, 179, 204);
     [headView addSubview:authorLabel];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
     [self.table setTableFooterView:footView];
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-130)/2, 10, 130, 40)];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(35, 10, SCREEN_WIDTH - 70, 50)];
     [button addTarget:self action:@selector(buttonActino) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"领取资格" forState:UIControlStateNormal];
 
-    [button setBackgroundImage:[UIImage imageNamed:@"HBGXQANTP.png"] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:RGB(86, 192, 245)];
+    button.layer.cornerRadius = 25;
+    [button setShowsTouchWhenHighlighted:YES];
     [footView addSubview:button];
+    
+    UILabel *startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, SCREEN_WIDTH - 20, 20)];
+    startTimeLabel.textColor = RGB(102, 102, 102);
+    startTimeLabel.font = FONT(12);
+    startTimeLabel.text = [NSString stringWithFormat:@"%@ 准时开抢",[CommonTool dateString2MDHMString:self.startTimeString]];
+    startTimeLabel.textAlignment = NSTextAlignmentCenter;
+    [footView addSubview:startTimeLabel];
 }
 
 #pragma mark UITableViewDelegate
@@ -57,7 +72,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return SCREEN_WIDTH;
+    return 220 * CURRENT_SCALE;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -75,6 +90,7 @@
     label.numberOfLines = 0;
     label.text = self.descArray[section];
     label.font = FONT(14);
+    label.textColor = RGB(74, 74, 74);
     [label sizeToFit];
     [view addSubview:label];
     return view;
@@ -95,11 +111,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:cellID];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20, 220 * CURRENT_SCALE)];
+        imageView.contentMode = UIViewContentModeScaleToFill;
         [cell.contentView addSubview:imageView];
-        imageView.backgroundColor = [UIColor whiteColor];
+        imageView.backgroundColor = [UIColor lightGrayColor];
+        imageView.clipsToBounds = YES;
         imageView.tag = 100;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = 0;
     }
     UIImageView *imgView = (UIImageView*)[cell.contentView viewWithTag:100];
     UIButton *btn = (UIButton*)[cell.contentView viewWithTag:101];

@@ -76,7 +76,7 @@
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"user_id":uid,
-                                 @"loadtype":_currentPage == 1 ? @(1) : @(2),
+                                 @"loadtype":_currentPage == 1 ? @(1) : @(1),
                                  @"startid":@(0)};
     [[RequestTool alloc] requestWithUrl:GET_TIXIAN_LIST
                          requestParamas:requestDic

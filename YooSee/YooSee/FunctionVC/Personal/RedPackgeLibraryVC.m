@@ -212,7 +212,7 @@
     NSDictionary *requestDic = @{
                                  @"lingqu_user_id":uid,
                                  @"type":@"2",
-                                 @"loadtype":[NSString stringWithFormat:@"%d",[startID[1] intValue] == 0 ? 1 : 2],
+                                 @"loadtype":[NSString stringWithFormat:@"%d",[startID[1] intValue] == 0 ? 1 : 1],
                                  @"startid":startID[1]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
                          requestParamas:requestDic
@@ -263,7 +263,7 @@
     NSDictionary *requestDic = @{
                                  @"lingqu_user_id":uid,
                                  @"type":@"1",
-                                 @"loadtype":[NSString stringWithFormat:@"%d",[startID[0] intValue] == 0 ? 1 : 2],
+                                 @"loadtype":[NSString stringWithFormat:@"%d",[startID[0] intValue] == 0 ? 1 : 1],
                                  @"startid":startID[0]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
                          requestParamas:requestDic

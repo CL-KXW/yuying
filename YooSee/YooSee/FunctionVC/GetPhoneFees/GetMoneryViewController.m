@@ -45,6 +45,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)isVaildURL:(NSString*)string {
+    if (string && [string isKindOfClass:[NSString class]] && string.length > 6) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -102,9 +109,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *dic = _dataArray[indexPath.section];
-    GetMoneyDetailViewController *detail = [[GetMoneyDetailViewController alloc] init];
-    detail.dataDic = dic;
-    [self.navigationController pushViewController:detail animated:YES];
+    
+    GetMoneyDetailViewController *detail2 = [[GetMoneyDetailViewController alloc] init];
+    detail2.dataDic = dic;
+    detail2.ggid = dic[@"id"];
+    NSMutableArray *ary = [NSMutableArray array];
+    NSMutableArray *titleAry = [NSMutableArray array];
+    
+    if ([self isVaildURL:dic[@"url_2"]]) {
+        [ary addObject:dic[@"url_2"]];
+        [titleAry addObject:dic[@"content_2"]];
+    }
+    if ([self isVaildURL:dic[@"url_3"]]) {
+        [ary addObject:dic[@"url_3"]];
+        [titleAry addObject:dic[@"content_3"]];
+    }
+    if ([self isVaildURL:dic[@"url_4"]]) {
+        [ary addObject:dic[@"url_4"]];
+        [titleAry addObject:dic[@"content_4"]];
+    }
+    detail2.dataArray = ary;
+    detail2.descArray = titleAry;
+    detail2.timeString = dic[@"begin_time"];
+    detail2.authorString = dic[@"content_1"];
+    detail2.nameString = dic[@"shop_name"];
+    [self.navigationController pushViewController:detail2 animated:NO];
 }
 
 #pragma mark -
@@ -118,7 +147,7 @@
     NSString *cid = [[YooSeeApplication shareApplication] cityID];
     cid = cid ? cid : @"";
     NSDictionary *requestDic = @{@"province_id":pid,@"city_id":cid,
-                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 2],
+                                 @"loadtype":[NSString stringWithFormat:@"%d",_currentPage == 1 ? 1 : 1],
                                  @"startid":self.startID,
                                  @"page":@(_currentPage)};
     [[RequestTool alloc] requestWithUrl:GET_AD_LIST

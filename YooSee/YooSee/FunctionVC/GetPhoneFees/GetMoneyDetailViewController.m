@@ -22,37 +22,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = self.dataDic[@"content_1"];
+    self.title = @"详细";
     
     [self addBackItem];
     
-    // Do any additional setup after loading the view.
-    [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
-    __weak typeof(self) weakSelf = self;
-    self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    [self.logoImageView setImageWithURL:[NSURL URLWithString:self.dataDic[@"url_1"]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-        [weakSelf updateViews:image];
-    }];
-    UIView *footView = [[UIView alloc] init];
-    UIView *footBg = [[UIView alloc] init];
-    ;
-    [footView addSubview:footBg];
-    self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 20, 20)];
-    self.descLabel.numberOfLines = 0;
-    self.descLabel.font = FONT(14);
-    self.descLabel.text = [NSString stringWithFormat:@"详情介绍：\n\t%@", self.dataDic[@"content_1"]];
-    [self.descLabel sizeToFit];
-    [footView addSubview:self.descLabel];
-    footBg.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.descLabel.frame.size.height + 20);
-    footBg.backgroundColor = [UIColor whiteColor];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
     
     NSString *title = @"立即领取现金";
-    self.getMoneyButton = [[UIButton alloc] initWithFrame:CGRectMake(40, self.descLabel.frame.size.height + 40, SCREEN_WIDTH - 80, 50)];
-    [self.getMoneyButton setBackgroundImage:[UIImage imageNamed:@"zjf-bottom@2x.png"] forState:UIControlStateNormal];
+    self.getMoneyButton = [[UIButton alloc] initWithFrame:CGRectMake(35, self.descLabel.frame.size.height + 40, SCREEN_WIDTH - 70, 50)];
+    [self.getMoneyButton setBackgroundColor:RGB(206, 11, 36)];
+    self.getMoneyButton.layer.cornerRadius = 25;
+    [self.getMoneyButton setShowsTouchWhenHighlighted:YES];
     [self.getMoneyButton setTitle:title forState:UIControlStateNormal];
     [self.getMoneyButton addTarget:self action:@selector(getMoneyClick:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:self.getMoneyButton];
-    footView.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.descLabel.frame.size.height + 30 + 60);
     self.table.tableFooterView = footView;
 }
 
@@ -75,7 +58,7 @@
 - (void)getAdRewardRequest {
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
-    NSString *ggid = self.dataDic[@"id"];
+    NSString *ggid = self.ggid;
     ggid = ggid ? ggid : @"";
     NSDictionary *requestDic = @{@"lingqu_user_id":uid,@"id":[NSString stringWithFormat:@"%@", ggid]};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];

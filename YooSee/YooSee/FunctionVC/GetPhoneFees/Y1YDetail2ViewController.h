@@ -16,4 +16,5 @@
 @property (nonatomic, strong) NSString *nameString;
 @property (nonatomic, strong) NSString *timeString;
 @property (nonatomic, strong) NSString *authorString;
+@property (nonatomic, strong) NSString *startTimeString;
 @end

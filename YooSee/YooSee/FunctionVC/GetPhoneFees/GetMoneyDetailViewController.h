@@ -7,8 +7,8 @@
 //
 
 #import "BasicViewController.h"
-
-@interface GetMoneyDetailViewController : BasicViewController
+#import "Y1YDetail2ViewController.h"
+@interface GetMoneyDetailViewController : Y1YDetail2ViewController
 
 @property (nonatomic, strong) NSDictionary *dataDic;
 

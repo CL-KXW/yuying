@@ -52,16 +52,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self requestState];
+    [self becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self stopAdvTimer];
     [self stopCountTimer];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title = @"摇一摇";
     [self addBackItem];
     roberArray = [NSMutableArray array];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"welcom_yhb.mp3" ofType:nil];
@@ -125,6 +128,7 @@
     NSLog(@"点击了感兴趣");
     Y1YDetail2ViewController *detail2  = [[Y1YDetail2ViewController alloc]init];
     detail2.ggid = self.dataDic[@"only_number"];
+    detail2.title = @"摇一摇";
     NSMutableArray *ary = [NSMutableArray array];
     NSMutableArray *titleAry = [NSMutableArray array];
     
@@ -145,6 +149,7 @@
     detail2.timeString = self.dataDic[@"publish_time"];
     detail2.authorString = self.dataDic[@"shop_name"];
     detail2.nameString = self.dataDic[@"title_1"];
+    detail2.startTimeString = self.dataDic[@"begin_time"];
     [self.navigationController pushViewController:detail2 animated:NO];
 }
 
@@ -876,7 +881,7 @@
     return cell;
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self ganxingquAction];
-}
+//- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    [self ganxingquAction];
+//}
 @end
