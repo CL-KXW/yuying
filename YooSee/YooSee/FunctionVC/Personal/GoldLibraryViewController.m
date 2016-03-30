@@ -62,7 +62,7 @@
     
     NSString *paymoney = [[YooSeeApplication shareApplication] userDic][@"paymoney"];
     label2 =[[UILabel alloc]initWithFrame:CGRectMake(0, 255-gg, CongWIDTH-25, 40)];
-    label2.text = [NSString stringWithFormat:@"%@元", paymoney];
+    label2.text = [NSString stringWithFormat:@"%.2f元", [paymoney floatValue]];
     label2.textAlignment = NSTextAlignmentCenter;
     label2.font = FONT(38);
     label2.textColor = [UIColor colorWithRed:253.0/255.0 green:133.0/255.0 blue:63.0/255.0 alpha:1.0];
@@ -155,7 +155,7 @@
          {
              NSDictionary *dic = dataDic[@"resultList"];
              if (dic && [dic isKindOfClass:[NSDictionary class]] && dic[@"paymoney"]) {
-                 label2.text = [NSString stringWithFormat:@"%@元",dic[@"paymoney"]];
+                 label2.text = [NSString stringWithFormat:@"%.2f元",[dic[@"paymoney"] floatValue]];
              }
          }
          else
