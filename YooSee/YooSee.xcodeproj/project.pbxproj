@@ -193,6 +193,8 @@
 		CE0985881C94600D0077253E /* SettingCameraBasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0985871C94600D0077253E /* SettingCameraBasicViewController.m */; };
 		CE0A377C1C80A6D200A4B62B /* camera_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0A377B1C80A6D200A4B62B /* camera_icon@2x.png */; };
 		CE0C020D1C7CFC3600F0DD58 /* LocalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0C020C1C7CFC3600F0DD58 /* LocalWebViewController.m */; };
+		CE1098471CAD0196006DCDFA /* default_image1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1098451CAD0196006DCDFA /* default_image1.png */; };
+		CE1098481CAD0196006DCDFA /* default_image2.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1098461CAD0196006DCDFA /* default_image2.png */; };
 		CE11AE251C740E5D0017181E /* RequestDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11AE241C740E5D0017181E /* RequestDataTool.m */; };
 		CE11AE281C7416A20017181E /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11AE271C7416A20017181E /* HomeViewController.m */; };
 		CE11AE2B1C748E040017181E /* icon_navbar_usercenter_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE11AE2A1C748E040017181E /* icon_navbar_usercenter_up.png */; };
@@ -810,6 +812,8 @@
 		CE0A377B1C80A6D200A4B62B /* camera_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon@2x.png"; sourceTree = "<group>"; };
 		CE0C020B1C7CFC3600F0DD58 /* LocalWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalWebViewController.h; sourceTree = "<group>"; };
 		CE0C020C1C7CFC3600F0DD58 /* LocalWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalWebViewController.m; sourceTree = "<group>"; };
+		CE1098451CAD0196006DCDFA /* default_image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image1.png; sourceTree = "<group>"; };
+		CE1098461CAD0196006DCDFA /* default_image2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image2.png; sourceTree = "<group>"; };
 		CE11AE231C740E5D0017181E /* RequestDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDataTool.h; sourceTree = "<group>"; };
 		CE11AE241C740E5D0017181E /* RequestDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestDataTool.m; sourceTree = "<group>"; };
 		CE11AE261C7416A20017181E /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -2278,6 +2282,8 @@
 		CE77F2F31C7D9A9800CE0D98 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				CE1098451CAD0196006DCDFA /* default_image1.png */,
+				CE1098461CAD0196006DCDFA /* default_image2.png */,
 				CEBA82491CA5929B00452A9B /* KJ.jpg */,
 				CE24B57F1C8F240C00556775 /* big_icon.png */,
 				CEAD7D381C8C7F1C008B5281 /* pick_bg.png */,
@@ -3111,6 +3117,7 @@
 				4011684E1CA805D0000BD055 /* UMShareEditViewController.xib in Resources */,
 				4011684F1CA805D0000BD055 /* UMShareEditViewControlleriPad.xib in Resources */,
 				286C790F1C9561C2009E129E /* welcom_yhb.mp3 in Resources */,
+				CE1098481CAD0196006DCDFA /* default_image2.png in Resources */,
 				286C79781C99A76D009E129E /* img_hongbao_bg.png in Resources */,
 				286C79121C9561C2009E129E /* y1y_bg_2.jpg in Resources */,
 				CEAD7D5F1C8C9681008B5281 /* icon_usercenter_5_up.png in Resources */,
@@ -3223,6 +3230,7 @@
 				CEAD125E1C7CEC9E00D2CAF2 /* icon_home_phone_bg.png in Resources */,
 				286C79011C9477C4009E129E /* hongbao@3x.png in Resources */,
 				40694C561CA7F2AC006BCBBF /* TurnoverWithdrawalsViewController.xib in Resources */,
+				CE1098471CAD0196006DCDFA /* default_image1.png in Resources */,
 				CE77F2F71C7D9A9800CE0D98 /* back_up.png in Resources */,
 				CE211FE21C8162A9000453D0 /* camera_see_up.png in Resources */,
 				CEFB34161C992F5500467A4E /* icon_strength5@2x.png in Resources */,
@@ -3667,8 +3675,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3700,7 +3708,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -3712,8 +3720,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3744,7 +3752,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
