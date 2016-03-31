@@ -45,7 +45,7 @@
 - (UIImageView*)iconImageView {
     if (!_iconImageView) {
         _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 15, ICON_HEIGHT, ICON_HEIGHT)];
-        _iconImageView.backgroundColor = [UIColor blackColor];
+        [CommonTool setViewLayer:_iconImageView withLayerColor:[UIColor lightGrayColor] bordWidth:.5];
     }
     return _iconImageView;
 }
