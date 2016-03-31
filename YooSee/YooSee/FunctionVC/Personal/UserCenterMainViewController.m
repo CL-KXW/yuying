@@ -202,7 +202,11 @@
     
     UIButton *button = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, imageView_wh, imageView_wh) buttonImage:@"" selectorName:@"tapGestureHandler:" tagDelegate:self];
     [button setImage:image forState:UIControlStateNormal];
-    [button setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal];
+    if (imageUrl.length > 0)
+    {
+       [button setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal];
+    }
+    [CommonTool setViewLayer:button withLayerColor:[UIColor lightGrayColor] bordWidth:0.5];
     [CommonTool clipView:button withCornerRadius:imageView_wh/2];
     [view addSubview:button];
 
