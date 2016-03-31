@@ -209,11 +209,11 @@
     uid = uid ? uid : @"";
     __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = @{@"camera_name" : name,
-                                 @"id" : self.deviceID,
+                                 @"id" : UNNULL_STRING(self.deviceNo),
                                  @"address_gps" : @"",
                                  @"longitude" : @"",
                                  @"latitude" : @"",
-                                 @"camera_cover" : self.imageUrl ? self.imageUrl : @""};
+                                 @"camera_cover" : UNNULL_STRING(self.imageUrl)};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:UPDATE_DEVICE_URL
                          requestParamas:requestDic
@@ -229,7 +229,7 @@
          if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"保存成功"];
-             [LoadingView showLoadingView];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"deviceUpdated" object:self.imageUrl];
              [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
              if (weakSelf.contact)
              {

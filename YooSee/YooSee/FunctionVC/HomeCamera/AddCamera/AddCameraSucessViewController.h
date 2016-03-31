@@ -11,5 +11,6 @@
 @interface AddCameraSucessViewController : BasicViewController
 
 @property (nonatomic, strong) NSString *deviceID;
+@property (nonatomic, strong) NSString *deviceNo;
 
 @end

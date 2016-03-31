@@ -28,7 +28,7 @@
 #define BOLD_FONT(f)            [UIFont boldSystemFontOfSize:f]
 
 //null
-#define UNNULL_STRING(str)      str ? str : @"";
+#define UNNULL_STRING(str)      str ? str : @""
 
 //主色调
 //#define APP_MAIN_COLOR          RGB(227.0,128.0,29.0)

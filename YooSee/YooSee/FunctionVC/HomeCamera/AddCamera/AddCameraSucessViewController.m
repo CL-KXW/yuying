@@ -109,6 +109,7 @@
 {
     SetCameraInfoViewController *setCameraInfoViewController = [[SetCameraInfoViewController alloc] init];
     setCameraInfoViewController.deviceID = self.deviceID;
+    setCameraInfoViewController.deviceNo = self.deviceNo;
     [self.navigationController pushViewController:setCameraInfoViewController animated:YES];
 }
 

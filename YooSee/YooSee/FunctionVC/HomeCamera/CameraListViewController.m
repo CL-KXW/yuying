@@ -62,7 +62,6 @@
     [super viewWillAppear:animated];
     if ([self.dataArray count] && self.dataArray)
     {
-        [self observingDeviceList];
         [self createTimer];
     }
 }
@@ -80,6 +79,7 @@
     if (!_checkStateTimer)
     {
         //设备列表刷新定时器
+        [self observingDeviceList];
         _checkStateTimes = 0;
         _checkStateTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkDeviceState:) userInfo:nil repeats:YES];
     }
@@ -187,6 +187,9 @@
     {
         _deviceIDArray = [NSMutableArray array];
     }
+    [self.deviceIDArray removeAllObjects];
+    [self.contactArray removeAllObjects];
+    [self.deviceIDArray removeAllObjects];
     NSLog(@"%@",bodyArray);
     
     NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
@@ -253,8 +256,6 @@
     {
         self.contactArray = [[NSMutableArray alloc]init];
     }
-    [self.contactArray removeAllObjects];
-    [self.deviceIDArray removeAllObjects];
     
     if([bodyArray count] != 0)
     {//从本地存储里读取设备信息
@@ -352,7 +353,6 @@
          if (errorCode == 8)
          {
              [[FListManager sharedFList] deleteContact:contact];
-             [self.contactArray removeObject:contact];
              NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
              defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
              if ([defaultDeviceID isEqualToString:contact.contactId])
@@ -688,6 +688,7 @@
     int index = (int)sender.tag - 123;
     Contact *contact = self.contactArray[index];
     SetCameraInfoViewController *setCameraInfoViewController = [[SetCameraInfoViewController alloc] init];
+    setCameraInfoViewController.deviceNo = UNNULL_STRING(self.dataArray[index][@"id"]);
     setCameraInfoViewController.deviceID = contact.contactId;
     setCameraInfoViewController.contact = contact;
     setCameraInfoViewController.imageUrl = self.dataArray[index][@"camera_cover"];
@@ -717,6 +718,7 @@
         SettingCameraMainViewController *settingCameraMainViewController = [[SettingCameraMainViewController alloc] init];
         settingCameraMainViewController.imageUrl = self.dataArray[row][@"camera_cover"];
         settingCameraMainViewController.contact = contact;
+        settingCameraMainViewController.deviceNo =  self.dataArray[row][@"id"];
         viewController = settingCameraMainViewController;
     }
     if (index == 2)

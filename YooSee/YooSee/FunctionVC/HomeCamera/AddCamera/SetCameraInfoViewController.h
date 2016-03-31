@@ -11,6 +11,7 @@
 
 @interface SetCameraInfoViewController : BasicViewController
 
+@property (nonatomic, strong) NSString *deviceNo;
 @property (nonatomic, strong) NSString *deviceID;
 @property (nonatomic, strong) Contact *contact;
 @property (nonatomic, strong) NSString *imageUrl;

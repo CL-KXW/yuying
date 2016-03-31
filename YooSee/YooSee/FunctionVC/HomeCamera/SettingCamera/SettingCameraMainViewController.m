@@ -37,11 +37,28 @@
     self.title = @"设置";
     [self addBackItem];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceUpdated:) name:@"deviceUpdated" object:nil];
+
+    
     [self initData];
     [self initUI];
     
     // Do any additional setup after loading the view.
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.table reloadData];
+}
+
+- (void)deviceUpdated:(NSNotification *)notification
+{
+    NSString *imageUrl = (NSString *)notification.object;
+    self.imageUrl = UNNULL_STRING(imageUrl);
+    [self.table reloadData];
+}
+
 
 #pragma mark 初始化数据
 - (void)initData
@@ -101,6 +118,7 @@
         }
         float x = SPACE_X;
         UIImageView *imageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake(x, SPACE_Y, ROW_HEIGHT1 - 2 * SPACE_X, ROW_HEIGHT1 - 2 * SPACE_Y) placeholderImage:image borderColor:DE_TEXT_COLOR imageUrl:self.imageUrl];
+        [imageView setImageURL:self.imageUrl];
         [cell.contentView addSubview:imageView];
         
         x += imageView.frame.size.width + ADD_X;
@@ -131,6 +149,7 @@
         setCameraInfoViewController.imageUrl = self.imageUrl;
         setCameraInfoViewController.contact = self.contact;
         setCameraInfoViewController.deviceID = self.contact.contactId;
+        setCameraInfoViewController.deviceNo = self.deviceNo;
         [self.navigationController pushViewController:setCameraInfoViewController animated:YES];
         return;
     }
@@ -173,7 +192,7 @@
 
 - (void)dealloc
 {
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 /*
 #pragma mark - Navigation

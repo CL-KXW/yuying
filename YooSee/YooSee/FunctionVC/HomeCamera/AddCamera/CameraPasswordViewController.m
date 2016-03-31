@@ -34,6 +34,7 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) CustomTextField *passwordTextField;
+@property (nonatomic, strong) NSString *deviceNo;
 
 @end
 
@@ -152,6 +153,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"请检查摄像头密码是否正确";
+         weakSelf.deviceNo = UNNULL_STRING(responseDic[@"id"]);
          [weakSelf setDataWithErrorCode:errorCode errorMessage:errorMessage];
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -168,6 +170,7 @@
     if (errorCode == 8)
     {
         AddCameraSucessViewController *addCameraSucessViewController = [[AddCameraSucessViewController alloc] init];
+        addCameraSucessViewController.deviceNo = self.deviceNo;
         addCameraSucessViewController.deviceID = self.deviceID;
         [self.navigationController pushViewController:addCameraSucessViewController animated:YES];
         [self setContactData];
@@ -209,7 +212,6 @@
     }
     
     //更新设备列表
-    [LoadingView showLoadingView];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:self];
     
     [[P2PClient sharedClient] getContactsStates:@[contact.contactId]];

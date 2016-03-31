@@ -52,6 +52,7 @@
     
     float y = SPACE_Y;
     UIImageView *iconImageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake((headerView.frame.size.width - IMAGEVIEW_WH)/2, y, IMAGEVIEW_WH, IMAGEVIEW_WH) placeholderImage:[UIImage imageNamed:@"camera_icon_default"] borderColor:DE_TEXT_COLOR imageUrl:self.imageUrl];
+    [iconImageView setImageURL:self.imageUrl];
     [headerView addSubview:iconImageView];
     
     y += iconImageView.frame.size.height;
