@@ -217,7 +217,6 @@
             Contact *contact = [contactDAO isContact:deviceid];
             NSLog(@"%ld",(long)contact.defenceState);
             NSLog(@"%@",dict[@"camera_name"]);
-            NSLog(@"%@",[bodyArray description]);
             if(!contact)
             {
                 contact = [[Contact alloc] init];
@@ -264,7 +263,7 @@
         {
             for(NSDictionary *dic in bodyArray)
             {
-                if([contact.contactId isEqualToString:[NSString stringWithFormat:@"%@",dic[@"id"]]])
+                if([contact.contactId isEqualToString:[NSString stringWithFormat:@"%@",dic[@"camera_number"]]])
                 {
                     [self.contactArray addObject:contact];
                     [self.deviceIDArray addObject:contact.contactId];
@@ -277,60 +276,15 @@
 }
 
 #pragma mark 删除
-- (void)deleteDeviceRequestWithContact:(Contact *)contact
-{
-    if (!contact)
-    {
-        return;
-    }
-    NSString *deviceID = contact.contactId;
-    deviceID = deviceID ? deviceID : @"";
-    if (deviceID.length == 0)
-    {
-        return;
-    }
-    //DELETE_DEVICE_URL
-    [LoadingView showLoadingView];
-    __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"id":deviceID};
-    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
-    [[RequestTool alloc] requestWithUrl:DELETE_DEVICE_URL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"DELETE_DEVICE_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         [LoadingView dismissLoadingView];
-         if (errorCode == 8)
-         {
-             [weakSelf getDeviceListRequest];
-             [[FListManager sharedFList] deleteContact:contact];
-             NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
-             defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
-             if ([defaultDeviceID isEqualToString:contact.contactId])
-             {
-                 [USER_DEFAULT removeObjectForKey:@"DefaultDeviceID"];
-             }
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"DELETE_DEVICE_URL====%@",error);
-         [LoadingView dismissLoadingView];
-     }];
-}
-
-//- (void)deleteDeviceRequestWithID:(NSString *)deviceID contact:(Contact *)contact
+//- (void)deleteDeviceRequestWithContact:(Contact *)contact
 //{
-//    if (!contact || deviceID.length == 0)
+//    if (!contact)
+//    {
+//        return;
+//    }
+//    NSString *deviceID = contact.contactId;
+//    deviceID = deviceID ? deviceID : @"";
+//    if (deviceID.length == 0)
 //    {
 //        return;
 //    }
@@ -340,9 +294,9 @@
 //    NSDictionary *requestDic = @{@"id":deviceID};
 //    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
 //    [[RequestTool alloc] requestWithUrl:DELETE_DEVICE_URL
-//                         requestParamas:requestDic
-//                            requestType:RequestTypeAsynchronous
-//                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+//                            requestParamas:requestDic
+//                               requestType:RequestTypeAsynchronous
+//                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
 //     {
 //         NSLog(@"DELETE_DEVICE_URL===%@",responseDic);
 //         NSDictionary *dataDic = (NSDictionary *)responseDic;
@@ -366,12 +320,57 @@
 //             [SVProgressHUD showErrorWithStatus:errorMessage];
 //         }
 //     }
-//                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+//     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
 //     {
 //         NSLog(@"DELETE_DEVICE_URL====%@",error);
 //         [LoadingView dismissLoadingView];
 //     }];
 //}
+
+- (void)deleteDeviceRequestWithID:(NSString *)deviceID contact:(Contact *)contact
+{
+    if (!contact || deviceID.length == 0)
+    {
+        return;
+    }
+    //DELETE_DEVICE_URL
+    [LoadingView showLoadingView];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = @{@"id":deviceID};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:DELETE_DEVICE_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"DELETE_DEVICE_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         if (errorCode == 8)
+         {
+             [[FListManager sharedFList] deleteContact:contact];
+             NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
+             defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
+             if ([defaultDeviceID isEqualToString:contact.contactId])
+             {
+                 [USER_DEFAULT removeObjectForKey:@"DefaultDeviceID"];
+             }
+             [weakSelf getDeviceListRequest];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+     }
+    requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"DELETE_DEVICE_URL====%@",error);
+         [LoadingView dismissLoadingView];
+     }];
+}
 
 #pragma mark 检查状态
 //检查设备在线状态的定时器，该方法前3次每秒执行一次，后面每3秒执行一次
@@ -538,7 +537,10 @@
     if(editingStyle == UITableViewCellEditingStyleDelete )
     {
         Contact *contact = [_contactArray objectAtIndex:indexPath.section];
-        [self deleteDeviceRequestWithContact:contact];
+        NSString *cameraID = _dataArray[indexPath.section][@"id"];
+        //[self deleteDeviceRequestWithContact:contact];
+        cameraID = [NSString stringWithFormat:@"%@",cameraID ? cameraID : @""];
+        [self deleteDeviceRequestWithID:cameraID contact:contact];
     }
 }
 
