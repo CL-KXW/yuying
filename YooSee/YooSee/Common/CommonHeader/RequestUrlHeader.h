@@ -125,7 +125,7 @@
 #define RED_POCKET_DETAIL           MAKE_REQUEST_URL(@"yyw_redpackedgg")
 
 //抢红包
-#define RED_POCKET_ROB              MAKE_REQUEST_URL(@"app/red/getyiyao/add")
+#define RED_POCKET_ROB              MAKE_REQUEST_URL(@"app/red/get/add")
 
 //抢红包排行榜
 #define RED_POCKET_ROBER_LIST       MAKE_REQUEST_URL(@"app/red/get/sort")

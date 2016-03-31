@@ -59,7 +59,6 @@
     [super viewWillDisappear:animated];
     [self stopAdvTimer];
     [self stopCountTimer];
-    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
