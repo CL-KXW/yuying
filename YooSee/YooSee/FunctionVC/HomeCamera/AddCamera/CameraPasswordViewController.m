@@ -209,6 +209,7 @@
     }
     
     //更新设备列表
+    [LoadingView showLoadingView];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:self];
     
     [[P2PClient sharedClient] getContactsStates:@[contact.contactId]];

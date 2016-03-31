@@ -229,6 +229,7 @@
          if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+             [LoadingView showLoadingView];
              [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
              if (weakSelf.contact)
              {

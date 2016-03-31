@@ -352,6 +352,7 @@
          if (errorCode == 8)
          {
              [[FListManager sharedFList] deleteContact:contact];
+             [self.contactArray removeObject:contact];
              NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
              defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
              if ([defaultDeviceID isEqualToString:contact.contactId])
