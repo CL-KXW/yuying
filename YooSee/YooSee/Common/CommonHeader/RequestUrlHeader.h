@@ -42,11 +42,15 @@
 //找回密码 pay code
 #define FIND_PAY_PHONE_CODE_URL     MAKE_REQUEST_URL(@"send/message/back/paypwd/code")
 
+//static NSString *server1 = @"http://cloudlinks.cn/";
+//static NSString *server2 = @"http://gwelltimes.com/";
+//static NSString *server3 = @"http://2cu.co/";
+//static NSString *server4 = @"http://cloud-links.net/";
 //2cu_login
-#define LOGIN_2CU_URL               @"http://cloudlinks.cn/Users/LoginCheck.ashx"
+#define LOGIN_2CU_URL               @"http://2cu.co/Users/LoginCheck.ashx"
 
 //2cu_Alarm
-#define ALARM_2CU_URL               @"http://cloudlinks.cn/Alarm/AlarmRecordEx.ashx"
+#define ALARM_2CU_URL               @"http://2cu.co/Alarm/AlarmRecordEx.ashx"
 
 //个人信息
 #define USER_INFO_URL               MAKE_REQUEST_URL(@"app/user/querybyID")
@@ -57,13 +61,13 @@
 //更新个人信息
 #define UPDATE_USER_INFO_URL        MAKE_REQUEST_URL(@"app/user/update/material")
 
-//收获地址列表
+//收货地址列表
 #define ADDRESS_LIST_URL            MAKE_REQUEST_URL(@"shipping/addr/list")
 
-//更新收获地址
+//更新收货地址
 #define UPDATE_ADDRESS_URL          MAKE_REQUEST_URL(@"shipping/addr/update")
 
-//添加收获地址
+//添加收货地址
 #define ADD_ADDRESS_URL             MAKE_REQUEST_URL(@"shipping/addr/add")
 
 //修改密码
@@ -137,7 +141,7 @@
 #define MONEY_DRAWCASHSUBMIT        MAKE_REQUEST_URL(@"app/account/personal/tixian/add")
 
 //抢红包列表
-#define ROB_RED_PACKGE_LIST             MAKE_REQUEST_URL(@"app/red/send/querybyCity_id")
+#define ROB_RED_PACKGE_LIST         MAKE_REQUEST_URL(@"app/red/send/querybyCity_id")
 
 //点击红包进入红包详情
 #define ROB_RED_PACKGE_DETAIL       MAKE_REQUEST_URL(@"app/red/get/add")
@@ -149,6 +153,6 @@
 #define RED_PACKAGE_STATE           MAKE_REQUEST_URL(@"app/red/send/getByOnly_numberAndUser_id")
 
 //查看提现明细
-#define GET_TIXIAN_LIST           MAKE_REQUEST_URL(@"app/account/personal/tixian/queryAccountPersonal")
+#define GET_TIXIAN_LIST             MAKE_REQUEST_URL(@"app/account/personal/tixian/queryAccountPersonal")
 #endif
 
