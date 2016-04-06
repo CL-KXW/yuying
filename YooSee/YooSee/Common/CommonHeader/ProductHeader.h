@@ -14,7 +14,7 @@
 //产品名
 #define PRODUCT_NAME                @"yuying"
 //版本号
-#define PRODUCT_VERSION             @"2.02"
+#define PRODUCT_VERSION             @"3.00"
 //渠道号
 #define CHANNEL_ID                  @"0001"
 //平台

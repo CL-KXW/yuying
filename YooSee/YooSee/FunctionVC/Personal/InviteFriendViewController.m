@@ -44,9 +44,11 @@
     CGRect frame = tiplabel.frame;
     frame.size.height = height;
     tiplabel.frame = frame;
+    tiplabel.hidden = YES;
     [self.view addSubview:tiplabel];
     
-    start_y += height + 2 * ADD_Y;
+    //start_y += height + 2 * ADD_Y;
+    start_y += height;
     UIImage *image = [UIImage imageNamed:@"yuying"];
     UIImageView  *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake((self.view.frame.size.width - QRCODE_WH)/2, start_y, QRCODE_WH, QRCODE_WH) placeholderImage:image];
     [self.view addSubview:imageView];

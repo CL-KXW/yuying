@@ -13,13 +13,20 @@
 #define SECTION_HEIGHT              15.0 * CURRENT_SCALE
 #define ROW1_HEIGHT                 50.0
 #define ROW2_HEIGHT                 190.0 * CURRENT_SCALE
-#define ROW3_HEIGHT                 90.0
-#define HEADER_LABEL_WIDTH          60.0
+#define ROW3_HEIGHT                 120.0
+#define HEADER_LABEL_WIDTH          30.0
 #define HEADER_NEW_WIDTH            240.0 * CURRENT_SCALE
 #define BUTTON_TITLE_HEIGHT         30.0 * CURRENT_SCALE
 #define ITEM_BUTTON_TITLE_HEIGHT    25.0 * CURRENT_SCALE
 
 #define LINE_COLOR                  RGB(239.0,239.0,239.0)
+
+#define TIP_TEXT                @" 特别推荐 "
+#define TIP_TEXT_FONT           FONT(14.0)
+#define ADD_X                   10.0
+#define LABEL_HEIGHT            30.0
+#define LINE_HEIGHT             0.5
+#define LINE_SPACE_X            30 * CURRENT_SCALE
 
 #import "HomeViewController.h"
 #import "LoginViewController.h"
@@ -48,7 +55,7 @@
 @property (nonatomic, strong) UILabel *headNewLabel;
 @property (nonatomic, strong) NSArray *headNewsListArray;
 @property (nonatomic, strong) UIView *mainView;
-@property (nonatomic, strong) UIImageView *telephoneView;
+@property (nonatomic, strong) UIImageView *commendView;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) int newIndex;
 
@@ -88,7 +95,7 @@
 {
     [self addTableView];
     [self addTableViewHeader];
-    [self addTelephoneView];
+    [self addCommendView];
 }
 
 - (void)addTableView
@@ -112,7 +119,7 @@
         return;
     }
     UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.table.frame.size.width, ADV_HEIGHT + SPACE_Y) placeholderImage:nil];
-    
+    headerView.backgroundColor = [UIColor whiteColor];
     float y = SPACE_Y;
     float x = SPACE_X;
     NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:0];
@@ -184,11 +191,15 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandle:)];
         [_headNewsView addGestureRecognizer:tapGesture];
         
-        UILabel *titleLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, 0, HEADER_LABEL_WIDTH, _headNewsView.frame.size.height) textString:@"头条" textColor:[UIColor orangeColor] textFont:FONT(16.0)];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_headNewsView addSubview:titleLabel];
+//        UILabel *titleLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, 0, HEADER_LABEL_WIDTH, _headNewsView.frame.size.height) textString:@"头条" textColor:[UIColor orangeColor] textFont:FONT(16.0)];
+//        titleLabel.textAlignment = NSTextAlignmentCenter;
+//        [_headNewsView addSubview:titleLabel];
         
-        float x = titleLabel.frame.origin.x + titleLabel.frame.size.width;
+        UIImageView *iconImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(HEADER_LABEL_WIDTH/2, (_headNewsView.frame.size.height - 15.0)/2, HEADER_LABEL_WIDTH, 15.0) placeholderImage:[UIImage imageNamed:@"img_hot"]];
+        iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [_headNewsView addSubview:iconImageView];
+        
+        float x = iconImageView.frame.origin.x + iconImageView.frame.size.width + HEADER_LABEL_WIDTH/2;
         float y = 5.0;
         float width = 2.0;
         float add_x = 10.0;
@@ -320,36 +331,44 @@
     }
 }
 
-#pragma mark 电话视图
-- (void)addTelephoneView
+
+#pragma mark 添加精彩推荐
+- (void)addCommendView
 {
-    if (!_telephoneView)
+    if (!_commendView)
     {
-        UIImage *image = [UIImage imageNamed:@"icon_home_phone_bg"];
-        float width = image.size.width/2 * CURRENT_SCALE;
-        float height = image.size.height/2 * CURRENT_SCALE;
-        float x = (self.table.frame.size.width - width)/2;
-        float y = self.table.frame.size.height - height;
-        _telephoneView = [CreateViewTool createImageViewWithFrame:CGRectMake(x, y, width, height) placeholderImage:image];
+        float width0 = self.table.frame.size.width;
+        float height0 = ROW3_HEIGHT;
+        float x0 = 0;
+        float y0 = self.table.frame.size.height - height0;
+        _commendView = [CreateViewTool createImageViewWithFrame:CGRectMake(x0, y0, width0, height0) placeholderImage:nil];
+        _commendView.backgroundColor = [UIColor whiteColor];
+        float y = 10.0;
+        CGSize size = [TIP_TEXT sizeWithAttributes:@{NSFontAttributeName:TIP_TEXT_FONT}];
+        float width = size.width + 2 * ADD_X;
+        UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake((self.view.frame.size.width - width)/2, y, width, LABEL_HEIGHT) textString:TIP_TEXT textColor:DE_TEXT_COLOR textFont:TIP_TEXT_FONT];
+        tipLabel.textAlignment = NSTextAlignmentCenter;
+        [_commendView addSubview:tipLabel];
+        
+        y += (tipLabel.frame.size.height - LINE_HEIGHT)/2;
+        
+        UIImageView *leftLineView = [CreateViewTool createImageViewWithFrame:CGRectMake(LINE_SPACE_X, y, tipLabel.frame.origin.x - LINE_SPACE_X, LINE_HEIGHT)placeholderImage:nil];
+        leftLineView.backgroundColor = DE_TEXT_COLOR;
+        [_commendView addSubview:leftLineView];
+        
+        UIImageView *rightLineView = [CreateViewTool createImageViewWithFrame:CGRectMake(self.view.frame.size.width - leftLineView.frame.size.width - LINE_SPACE_X, y, tipLabel.frame.origin.x - LINE_SPACE_X, LINE_HEIGHT)placeholderImage:nil];
+        rightLineView.backgroundColor = DE_TEXT_COLOR;
+        [_commendView addSubview:rightLineView];
         
         if (SCREEN_HEIGHT == 480.0)
         {
-            y = ROW3_HEIGHT - height;
-            _telephoneView.frame = CGRectMake(x, y, width, height);
+            y0 = ROW3_HEIGHT - height0;
+            _commendView.frame = CGRectMake(x0, y0, width0, height0);
         }
         else
         {
-            [self.view addSubview:_telephoneView];
+            [self.view addSubview:_commendView];
         }
-        
-        UIImage *buttonImage = [UIImage imageNamed:@"icon_home_phone_up"];
-        float button_width = buttonImage.size.width/2 * CURRENT_SCALE;
-        float button_height = buttonImage.size.height/2 * CURRENT_SCALE;
-        x = (width - button_width)/2;
-        y = x;
-        UIButton *button = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, button_width, button_height) buttonImage:@"icon_home_phone" selectorName:@"" tagDelegate:self];
-        [_telephoneView addSubview:button];
-    
     }
 }
 
@@ -601,6 +620,13 @@
 
 #pragma mark UITableViewDelegate&UITableViewDataSource
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView *headerView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, tableView.frame.size.width, SECTION_HEIGHT) placeholderImage:nil];
+    headerView.backgroundColor = section == 0 ? [UIColor whiteColor] : VIEW_BG_COLOR;
+    return headerView;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [self.rowHeightArray count];
@@ -638,6 +664,8 @@
         [view removeFromSuperview];
     }
     
+    cell.backgroundColor = (indexPath.section == 1) ? [UIColor clearColor] : [UIColor whiteColor];
+    
     if (indexPath.section == 0)
     {
         [self initHeadNewView];
@@ -650,8 +678,8 @@
     }
     else if (indexPath.section == 2)
     {
-        [self addTelephoneView];
-        [cell.contentView addSubview:self.telephoneView];
+        [self addCommendView];
+        [cell.contentView addSubview:self.commendView];
     }
     
 
