@@ -394,7 +394,7 @@
     
     UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake((280-200)/2,  20+50+40+10, 200, 80)];
     label3.textAlignment = NSTextAlignmentCenter;
-    label3.text  = @"获得金币"; //[NSString stringWithFormat:@"%@公司",company];//company;
+    label3.text  = @"获得现金红包"; //[NSString stringWithFormat:@"%@公司",company];//company;
     label3.numberOfLines = 0;
     label3.textColor = [UIColor blackColor];
     label3.font = FONT(20);
@@ -612,15 +612,19 @@
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
          self.dataDic = dataDic;
-         //         if (errorCode == 8)
-         //         {
-         //
-         //         }
-         //         else
-         //         {
-         //             [SVProgressHUD showErrorWithStatus:errorMessage];
-         //         }
-         [self requestState];
+          if (errorCode == 8)
+          {
+               [self robSuccessView:self.dataDic[@"title_1"] robsum:self.dataDic[@"lingqu_money"]];
+               [audioPlayer4 play];
+          } else if (errorCode == 2) {
+              [self robFailView:errorMessage];
+              [audioPlayer3 play];
+          }
+          else
+          {
+              [SVProgressHUD showErrorWithStatus:errorMessage];
+               [self requestState];
+          }
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
