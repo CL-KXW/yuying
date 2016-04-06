@@ -156,7 +156,7 @@
     //排行榜
     [robResultView removeFromSuperview];
     robResultView = nil;
-    [self requestRoberList];
+    [self requestState];
 }
 
 #pragma mark 文字处理
@@ -402,7 +402,7 @@
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((280-200)/2,(350-90)/2+20 , 200, 140)];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text  =robsum;
+    label.text  =[NSString stringWithFormat:@"%@元",robsum];
     label.numberOfLines = 0;
     label.textColor = [UIColor redColor];
     //label.backgroundColor = [UIColor redColor];
