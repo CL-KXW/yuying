@@ -209,7 +209,8 @@
             NSDictionary *dic = responseDic;
             //orderno pid sellermail publickey notifyurl moneynum
             if (dic) {
-                [self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"seller_account"] tradeNO:dic[@"only_number"] notifyURL:dic[@"notifyurl"] price:dic[@"recharge_money"] privateKey:dic[@"alipaykey"]];
+                [self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"seller_account"] tradeNO:dic[@"only_number"] notifyURL:dic[@"notifyurl"]
+                                 price:money privateKey:dic[@"alipaykey"]];
             }
         } else {
             [SVProgressHUD showErrorWithStatus:responseDic[@"returnMessage"] duration:2.0];
