@@ -170,6 +170,7 @@
 		40694C581CA7F2AC006BCBBF /* ZHYBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694C161CA7F2AC006BCBBF /* ZHYBaseResponse.m */; };
 		40694CAE1CA7F9C3006BCBBF /* CommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694CAC1CA7F9C3006BCBBF /* CommonTableViewCell.m */; };
 		40694CAF1CA7F9C3006BCBBF /* CommonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40694CAD1CA7F9C3006BCBBF /* CommonTableViewCell.xib */; };
+		CE05926F1CB5666A00283BF1 /* img_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = CE05926E1CB5666A00283BF1 /* img_hot.png */; };
 		CE07DC8F1C7EA87F0090A9A5 /* CameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */; };
 		CE07DC921C7EA88E0090A9A5 /* CameraListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC911C7EA88E0090A9A5 /* CameraListViewController.m */; };
 		CE07DC961C7EA9200090A9A5 /* AddCameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC951C7EA9200090A9A5 /* AddCameraMainViewController.m */; };
@@ -778,6 +779,7 @@
 		40694CAB1CA7F9C3006BCBBF /* CommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTableViewCell.h; sourceTree = "<group>"; };
 		40694CAC1CA7F9C3006BCBBF /* CommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTableViewCell.m; sourceTree = "<group>"; };
 		40694CAD1CA7F9C3006BCBBF /* CommonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommonTableViewCell.xib; sourceTree = "<group>"; };
+		CE05926E1CB5666A00283BF1 /* img_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_hot.png; sourceTree = "<group>"; };
 		CE07DC8D1C7EA87F0090A9A5 /* CameraMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraMainViewController.h; sourceTree = "<group>"; };
 		CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraMainViewController.m; sourceTree = "<group>"; };
 		CE07DC901C7EA88E0090A9A5 /* CameraListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraListViewController.h; sourceTree = "<group>"; };
@@ -1908,6 +1910,7 @@
 		CE11AE291C748E040017181E /* home */ = {
 			isa = PBXGroup;
 			children = (
+				CE05926E1CB5666A00283BF1 /* img_hot.png */,
 				CEF4C4971C928F94004D6A4F /* icon_news.png */,
 				CEE4C1621C87048800D8DA5E /* adv_default.png */,
 				CEAD125C1C7CEC9E00D2CAF2 /* icon_home_phone_bg.png */,
@@ -3226,6 +3229,7 @@
 				40694C3A1CA7F2AC006BCBBF /* SellerCentreSection1Row0TableViewCell.xib in Resources */,
 				CE11AE391C749A420017181E /* icon_navbar_close_green_up.png in Resources */,
 				40694BA31CA7F189006BCBBF /* Info.plist in Resources */,
+				CE05926F1CB5666A00283BF1 /* img_hot.png in Resources */,
 				CE8BE86F1C5F885700D6307D /* MJRefresh.bundle in Resources */,
 				CEAD125E1C7CEC9E00D2CAF2 /* icon_home_phone_bg.png in Resources */,
 				286C79011C9477C4009E129E /* hongbao@3x.png in Resources */,
