@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
-    self.title = @"话费充值";
+    self.title = @"帐号充值";
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
     self.table.rowHeight = 80;
     [self.table setTableHeaderView:[self headerView]];

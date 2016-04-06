@@ -98,7 +98,11 @@
     logtime = [CommonTool dateString2MDString:logtime];
     cell.timeLabel.text = logtime;
     [cell.adView setImageWithURL:[NSURL URLWithString:dic[@"url_1"]]];
-    [cell dealHadGet:NO descTitle:[NSString stringWithFormat:@"%d元", [dic[@"shengyu_money"] intValue]]];
+    float leftMoney = [dic[@"shengyu_money"] floatValue];
+    if (leftMoney < 0) {
+        leftMoney = 0;
+    }
+    [cell dealHadGet:NO descTitle:[NSString stringWithFormat:@"%.2f元", leftMoney]];
     return cell;
 }
 
