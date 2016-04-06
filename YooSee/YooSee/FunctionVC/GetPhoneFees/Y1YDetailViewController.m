@@ -375,7 +375,7 @@
     
     UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(0,  40, 280, 40)];
     label1.textAlignment = NSTextAlignmentCenter;
-    label1.text  =[NSString stringWithFormat:@"%@公司",company];//company;
+    label1.text  =[NSString stringWithFormat:@"%@",company];//company;
     label1.numberOfLines = 0;
     label1.textColor = [UIColor blackColor];
     //label.backgroundColor = [UIColor redColor];
@@ -402,7 +402,11 @@
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((280-200)/2,(350-90)/2+20 , 200, 140)];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text  =[NSString stringWithFormat:@"%@元",robsum];
+    float money = [robsum floatValue];
+    if (money < 0) {
+        money = 0;
+    }
+    label.text  =[NSString stringWithFormat:@"%.2f元",money];
     label.numberOfLines = 0;
     label.textColor = [UIColor redColor];
     //label.backgroundColor = [UIColor redColor];

@@ -130,7 +130,11 @@
     int code = [dic[@"returnCode"] intValue];
     if (code == 2 || code == 3 || code == 8) {
         [self robedView];
-        self.descLabel.text = [NSString stringWithFormat:@"%@元",dic[@"lingqu_money"]];
+        float money = [dic[@"lingqu_money"] floatValue];
+        if (money < 0) {
+            money = 0;
+        }
+        self.descLabel.text = [NSString stringWithFormat:@"%.2f元",money];
         if (code == 8) {
             self.resultDescLabel.text = @"已存入红包库\n请12小时内收取红包";
         }
