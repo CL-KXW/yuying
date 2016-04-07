@@ -91,7 +91,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     RobRedPackgeDetailVC *detail = [[RobRedPackgeDetailVC alloc] init];
     detail.redPackgeId = dic[@"only_number"];
-    detail.logoUrl = dic[@"logo"];
+    detail.logoUrl = dic[@"title_url_1"];
     detail.desc = dic[@"title_1"];
     [self.navigationController pushViewController:detail animated:YES];
 }

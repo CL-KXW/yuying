@@ -159,6 +159,7 @@
              self.hasMakedRob = YES;
              [self.table reloadData];
              [SVProgressHUD showSuccessWithStatus:errorMessage duration:2.5];
+             [self.navigationController popViewControllerAnimated:NO];
          }
          else
          {
