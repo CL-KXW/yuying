@@ -30,6 +30,7 @@
 #import "RedLibaryTypeListViewController.h"
 
 #import "ResponseSellerMessage.h"
+#import "SellerMessageEditViewController.h"
 
 #define CellDefaultHeight 70
 
@@ -37,7 +38,9 @@
 
 @property(nonatomic,weak)IBOutlet UITableView *tableView;
 @property(nonatomic,strong)NSArray *cellTextArray;
+@property(nonatomic,strong)UIButton *sellerEditButton;
 @property(nonatomic,strong)UIImageView *logoImageView;
+@property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)VerticalButton *sendRedLibaryButton;
 @property(nonatomic,strong)VerticalButton *publishAdvertisementButton;
 @property(nonatomic,strong)UIButton *withdrawalsButton;
@@ -54,24 +57,50 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"商家中心";
+    self.title = @"商家管理";
     self.cellTextArray =@[@"余额",@"商城营业额",@""];
     self.buttonTitleArray = @[@"红包管理",@"赚钱广告管理",@"商品管理",@"订单管理",@"会员卡管理",@"优惠券管理",@"提现进度查询",@"发票管理"];
     self.buttonImageArray = @[@"SellerManager_redLibaryManager",@"SellerManager_advertisementManager",@"SellerManager_commodityManager",@"SellerManager_orderFormManager",@"SellerManager_vipManager",@"SellerManager_preferentialManager",@"SellerManager_statusInquiry",@"SellerManager_invoiceManager"];
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
-    self.tableView.tableHeaderView = headView;
+    float headViewHeight = 120;
+    self.sellerEditButton.frame = CGRectMake(0, 0, SCREEN_WIDTH, headViewHeight);
+    self.tableView.tableHeaderView = self.sellerEditButton;
     
-    self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
-    self.logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.logoImageView.backgroundColor = Color_imageBackground;
+    float logoImageDiameter = 80;
+    self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, (headViewHeight-logoImageDiameter)/2, logoImageDiameter, logoImageDiameter)];
     self.logoImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];
-    [headView addSubview:self.logoImageView];
+    self.logoImageView.layer.cornerRadius = logoImageDiameter/2;
+    self.logoImageView.layer.masksToBounds = YES;
+    [self.sellerEditButton addSubview:self.logoImageView];
+    
+    self.nameLabel.frame = CGRectMake(10*2+logoImageDiameter, 0, SCREEN_WIDTH-(10*3+logoImageDiameter), headViewHeight);
+    [self.sellerEditButton addSubview:self.nameLabel];
     
     [self sellerMessageRequest];
 }
 
 #pragma mark - init
+-(UIButton *)sellerEditButton{
+    if(!_sellerEditButton){
+        _sellerEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _sellerEditButton.backgroundColor = RGB(251, 93, 8);
+        [_sellerEditButton addTarget:self action:@selector(sellerEditButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _sellerEditButton;
+}
+
+-(UILabel *)nameLabel{
+    if(!_nameLabel){
+        _nameLabel = Alloc(UILabel);
+        _nameLabel.font = FONT(16);
+        _nameLabel.textColor = [UIColor whiteColor];
+        _nameLabel.textAlignment = NSTextAlignmentLeft;
+    }
+    
+    return _nameLabel;
+}
+
 -(UIButton *)sendRedLibaryButton{
     if (!_sendRedLibaryButton) {
         _sendRedLibaryButton = [VerticalButton buttonWithType:UIButtonTypeCustom];
@@ -122,18 +151,20 @@
     }
     
     [LoadingView showLoadingView];
-    NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:1],@"user_id",nil];
+    NSString *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",nil];
 
     WeakSelf(weakSelf);
     [HttpManager postUrl:Url_sellerMessage parameters:requestDic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
         [LoadingView dismissLoadingView];
         
         ResponseSellerMessage *message = [ResponseSellerMessage yy_modelWithDictionary:jsonObject];
-        if (message.returnCode.intValue == 8)
+        if (message.returnCode.intValue == SucessFlag)
         {
             weakSelf.sellerMessage = [message.resultList firstObject];
             NSURL *url = [NSURL URLWithString:weakSelf.sellerMessage.dian_logo];
             [weakSelf.logoImageView setImageWithURL:url];
+            weakSelf.nameLabel.text = weakSelf.sellerMessage.dian_name;
             [weakSelf.tableView reloadData];
         }else{
             [SVProgressHUD showErrorWithStatus:message.returnMessage];
@@ -145,6 +176,13 @@
 }
 
 #pragma mark - UIButtonClick
+-(void)sellerEditButtonClick:(UIButton *)button{
+    @autoreleasepool {
+        SellerMessageEditViewController *vc = Alloc_viewControllerNibName(SellerMessageEditViewController);
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 -(void)sendRedLibaryButtonClick:(UIButton *)button{
     @autoreleasepool {
         RedLibaryTypeListViewController *vc = Alloc_viewControllerNibName(RedLibaryTypeListViewController);
@@ -216,7 +254,7 @@
             [view addSubview:self.publishAdvertisementButton];
             cell.accessoryView = view;
         }else{
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
             
             string = [NSString stringWithFormat:@"%.2f元",[self.sellerMessage.turnover_money floatValue]];
             float withdrawalsMoney = [self.sellerMessage.turnover_money floatValue]-[self.sellerMessage.freeze_money floatValue];
@@ -277,9 +315,9 @@
             @autoreleasepool {
                 CashDetailedViewController *vc = Alloc_viewControllerNibName(CashDetailedViewController);
                 if (indexPath.section == 0) {
-                    
+                    vc.type = CashDetailType_sellerCapitalLibrary;
                 }else if(indexPath.section == 1){
-
+                    vc.type = CashDetailType_sellerTurnover;
                 }
                 [self.navigationController pushViewController:vc animated:YES];
             }
@@ -289,8 +327,14 @@
         case 1:
         {
             @autoreleasepool {
-                SellerSurplusViewController *vc = Alloc_viewControllerNibName(SellerSurplusViewController);
-                [self.navigationController pushViewController:vc animated:YES];
+                if (indexPath.section == 0) {
+                    SellerSurplusViewController *vc = Alloc_viewControllerNibName(SellerSurplusViewController);
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else if(indexPath.section == 1){
+                    CashDetailedViewController *vc = Alloc_viewControllerNibName(CashDetailedViewController);
+                    vc.type = CashDetailType_sellerTurnover;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
             }
         }
             break;
@@ -337,6 +381,7 @@
             @autoreleasepool {
                 //红包管理
                 RedLibaryManageViewController *vc = Alloc_viewControllerNibName(RedLibaryManageViewController);
+                vc.type = ManageType_redLibary;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
@@ -345,7 +390,9 @@
         case 1:
         {
             @autoreleasepool {
-                
+                RedLibaryManageViewController *vc = Alloc_viewControllerNibName(RedLibaryManageViewController);
+                vc.type = ManageType_advertisement;
+                [self.navigationController pushViewController:vc animated:YES];
             }
         }
             break;

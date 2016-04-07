@@ -290,6 +290,8 @@
      {
          [LoadingView dismissLoadingView];
          NSLog(@"2cu_USER_LOGIN_URL====%@",error);
+         [YooSeeApplication shareApplication].isLogin = YES;
+         [weakSelf dismissViewControllerAnimated:YES completion:nil];
      }];
 
 }

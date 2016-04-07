@@ -8,6 +8,13 @@
 
 #import "BasicViewController.h"
 
+typedef NS_ENUM(NSUInteger, ManageType) {
+    ManageType_redLibary = 0,
+    ManageType_advertisement,
+};
+
 @interface RedLibaryManageViewController : BasicViewController
+
+@property(nonatomic)ManageType type;
 
 @end

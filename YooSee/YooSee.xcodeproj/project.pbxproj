@@ -79,6 +79,9 @@
 		401168511CA805D0000BD055 /* UMSnsAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4011683D1CA805D0000BD055 /* UMSnsAccountViewController.xib */; };
 		401168521CA805D0000BD055 /* UMSShareListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4011683E1CA805D0000BD055 /* UMSShareListController.xib */; };
 		401168531CA805D0000BD055 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4011683F1CA805D0000BD055 /* UMSocialSDKResourcesNew.bundle */; };
+		4017D00B1CB54CC60095DAD2 /* DCPaymentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017D00A1CB54CC60095DAD2 /* DCPaymentView.m */; };
+		4017D00E1CB54DF00095DAD2 /* DCPwdTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017D00D1CB54DF00095DAD2 /* DCPwdTextField.m */; };
+		405A91931CAB81D9009FCBD7 /* UUDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A91921CAB81D9009FCBD7 /* UUDatePicker.m */; };
 		40694B991CA7F189006BCBBF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40694B621CA7F189006BCBBF /* IQKeyboardManager.bundle */; };
 		40694B9A1CA7F189006BCBBF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694B641CA7F189006BCBBF /* IQKeyboardManager.m */; };
 		40694B9B1CA7F189006BCBBF /* IQSegmentedNextPrevious.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694B681CA7F189006BCBBF /* IQSegmentedNextPrevious.m */; };
@@ -170,6 +173,13 @@
 		40694C581CA7F2AC006BCBBF /* ZHYBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694C161CA7F2AC006BCBBF /* ZHYBaseResponse.m */; };
 		40694CAE1CA7F9C3006BCBBF /* CommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694CAC1CA7F9C3006BCBBF /* CommonTableViewCell.m */; };
 		40694CAF1CA7F9C3006BCBBF /* CommonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40694CAD1CA7F9C3006BCBBF /* CommonTableViewCell.xib */; };
+		40947E491CAA350E0019D0C5 /* SellerMessageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40947E471CAA350E0019D0C5 /* SellerMessageEditViewController.m */; };
+		40947E4A1CAA350E0019D0C5 /* SellerMessageEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40947E481CAA350E0019D0C5 /* SellerMessageEditViewController.xib */; };
+		40947E501CAAAF600019D0C5 /* libXG-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40947E4C1CAAAF600019D0C5 /* libXG-SDK.a */; };
+		40947E511CAAAF600019D0C5 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 40947E4D1CAAAF600019D0C5 /* ReleaseNotes.txt */; };
+		40947E531CAAB0820019D0C5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40947E521CAAB0820019D0C5 /* CFNetwork.framework */; };
+		40947E551CAAB0950019D0C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40947E541CAAB0950019D0C5 /* SystemConfiguration.framework */; };
+		40947E571CAAB0E90019D0C5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 40947E561CAAB0E90019D0C5 /* libsqlite3.tbd */; };
 		CE05926F1CB5666A00283BF1 /* img_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = CE05926E1CB5666A00283BF1 /* img_hot.png */; };
 		CE07DC8F1C7EA87F0090A9A5 /* CameraMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */; };
 		CE07DC921C7EA88E0090A9A5 /* CameraListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE07DC911C7EA88E0090A9A5 /* CameraListViewController.m */; };
@@ -621,6 +631,12 @@
 		4011683E1CA805D0000BD055 /* UMSShareListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSShareListController.xib; sourceTree = "<group>"; };
 		4011683F1CA805D0000BD055 /* UMSocialSDKResourcesNew.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResourcesNew.bundle; sourceTree = "<group>"; };
 		401168401CA805D0000BD055 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMSocialLocalizable.strings"; sourceTree = "<group>"; };
+		4017D0091CB54CC60095DAD2 /* DCPaymentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPaymentView.h; sourceTree = "<group>"; };
+		4017D00A1CB54CC60095DAD2 /* DCPaymentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPaymentView.m; sourceTree = "<group>"; };
+		4017D00C1CB54DF00095DAD2 /* DCPwdTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPwdTextField.h; sourceTree = "<group>"; };
+		4017D00D1CB54DF00095DAD2 /* DCPwdTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPwdTextField.m; sourceTree = "<group>"; };
+		405A91911CAB81D9009FCBD7 /* UUDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUDatePicker.h; sourceTree = "<group>"; };
+		405A91921CAB81D9009FCBD7 /* UUDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUDatePicker.m; sourceTree = "<group>"; };
 		40694B621CA7F189006BCBBF /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
 		40694B631CA7F189006BCBBF /* IQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManager.h; sourceTree = "<group>"; };
 		40694B641CA7F189006BCBBF /* IQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardManager.m; sourceTree = "<group>"; };
@@ -779,6 +795,16 @@
 		40694CAB1CA7F9C3006BCBBF /* CommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTableViewCell.h; sourceTree = "<group>"; };
 		40694CAC1CA7F9C3006BCBBF /* CommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTableViewCell.m; sourceTree = "<group>"; };
 		40694CAD1CA7F9C3006BCBBF /* CommonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommonTableViewCell.xib; sourceTree = "<group>"; };
+		40947E461CAA350E0019D0C5 /* SellerMessageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SellerMessageEditViewController.h; sourceTree = "<group>"; };
+		40947E471CAA350E0019D0C5 /* SellerMessageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SellerMessageEditViewController.m; sourceTree = "<group>"; };
+		40947E481CAA350E0019D0C5 /* SellerMessageEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellerMessageEditViewController.xib; sourceTree = "<group>"; };
+		40947E4C1CAAAF600019D0C5 /* libXG-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libXG-SDK.a"; sourceTree = "<group>"; };
+		40947E4D1CAAAF600019D0C5 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
+		40947E4E1CAAAF600019D0C5 /* XGPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGPush.h; sourceTree = "<group>"; };
+		40947E4F1CAAAF600019D0C5 /* XGSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGSetting.h; sourceTree = "<group>"; };
+		40947E521CAAB0820019D0C5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		40947E541CAAB0950019D0C5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		40947E561CAAB0E90019D0C5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CE05926E1CB5666A00283BF1 /* img_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_hot.png; sourceTree = "<group>"; };
 		CE07DC8D1C7EA87F0090A9A5 /* CameraMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraMainViewController.h; sourceTree = "<group>"; };
 		CE07DC8E1C7EA87F0090A9A5 /* CameraMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraMainViewController.m; sourceTree = "<group>"; };
@@ -1407,11 +1433,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4011684A1CA805D0000BD055 /* libUMSocial_Sdk_5.0.a in Frameworks */,
+				40947E571CAAB0E90019D0C5 /* libsqlite3.tbd in Frameworks */,
 				286C7A0C1C9EAE3B009E129E /* Security.framework in Frameworks */,
-				401168451CA805D0000BD055 /* TencentOpenAPI.framework in Frameworks */,
-				401168421CA805D0000BD055 /* libWeiboSDK.a in Frameworks */,
+				CEF793FA1C85112E0039909A /* libz.tbd in Frameworks */,
 				CE24B5C21C8F3A0E00556775 /* CoreTelephony.framework in Frameworks */,
+				40947E551CAAB0950019D0C5 /* SystemConfiguration.framework in Frameworks */,
+				40947E531CAAB0820019D0C5 /* CFNetwork.framework in Frameworks */,
+				4011684A1CA805D0000BD055 /* libUMSocial_Sdk_5.0.a in Frameworks */,
+				401168451CA805D0000BD055 /* TencentOpenAPI.framework in Frameworks */,
+				40947E501CAAAF600019D0C5 /* libXG-SDK.a in Frameworks */,
+				401168421CA805D0000BD055 /* libWeiboSDK.a in Frameworks */,
 				401168481CA805D0000BD055 /* libWeChatSDK.a in Frameworks */,
 				CEF794241C852A270039909A /* libbz2.tbd in Frameworks */,
 				CEF796B91C853E630039909A /* libAVCtrl_arm64.a in Frameworks */,
@@ -1423,7 +1454,6 @@
 				CEDC0B251C9F95700056521F /* AlipaySDK.framework in Frameworks */,
 				CEF796BC1C853E630039909A /* libAVCtrl_i386.a in Frameworks */,
 				CE9CFECD1C6CE34300755226 /* libsqlite3.0.tbd in Frameworks */,
-				CEF793FA1C85112E0039909A /* libz.tbd in Frameworks */,
 				CE9EE9851C84255800B45787 /* libicucore.tbd in Frameworks */,
 				CEA91BAE1C8A06800045D763 /* libAVCtrl_armv7.a in Frameworks */,
 				CEA91BBD1C8A09220045D763 /* libfaac.a in Frameworks */,
@@ -1740,6 +1770,9 @@
 				40694BF21CA7F2AC006BCBBF /* SellerCentreViewController.h */,
 				40694BF31CA7F2AC006BCBBF /* SellerCentreViewController.m */,
 				40694BF41CA7F2AC006BCBBF /* SellerCentreViewController.xib */,
+				40947E461CAA350E0019D0C5 /* SellerMessageEditViewController.h */,
+				40947E471CAA350E0019D0C5 /* SellerMessageEditViewController.m */,
+				40947E481CAA350E0019D0C5 /* SellerMessageEditViewController.xib */,
 				40694BF51CA7F2AC006BCBBF /* SellerCentreWriteDataBusinessLicenseTableViewCell.h */,
 				40694BF61CA7F2AC006BCBBF /* SellerCentreWriteDataBusinessLicenseTableViewCell.m */,
 				40694BF71CA7F2AC006BCBBF /* SellerCentreWriteDataBusinessLicenseTableViewCell.xib */,
@@ -1774,8 +1807,25 @@
 				40694C141CA7F2AC006BCBBF /* VerticalButton.m */,
 				40694C151CA7F2AC006BCBBF /* ZHYBaseResponse.h */,
 				40694C161CA7F2AC006BCBBF /* ZHYBaseResponse.m */,
+				405A91911CAB81D9009FCBD7 /* UUDatePicker.h */,
+				405A91921CAB81D9009FCBD7 /* UUDatePicker.m */,
+				4017D0091CB54CC60095DAD2 /* DCPaymentView.h */,
+				4017D00A1CB54CC60095DAD2 /* DCPaymentView.m */,
+				4017D00C1CB54DF00095DAD2 /* DCPwdTextField.h */,
+				4017D00D1CB54DF00095DAD2 /* DCPwdTextField.m */,
 			);
 			path = SellerManager;
+			sourceTree = "<group>";
+		};
+		40947E4B1CAAAF600019D0C5 /* xinGe */ = {
+			isa = PBXGroup;
+			children = (
+				40947E4C1CAAAF600019D0C5 /* libXG-SDK.a */,
+				40947E4D1CAAAF600019D0C5 /* ReleaseNotes.txt */,
+				40947E4E1CAAAF600019D0C5 /* XGPush.h */,
+				40947E4F1CAAAF600019D0C5 /* XGSetting.h */,
+			);
+			path = xinGe;
 			sourceTree = "<group>";
 		};
 		CE07DC931C7EA89E0090A9A5 /* AddCamera */ = {
@@ -2052,6 +2102,9 @@
 		CE5ABD1E1C5B5B3800643B24 = {
 			isa = PBXGroup;
 			children = (
+				40947E561CAAB0E90019D0C5 /* libsqlite3.tbd */,
+				40947E541CAAB0950019D0C5 /* SystemConfiguration.framework */,
+				40947E521CAAB0820019D0C5 /* CFNetwork.framework */,
 				CE5ABD291C5B5B3800643B24 /* YooSee */,
 				CE5ABD281C5B5B3800643B24 /* Products */,
 			);
@@ -2137,6 +2190,7 @@
 		CE5ABD441C5B621700643B24 /* CommonTool */ = {
 			isa = PBXGroup;
 			children = (
+				40947E4B1CAAAF600019D0C5 /* xinGe */,
 				401168091CA805D0000BD055 /* ShareTool */,
 				40694B611CA7F189006BCBBF /* IQKeyBoardManager */,
 				40694B781CA7F189006BCBBF /* Masonry */,
@@ -3219,6 +3273,7 @@
 				40694C3C1CA7F2AC006BCBBF /* SellerCentreSection1Row1TableViewCell.xib in Resources */,
 				CEAD12551C7CE58800D2CAF2 /* icon_home_more_up.png in Resources */,
 				CE14C3171C88872700C1D5A3 /* icon_file_down.png in Resources */,
+				40947E511CAAAF600019D0C5 /* ReleaseNotes.txt in Resources */,
 				CEAAA54E1C8B34E30006F804 /* icon_alarm_pic_up.png in Resources */,
 				286C78F81C947419009E129E /* gold1@3x.png in Resources */,
 				CEAD12521C7CE58800D2CAF2 /* icon_home_charge_down.png in Resources */,
@@ -3270,6 +3325,7 @@
 				40694C2E1CA7F2AC006BCBBF /* RedLibaryTypeListViewController.xib in Resources */,
 				CE89E9511C8C1B16006F6B4D /* setting_record.png in Resources */,
 				CEAD7D561C8C9681008B5281 /* icon_usercenter_1_down.png in Resources */,
+				40947E4A1CAA350E0019D0C5 /* SellerMessageEditViewController.xib in Resources */,
 				40694C541CA7F2AC006BCBBF /* TurnoverWithdrawalsFootView.xib in Resources */,
 				40694C461CA7F2AC006BCBBF /* SellerCentreWriteDataViewController.xib in Resources */,
 				CEAD12531C7CE58800D2CAF2 /* icon_home_charge_up.png in Resources */,
@@ -3349,6 +3405,7 @@
 				CE8BDDA71C912E2800472924 /* GetMoneryViewController.m in Sources */,
 				CEF796A11C853E630039909A /* Contact.m in Sources */,
 				CEC7FEC11C96E8E700759DFC /* SetCameraDefenceAreaViewController.m in Sources */,
+				40947E491CAA350E0019D0C5 /* SellerMessageEditViewController.m in Sources */,
 				40694C351CA7F2AC006BCBBF /* SellerCentreReviewStatusViewController.m in Sources */,
 				40694C301CA7F2AC006BCBBF /* ResponseUploadImage.m in Sources */,
 				CEF796B11C853E630039909A /* GlobalThread.m in Sources */,
@@ -3427,6 +3484,7 @@
 				CEE85F901C959EF700E63471 /* SetCameraTimeViewController.m in Sources */,
 				CE963ABE1C91CAA500DEEF2B /* STUI.m in Sources */,
 				CEF796AE1C853E630039909A /* UDManager.m in Sources */,
+				405A91931CAB81D9009FCBD7 /* UUDatePicker.m in Sources */,
 				CE211FE01C815BE4000453D0 /* AddCameraFailViewController.m in Sources */,
 				40694C3D1CA7F2AC006BCBBF /* SellerCentreSection2Row0TableViewCell.m in Sources */,
 				CE8BE8731C5F885700D6307D /* MJRefreshHeaderView.m in Sources */,
@@ -3545,6 +3603,7 @@
 				40694C181CA7F2AC006BCBBF /* CashDetailedTableViewCell.m in Sources */,
 				CE8BE7BF1C5F884000D6307D /* WebViewController.m in Sources */,
 				CEF796B51C853E630039909A /* ShakeManager.m in Sources */,
+				4017D00E1CB54DF00095DAD2 /* DCPwdTextField.m in Sources */,
 				CE9CFEDF1C6CE9D300755226 /* AvPlayerView.m in Sources */,
 				CE8BE83B1C5F885000D6307D /* SDWebImagePrefetcher.m in Sources */,
 				CEF4C49E1C929568004D6A4F /* RegisterViewController.m in Sources */,
@@ -3560,6 +3619,7 @@
 				286C78EB1C94730E009E129E /* YCMoneyAnimation.m in Sources */,
 				CE8BE83E1C5F885000D6307D /* UIImage+MultiFormat.m in Sources */,
 				40694C231CA7F2AC006BCBBF /* PublishAdvertisementViewController.m in Sources */,
+				4017D00B1CB54CC60095DAD2 /* DCPaymentView.m in Sources */,
 				40694C391CA7F2AC006BCBBF /* SellerCentreSection1Row0TableViewCell.m in Sources */,
 				CE8BE8371C5F885000D6307D /* SDWebImageDecoder.m in Sources */,
 				286C78E61C92CE2D009E129E /* GetMoneyDetailViewController.m in Sources */,
@@ -3679,7 +3739,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3706,13 +3766,14 @@
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/ShareTool/Share_SDK/TencentOpenAPI",
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/ShareTool/Share_SDK/Wechat",
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/ShareTool/UMSocial_Sdk_5.0",
+					"$(PROJECT_DIR)/YooSee/Common/CommonTool/xinGe",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "ced65ff1-8203-4365-a08c-dd84e894354b";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -3724,7 +3785,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3751,12 +3812,13 @@
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/ShareTool/Share_SDK/TencentOpenAPI",
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/ShareTool/Share_SDK/Wechat",
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/ShareTool/UMSocial_Sdk_5.0",
+					"$(PROJECT_DIR)/YooSee/Common/CommonTool/xinGe",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "ced65ff1-8203-4365-a08c-dd84e894354b";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};

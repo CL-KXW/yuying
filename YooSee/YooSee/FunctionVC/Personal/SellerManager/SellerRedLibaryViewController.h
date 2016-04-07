@@ -8,8 +8,15 @@
 
 #import "BasicViewController.h"
 
+typedef NS_ENUM(NSUInteger, DetailType) {
+    DetailType_redLibary = 0,
+    DetailType_advertisement,
+};
+
 @interface SellerRedLibaryViewController : BasicViewController
 
-@property(nonatomic)BOOL progressing;
+@property(nonatomic)BOOL reject;   //被拒绝
+@property(nonatomic,strong)NSMutableDictionary *dic;
+@property(nonatomic)DetailType type;   //详情类型
 
 @end

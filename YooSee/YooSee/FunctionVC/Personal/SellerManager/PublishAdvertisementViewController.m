@@ -9,6 +9,7 @@
 #import "PublishAdvertisementViewController.h"
 
 #import "PublishAdvertisementTableViewCell.h"
+#import "UUDatePicker.h"
 
 typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     ActionSheetTag_area = 1 << 0,
@@ -22,7 +23,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 };
 
 #define ContentViewHeight 80
-#define CompressionRatio 0.8
+
 #define Hud_uploadFail @"上传失败,请您重试"
 
 #define CellDefaultHeight 50
@@ -30,7 +31,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 #define ContentDefaultText3 @"请输入广告2内容描述文字。（选填项，可不填）"
 #define ContentDefaultText4 @"请输入广告3内容描述文字。（选填项，可不填）"
 
-@interface PublishAdvertisementViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
+@interface PublishAdvertisementViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UUDatePickerDelegate>
 
 @property(nonatomic,strong)NSArray *cellTextArray;
 @property(nonatomic,strong)UITextField *totalMoneyField;
@@ -48,6 +49,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 @property(nonatomic,strong)UIImage *advertisementImage1;
 @property(nonatomic,strong)UIImage *advertisementImage2;
 @property(nonatomic,strong)UIImage *advertisementImage3;
+
+@property(nonatomic,strong)UUDatePicker *calendarPickView;
 
 @property(nonatomic,strong)NSString *uuid1;
 @property(nonatomic,strong)NSString *uuid2;
@@ -76,7 +79,14 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     self.title = @"发布赚钱广告";
     self.cellTextArray = @[@"红包个数",@"单个金额",@"发布区域",@"结束时间"];
     self.publishArea = PulishArea_localCity;
-    
+    self.url1 = @"";
+    self.url2 = @"";
+    self.url3 = @"";
+    self.url4 = @"";
+    self.uuid1 =@"";
+    self.uuid2 = @"";
+    self.uuid3 = @"";
+    self.uuid4 = @"";
     UINib *nib = [UINib nibWithNibName:@"PublishAdvertisementTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"Cell"];
     [self setTableFootView];
@@ -138,7 +148,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     if (!_areaButton) {
         _areaButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_areaButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        NSString *string = [NSString stringWithFormat:@"本市(%@)",@"XXXX"];
+        NSString *city = [YooSeeApplication shareApplication].userInfoDic[@"city_name"];
+        NSString *string = [NSString stringWithFormat:@"本市(%@)",city];
         [_areaButton setTitle:string forState:UIControlStateNormal];
         _areaButton.titleLabel.font = [UIFont systemFontOfSize:16];
         _areaButton.height = CellDefaultHeight;
@@ -160,17 +171,24 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     if (!_endDateButton) {
         _endDateButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_endDateButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_endDateButton setTitle:@"2016-03-08" forState:UIControlStateNormal];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:00"];
+        NSTimeZone *zone = [NSTimeZone systemTimeZone];
+        NSInteger interval = [zone secondsFromGMTForDate:[NSDate date]];
+        NSDate *nowLocalDate = [[NSDate date] dateByAddingTimeInterval:interval];
+        NSString *string = [formatter stringFromDate:nowLocalDate];
+        [_endDateButton setTitle:string forState:UIControlStateNormal];
         _endDateButton.titleLabel.font = [UIFont systemFontOfSize:16];
         _endDateButton.height = CellDefaultHeight;
-        _endDateButton.width = 120;
+        _endDateButton.width = 200;
         _endDateButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         _endDateButton.contentEdgeInsets = UIEdgeInsetsMake(0,0, 0, 20);
         [_endDateButton addTarget:self action:@selector(endDateButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *downLabel = Alloc(UILabel);
         downLabel.text = @"▼";
-        downLabel.frame = CGRectMake(105, 0, 20, CellDefaultHeight);
+        downLabel.frame = CGRectMake(200-15, 0, 20, CellDefaultHeight);
         [_endDateButton addSubview:downLabel];
     }
     
@@ -253,13 +271,12 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 -(void)endDateButtonClick:(UIButton *)button{
    [self allTextFieldResignFirstResponder];
     
-    
-}
-
--(void)rightItemClick:(id)sender{
-    [self allTextFieldResignFirstResponder];
-    
-    
+    UIWindow *windows = [[UIApplication sharedApplication] keyWindow];
+    self.calendarPickView = [[UUDatePicker alloc] initWithframe:windows.bounds Delegate:self PickerStyle:UUDateStyle_YearMonthDayHourMinute];
+    self.calendarPickView.minLimitDate = [NSDate date];
+    self.calendarPickView.tag = 101;
+    [windows addSubview:self.calendarPickView];
+    [self.calendarPickView show];
 }
 
 -(void)addPictureButtonClick:(UIButton *)button{
@@ -307,18 +324,21 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 
 #pragma mark -
 -(void)sendSubmitRequest{
-    //TODO:修改数据
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:@"1" forKey:@"user_id"];
-    [dic setObject:@"145871915307239174" forKey:@"shop_number"];
-    NSString *area = @"1";
-    if (self.publishArea == PulishArea_localProvince) {
-        
+    NSString *user_id = [YooSeeApplication shareApplication].uid;
+    [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"user_id"];
+    NSNumber *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+    [dic setObject:[NSString stringWithFormat:@"%@",shop_number] forKey:@"shop_number"];
+    NSString *area_city_role_id;
+    if (self.publishArea == PulishArea_localCity) {
+        area_city_role_id = [YooSeeApplication shareApplication].userInfoDic[@"city_id"];
+    }else if (self.publishArea == PulishArea_localProvince){
+        area_city_role_id = [YooSeeApplication shareApplication].userInfoDic[@"province_id"];
     }else if (self.publishArea == PulishArea_country){
-        
+        area_city_role_id = @"1";
     }
-    [dic setObject:area forKey:@"area_city_role_id"];
-    [dic setObject:@"2016-04-25 12:23:00" forKey:@"end_time"];
+    [dic setObject:[NSString stringWithFormat:@"%@",area_city_role_id] forKey:@"area_city_role_id"];
+    [dic setObject:self.endDateButton.titleLabel.text forKey:@"end_time"];
     
     NSString *totalMoney = [NSString stringWithFormat:@"%.2f",[self.totalMoneyField.text intValue]*[self.oneMoneyField.text floatValue]];
     [dic setObject:totalMoney forKey:@"guanggao_money"];
@@ -345,47 +365,14 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     }
     [dic setObject:content4 forKey:@"content_4"];
     
-    if(self.url1 == nil){
-        self.url1 = @"";
-    }else{
-        [dic setObject:self.url1 forKey:@"url_1"];
-    }
-    if(self.url2 == nil){
-        self.url2 = @"";
-    }else{
-        [dic setObject:self.url2 forKey:@"url_2"];
-    }
-    if(self.url3 == nil){
-        self.url3 = @"";
-    }else{
-        [dic setObject:self.url3 forKey:@"url_3"];
-    }
-    if(self.url4 == nil){
-        self.url4 = @"";
-    }else{
-        [dic setObject:self.url4 forKey:@"url_4"];
-    }
-    
-    if(self.uuid1 == nil){
-        self.uuid1 = @"";
-    }else{
-        [dic setObject:self.uuid1 forKey:@"url_uuid_1"];
-    }
-    if(self.uuid2 == nil){
-        self.uuid2 = @"";
-    }else{
-        [dic setObject:self.uuid2 forKey:@"url_uuid_2"];
-    }
-    if(self.uuid3 == nil){
-        self.uuid3 = @"";
-    }else{
-        [dic setObject:self.uuid3 forKey:@"url_uuid_3"];
-    }
-    if(self.uuid4 == nil){
-        self.uuid4 = @"";
-    }else{
-        [dic setObject:self.uuid4 forKey:@"url_uuid_4"];
-    }
+    [dic setObject:self.url1 forKey:@"url_1"];
+    [dic setObject:self.url2 forKey:@"url_2"];
+    [dic setObject:self.url3 forKey:@"url_3"];
+    [dic setObject:self.url4 forKey:@"url_4"];
+    [dic setObject:self.uuid1 forKey:@"url_uuid_1"];
+    [dic setObject:self.uuid2 forKey:@"url_uuid_2"];
+    [dic setObject:self.uuid3 forKey:@"url_uuid_3"];
+    [dic setObject:self.uuid4 forKey:@"url_uuid_4"];
     
     NSString *aesString = [Utils aesStingDictionary:dic];
     
@@ -393,7 +380,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     [requestDic setObject:aesString forKey:@"requestmessage"];
     WeakSelf(weakSelf);
     
-    [HttpManager postUrl:Url_sendLuckRedLibary parameters:requestDic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
+    NSString *string = [Url_Host stringByAppendingString:@"app/ab/send"];
+    [HttpManager postUrl:string parameters:requestDic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
         [LoadingView dismissLoadingView];
         
         ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
@@ -420,6 +408,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         return;
     }
     
+    [LoadingView showLoadingView];
+    
     int totalCount = 0;
     __block int sendCount = 0;
     if (self.coverImage != nil) {
@@ -435,16 +425,19 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         totalCount++;
     }
     
+    WeakSelf(weakSelf);
+    
     if (self.coverImage != nil) {
         NSData *data =  UIImageJPEGRepresentation(self.coverImage, CompressionRatio);
+        
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         [manager POST:Url_uploadImage parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:data name:@"attach" fileName:@"image.png" mimeType:@"image/jpeg"];
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
             if ([response.returnCode intValue] == SucessFlag) {
-                self.uuid1 = response.uuid;
-                self.url1 = response.access_url;
+                weakSelf.uuid1 = response.uuid;
+                weakSelf.url1 = response.access_url;
                 sendCount++;
                 if(sendCount == totalCount){
                     [self sendSubmitRequest];
@@ -466,8 +459,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
             if ([response.returnCode intValue] == SucessFlag) {
-                self.uuid2 = response.uuid;
-                self.url2 = response.access_url;
+                weakSelf.uuid2 = response.uuid;
+                weakSelf.url2 = response.access_url;
                 sendCount++;
                 if(sendCount == totalCount){
                     [self sendSubmitRequest];
@@ -489,8 +482,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
             if ([response.returnCode intValue] == SucessFlag) {
-                self.uuid3 = response.uuid;
-                self.url3 = response.access_url;
+                weakSelf.uuid3 = response.uuid;
+                weakSelf.url3 = response.access_url;
                 sendCount++;
                 if(sendCount == totalCount){
                     [self sendSubmitRequest];
@@ -513,8 +506,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
             if ([response.returnCode intValue] == SucessFlag) {
-                self.uuid4 = response.uuid;
-                self.url4 = response.access_url;
+                weakSelf.uuid4 = response.uuid;
+                weakSelf.url4 = response.access_url;
                 sendCount++;
                 if(sendCount == totalCount){
                     [self sendSubmitRequest];
@@ -554,6 +547,19 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         [LoadingView dismissLoadingView];
         [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
     }];
+}
+
+#pragma mark - UUDatePicker
+-(void)uuDatePicker:(UUDatePicker *)datePicker year:(NSString *)year month:(NSString *)month day:(NSString *)day hour:(NSString *)hour minute:(NSString *)minute weekDay:(NSString *)weekDay{
+    NSString *yearStr = [year substringWithRange:NSMakeRange(0, year.length-1)];
+    NSString *monthStr = [month substringWithRange:NSMakeRange(0, month.length-1)];
+    NSString *dayStr = [day substringWithRange:NSMakeRange(0, day.length-1)];
+    NSString *hourStr = [hour substringWithRange:NSMakeRange(0, hour.length-1)];
+    NSString *minStr = [minute substringWithRange:NSMakeRange(0, minute.length-1)];
+    NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@ %@:%@:00",yearStr,monthStr,dayStr,hourStr,minStr];
+    if (datePicker.tag == 101) {
+        [self.endDateButton setTitle:dateStr forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -780,7 +786,12 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         
         self.publishArea = buttonIndex;
         if(buttonIndex == 0){
-            NSString *string = [NSString stringWithFormat:@"本市(%@)",@"ccc"];
+            NSString *city = [YooSeeApplication shareApplication].userInfoDic[@"city_name"];
+            NSString *string = [NSString stringWithFormat:@"本市(%@)",city];
+            [self.areaButton setTitle:string forState:UIControlStateNormal];
+        }else if(buttonIndex == 1){
+            NSString *province = [YooSeeApplication shareApplication].userInfoDic[@"province_name"];
+            NSString *string = [NSString stringWithFormat:@"本省(%@)",province];
             [self.areaButton setTitle:string forState:UIControlStateNormal];
         }else{
             [self.areaButton setTitle:[actionSheet buttonTitleAtIndex:buttonIndex] forState:UIControlStateNormal];

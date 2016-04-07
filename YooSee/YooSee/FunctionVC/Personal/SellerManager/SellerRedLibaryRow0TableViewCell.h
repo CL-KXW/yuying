@@ -17,7 +17,9 @@
 @property(nonatomic,weak)IBOutlet UILabel *surplusMoneyLabel;
 @property(nonatomic,weak)IBOutlet UILabel *totalNumberLabel;
 @property(nonatomic,weak)IBOutlet UILabel *surplusNumberLabel;
-@property(nonatomic,weak)IBOutlet UILabel *titleLabel;
-@property(nonatomic,weak)IBOutlet UILabel *contentLabel;
+@property(nonatomic,weak)IBOutlet UILabel *startTimeLabel;
+@property(nonatomic,weak)IBOutlet UILabel *endTimeLabel;
+@property(nonatomic,strong)IBOutlet UILabel *retreatLabel;  //可退金额
+@property(nonatomic,strong)IBOutlet UILabel *nameLabel;
 
 @end

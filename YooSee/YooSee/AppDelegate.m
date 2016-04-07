@@ -21,6 +21,9 @@
 #import "UMSocial.h"
 #import "PAIOUnit.h"
 
+#import "XGPush.h"
+#import "XGSetting.h"
+
 
 @interface AppDelegate ()
 
@@ -54,6 +57,23 @@
     
     [UMSocialWechatHandler setWXAppId:WX_APP_ID appSecret:WX_APP_SECRET url:WX_CALLBACK];
     [UMSocialQQHandler setQQWithAppId:QQ_APP_ID appKey:QQ_APP_SECRET url:QQ_CALLBACK];
+    
+    [XGPush setAccount:@"18692237703"];
+    [self xinGeReregister];
+    
+    //推送反馈回调版本示例
+    void (^successBlock)(void) = ^(void){
+        //成功之后的处理
+        NSLog(@"[XGPush]handleLaunching's successBlock");
+    };
+    
+    void (^errorBlock)(void) = ^(void){
+        //失败之后的处理
+        NSLog(@"[XGPush]handleLaunching's errorBlock");
+    };
+    
+    [XGPush handleLaunching:launchOptions successCallback:successBlock errorCallback:errorBlock];
+    
     
     return YES;
 }
@@ -390,5 +410,101 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+-(void)xinGeReregister{
+    [XGPush startApp:2200191134 appKey:@"IZYH4453VV5V"];
+
+    
+    //注销之后需要再次注册前的准备
+    void (^successCallback)(void) = ^(void){
+        //如果变成需要注册状态
+        if(![XGPush isUnRegisterStatus])
+        {
+            [self registerPush];
+        }
+    };
+    [XGPush initForReregister:successCallback];
+    
+    //角标清0
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
+
+-(void)registerPush{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings
+                                                                             settingsForTypes:(UIUserNotificationTypeSound |UIUserNotificationTypeAlert | UIUserNotificationTypeBadge)
+                                                                             categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }else{
+        //ios7注册推送通知
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+    }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+    //NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
+    
+    void (^successBlock)(void) = ^(void){
+        //成功之后的处理
+        NSLog(@"[XGPush Demo]register successBlock");
+    };
+    
+    void (^errorBlock)(void) = ^(void){
+        //失败之后的处理
+        NSLog(@"[XGPush Demo]register errorBlock");
+    };
+    
+    // 设置账号
+    //	[XGPush setAccount:@"test"];
+    
+    //注册设备
+    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+    
+    //如果不需要回调
+    //[XGPush registerDevice:deviceToken];
+    
+    //打印获取的deviceToken的字符串
+    NSLog(@"[XGPush Demo] deviceTokenStr is %@",deviceTokenStr);
+}
+
+//如果deviceToken获取不到会进入此事件
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    
+    NSString *str = [NSString stringWithFormat: @"Error: %@",err];
+    
+    NSLog(@"[XGPush Demo]%@",str);
+    
+}
+
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+{
+    //推送反馈(app运行时)
+    [XGPush handleReceiveNotification:userInfo];
+    
+    
+    //回调版本示例
+    /*
+     void (^successBlock)(void) = ^(void){
+     //成功之后的处理
+     NSLog(@"[XGPush]handleReceiveNotification successBlock");
+     };
+     
+     void (^errorBlock)(void) = ^(void){
+     //失败之后的处理
+     NSLog(@"[XGPush]handleReceiveNotification errorBlock");
+     };
+     
+     void (^completion)(void) = ^(void){
+     //失败之后的处理
+     NSLog(@"[xg push completion]userInfo is %@",userInfo);
+     };
+     
+     [XGPush handleReceiveNotification:userInfo successCallback:successBlock errorCallback:errorBlock completion:completion];
+     */
+}
+
 
 @end

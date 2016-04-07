@@ -46,6 +46,8 @@
 //产品环境
 #define Is_Production 0
 
+#define CompressionRatio 0.8
+
 //#if Is_Production
 //#define Url_Host @"http://123.56.236.38/"
 //#else
@@ -65,12 +67,15 @@
 #define Hud_NetworkConnectionFail    @"网络连接失败"
 #define Hud_NetworkRequestFail       @"网络请求失败"
 
-#define Url_sellerMessage [Url_Host stringByAppendingString:@"shop/querybyID"]
+#define Url_sellerMessage [Url_Host stringByAppendingString:@"app/shop/querybyID"]
 #define Url_uploadImage [Url_Host stringByAppendingString:@"image/file/upload"]
 #define Url_sendLuckRedLibary [Url_Host stringByAppendingString:@"app/red/send/luck"]
 #define Url_sendQRcodeRedLibary [Url_Host stringByAppendingString:@"app/red/send/saoma"]
-#define Url_sendShakeRedLibary [Url_Host stringByAppendingString:@"app/red/send/yaoyiyao/send"]
+#define Url_sendShakeRedLibary [Url_Host stringByAppendingString:@"app/red/send/yaoyiyao"]
 #define Url_systemRate [Url_Host stringByAppendingString:@"app/config/system/getRate"]
+#define Url_sellerTurnoverCashDetail [Url_Host stringByAppendingString:@"liushui/queryStreamSales"]
+#define Url_sellerCapitalLibraryCashDetail [Url_Host stringByAppendingString:@"liushui/queryFounds"]
+#define Url_personCashDetail [Url_Host stringByAppendingString:@"liushui/queryStreamPersonal"]
 
 #define LoadNibName(className) [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([className class]) owner:self options:nil] firstObject]
 

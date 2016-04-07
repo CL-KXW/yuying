@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"商家注册";
+    self.title = @"等待审核";
 }
 
 @end

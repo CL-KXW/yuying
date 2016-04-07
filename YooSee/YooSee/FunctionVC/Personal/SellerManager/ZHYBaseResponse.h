@@ -12,5 +12,6 @@
 
 @property(nonatomic,strong)NSString *returnCode;
 @property(nonatomic,strong)NSString *returnMessage;
+@property(nonatomic,strong)NSArray *resultList;
 
 @end

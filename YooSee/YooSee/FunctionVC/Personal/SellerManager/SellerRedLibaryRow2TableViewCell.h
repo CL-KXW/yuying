@@ -14,5 +14,6 @@
 @property(nonatomic,weak)IBOutlet UILabel *timeLabel;
 @property(nonatomic,weak)IBOutlet UILabel *manLabel;
 @property(nonatomic,weak)IBOutlet UILabel *moneyLabel;
+@property(nonatomic,weak)IBOutlet UILabel *statusLabel;
 
 @end

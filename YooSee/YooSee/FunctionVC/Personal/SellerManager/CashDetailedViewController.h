@@ -8,13 +8,14 @@
 
 #import "BasicViewController.h"
 
-typedef NS_OPTIONS(NSUInteger, DetailType) {
-    DetailType_surplus = 0,
-    DetailType_turnover = 1,
+typedef NS_ENUM(NSUInteger, CashDetailType) {
+    CashDetailType_person,
+    CashDetailType_sellerTurnover,
+    CashDetailType_sellerCapitalLibrary,
 };
 
 @interface CashDetailedViewController : BasicViewController
 
-@property(nonatomic)DetailType *type;
+@property(nonatomic)CashDetailType type;
 
 @end
