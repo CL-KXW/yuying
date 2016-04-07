@@ -204,6 +204,12 @@
 -(void)qrCodeButtonClick:(UIButton *)button{
     @autoreleasepool {
         RedLibaryQRcodeViewController *vc = Alloc_viewControllerNibName(RedLibaryQRcodeViewController);
+        if(self.type == DetailType_redLibary){
+            vc.type = QRcodeType_redLibary;
+        }else{
+            vc.type = QRcodeType_advertisement;
+        }
+        vc.dic = self.dic;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

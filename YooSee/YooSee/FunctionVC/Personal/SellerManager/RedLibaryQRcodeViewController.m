@@ -13,6 +13,8 @@
 @property(nonatomic,weak)IBOutlet UIButton *shareButton;
 @property(nonatomic,weak)IBOutlet UIImageView *qrCodeImageView;
 @property(nonatomic,weak)IBOutlet UIImageView *logoImageView;
+@property(nonatomic,strong)NSString *totalString;
+@property(nonatomic,strong)UIImage *image;
 
 @end
 
@@ -26,11 +28,13 @@
     [self makeQRcode];
 }
 
+#pragma mark -
 -(IBAction)shareButtonClick:(id)sender
 {
-    
+    [self showShareView];
 }
 
+#pragma mark -
 -(void)makeQRcode
 {
     //二维码滤镜
@@ -42,8 +46,23 @@
     [filter setDefaults];
     
     //将字符串转换成NSData
-    
-    NSData *data=[@"www.baidu.com" dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *string = @"http://www.dianliang.yuying/app?type=";
+    NSString *temp;
+    if (self.type == QRcodeType_advertisement) {
+        temp = [NSString stringWithFormat:@"gg&id=%@",self.dic[@"id"]];
+    }else if (self.type == QRcodeType_redLibary){
+        if([self.dic[@"hongbao_type"] intValue] == 1){
+            temp = [NSString stringWithFormat:@"hb-js&id=%@",self.dic[@"id"]];
+        }else if ([self.dic[@"hongbao_type"] intValue] == 2){
+            //扫码
+            temp = [NSString stringWithFormat:@"hb-sm&id=%@",self.dic[@"id"]];
+        }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+            //摇一摇
+            temp = [NSString stringWithFormat:@"yyy&id=%@",self.dic[@"id"]];
+        }
+    }
+    self.totalString = [string stringByAppendingString:temp];
+    NSData *data=[self.totalString dataUsingEncoding:NSUTF8StringEncoding];
     
     //通过KVO设置滤镜inputmessage数据
     
@@ -56,7 +75,7 @@
     //将CIImage转换成UIImage,并放大显示
     
     self.qrCodeImageView.image=[self createNonInterpolatedUIImageFormCIImage:outputImage withSize:140.0];
-    
+    self.image = self.qrCodeImageView.image;
     //如果还想加上阴影，就在ImageView的Layer上使用下面代码添加阴影
     self.qrCodeImageView.layer.shadowOffset=CGSizeMake(0, 0.5);//设置阴影的偏移量
     self.qrCodeImageView.layer.shadowRadius=1;//设置阴影的半径
@@ -100,6 +119,45 @@
     CGImageRelease(bitmapImage);
     
     return [UIImage imageWithCGImage:scaledImage];
+}
+
+#pragma mark -
+- (void)showShareView
+{
+    NSString *url = @"http://yyw.dianliangtech.com/dianliang/qr_code/share?qr_text=";
+    NSString *shareUrl = [NSString stringWithFormat:@"%@%@",url,self.totalString];
+    NSString *text = @"欢迎加入鱼鹰，看广告赚话费金币，免费兑换商品，照顾家车安全。";
+    
+    UIImage *shareImage = self.image;
+    [self share:shareImage url:shareUrl text:text];
+}
+
+-(void)share:(UIImage *)image url:(NSString *)url text:(NSString *)text{
+    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeWeb url:url];
+    [UMSocialData defaultData].shareImage = image;
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:UM_APP_KEY
+                                      shareText:text
+                                     shareImage:image
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToSina,UMShareToQQ,UMShareToTencent,UMShareToSms,nil]
+                                       delegate:nil];
+    
+    NSString *shareTitle = @"鱼鹰";
+    [UMSocialData defaultData].extConfig.wechatSessionData.title = shareTitle;
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
+    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeImage;
+    
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = shareTitle;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage;
+    
+    [UMSocialData defaultData].extConfig.qqData.title = shareTitle;
+    [UMSocialData defaultData].extConfig.qqData.url = url;
+    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+    
+    [UMSocialData defaultData].extConfig.qzoneData.title = shareTitle;
+    [UMSocialData defaultData].extConfig.qzoneData.url = url;
+    [UMSocialData defaultData].extConfig.qzoneData.urlResource.resourceType = UMSocialUrlResourceTypeImage;
 }
 
 @end

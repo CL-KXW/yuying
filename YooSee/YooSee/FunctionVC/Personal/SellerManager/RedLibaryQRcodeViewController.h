@@ -8,6 +8,14 @@
 
 #import "BasicViewController.h"
 
+typedef NS_ENUM(NSUInteger, QRcodeType) {
+    QRcodeType_redLibary = 0,
+    QRcodeType_advertisement = 1,
+};
+
 @interface RedLibaryQRcodeViewController : BasicViewController
+
+@property(nonatomic,strong)NSDictionary *dic;
+@property(nonatomic)QRcodeType type;
 
 @end
