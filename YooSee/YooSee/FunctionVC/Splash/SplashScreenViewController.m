@@ -147,7 +147,8 @@
     
     if (self.imageUrl.length > 0)
     {
-        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:[UIImage imageNamed:@"KJ.jpg"] imageUrl:self.imageUrl isShowProcess:YES];
+        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:[UIImage imageNamed:@"KJ.jpg"]];
+        [splashImageView sd_setImageWithURL:[NSURL URLWithString:self.imageUrl] placeholderImage:[UIImage imageNamed:@"KJ.jpg"]];
         [self.view addSubview:splashImageView];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [self.avPlayerView removeFromSuperview];
