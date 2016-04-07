@@ -51,7 +51,7 @@
 - (UIImageView*)adView {
     if (!_adView) {
         _adView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, IMAGE_HEIGHT)];
-        _adView.contentMode = UIViewContentModeScaleAspectFill;
+        _adView.contentMode = UIViewContentModeScaleAspectFit;
         _adView.clipsToBounds = YES;
     }
     return _adView;

@@ -113,6 +113,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:cellID];
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20, 220 * CURRENT_SCALE)];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        
         [cell.contentView addSubview:imageView];
         imageView.backgroundColor = [UIColor lightGrayColor];
         imageView.clipsToBounds = YES;

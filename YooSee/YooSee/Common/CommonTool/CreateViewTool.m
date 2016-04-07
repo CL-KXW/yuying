@@ -66,7 +66,8 @@
         imageView.layer.borderWidth = 0.0;
         color = [UIColor clearColor];
     }
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.clipsToBounds = YES;
     imageView.layer.borderColor = [color CGColor];
     imageView.layer.cornerRadius = CGRectGetWidth(frame)/2;
     imageView.layer.masksToBounds = YES;

@@ -34,6 +34,7 @@
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:self.logoUrl]];
     [scroll addSubview:self.imageView];
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView.clipsToBounds = YES;
     
     self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_X, SPACE_Y * 2 + IMG_H, IMG_H, 80)];
     self.descLabel.font = FONT(30);

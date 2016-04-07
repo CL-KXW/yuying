@@ -62,6 +62,7 @@
         ImageV.backgroundColor = [UIColor whiteColor];
         ImageV.tag = 105;
         ImageV.contentMode = UIViewContentModeScaleAspectFill;
+        ImageV.clipsToBounds = YES;
         [view addSubview:ImageV];
         
         //创建子视图
