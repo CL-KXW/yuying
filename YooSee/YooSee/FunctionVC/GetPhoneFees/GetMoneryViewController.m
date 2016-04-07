@@ -97,7 +97,7 @@
     NSString *logtime = dic[@"begin_time"];
     logtime = [CommonTool dateString2MDString:logtime];
     cell.timeLabel.text = logtime;
-    [cell.adView setImageWithURL:[NSURL URLWithString:dic[@"url_1"]]];
+    [cell.adView sd_setImageWithURL:[NSURL URLWithString:dic[@"url_1"]]];
     float leftMoney = [dic[@"shengyu_money"] floatValue];
     if (leftMoney < 0) {
         leftMoney = 0;

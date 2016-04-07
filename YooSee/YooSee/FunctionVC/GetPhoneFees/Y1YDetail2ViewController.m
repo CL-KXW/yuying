@@ -127,7 +127,7 @@
     } else {
         btn.hidden = NO;
     }
-    [imgView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:nil];
+    [imgView sd_setImageWithURL:[NSURL URLWithString:pic] placeholderImage:nil];
     
     return cell;
 }

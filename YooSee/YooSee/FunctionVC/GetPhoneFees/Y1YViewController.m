@@ -112,7 +112,7 @@
     NSString *smallpic = [dataDic objectForKey:@"logo"];
     
     NSURL *url = [NSURL URLWithString:smallpic];
-    [ImageV setImageWithURL:url placeholderImage:[UIImage imageNamed:@"qhbletup.jpg"]];
+    [ImageV sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"qhbletup.jpg"]];
     
     
     
@@ -177,7 +177,7 @@
 //    NSString *logtime = dic[@"logtime"];
 //    logtime = [CommonTool dateString2MDString:logtime];
 //    cell.timeLabel.text = logtime;
-//    [cell.adView setImageWithURL:[NSURL URLWithString:dic[@"smallpic"]]];
+//    [cell.adView sd_setImageWithURL:[NSURL URLWithString:dic[@"smallpic"]]];
 //    [cell dealHadGet:NO descTitle:[NSString stringWithFormat:@"%d亮币", [dic[@"leftnum"] intValue]]];
 //    return cell;
 }

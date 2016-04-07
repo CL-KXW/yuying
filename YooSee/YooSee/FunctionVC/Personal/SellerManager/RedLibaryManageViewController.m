@@ -221,7 +221,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     if (self.type == ManageType_advertisement){
         cell1.customImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];
         NSURL *url = [NSURL URLWithString:dic[@"url_1"]];
-        [cell1.customImageView setImageWithURL:url];
+        [cell1.customImageView sd_setImageWithURL:url];
         cell1.contentMode = UIViewContentModeScaleAspectFit;
     }
     

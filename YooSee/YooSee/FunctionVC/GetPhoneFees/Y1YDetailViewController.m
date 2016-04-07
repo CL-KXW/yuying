@@ -248,19 +248,19 @@
     if ([self isVaildURL:_dataDic[@"title_url_2"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_2"]]];
+        [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_2"]]];
         totalPage++;
     }
     if ([self isVaildURL:_dataDic[@"title_url_3"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_3"]]];
+        [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_3"]]];
         totalPage++;
     }
     if ([self isVaildURL:_dataDic[@"title_url_4"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
-        [view setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_4"]]];
+        [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_4"]]];
         totalPage++;
     }
     [advContentView setContentSize:CGSizeMake(advContentView.frame.size.width * totalPage, advContentView.frame.size.height)];

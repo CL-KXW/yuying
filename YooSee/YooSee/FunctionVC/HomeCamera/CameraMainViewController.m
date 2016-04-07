@@ -271,7 +271,7 @@
     if (array && array.count > 0)
     {
         self.playerDic = array[0];
-        [_advImageView setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]] forState:UIControlStateNormal];
+        [_advImageView sd_setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]] forState:UIControlStateNormal];
     }
     
     

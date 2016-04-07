@@ -163,7 +163,7 @@
         {
             weakSelf.sellerMessage = [message.resultList firstObject];
             NSURL *url = [NSURL URLWithString:weakSelf.sellerMessage.dian_logo];
-            [weakSelf.logoImageView setImageWithURL:url];
+            [weakSelf.logoImageView sd_setImageWithURL:url];
             weakSelf.nameLabel.text = weakSelf.sellerMessage.dian_name;
             [weakSelf.tableView reloadData];
         }else{

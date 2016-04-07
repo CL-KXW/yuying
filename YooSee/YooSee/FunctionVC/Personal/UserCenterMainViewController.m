@@ -208,7 +208,7 @@
     [button setImage:image forState:UIControlStateNormal];
     if (imageUrl.length > 0)
     {
-       [button setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal];
+       [button sd_setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal];
     }
     [CommonTool setViewLayer:button withLayerColor:[UIColor lightGrayColor] bordWidth:0.5];
     [CommonTool clipView:button withCornerRadius:imageView_wh/2];

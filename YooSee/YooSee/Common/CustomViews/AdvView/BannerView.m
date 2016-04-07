@@ -180,9 +180,9 @@
 
     if (_isNetwork) {
         
-        [_leftImageView setImageWithURL:[NSURL URLWithString:_imageData[LeftIndex]] placeholderImage:_placeImage];
-        [_centerImageView setImageWithURL:[NSURL URLWithString:_imageData[centerIndex]] placeholderImage:_placeImage];
-        [_rightImageView setImageWithURL:[NSURL URLWithString:_imageData[rightIndex]] placeholderImage:_placeImage];
+        [_leftImageView sd_setImageWithURL:[NSURL URLWithString:_imageData[LeftIndex]] placeholderImage:_placeImage];
+        [_centerImageView sd_setImageWithURL:[NSURL URLWithString:_imageData[centerIndex]] placeholderImage:_placeImage];
+        [_rightImageView sd_setImageWithURL:[NSURL URLWithString:_imageData[rightIndex]] placeholderImage:_placeImage];
 
         
     }else {

@@ -302,7 +302,7 @@
         if (self.type == DetailType_advertisement) {
             cell0.customImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];
             NSURL *url = [NSURL URLWithString:self.dic[@"url_1"]];
-            [cell0.customImageView setImageWithURL:url];
+            [cell0.customImageView sd_setImageWithURL:url];
             cell0.contentMode = UIViewContentModeScaleAspectFit;
         }
         

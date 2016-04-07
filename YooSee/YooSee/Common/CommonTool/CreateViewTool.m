@@ -36,7 +36,7 @@
     UIImageView *imageView = [self createImageViewWithFrame:frame placeholderImage:image];
     if (!showProcess)
     {
-        [imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:image];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:image];
     }
     else
     {
@@ -70,7 +70,7 @@
     imageView.layer.borderColor = [color CGColor];
     imageView.layer.cornerRadius = CGRectGetWidth(frame)/2;
     imageView.layer.masksToBounds = YES;
-    [imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:image];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:image];
     return imageView;
 }
 
