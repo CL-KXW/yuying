@@ -474,7 +474,7 @@
         UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width-140-20, 15-5, 120, 30)];
         //label2.backgroundColor = [UIColor orangeColor];
         label2.textColor = [UIColor orangeColor];
-        label2.text = [NSString stringWithFormat:@"%.2f金币",_userRobNum];
+        label2.text = [NSString stringWithFormat:@"%.2f元",_userRobNum];
         label2.textAlignment = NSTextAlignmentRight;
         label2.font = FONT(14);
         [tabHeadView addSubview:label2];
@@ -741,7 +741,9 @@
          {
              _userSort = [dataDic[@"count"] intValue];
              _userRobNum = [dataDic[@"user_lingqu_money"] floatValue];
-
+             if (_userRobNum < 0) {
+                 _userRobNum = 0;
+             }
              NSArray *ary = dataDic[@"resultList"];
              if (ary && [ary isKindOfClass:[NSArray class]]) {
                  @synchronized(roberArray) {
