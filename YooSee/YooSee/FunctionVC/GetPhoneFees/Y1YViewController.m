@@ -61,6 +61,7 @@
         UIImageView *ImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH-20, (SCREEN_WIDTH-20)/2)];
         ImageV.backgroundColor = [UIColor whiteColor];
         ImageV.tag = 105;
+        ImageV.contentMode = UIViewContentModeScaleAspectFill;
         [view addSubview:ImageV];
         
         //创建子视图
