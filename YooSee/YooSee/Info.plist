@@ -24,50 +24,50 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>sina</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>sina.54ced694fd98c588d2000210</string>
+				<string>wb784131425</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>weixin</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxd9a39c7122aa6516</string>
+				<string>wxd930ea5d5a258f4f</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>tencent</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tencent100424468</string>
+				<string>tencent1105241515</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>QQ</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ05FC5B14</string>
+				<string>QQ41e0a5ab</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>yuying</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>yuying</string>
+				<string>鱼鹰</string>
 			</array>
 		</dict>
 	</array>

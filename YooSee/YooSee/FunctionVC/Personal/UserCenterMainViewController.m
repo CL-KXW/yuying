@@ -663,7 +663,7 @@
                                          appKey:UM_APP_KEY
                                       shareText:shareText
                                      shareImage:shareImage
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToEmail,UMShareToSms,UMShareToWechatFavorite,UMShareToQzone,nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToWechatFavorite,UMShareToQQ,UMShareToQzone,UMShareToEmail,UMShareToSms,nil]
                                        delegate:nil];
 }
 

@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSString *province;
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *area;
-
+@property (nonatomic, strong) NSArray *valueArray;
 
 
 @end
@@ -115,16 +115,16 @@
     NSString *fulladdress = dic[@"address"];
     fulladdress = fulladdress ? fulladdress : @"";
     
-    NSString *areacode = dic[@"zcode"];
+    NSString *areacode = [NSString stringWithFormat:@"%@",UNNULL_STRING(dic[@"zcode"])];
     areacode = areacode ? areacode : @"";
     
-    NSArray *valueArray = @[receiver,contact,address,fulladdress,areacode];
-    
+    _valueArray = @[receiver,contact,address,fulladdress,areacode];
     for (int i = 0; i < [array count]; i++)
     {
+        NSString *text = _valueArray[i];
         CustomTextField *textField = [[CustomTextField alloc] initWithFrame:CGRectMake(x, y, width, height)];
         textField.textField.placeholder = array[i];
-        textField.textField.text = valueArray[i];
+        textField.textField.text = text;
         if (i == 1 || i == 4)
         {
             textField.textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -147,9 +147,12 @@
     }
     
     y += SPACE_Y;
+
     UIButton *commitButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, BUTTON_HEIGHT) buttonTitle:@"保存" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:nil selectorName:@"commitButtonPressed:" tagDelegate:self];
     [CommonTool clipView:commitButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:commitButton];
+    
+
 }
 
 #pragma mark 显示pickview
@@ -216,22 +219,17 @@
         return;
     }
     
-//    NSString *uid = [YooSeeApplication shareApplication].uid;
-//    if (self.addressInfo)
-//    {
-//        
-//    }
-//    NSDictionary *userInfo = [YooSeeApplication shareApplication].userInfoDic;
-    
-//    NSDictionary *requestDic = @{@"id":addressID,@"username":userInfo[@"username"],@"sex":userInfo[@"sex"],@"receiver":contact,@"contact":phone,@"address":address,@"fulladdress":fullAddress,@"areacode":proCode};
-//    [self saveAddressInfoRequest:requestDic];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+
+    NSDictionary *requestDic = @{@"id":@"",@"user_id":uid,@"user_name":UNNULL_STRING(contact),@"user_phone":UNNULL_STRING(phone),@"province_name":UNNULL_STRING(self.province),@"city_name":UNNULL_STRING(self.city),@"area_name":UNNULL_STRING(self.area),@"address":UNNULL_STRING(fullAddress),@"zcode":UNNULL_STRING(proCode),@"type":@"1"};
+    [self saveAddressInfoRequest:requestDic];
 }
 
 #pragma mark 保存地址
 - (void)saveAddressInfoRequest:(NSDictionary *)requestDic
 {
     [LoadingView showLoadingView];
-    //__weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     NSString *urlString = (self.addressInfo) ? UPDATE_ADDRESS_URL : ADD_ADDRESS_URL;
     [[RequestTool alloc] requestWithUrl:urlString
                             requestParamas:requestDic
@@ -244,10 +242,10 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
-             [SVProgressHUD showSuccessWithStatus:@"修改成功"];
-             [YooSeeApplication shareApplication].userInfoDic = requestDic;
+             [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+             [weakSelf.navigationController popViewControllerAnimated:YES];
          }
          else
          {
@@ -258,7 +256,7 @@
      {
          NSLog(@"UPDATE_ADDRESS_URL====%@",error);
          [LoadingView dismissLoadingView];
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+         [SVProgressHUD showErrorWithStatus:@"保存失败"];
      }];
 
 }

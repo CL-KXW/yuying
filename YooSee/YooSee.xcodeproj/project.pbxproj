@@ -3770,7 +3770,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
 				PROVISIONING_PROFILE = "ced65ff1-8203-4365-a08c-dd84e894354b";
@@ -3815,7 +3815,7 @@
 					"$(PROJECT_DIR)/YooSee/Common/CommonTool/xinGe",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
 				PROVISIONING_PROFILE = "ced65ff1-8203-4365-a08c-dd84e894354b";

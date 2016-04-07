@@ -49,13 +49,14 @@
 
 /******分享相关*****/
 #define UM_APP_KEY                  @"54ced694fd98c588d2000210"
-#define SINA_APP_ID                 @"3921700954"
+#define SINA_APP_ID                 @"784131425"
+#define SINA_APP_SECRET             @"dd3ca9e47432dd2e0007890ffe805f54"
 #define SINA_CALLBACK               @"http://sns.whalecloud.com/sina2/callback"
 #define WX_APP_ID                   @"wxd930ea5d5a258f4f"
 #define WX_APP_SECRET               @"db426a9829e4b49a0dcac7b4162da6b6"
-#define WX_CALLBACK                 @"http://www.umeng.com/social"
-#define QQ_APP_ID                   @"100424468"
-#define QQ_APP_SECRET               @"c7394704798a158208a74ab60104f0ba"
-#define QQ_CALLBACK                 @"http://www.umeng.com/social"
+#define WX_CALLBACK                 @"http://dianliangtech.com/download.html"
+#define QQ_APP_ID                   @"1105241515"
+#define QQ_APP_SECRET               @"2pcIgR74VQwx9Nnk"
+#define QQ_CALLBACK                 @"http://dianliangtech.com/download.html"
 
 #endif /* ProductHeader_h */

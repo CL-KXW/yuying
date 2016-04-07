@@ -53,10 +53,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ack_receiveRemoteMessage:) name:ACK_RECEIVE_REMOTE_MESSAGE object:nil];
     
     [UMSocialData setAppKey:UM_APP_KEY];
-    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:SINA_CALLBACK];
-    
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:SINA_APP_ID secret:SINA_APP_SECRET RedirectURL:SINA_CALLBACK];
     [UMSocialWechatHandler setWXAppId:WX_APP_ID appSecret:WX_APP_SECRET url:WX_CALLBACK];
     [UMSocialQQHandler setQQWithAppId:QQ_APP_ID appKey:QQ_APP_SECRET url:QQ_CALLBACK];
+    [UMSocialQQHandler setSupportWebView:YES];
     
     [XGPush setAccount:@"18692237703"];
     [self xinGeReregister];
