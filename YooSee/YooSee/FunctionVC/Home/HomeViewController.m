@@ -13,7 +13,7 @@
 #define SECTION_HEIGHT              15.0 * CURRENT_SCALE
 #define ROW1_HEIGHT                 50.0
 #define ROW2_HEIGHT                 190.0 * CURRENT_SCALE
-#define ROW3_HEIGHT                 120.0
+#define ROW3_HEIGHT                 120.0 * CURRENT_SCALE
 #define HEADER_LABEL_WIDTH          30.0
 #define HEADER_NEW_WIDTH            240.0 * CURRENT_SCALE
 #define BUTTON_TITLE_HEIGHT         30.0 * CURRENT_SCALE
@@ -71,9 +71,9 @@
     [self setNavBarItemWithImageName:@"icon_navbar_sys" navItemType:RightItem selectorName:@"scanButtonPressed:"];
     
     _newIndex = 0;
-    _rowHeightArray = @[@(ROW1_HEIGHT),@(ROW2_HEIGHT)];
+    //_rowHeightArray = @[@(ROW1_HEIGHT),@(ROW2_HEIGHT)];
     
-    if (SCREEN_HEIGHT == 480.0)
+    //if (SCREEN_HEIGHT == 480.0)
     {
         _rowHeightArray = @[@(ROW1_HEIGHT),@(ROW2_HEIGHT),@(ROW3_HEIGHT)];
     }
@@ -340,7 +340,7 @@
         float width0 = self.table.frame.size.width;
         float height0 = ROW3_HEIGHT;
         float x0 = 0;
-        float y0 = self.table.frame.size.height - height0;
+        float y0 = 0;
         _commendView = [CreateViewTool createImageViewWithFrame:CGRectMake(x0, y0, width0, height0) placeholderImage:nil];
         _commendView.backgroundColor = [UIColor whiteColor];
         float y = 10.0;
@@ -360,15 +360,15 @@
         rightLineView.backgroundColor = DE_TEXT_COLOR;
         [_commendView addSubview:rightLineView];
         
-        if (SCREEN_HEIGHT == 480.0)
-        {
-            y0 = ROW3_HEIGHT - height0;
-            _commendView.frame = CGRectMake(x0, y0, width0, height0);
-        }
-        else
-        {
-            [self.view addSubview:_commendView];
-        }
+//        if (SCREEN_HEIGHT == 480.0)
+//        {
+//            y0 = ROW3_HEIGHT - height0;
+//            _commendView.frame = CGRectMake(x0, y0, width0, height0);
+//        }
+//        else
+//        {
+//            [self.view addSubview:_commendView];
+//        }
     }
 }
 
