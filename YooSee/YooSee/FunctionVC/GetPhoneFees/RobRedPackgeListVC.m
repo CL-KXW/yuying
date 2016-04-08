@@ -12,6 +12,7 @@
 @interface RobRedPackgeListVC ()
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSString *startID;
+@property (nonatomic, assign) BOOL isLoading;
 @end
 
 @implementation RobRedPackgeListVC
@@ -23,14 +24,19 @@
     
     [self addBackItem];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:1 tableDelegate:self];
+    
     [self addRefreshHeaderView];
-    [self addRefreshFooterView];
+    
+    _isLoading = NO;
+    [LoadingView showLoadingView];
+    [self refreshData];
+    
     self.table.separatorStyle = 0;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self refreshData];
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,7 +103,8 @@
 }
 
 - (void)request {
-    [LoadingView showLoadingView];
+    
+    _isLoading = YES;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSString *pid = [[YooSeeApplication shareApplication] provinceID];
@@ -113,6 +120,7 @@
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
+         _isLoading = NO;
          NSLog(@"ROB_RED_PACKGE_LIST===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -126,9 +134,21 @@
                      [_dataArray removeAllObjects];
                  }
                  NSArray *ary = dataDic[@"resultList"];
-                 if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
-                     [_dataArray addObjectsFromArray:ary];
-                     self.startID = [ary lastObject][@"id"];
+                 if (ary && [ary isKindOfClass:[NSArray class]])
+                 {
+                     if (ary.count > 0)
+                     {
+                         [self addRefreshFooterView];
+                         self.refreshFooterView.hidden = NO;
+                         [_dataArray addObjectsFromArray:ary];
+                         self.startID = [ary lastObject][@"id"];
+                     }
+                     else
+                     {
+                         [CommonTool addPopTipWithMessage:@"没有更多数据"];
+                         self.refreshFooterView.hidden = YES;
+                     }
+                     
                  } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                      [_dataArray addObject:ary];
                      NSDictionary *d = (NSDictionary*)ary;
@@ -146,7 +166,7 @@
      }
                                requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         
+         _isLoading = NO;
          [LoadingView dismissLoadingView];
          NSLog(@"ROB_RED_PACKGE_LIST====%@",error);
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
@@ -156,12 +176,20 @@
 }
 
 - (void)refreshData {
+    if (_isLoading)
+    {
+        return;
+    }
     [super refreshData];
     self.startID = @"0";
     [self request];
 }
 
 - (void)getMoreData {
+    if (_isLoading)
+    {
+        return;
+    }
     [super getMoreData];
     [self request];
 }

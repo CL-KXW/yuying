@@ -721,10 +721,6 @@
 }
 
 - (void)requestRoberList {
-    if (roberArray && [roberArray count] > 0)
-    {
-        return;
-    }
     //抢红包排行榜
     //yyw_getrobredlist
     [LoadingView showLoadingView];
