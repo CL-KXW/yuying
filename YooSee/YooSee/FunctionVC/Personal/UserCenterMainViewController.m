@@ -656,7 +656,7 @@
 #pragma mark 分享
 - (void)showShareView
 {
-    NSString *shareText = @"欢迎加入鱼鹰，看广告赚话费金币，免费兑换商品，照顾家车安全。请点击下载：http://dianliangtech.com/download.html";
+    NSString *shareText = SHARE_TEXT;
     UIImage *shareImage = [UIImage imageNamed:@"big_icon"];
     
     [UMSocialSnsService presentSnsIconSheetView:self

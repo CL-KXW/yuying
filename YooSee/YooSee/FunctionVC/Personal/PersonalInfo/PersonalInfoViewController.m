@@ -265,6 +265,7 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改昵称" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     _usernameTextField = [alertView textFieldAtIndex:0];
+    _usernameTextField.keyboardType = UIKeyboardTypeNamePhonePad;
     _usernameTextField.text = self.valueArray[0][0];
     [alertView show];
 }

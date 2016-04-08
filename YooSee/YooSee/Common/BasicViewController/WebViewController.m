@@ -57,6 +57,10 @@
         {
             return;
         }
+        if (![weakSelf.urlString hasPrefix:@"http://"])
+        {
+            weakSelf.urlString = [@"http://" stringByAppendingString:self.urlString];
+        }
         NSURLRequest *request = [NSURLRequest  requestWithURL:[NSURL URLWithString:weakSelf.urlString]];
         [weakSelf.webView loadRequest:request];
     });

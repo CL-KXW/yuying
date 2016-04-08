@@ -58,5 +58,6 @@
 #define QQ_APP_ID                   @"1105241515"
 #define QQ_APP_SECRET               @"2pcIgR74VQwx9Nnk"
 #define QQ_CALLBACK                 @"http://dianliangtech.com/download.html"
+#define SHARE_TEXT                  @"动动手指就能赚钱，开心抢红包，看广告挺好玩，免费提供家庭安防服务。吃喝玩乐购，一网打尽。请点击下载：http://dianliangtech.com/download.html"
 
 #endif /* ProductHeader_h */

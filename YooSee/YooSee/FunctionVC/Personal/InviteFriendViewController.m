@@ -69,7 +69,7 @@
 #pragma mark 邀请好友
 - (void)inviteButtonPressed:(UIButton *)sender
 {
-    NSString *shareText = @"邀请朋友使用鱼鹰，朋友注册的时候，输入您的手机号码，双方都能获得1000亮币的话费。不输入邀请人电话号码也可以注册。";
+    NSString *shareText = SHARE_TEXT;
     UIImage *shareImage = [UIImage imageNamed:@"big_icon"];
     
     [UMSocialSnsService presentSnsIconSheetView:self
