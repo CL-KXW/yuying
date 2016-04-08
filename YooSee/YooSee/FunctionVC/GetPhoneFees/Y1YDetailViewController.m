@@ -248,18 +248,21 @@
     if ([self isVaildURL:_dataDic[@"title_url_2"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
+        view.contentMode = UIViewContentModeScaleAspectFit;
         [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_2"]]];
         totalPage++;
     }
     if ([self isVaildURL:_dataDic[@"title_url_3"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
+        view.contentMode = UIViewContentModeScaleAspectFit;
         [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_3"]]];
         totalPage++;
     }
     if ([self isVaildURL:_dataDic[@"title_url_4"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
+        view.contentMode = UIViewContentModeScaleAspectFit;
         [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_4"]]];
         totalPage++;
     }
@@ -356,7 +359,8 @@
     NSLog(@"结果");
     self.title = @"红包活动";
     [self removeOtherViews];
-    [self addTableViewWithFrame:CGRectMake(10, SCREEN_HEIGHT - 130, SCREEN_WIDTH - 20, 130) tableType:0 tableDelegate:self];
+    [self addTableViewWithFrame:CGRectMake(10, SCREEN_HEIGHT - 160, SCREEN_WIDTH - 20, 160) tableType:0 tableDelegate:self];
+    [CommonTool clipView:self.table withCornerRadius:10.0];
     self.table.backgroundColor = [UIColor whiteColor];
     [self requestRoberList];
 }

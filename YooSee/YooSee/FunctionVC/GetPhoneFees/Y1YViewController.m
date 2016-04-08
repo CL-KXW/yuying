@@ -61,7 +61,7 @@
         UIImageView *ImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH-20, (SCREEN_WIDTH-20)/2)];
         ImageV.backgroundColor = [UIColor whiteColor];
         ImageV.tag = 105;
-        ImageV.contentMode = UIViewContentModeScaleAspectFill;
+        ImageV.contentMode = UIViewContentModeScaleAspectFit;
         ImageV.clipsToBounds = YES;
         [view addSubview:ImageV];
         
@@ -111,10 +111,10 @@
     NSDictionary *dataDic = _dataArray[indexPath.row];
     //NSLog(@"dataDic == %@",dataDic);
     NSString *title= [dataDic objectForKey:@"title_1"];
-    NSString *smallpic = [dataDic objectForKey:@"logo"];
+    NSString *smallpic = [dataDic objectForKey:@"title_url_1"];
     
     NSURL *url = [NSURL URLWithString:smallpic];
-    [ImageV sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"qhbletup.jpg"]];
+    [ImageV sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"default_image2"]];
     
     
     
