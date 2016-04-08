@@ -29,6 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     if (self.turnoverWithdrawals) {
         self.title = @"营业额提现";

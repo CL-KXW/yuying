@@ -3142,7 +3142,7 @@
 				TargetAttributes = {
 					CE5ABD261C5B5B3800643B24 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = FS4WRZNUMC;
+						DevelopmentTeam = NH8J3U8S77;
 					};
 				};
 			};
@@ -3761,8 +3761,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3794,9 +3794,9 @@
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youxin7.yuyingApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "ced65ff1-8203-4365-a08c-dd84e894354b";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -3808,8 +3808,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3840,9 +3840,9 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youxin7.yuyingApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "ced65ff1-8203-4365-a08c-dd84e894354b";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};

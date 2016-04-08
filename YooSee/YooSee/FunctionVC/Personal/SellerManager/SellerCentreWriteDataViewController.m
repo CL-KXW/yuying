@@ -94,6 +94,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     self.tableView.backgroundColor = VIEW_BG_COLOR;
     self.title = @"商家注册";

@@ -11,7 +11,7 @@
 
 
 
-@interface BasicViewController ()
+@interface BasicViewController ()<UIGestureRecognizerDelegate>
 
 @end
 
@@ -24,6 +24,7 @@
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
     
     self.view.backgroundColor = VIEW_BG_COLOR;
+//    [self addBackItem];
     
     //[self.navigationController.navigationBar setBackgroundImage:[CommonTool imageWithColor:NAVBAR_COLOR] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
@@ -31,7 +32,7 @@
     self.automaticallyAdjustsScrollViewInsets = YES;
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    //self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     // Do any additional setup after loading the view.
 }
 

@@ -29,6 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     if (self.type == DetailType_redLibary) {
         self.title = @"红包详情";
@@ -242,7 +243,7 @@
         cell0.statusLabel.layer.masksToBounds = YES;
         cell0.statusLabel.layer.cornerRadius = 20/2;
         
-        cell0.nameLabel.text = self.dic[@"title_1"];
+        cell0.nameLabel.text = self.dic[@"content_1"];
         cell0.startTimeLabel.text = [NSString stringWithFormat:@"%@",self.dic[@"begin_time"]];
         cell0.endTimeLabel.text = [NSString stringWithFormat:@"%@",self.dic[@"end_time"]];
         
@@ -304,6 +305,9 @@
             NSURL *url = [NSURL URLWithString:self.dic[@"url_1"]];
             [cell0.customImageView sd_setImageWithURL:url];
             cell0.contentMode = UIViewContentModeScaleAspectFit;
+            cell0.nameLabel.text = self.dic[@"content_1"];
+        }else{
+            cell0.nameLabel.text = self.dic[@"title_1"];
         }
         
         return cell0;

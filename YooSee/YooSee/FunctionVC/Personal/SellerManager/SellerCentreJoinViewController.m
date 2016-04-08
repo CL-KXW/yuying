@@ -21,6 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     self.title = @"商家注册";
     self.edgesForExtendedLayout = UIRectEdgeTop;

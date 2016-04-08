@@ -7,7 +7,7 @@
 //
 
 #import "DCPaymentView.h"
-#import "DCPwdTextField.h"
+//#import "DCPwdTextField.h"
 
 #define TITLE_HEIGHT 46
 #define PAYMENT_WIDTH [UIScreen mainScreen].bounds.size.width-80
@@ -22,10 +22,12 @@
 {
     NSMutableArray *pwdIndicatorArr;
 }
+
 @property (nonatomic, strong) UIView *paymentAlert, *inputView;
 @property (nonatomic, strong) UIButton *closeBtn;
 @property (nonatomic, strong) UILabel *titleLabel, *line, *detailLabel, *amountLabel;
 @property (nonatomic, strong) UITextField *pwdTextField;
+@property(nonatomic,strong)UIButton *forgetPasswordButton;
 
 @end
 
@@ -74,6 +76,14 @@
         _detailLabel.font = [UIFont systemFontOfSize:16];
         [_paymentAlert addSubview:_detailLabel];
         
+        _forgetPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_forgetPasswordButton setTitle:@"忘记支付密码?" forState:UIControlStateNormal];
+        [_forgetPasswordButton addTarget:self action:@selector(forgetPasswordButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        _forgetPasswordButton .frame = CGRectMake(15, TITLE_HEIGHT*2, PAYMENT_WIDTH-30, 25);
+        _forgetPasswordButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        [_forgetPasswordButton setTitleColor:[UIColor colorWithRed:156.0/255.0 green:191.0/255.0 blue:238.0/255.0 alpha:1] forState:UIControlStateNormal];
+        [_paymentAlert addSubview:_forgetPasswordButton];
+        
         _amountLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, TITLE_HEIGHT*2, PAYMENT_WIDTH-30, 25)];
         _amountLabel.textAlignment = NSTextAlignmentCenter;
         _amountLabel.textColor = [UIColor darkGrayColor];
@@ -115,7 +125,16 @@
     
 }
 
+-(void)forgetPasswordButtonClick:(UIButton *)button
+{
+    if (_forgetPasswordHandle) {
+        _forgetPasswordHandle();
+    }
+    
+    [self dismiss];
+}
 
+#pragma mark -
 - (void)show {
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     [keyWindow addSubview:self];
@@ -142,6 +161,7 @@
     }];
 }
 
+#pragma mark -
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if (textField.text.length >= PWD_COUNT && string.length) {
@@ -174,6 +194,7 @@
     return YES;
 }
 
+#pragma mark -
 - (void)setDotWithCount:(NSInteger)count {
     for (UILabel *dot in pwdIndicatorArr) {
         dot.hidden = YES;
@@ -184,7 +205,7 @@
     }
 }
 
-#pragma mark - 
+#pragma mark -
 - (void)setTitle:(NSString *)title {
     if (_title != title) {
         _title = title;
@@ -205,6 +226,7 @@
         _amountLabel.text = [NSString stringWithFormat:@"￥%.2f  ",amount];
     }
 }
+
 
 @end
 // 版权属于原作者

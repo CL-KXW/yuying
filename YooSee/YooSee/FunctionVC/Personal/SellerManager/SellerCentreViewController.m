@@ -56,6 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
 
     self.title = @"商家管理";
     self.cellTextArray =@[@"余额",@"商城营业额",@""];

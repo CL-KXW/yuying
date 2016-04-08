@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     self.title = @"编辑";
 }
 

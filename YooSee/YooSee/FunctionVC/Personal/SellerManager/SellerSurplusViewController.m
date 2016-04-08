@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     self.title = @"余额";
     [self.withdrawalsButton.layer setBorderWidth:1.0];//设置边界的宽度

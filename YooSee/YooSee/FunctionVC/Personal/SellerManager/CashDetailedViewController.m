@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     self.title = @"明细";
     self.myTableView.hidden = YES;
@@ -183,6 +184,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CashDetailedTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSDictionary *dic = self.dataSourceArray[indexPath.section];
     if([dic[@"type"] intValue] == 1){

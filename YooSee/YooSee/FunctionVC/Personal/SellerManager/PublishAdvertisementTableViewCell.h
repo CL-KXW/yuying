@@ -10,10 +10,8 @@
 
 @interface PublishAdvertisementTableViewCell : UITableViewCell
 
-@property(nonatomic,weak)IBOutlet UILabel *titleLabel;
 @property(nonatomic,weak)IBOutlet UILabel *contentLabel;
 
-@property(nonatomic,weak)IBOutlet UIButton *coverButton;
 @property(nonatomic,weak)IBOutlet UIButton *addPicture1;
 @property(nonatomic,weak)IBOutlet UIButton *addPicture2;
 @property(nonatomic,weak)IBOutlet UIButton *addPicture3;

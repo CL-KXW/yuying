@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     self.title = @"红包二维码";
     [self.shareButton viewRadius:20 backgroundColor:ButtonColor_Green];
@@ -126,10 +127,12 @@
 {
     NSString *url = @"http://yyw.dianliangtech.com/dianliang/qr_code/share?qr_text=";
     NSString *shareUrl = [NSString stringWithFormat:@"%@%@",url,self.totalString];
-    NSString *text = @"欢迎加入鱼鹰，看广告赚话费金币，免费兑换商品，照顾家车安全。";
+    NSString *text = @"欢迎加入鱼鹰，看广告赚话费金币，免费兑换商品，照顾家车安全,红包二维码";
     
-    UIImage *shareImage = self.image;
-    [self share:shareImage url:shareUrl text:text];
+    NSString *shareText = [NSString stringWithFormat:@"%@",text];
+    
+    UIImage *shareImage = self.qrCodeImageView.image;
+    [self share:shareImage url:shareUrl text:shareText];
 }
 
 -(void)share:(UIImage *)image url:(NSString *)url text:(NSString *)text{
@@ -139,25 +142,37 @@
                                          appKey:UM_APP_KEY
                                       shareText:text
                                      shareImage:image
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToSina,UMShareToQQ,UMShareToTencent,UMShareToSms,nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToWechatFavorite,UMShareToQQ,UMShareToQzone,UMShareToEmail,UMShareToSms,nil]
                                        delegate:nil];
     
     NSString *shareTitle = @"鱼鹰";
     [UMSocialData defaultData].extConfig.wechatSessionData.title = shareTitle;
     [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
-    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeImage;
+    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeWeb;
     
     [UMSocialData defaultData].extConfig.wechatTimelineData.title = shareTitle;
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
-    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeWeb;
     
     [UMSocialData defaultData].extConfig.qqData.title = shareTitle;
     [UMSocialData defaultData].extConfig.qqData.url = url;
-    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
+    [UMSocialData defaultData].extConfig.qqData.urlResource.resourceType = UMSocialUrlResourceTypeWeb;
+    [UMSocialData defaultData].extConfig.qqData.urlResource.url = url;
     
     [UMSocialData defaultData].extConfig.qzoneData.title = shareTitle;
     [UMSocialData defaultData].extConfig.qzoneData.url = url;
-    [UMSocialData defaultData].extConfig.qzoneData.urlResource.resourceType = UMSocialUrlResourceTypeImage;
+    [UMSocialData defaultData].extConfig.qzoneData.urlResource.resourceType = UMSocialUrlResourceTypeWeb;
+    
+    //微信收藏
+    [UMSocialData defaultData].extConfig.wechatFavoriteData.title = shareTitle;
+    [UMSocialData defaultData].extConfig.wechatFavoriteData.url = url;
+    [UMSocialData defaultData].extConfig.wechatFavoriteData.urlResource.resourceType = UMSocialUrlResourceTypeWeb;
+    
+    //新浪微博
+    [UMSocialData defaultData].extConfig.sinaData.shareText = text;
+    [UMSocialData defaultData].extConfig.sinaData.urlResource.url = url;
+    [UMSocialData defaultData].extConfig.sinaData.urlResource.resourceType = UMSocialUrlResourceTypeWeb;
 }
 
 @end

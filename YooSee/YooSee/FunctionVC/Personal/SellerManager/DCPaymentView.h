@@ -15,6 +15,8 @@
 
 @property (nonatomic,copy) void (^completeHandle)(NSString *inputPwd);
 
+@property (nonatomic,copy) void (^forgetPasswordHandle)();
+
 - (void)show;
 
 @end

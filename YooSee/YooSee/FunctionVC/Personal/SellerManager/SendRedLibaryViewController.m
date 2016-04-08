@@ -27,9 +27,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 };
 
 #define CellDefaultHeight 50
-#define ContentDefaultText2 @"请输入红包1内容描述文字。（选填项，可不填）"
-#define ContentDefaultText3 @"请输入红包2内容描述文字。（选填项，可不填）"
-#define ContentDefaultText4 @"请输入红包3内容描述文字。（选填项，可不填）"
+#define ContentDefaultText2 @"请输入红包内容描述文字。（选填项，可不填）"
 
 @interface SendRedLibaryViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UUDatePickerDelegate>
 
@@ -44,10 +42,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 @property(nonatomic,strong)UIButton *startButton;
 
 @property(nonatomic,strong)UITextView *contentView2;
-@property(nonatomic,strong)UITextView *contentView3;
-@property(nonatomic,strong)UITextView *contentView4;
 
-@property(nonatomic,strong)UIImage *coverImage;
 @property(nonatomic,strong)UIImage *advertisementImage1;
 @property(nonatomic,strong)UIImage *advertisementImage2;
 @property(nonatomic,strong)UIImage *advertisementImage3;
@@ -75,6 +70,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     if(self.type == RedLibaryType_immediate){
         self.title = @"即时红包";
@@ -184,7 +180,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm:00"];
         NSTimeZone *zone = [NSTimeZone systemTimeZone];
         NSInteger interval = [zone secondsFromGMTForDate:[NSDate date]];
-        NSDate *nowLocalDate = [[NSDate date] dateByAddingTimeInterval:interval];
+        NSDate *nowLocalDate = [[NSDate date] dateByAddingTimeInterval:interval+90*24*60*60];
         NSString *string = [formatter stringFromDate:nowLocalDate];
         [_endDateButton setTitle:string forState:UIControlStateNormal];
         _endDateButton.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -260,36 +256,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     return _contentView2;
 }
 
--(UITextView *)contentView3{
-    if (!_contentView3) {
-        _contentView3 = Alloc(UITextView);
-        _contentView3.font = [UIFont systemFontOfSize:16];
-        _contentView3.text = ContentDefaultText3;
-        _contentView3.textColor = [UIColor lightGrayColor];
-        _contentView3.width = SCREEN_WIDTH-40;
-        _contentView3.height = ContentViewHeight;
-        _contentView3.delegate = self;
-        _contentView3.backgroundColor = [UIColor clearColor];
-    }
-    
-    return _contentView3;
-}
-
--(UITextView *)contentView4{
-    if (!_contentView4) {
-        _contentView4 = Alloc(UITextView);
-        _contentView4.font = [UIFont systemFontOfSize:16];
-        _contentView4.text = ContentDefaultText4;
-        _contentView4.textColor = [UIColor lightGrayColor];
-        _contentView4.width = SCREEN_WIDTH-40;
-        _contentView4.height = ContentViewHeight;
-        _contentView4.delegate = self;
-        _contentView4.backgroundColor = [UIColor clearColor];
-    }
-    
-    return _contentView4;
-}
-
 #pragma mark -
 -(void)areaButtonClick:(UIButton *)button{
     [self allTextFieldResignFirstResponder];
@@ -356,10 +322,10 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     }else if ([self.totalMoneyField.text floatValue] < [self.oneMoneyField.text intValue]*0.01){
         message = @"总金额不够分";
         [CommonTool addPopTipWithMessage:message];
-    }else if(self.coverImage == nil){
+    }else if(self.advertisementImage1 == nil){
         message = @"请选择红包封面";
         [CommonTool addPopTipWithMessage:message];
-    }else if(self.advertisementImage1 == nil && self.advertisementImage2 == nil && self.advertisementImage3 == nil){
+    }else if(self.advertisementImage2 == nil && self.advertisementImage3 == nil){
         message = @"请至少选择一张红包内容图片";
         [CommonTool addPopTipWithMessage:message];
     }else if([self.totalMoneyField.text floatValue] == 0.0){
@@ -417,15 +383,9 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     [dic setObject:content2 forKey:@"content_2"];
     
     NSString *content3 = @"";
-    if(![self.contentView3.text isEqualToString:ContentDefaultText3]){
-        content3 = self.contentView3.text;
-    }
     [dic setObject:content3 forKey:@"content_3"];
     
     NSString *content4 = @"";
-    if(![self.contentView4.text isEqualToString:ContentDefaultText4]){
-        content4 = self.contentView4.text;
-    }
     [dic setObject:content4 forKey:@"content_4"];
     
     [dic setObject:self.url1 forKey:@"url_1"];
@@ -482,9 +442,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     
     int totalCount = 0;
     __block int sendCount = 0;
-    if (self.coverImage != nil) {
-        totalCount++;
-    }
+
     if (self.advertisementImage1 != nil) {
         totalCount++;
     }
@@ -497,8 +455,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     
     WeakSelf(weakSelf);
     
-    if (self.coverImage != nil) {
-        NSData *data =  UIImageJPEGRepresentation(self.coverImage, CompressionRatio);
+    if (self.advertisementImage1 != nil) {
+        NSData *data =  UIImageJPEGRepresentation(self.advertisementImage1, CompressionRatio);
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         [manager POST:Url_uploadImage parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:data name:@"attach" fileName:@"image.png" mimeType:@"image/jpeg"];
@@ -520,29 +478,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
             [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
         }];
     }
-    if (self.advertisementImage1 != nil) {
-        NSData *data =  UIImageJPEGRepresentation(self.advertisementImage1, CompressionRatio);
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        [manager POST:Url_uploadImage parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-            [formData appendPartWithFileData:data name:@"attach" fileName:@"image.png" mimeType:@"image/jpeg"];
-        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
-            if ([response.returnCode intValue] == SucessFlag) {
-                weakSelf.uuid2 = response.uuid;
-                weakSelf.url2 = response.access_url;
-                sendCount++;
-                if(sendCount == totalCount){
-                    [self sendSubmitRequest];
-                }
-            }else{
-                [LoadingView dismissLoadingView];
-                [SVProgressHUD showErrorWithStatus:Hud_uploadFail];
-            }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [LoadingView dismissLoadingView];
-            [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
-        }];
-    }
     if (self.advertisementImage2 != nil) {
         NSData *data =  UIImageJPEGRepresentation(self.advertisementImage2, CompressionRatio);
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -551,8 +486,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
             if ([response.returnCode intValue] == SucessFlag) {
-                weakSelf.uuid3 = response.uuid;
-                weakSelf.url3 = response.access_url;
+                weakSelf.uuid2 = response.uuid;
+                weakSelf.url2 = response.access_url;
                 sendCount++;
                 if(sendCount == totalCount){
                     [self sendSubmitRequest];
@@ -575,8 +510,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             ResponseUploadImage *response = [ResponseUploadImage yy_modelWithDictionary:responseObject];
             if ([response.returnCode intValue] == SucessFlag) {
-                weakSelf.uuid4 = response.uuid;
-                weakSelf.url4 = response.access_url;
+                weakSelf.uuid3 = response.uuid;
+                weakSelf.url3 = response.access_url;
                 sendCount++;
                 if(sendCount == totalCount){
                     [self sendSubmitRequest];
@@ -651,7 +586,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     }else if(section == 1){
         return 1;
     }else{
-        return 5;
+        return 3;
     }
 }
 
@@ -748,31 +683,34 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
                 break;
                 
             case 1:{
-                PublishAdvertisementTableViewCell *cell = (PublishAdvertisementTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.accessoryView = nil;
-                cell.titleLabel.text = @"红包封面";
-                cell.contentLabel.text = @"红包内容图片";
-                [cell.addPicture1 addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                [cell.addPicture2 addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                [cell.addPicture3 addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                [cell.coverButton addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                return cell;
-            }
-                break;
-                
-            case 2:{
                 cell.accessoryView = self.contentView2;
             }
                 break;
                 
-            case 3:{
-                cell.accessoryView = self.contentView3;
-            }
-                break;
-                
-            case 4:{
-                cell.accessoryView = self.contentView4;
+            case 2:{
+                PublishAdvertisementTableViewCell *cell = (PublishAdvertisementTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.accessoryView = nil;
+                cell.contentLabel.text = @"主题红包";
+                [cell.addPicture1 addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.addPicture2 addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.addPicture3 addTarget:self action:@selector(addPictureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+                if(self.advertisementImage1 != nil){
+                    cell.addPicture2.hidden = NO;
+                    [cell.addPicture1 setBackgroundImage:self.advertisementImage1 forState:UIControlStateNormal];
+                }else{
+                    cell.addPicture2.hidden = YES;
+                }
+                if(self.advertisementImage2 != nil){
+                    cell.addPicture3.hidden = NO;
+                    [cell.addPicture2 setBackgroundImage:self.advertisementImage2 forState:UIControlStateNormal];
+                }else{
+                    cell.addPicture3.hidden = YES;
+                }
+                if (self.advertisementImage3 != nil) {
+                    [cell.addPicture3 setBackgroundImage:self.advertisementImage3 forState:UIControlStateNormal];
+                }
+                return cell;
             }
                 break;
         }
@@ -784,13 +722,9 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat height = CellDefaultHeight;
     
-    if(indexPath.section == 2 && indexPath.row == 1){
-        height = 105;
-    }else if(indexPath.section == 2 && indexPath.row == 2){
-        height = ContentViewHeight;
-    }else if(indexPath.section == 2 && indexPath.row == 3){
-        height = ContentViewHeight;
-    }else if(indexPath.section == 2 && indexPath.row == 4){
+    if(indexPath.section == 2 && indexPath.row == 2){
+        height = 35+(SCREEN_WIDTH-20*4)/3+10;
+    }else if(indexPath.section == 2 && indexPath.row == 1){
         height = ContentViewHeight;
     }else if(indexPath.section == 1){
         height = 70;
@@ -908,37 +842,33 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:2];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:2];
     PublishAdvertisementTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     [picker dismissViewControllerAnimated:YES completion:^() {
         
         UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         switch (self.buttonTag) {
-            case 1:
-            {
-                [cell.coverButton setImage:image forState:UIControlStateNormal];
-                self.coverImage = image;
-            }
-                break;
-                
             case 2:{
-                [cell.addPicture1 setImage:image forState:UIControlStateNormal];
+                [cell.addPicture1 setBackgroundImage:image forState:UIControlStateNormal];
                 self.advertisementImage1 = image;
             }
                 break;
                 
             case 3:{
-                [cell.addPicture2 setImage:image forState:UIControlStateNormal];
+                [cell.addPicture2 setBackgroundImage:image forState:UIControlStateNormal];
                 self.advertisementImage2 = image;
             }
                 break;
                 
             case 4:{
-                [cell.addPicture3 setImage:image forState:UIControlStateNormal];
+                [cell.addPicture3 setBackgroundImage:image forState:UIControlStateNormal];
                 self.advertisementImage3 = image;
             }
                 break;
         }
+        
+        NSIndexPath *ind = [NSIndexPath indexPathForRow:2 inSection:2];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:ind] withRowAnimation:UITableViewRowAnimationNone];
     }];
 }
 
@@ -955,16 +885,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
             _contentView2.text = @"";
         }
         _contentView2.textColor = [UIColor blackColor];
-    }else if (textView == self.contentView3){
-        if([_contentView3.text isEqualToString:ContentDefaultText3]){
-            _contentView3.text = @"";
-        }
-        _contentView3.textColor = [UIColor blackColor];
-    }else if (textView == self.contentView4){
-        if([_contentView4.text isEqualToString:ContentDefaultText4]){
-            _contentView4.text = @"";
-        }
-        _contentView4.textColor = [UIColor blackColor];
     }
 }
 
@@ -972,16 +892,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     if (textView == self.contentView2) {
         if([self.contentView2.text isEqualToString:@""]){
             textView.text = ContentDefaultText2;
-            textView.textColor = [UIColor lightGrayColor];
-        }
-    }else if (textView == self.contentView3){
-        if([self.contentView3.text isEqualToString:@""]){
-            textView.text = ContentDefaultText3;
-            textView.textColor = [UIColor lightGrayColor];
-        }
-    }else if (textView == self.contentView4){
-        if([self.contentView4.text isEqualToString:@""]){
-            textView.text = ContentDefaultText4;
             textView.textColor = [UIColor lightGrayColor];
         }
     }
@@ -1032,8 +942,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     [self.oneMoneyField resignFirstResponder];
     [self.titleField resignFirstResponder];
     [self.contentView2 resignFirstResponder];
-    [self.contentView3 resignFirstResponder];
-    [self.contentView4 resignFirstResponder];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{

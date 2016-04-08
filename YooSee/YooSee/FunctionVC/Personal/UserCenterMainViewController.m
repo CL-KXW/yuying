@@ -316,29 +316,35 @@
 {
     int tag = (int)sender.tag - 101;
     NSArray *array = @[CARDTICKET,SHOPPING_CAR,USER_ORDER,USER_SAVE,PUBLIC_ADV];
-    if (tag > 2)
-    {
-        LocalWebViewController *localWebViewController = [[LocalWebViewController alloc] init];
-        localWebViewController.urlString = array[tag - 3];
-        [self.navigationController pushViewController:localWebViewController animated:YES];
-    }
+    
     if (tag == 0)
     {
         //消息
         NewsListViewController *newsListViewController = [[NewsListViewController alloc] init];
         [self.navigationController pushViewController:newsListViewController animated:YES];
-    }
-    if (tag == 1)
+    }else if (tag == 1)
     {
         //现金库
         GoldLibraryViewController *vc = [[GoldLibraryViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
-    }
-    if (tag == 2)
+    }else if (tag == 2)
     {
         //红包库
         RedPackgeLibraryVC *vc = [[RedPackgeLibraryVC alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+    }else if(tag == 7){
+        NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+        if ([shop_number intValue] != 0) {
+            SellerCentreViewController *sellerVC = [[SellerCentreViewController alloc] initWithNibName:@"SellerCentreViewController" bundle:nil];
+            [self.navigationController pushViewController:sellerVC animated:YES];
+        }else{
+            [self userIsSellerRequest];
+        }
+    }else if (tag > 2)
+    {
+        LocalWebViewController *localWebViewController = [[LocalWebViewController alloc] init];
+        localWebViewController.urlString = array[tag - 3];
+        [self.navigationController pushViewController:localWebViewController animated:YES];
     }
 }
 

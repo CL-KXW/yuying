@@ -33,6 +33,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addBackItem];
     
     if (self.type == ManageType_redLibary) {
         self.title = @"红包管理";
@@ -223,9 +224,10 @@ typedef NS_ENUM(NSUInteger, ActionType) {
         NSURL *url = [NSURL URLWithString:dic[@"url_1"]];
         [cell1.customImageView sd_setImageWithURL:url];
         cell1.contentMode = UIViewContentModeScaleAspectFit;
+        cell1.nameLabel.text = dic[@"content_1"];
+    }else{
+        cell1.nameLabel.text = dic[@"title_1"];
     }
-    
-    cell1.nameLabel.text = dic[@"title_1"];
     
     NSString *totalMoney = dic[@"fa_sum_money"];
     NSString *totalNumber = dic[@"fa_sum_number"];
