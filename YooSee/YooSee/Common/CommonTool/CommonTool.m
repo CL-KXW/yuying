@@ -191,7 +191,7 @@
 
 + (void)addPopTipWithMessage:(NSString *)message
 {
-    [SVProgressHUD showErrorWithStatus:message duration:1.5];
+    [SVProgressHUD showErrorWithStatus:message duration:1.0];
 }
 
 //時間轉換成字符串

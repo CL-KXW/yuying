@@ -55,7 +55,9 @@
     [self getAdRewardRequest];
 }
 
-- (void)getAdRewardRequest {
+- (void)getAdRewardRequest
+{
+    [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSString *ggid = self.ggid;
@@ -67,6 +69,7 @@
                                requestType:RequestTypeAsynchronous
                              requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
+         [LoadingView dismissLoadingView];
          NSLog(@"GET_AD_REWARD===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -75,18 +78,21 @@
          if (errorCode == 8)
          {
              NSString *moneyName = [NSString stringWithFormat:@"您本次看一看获得%@元", self.dataDic[@"lingqu_money"]];
-            [self startMoneyAnimation:nil];//显示金钱下落动画
-            [SVProgressHUD showSuccessWithStatus:moneyName duration:2.0];
+             [self startMoneyAnimation:nil];//显示金钱下落动画
+             [SVProgressHUD showSuccessWithStatus:moneyName];
+            
+            
          }
          else
          {
-             [SVProgressHUD showErrorWithStatus:errorMessage duration:2.5];
+             [CommonTool addPopTipWithMessage:errorMessage];
+             //[SVProgressHUD showErrorWithStatus:errorMessage duration:2.5];
          }
      }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         [SVProgressHUD showErrorWithStatus:@"网络错误" duration:2.5];
-         
+         [LoadingView dismissLoadingView];
+         [CommonTool addPopTipWithMessage:@"网络错误"];
      }];
 }
 

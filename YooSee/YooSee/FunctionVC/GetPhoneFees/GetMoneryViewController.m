@@ -17,6 +17,7 @@
     NSMutableArray *_dataArray;
 }
 @property (nonatomic, strong) NSString *startID;
+@property (nonatomic, assign) BOOL isLoading;
 @end
 
 @implementation GetMoneryViewController
@@ -30,13 +31,14 @@
     [super viewDidLoad];
     self.title = @"赚钱";
     _dataArray = [[NSMutableArray alloc] init];
+    _isLoading = NO;
     
     [self addBackItem];
     
     // Do any additional setup after loading the view.
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
     [self addRefreshHeaderView];
-    [self addRefreshFooterView];
+    [LoadingView showLoadingView];
     [self refreshData];
 }
 
@@ -97,7 +99,7 @@
     NSString *logtime = dic[@"begin_time"];
     logtime = [CommonTool dateString2MDString:logtime];
     cell.timeLabel.text = logtime;
-    [cell.adView sd_setImageWithURL:[NSURL URLWithString:dic[@"url_1"]]];
+    [cell.adView sd_setImageWithURL:[NSURL URLWithString:dic[@"url_1"]] placeholderImage:[UIImage imageNamed:@"default_image2"]];
     float leftMoney = [dic[@"shengyu_money"] floatValue];
     if (leftMoney < 0) {
         leftMoney = 0;
@@ -143,7 +145,8 @@
 #pragma mark -
 
 - (void)request {
-    [LoadingView showLoadingView];
+    
+    _isLoading = YES;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSString *pid = [[YooSeeApplication shareApplication] provinceID];
@@ -165,46 +168,84 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
+         _isLoading = NO;
          if (errorCode == 8)
          {
              @synchronized(_dataArray) {
-                 if (_currentPage == 1) {
+                 if (_currentPage == 1)
+                 {
                      [_dataArray removeAllObjects];
                  }
                  id ary = dataDic[@"resultList"];
-                 if (ary && [ary isKindOfClass:[NSArray class]] && [ary count] > 0) {
-                     [_dataArray addObjectsFromArray:ary];
+                 if (ary && [ary isKindOfClass:[NSArray class]])
+                 {
+                     if ([ary count] > 0)
+                     {
+                         if (_currentPage == 1)
+                         {
+                             [self addRefreshFooterView];
+                             self.refreshFooterView.hidden = NO;
+                         }
+                         [_dataArray addObjectsFromArray:ary];
+                         self.startID = [ary lastObject][@"id"];
+                     }
+                     else
+                     {
+                         [CommonTool addPopTipWithMessage:@"没有更多数据"];
+                         self.refreshFooterView.hidden = YES;
+                     }
+
                  } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                      [_dataArray addObject:ary];
                  }
+                 
                  [self.table reloadData];
              }
          }
          else
          {
+             if (_currentPage > 1)
+             {
+                 _currentPage--;
+             }
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];
      }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          
          [LoadingView dismissLoadingView];
          NSLog(@"GET_AD_LIST====%@",error);
+         _isLoading = NO;
+         if (_currentPage > 1)
+         {
+             _currentPage--;
+         }
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];
      }];
 }
 
-- (void)refreshData {
+- (void)refreshData
+{
+    if (_isLoading)
+    {
+        return;
+    }
     [super refreshData];
     self.startID = @"0";
     [self request];
 }
 
-- (void)getMoreData {
+- (void)getMoreData
+{
+    if (_isLoading)
+    {
+        return;
+    }
     [super getMoreData];
     [self request];
 }

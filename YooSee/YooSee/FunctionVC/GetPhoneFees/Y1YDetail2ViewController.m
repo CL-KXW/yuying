@@ -129,7 +129,7 @@
     } else {
         btn.hidden = NO;
     }
-    [imgView sd_setImageWithURL:[NSURL URLWithString:pic] placeholderImage:nil];
+    [imgView sd_setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_image2"]];
     
     return cell;
 }
@@ -160,7 +160,7 @@
          {
              self.hasMakedRob = YES;
              [self.table reloadData];
-             [SVProgressHUD showSuccessWithStatus:errorMessage duration:2.5];
+             [SVProgressHUD showSuccessWithStatus:errorMessage];
              [self.navigationController popViewControllerAnimated:NO];
          }
          else
@@ -171,7 +171,7 @@
      }
                                requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%d", error.code] duration:2.5];
+         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%d", error.code]];
      }];
 
 }
