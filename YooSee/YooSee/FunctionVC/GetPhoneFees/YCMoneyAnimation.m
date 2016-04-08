@@ -123,10 +123,11 @@ static int coinCount = 0;
         [_coinTagsArr removeObjectAtIndex:0];
         
         //全部金币完成动画后执行的动作
-        if (++coinCount == kCoinCountKey) {
-            
-            [self bagShakeAnimation];
-        }
+//        if (++coinCount == kCoinCountKey) {
+//            
+//            [self bagShakeAnimation];
+//        }
+        [self performSelector:@selector(didBlock) withObject:nil afterDelay:1];
     }
 }
 
