@@ -41,7 +41,7 @@
 static int coinCount = 0;
 - (void)getCoinAction
 {
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self];
+    [[[[UIApplication sharedApplication] delegate] window] addSubview:self];
     
     if(self.willAnimation) self.willAnimation();
     //初始化金币生成的数量

@@ -19,6 +19,10 @@
 @end
 
 @implementation GetMoneyDetailViewController
+- (void)dealloc {
+    NSLog(@"GetMoneyDetailViewController dealloc");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -78,10 +82,10 @@
          if (errorCode == 8)
          {
              NSString *moneyName = [NSString stringWithFormat:@"您本次看一看获得%@元", self.dataDic[@"lingqu_money"]];
-             [self startMoneyAnimation:nil];//显示金钱下落动画
-             [SVProgressHUD showSuccessWithStatus:moneyName];
-            
-            
+            [self startMoneyAnimation:^{
+                [self setMoneyAniView:nil];
+            }];//显示金钱下落动画
+            [SVProgressHUD showSuccessWithStatus:moneyName];
          }
          else
          {
