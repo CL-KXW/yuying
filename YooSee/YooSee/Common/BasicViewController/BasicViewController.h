@@ -143,4 +143,6 @@ typedef enum : NSUInteger {
  *  子类重写
  */
 - (void)getMoreData;
+
+- (BOOL)isVaildURL:(NSString*)string;
 @end

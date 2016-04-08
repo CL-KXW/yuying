@@ -8,6 +8,8 @@
 
 #import "RedPackgeLibraryVC.h"
 #import "RedPackgeLibraryCell.h"
+#import "RedPackgeLibraryDetailVC.h"
+
 @interface RedPackgeLibraryVC ()
 {
     NSString *startID[2];
@@ -167,10 +169,10 @@
     if (!cell) {
         cell = [[RedPackgeLibraryCell alloc] initWithStyle:0 reuseIdentifier:key];
     }
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@", dic[@"shop_name"]];
-    cell.descLabel.text = [NSString stringWithFormat:@"%@", dic[@"contact_phone"]];
-    cell.timeLabel.text = [NSString stringWithFormat:@"%@", dic[@"update_time"]];
-    cell.moneyLabel.text = [NSString stringWithFormat:@"%@元", dic[@"lingqu_money"]];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@", dic[@"title_1"]];
+    cell.descLabel.text = [NSString stringWithFormat:@"%@", dic[@"shop_name"]];
+    cell.timeLabel.text = [NSString stringWithFormat:@"%@", dic[@"end_time"]];
+    cell.moneyLabel.text = [NSString stringWithFormat:@"%.2f元", [dic[@"lingqu_money"] floatValue]];
     if (tableView == _ungetTable) {
         cell.moneyLabel.hidden = YES;
     } else {
@@ -180,7 +182,43 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *dic = nil;
+    if (tableView == _ungetTable) {
+        dic = _ungetArray[indexPath.row];
+    } else {
+        dic = _hasGetArray[indexPath.row];
+    }
     
+    
+    RedPackgeLibraryDetailVC *detail2 = [[RedPackgeLibraryDetailVC alloc] init];
+    detail2.dataDic = dic;
+    detail2.ggid = dic[@"only_number"];
+    NSMutableArray *ary = [NSMutableArray array];
+    NSMutableArray *titleAry = [NSMutableArray array];
+    
+    if ([self isVaildURL:dic[@"title_url_2"]]) {
+        [ary addObject:dic[@"title_url_2"]];
+        [titleAry addObject:dic[@"title_2"]];
+    }
+    if ([self isVaildURL:dic[@"title_url_3"]]) {
+        [ary addObject:dic[@"title_url_3"]];
+        [titleAry addObject:dic[@"title_3"]];
+    }
+    if ([self isVaildURL:dic[@"title_url_4"]]) {
+        [ary addObject:dic[@"title_url_4"]];
+        [titleAry addObject:dic[@"title_4"]];
+    }
+    detail2.dataArray = ary;
+    detail2.descArray = titleAry;
+    detail2.timeString = dic[@"begin_time"];
+    detail2.authorString = dic[@"title_1"];
+    detail2.nameString = dic[@"shop_name"];
+    detail2.hasGetMoney = (tableView == _hasGetTable);
+    [self.navigationController pushViewController:detail2 animated:NO];
+    __weak typeof(self) weakSelf = self;
+    detail2.block = ^(){
+        [weakSelf refresh:0];
+    };
 }
 
 - (void)segmentViewAction:(UIButton*)segmentView {
@@ -227,7 +265,9 @@
          [LoadingView dismissLoadingView];
          if (errorCode == 8)
          {
-             [_hasGetArray removeAllObjects];
+             if ([startID[1] intValue] == 0) {
+                 [_hasGetArray removeAllObjects];
+             }
              NSArray *ary = dataDic[@"resultList"];
              if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
                  [_hasGetArray addObjectsFromArray:ary];
@@ -262,7 +302,7 @@
     
     NSDictionary *requestDic = @{
                                  @"lingqu_user_id":uid,
-                                 @"type":@"1",
+                                 @"type":@"4",
                                  @"loadtype":[NSString stringWithFormat:@"%d",[startID[0] intValue] == 0 ? 1 : 1],
                                  @"startid":startID[0]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
@@ -278,14 +318,16 @@
          [LoadingView dismissLoadingView];
          if (errorCode == 8)
          {
-             [_ungetArray removeAllObjects];
+             if ([startID[0] intValue] == 0) {
+                 [_ungetArray removeAllObjects];
+             }
              NSArray *ary = dataDic[@"resultList"];
              if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
                  [_ungetArray addObjectsFromArray:ary];
                  startID[0] = [ary lastObject][@"id"];
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_ungetArray addObject:ary];
-                 startID[1] = ((NSDictionary*)ary)[@"id"];
+                 startID[0] = ((NSDictionary*)ary)[@"id"];
              }
              [self.ungetTable reloadData];
          }

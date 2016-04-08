@@ -9,7 +9,8 @@
 #import "BasicViewController.h"
 #import "Y1YDetail2ViewController.h"
 @interface GetMoneyDetailViewController : Y1YDetail2ViewController
-
+@property (nonatomic, strong) UIButton *getMoneyButton;
 @property (nonatomic, strong) NSDictionary *dataDic;
-
+- (void)startMoneyAnimation:(void(^)())didBlock;
+- (void)getMoneyClick:(UIButton*)sender;
 @end

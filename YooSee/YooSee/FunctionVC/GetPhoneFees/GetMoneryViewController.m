@@ -47,13 +47,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)isVaildURL:(NSString*)string {
-    if (string && [string isKindOfClass:[NSString class]] && string.length > 6) {
-        return YES;
-    }
-    return NO;
-}
-
 #pragma mark UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

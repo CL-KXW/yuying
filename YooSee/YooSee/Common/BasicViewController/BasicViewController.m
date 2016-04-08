@@ -205,7 +205,12 @@
     _currentPage++;
 }
 
-
+- (BOOL)isVaildURL:(NSString*)string {
+    if (string && [string isKindOfClass:[NSString class]] && string.length > 6) {
+        return YES;
+    }
+    return NO;
+}
 
 #pragma mark 方位
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations

@@ -13,7 +13,6 @@
 @interface GetMoneyDetailViewController ()
 @property (nonatomic, strong) UIImageView *logoImageView;
 @property (nonatomic, strong) UILabel *descLabel;
-@property (nonatomic, strong) UIButton *getMoneyButton;
 @property (nonatomic, strong) YCMoneyAnimation *moneyAniView;
 @property (nonatomic, strong) AVAudioPlayer *avPlayer;
 @end
@@ -66,7 +65,7 @@
     uid = uid ? uid : @"";
     NSString *ggid = self.ggid;
     ggid = ggid ? ggid : @"";
-    NSDictionary *requestDic = @{@"lingqu_user_id":uid,@"id":[NSString stringWithFormat:@"%@", ggid]};
+    NSDictionary *requestDic = @{@"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],@"id":[NSString stringWithFormat:@"%@", ggid]};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:GET_AD_REWARD
                             requestParamas:requestDic
