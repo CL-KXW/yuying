@@ -309,6 +309,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 }
 
 -(void)submitButtonClick:(UIButton *)button{
+    [self allTextFieldResignFirstResponder];
+    
     NSString *message;
     if (self.totalMoneyField.text.length == 0) {
         message = @"请填写总金额";

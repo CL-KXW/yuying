@@ -66,7 +66,7 @@
     if (!cell) {
         cell = [[RobRedPackgeListCell alloc] initWithStyle:0 reuseIdentifier:key];
     }
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:dic[@"title_url_1"]] placeholderImage:[UIImage imageNamed:@"default_image1"]];
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:dic[@"logo"]] placeholderImage:[UIImage imageNamed:@"default_image1"]];
     cell.descLabel.text = dic[@"title_1"];
     return cell;
 }

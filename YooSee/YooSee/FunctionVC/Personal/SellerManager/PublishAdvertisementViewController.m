@@ -262,6 +262,8 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 }
 
 -(void)submitButtonClick:(UIButton *)button{
+    [self allTextFieldResignFirstResponder];
+    
     NSString *message;
     if (self.totalMoneyField.text.length == 0) {
         message = @"请填写红包个数";
@@ -285,6 +287,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         message = @"单次领取金额必须大于0";
         [CommonTool addPopTipWithMessage:message];
     }else{
+        [
         DCPaymentView *payAlert = [[DCPaymentView alloc]init];
         payAlert.title = @"请输入支付密码";
         [payAlert show];
@@ -409,7 +412,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         return;
     }
     
-    [LoadingView showLoadingView];
+//    [LoadingView showLoadingView];
     
     int totalCount = 0;
     __block int sendCount = 0;
