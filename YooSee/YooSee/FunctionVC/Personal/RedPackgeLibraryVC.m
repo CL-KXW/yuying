@@ -15,6 +15,7 @@
     NSString *startID[2];
     MJRefreshFooterView *refreshFooterView[2];
     MJRefreshHeaderView *refreshHeaderView[2];
+    BOOL isLoading[2];
 }
 @property (nonatomic, strong) NSMutableArray *hasGetArray;
 @property (nonatomic, strong) NSMutableArray *ungetArray;
@@ -103,9 +104,13 @@
     _selectView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH * 0.5, 4)];
     _selectView.backgroundColor = RGB(252, 100, 45);
     [_ungetBtn addSubview:_selectView];
+    
+    [LoadingView showLoadingView];
     [self segmentViewAction:_ungetBtn];
     
     __weak typeof(self) weakSelf = self;
+    isLoading[0] = NO;
+    isLoading[1] = NO;
     MJRefreshFooterView *_refreshFooterView1 = [MJRefreshFooterView footer];
     _refreshFooterView1.scrollView = _ungetTable;
     _refreshFooterView1.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView)
@@ -235,17 +240,19 @@
     }
     if (self.hasGetBtn.selected == YES) {
         if (self.hasGetArray.count == 0) {
+            [LoadingView showLoadingView];
             [self requestHadGetRedPackage];
         }
     } else {
         if (self.ungetArray.count == 0) {
+            
             [self requestUngetRedPackage];
         }
     }
 }
 
 - (void)requestHadGetRedPackage {
-    [LoadingView showLoadingView];
+    isLoading[1] = YES;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     
@@ -259,6 +266,7 @@
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
+         isLoading[1] = NO;
          NSLog(@"MY_RED_PACKGE_LIST===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -271,9 +279,19 @@
                  [_hasGetArray removeAllObjects];
              }
              NSArray *ary = dataDic[@"resultList"];
-             if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
-                 [_hasGetArray addObjectsFromArray:ary];
-                 startID[1] = [ary lastObject][@"id"];
+             if (ary && [ary isKindOfClass:[NSArray class]])
+             {
+                 if ( ary.count > 0)
+                 {
+                     [_hasGetArray addObjectsFromArray:ary];
+                     startID[1] = [ary lastObject][@"id"];
+                 }
+                 else
+                 {
+                     [CommonTool addPopTipWithMessage:@"没有更多数据"];
+                 }
+                 
+                 
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_hasGetArray addObject:ary];
                  startID[1] = ((NSDictionary*)ary)[@"id"];
@@ -289,7 +307,7 @@
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         
+         isLoading[1] = NO;
          [LoadingView dismissLoadingView];
          NSLog(@"MY_RED_PACKGE_LIST====%@",error);
          [refreshFooterView[1] setState:MJRefreshStateNormal];
@@ -298,7 +316,7 @@
 }
 
 - (void)requestUngetRedPackage {
-    [LoadingView showLoadingView];
+    isLoading[0] = YES;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     
@@ -312,6 +330,7 @@
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
+         isLoading[0] = NO;
          NSLog(@"MY_RED_PACKGE_LIST===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -324,9 +343,17 @@
                  [_ungetArray removeAllObjects];
              }
              NSArray *ary = dataDic[@"resultList"];
-             if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
-                 [_ungetArray addObjectsFromArray:ary];
-                 startID[0] = [ary lastObject][@"id"];
+             if (ary && [ary isKindOfClass:[NSArray class]])
+             {
+                 if ( ary.count > 0)
+                 {
+                     [_ungetArray addObjectsFromArray:ary];
+                     startID[0] = [ary lastObject][@"id"];
+                 }
+                 else
+                 {
+                     [CommonTool addPopTipWithMessage:@"没有更多数据"];
+                 }
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_ungetArray addObject:ary];
                  startID[0] = ((NSDictionary*)ary)[@"id"];
@@ -342,7 +369,7 @@
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         
+         isLoading[0] = NO;
          [LoadingView dismissLoadingView];
          NSLog(@"MY_RED_PACKGE_LIST====%@",error);
          [refreshFooterView[0] setState:MJRefreshStateNormal];
@@ -352,8 +379,16 @@
 
 - (void)loadMore:(int)type {
     if (type == 0) {
+        if (isLoading[0])
+        {
+            return;
+        }
         [self requestUngetRedPackage];
     } else {
+        if (isLoading[1])
+        {
+            return;
+        }
         [self requestHadGetRedPackage];
     }
 }
@@ -361,8 +396,16 @@
 - (void)refresh:(int)type {
     startID[type] = @"0";
     if (type == 0) {
+        if (isLoading[0])
+        {
+            return;
+        }
         [self requestUngetRedPackage];
     } else {
+        if (isLoading[1])
+        {
+            return;
+        }
         [self requestHadGetRedPackage];
     }
 }
