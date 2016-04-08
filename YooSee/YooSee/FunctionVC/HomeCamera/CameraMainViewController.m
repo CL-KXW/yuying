@@ -60,7 +60,7 @@
 @property (nonatomic, strong) UIImageView *ratiosView;
 @property (nonatomic, strong) UIImageView *voiceView;
 @property (nonatomic, strong) UIImageView *playView;
-@property (nonatomic, strong) UIButton *advImageView;
+@property (nonatomic, strong) UIImageView *advImageView;
 @property (nonatomic, strong) NSDictionary *playerDic;
 @property (nonatomic, assign) BOOL getVideoFirstImg;//录像时获取第一张截图做为显示
 @property (nonatomic, assign) float count;
@@ -260,20 +260,21 @@
     _numberLabel.textAlignment = NSTextAlignmentRight;
     [self.remoteView addSubview:_numberLabel];
     
-    
-    _advImageView = [CreateViewTool createButtonWithFrame:CGRectMake(0, 0, self.remoteView.frame.size.width, self.remoteView.frame.size.height) buttonImage:@"" selectorName:@"platerAdvPressed" tagDelegate:self];
+    UIImage *defaultImage = [UIImage imageNamed:@"adv_default"];
+    _advImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.remoteView.frame.size.width, self.remoteView.frame.size.height) placeholderImage:defaultImage];
     [self.remoteView addSubview:_advImageView];
     
-    [_advImageView setImage:[UIImage imageNamed:@"adv_default"] forState:UIControlStateNormal];
     
     NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
     NSArray *array = infoDic[@"homeVideo"];
     if (array && array.count > 0)
     {
         self.playerDic = array[0];
-        [_advImageView sd_setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]] forState:UIControlStateNormal];
+        [_advImageView sd_setImageWithURL:[NSURL URLWithString:array[0][@"image_url"]] placeholderImage:defaultImage];
     }
     
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(platerAdvPressed)];
+    [_advImageView addGestureRecognizer:tapGesture];
     
     //进度
     _videoProgressView = [CreateViewTool createLabelWithFrame:CGRectMake(0, self.remoteView.frame.size.height, PROCESS_HEIGHT, self.remoteView.frame.size.height) textString:@"" textColor:nil textFont:FONT(14)];
