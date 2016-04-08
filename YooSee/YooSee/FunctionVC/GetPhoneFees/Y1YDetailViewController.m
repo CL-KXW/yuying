@@ -118,6 +118,8 @@
     [self.view addSubview:imageV];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestState) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [self addAdvViews];
 }
 
 #pragma mark 点击事件
@@ -248,6 +250,14 @@
     [[advContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     totalPage = 0;
     
+    if ([self isVaildURL:_dataDic[@"title_url_1"]]) {
+        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
+        [advContentView addSubview:view];
+        view.contentMode = UIViewContentModeScaleAspectFit;
+        [view sd_setImageWithURL:[NSURL URLWithString:_dataDic[@"title_url_1"]]];
+        totalPage++;
+    }
+    
     if ([self isVaildURL:_dataDic[@"title_url_2"]]) {
         UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(totalPage * advContentView.frame.size.width, 0, advContentView.frame.size.width, advContentView.frame.size.height)];
         [advContentView addSubview:view];
@@ -376,7 +386,7 @@
         robResultView.center = CGPointMake(SCREEN_WIDTH * 0.5, (SCREEN_HEIGHT - 64) * 0.5);
     }
     [[robResultView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    UIImageView *iamgeV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 350)];
+    UIImageView *iamgeV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 350)];//690 780
     iamgeV.image = [UIImage imageNamed:@"kuang.png"];
     [robResultView addSubview:iamgeV];
     
@@ -386,7 +396,7 @@
     label1.numberOfLines = 0;
     label1.textColor = [UIColor blackColor];
     //label.backgroundColor = [UIColor redColor];
-    label1.font = FONT(30);
+    label1.font = FONT(15);
     [iamgeV addSubview:label1];
     
     
@@ -396,15 +406,15 @@
     label2.numberOfLines = 0;
     label2.textColor = [UIColor redColor];
     //label.backgroundColor = [UIColor redColor];
-    label2.font = FONT(40);
+    label2.font = FONT(35);
     [iamgeV addSubview:label2];
     
     UILabel *label3 = [[UILabel alloc]initWithFrame:CGRectMake((280-200)/2,  20+50+40+10, 200, 80)];
     label3.textAlignment = NSTextAlignmentCenter;
     label3.text  = @"获得现金红包"; //[NSString stringWithFormat:@"%@公司",company];//company;
     label3.numberOfLines = 0;
-    label3.textColor = [UIColor blackColor];
-    label3.font = FONT(20);
+    label3.textColor = RGB(100, 100, 100);
+    label3.font = FONT(14);
     [iamgeV addSubview:label3];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((280-200)/2,(350-90)/2+20 , 200, 140)];
@@ -415,16 +425,19 @@
     }
     label.text  =[NSString stringWithFormat:@"%.2f元",money];
     label.numberOfLines = 0;
-    label.textColor = [UIColor redColor];
-    //label.backgroundColor = [UIColor redColor];
+    label.textColor = RGB(206, 10, 35);
     label.font = FONT(30);
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:label.text];
+    [CommonTool makeString:label.text toAttributeString:string withString:@"元" withTextColor:RGB(100, 100, 100) withTextFont:FONT(13)];
+    label.attributedText = string;
     [iamgeV addSubview:label];
     
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(80, 290, 120, 40)];
     button.backgroundColor = [UIColor clearColor];
     [button setTitle:@"查看排行榜 >>" forState:UIControlStateNormal];
+    button.titleLabel.font = FONT(14);
     [button addTarget:self action:@selector(paihangbangAction) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [button setTitleColor:RGB(146, 212, 238) forState:UIControlStateNormal];
     [robResultView addSubview:button];
 }
 
@@ -433,7 +446,7 @@
     if (robResultView == nil) {
         robResultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 350)];
         [self.view addSubview:robResultView];
-        robResultView.center = CGPointMake(SCREEN_WIDTH * 0.5, (SCREEN_HEIGHT - 64) * 0.5);
+        robResultView.center = CGPointMake(SCREEN_WIDTH * 0.5, (SCREEN_HEIGHT) * 0.5);
     }
     [[robResultView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     UIImageView *iamgeV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 350)];
@@ -454,8 +467,9 @@
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(80, 290, 120, 40)];
     button.backgroundColor = [UIColor clearColor];
     [button setTitle:@"查看排行榜 >>" forState:UIControlStateNormal];
+    button.titleLabel.font = FONT(14);
     [button addTarget:self action:@selector(paihangbangAction) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [button setTitleColor:RGB(146, 212, 238) forState:UIControlStateNormal];
     [robResultView addSubview:button];
 }
 
@@ -720,7 +734,6 @@
             [self resultView];
         }
     }
-    [self addAdvViews];
 }
 
 - (void)requestRoberList {

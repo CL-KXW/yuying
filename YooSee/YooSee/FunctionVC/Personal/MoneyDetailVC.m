@@ -77,7 +77,7 @@
     uid = uid ? uid : @"";
     NSDictionary *requestDic = @{@"user_id":uid,
                                  @"loadtype":_currentPage == 1 ? @(1) : @(1),
-                                 @"startid":@(0)};
+                                 @"startid":self.startID};
     [[RequestTool alloc] requestWithUrl:GET_TIXIAN_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
