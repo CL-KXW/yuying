@@ -35,7 +35,11 @@
 {
     [super viewDidLoad];
     
-    //self.title = @"忘记密码";
+    if (self.isPayPassword)
+    {
+       self.title = @"忘记支付密码";
+    }
+    
     [self addBackItem];
     
     self.count = 60;

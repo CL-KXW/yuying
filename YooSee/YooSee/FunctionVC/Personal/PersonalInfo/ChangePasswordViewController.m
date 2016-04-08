@@ -15,6 +15,7 @@
 
 #import "ChangePasswordViewController.h"
 #import "CustomTextField.h"
+#import "FindPasswordViewController.h"
 
 @interface ChangePasswordViewController ()
 
@@ -71,6 +72,13 @@
     UIButton *commitButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, BUTTON_HEIGHT) buttonTitle:@"确认" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:nil selectorName:@"commitButtonPressed:" tagDelegate:self];
     [CommonTool clipView:commitButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:commitButton];
+    
+    if (self.isPayPassword)
+    {
+        y = self.view.frame.size.height - BUTTON_HEIGHT;
+        UIButton *getPwdButton = [CreateViewTool createButtonWithFrame:CGRectMake(0, y, self.view.frame.size.width, BUTTON_HEIGHT) buttonTitle:@"忘记支付密码？" titleColor:[UIColor grayColor] normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:[UIColor clearColor] selectorName:@"getPwdButtonPressed:" tagDelegate:self];
+        [self.view addSubview:getPwdButton];
+    }
 }
 
 
@@ -162,6 +170,14 @@
     {
         [textField.textField resignFirstResponder];
     }
+}
+
+#pragma mark 找回密码
+- (void)getPwdButtonPressed:(UIButton *)sender
+{
+    FindPasswordViewController *findPasswordViewController = [[FindPasswordViewController alloc] init];
+    findPasswordViewController.isPayPassword = self.isPayPassword;
+    [self.navigationController pushViewController:findPasswordViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

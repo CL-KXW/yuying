@@ -284,10 +284,10 @@
         _mainView = [[UIView alloc] initWithFrame:CGRectMake(SPACE_X, 0, self.table.frame.size.width - 2 * SPACE_X, ROW2_HEIGHT)];
         _mainView.backgroundColor = [UIColor clearColor];
         
-        NSArray *imageArray = @[@"icon_home_monery",@"icon_home_camera",@"icon_home_sale"];
-        NSArray *titleArray = @[@"赚钱",@"家视频",@"商家优惠"];
-        NSArray *itemImageArray = @[@[@"icon_home_zxj",@"icon_home_charge"],@[@"icon_home_alert",@"icon_home_more"],@[@"icon_home_shop",@"icon_home_public"]];
-        NSArray *itemTitleArray = @[@[@"抢红包",@"摇一摇"],@[@"警报",@"更多"],@[@"商城",@"发广告"]];
+        NSArray *imageArray = @[@"icon_home_monery",@"icon_home_sale",@"icon_home_camera"];
+        NSArray *titleArray = @[@"赚钱",@"商家优惠",@"家视频"];
+        NSArray *itemImageArray = @[@[@"icon_home_zxj",@"icon_home_charge"],@[@"icon_home_shop",@"icon_home_public"],@[@"icon_home_alert",@"icon_home_more"]];
+        NSArray *itemTitleArray = @[@[@"抢红包",@"摇一摇"],@[@"体验购",@"发广告"],@[@"警报",@"更多"]];
         UIImage *image = [UIImage imageNamed:@"icon_home_monery_up"];
         float itemWidth = (_mainView.frame.size.width - 2 * SPACE_X)/[imageArray count];
         float button_wh = image.size.width/2  * CURRENT_SCALE;
@@ -448,13 +448,13 @@
         GetMoneryViewController *getMoneryViewController = [[GetMoneryViewController alloc] init];
         viewController = getMoneryViewController;
     }
-    if (tag == 2)
+    if (tag == 1)
     {
         LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
         storeDiscountViewController.urlString = @"shopsDiscount";
         viewController = storeDiscountViewController;
     }
-    if (tag == 1)
+    if (tag == 2)
     {
         NSArray *array = [YooSeeApplication shareApplication].devInfoListArray;
         if (!array)
@@ -571,7 +571,7 @@
             [self.navigationController pushViewController:y1y animated:YES];
         }
     }
-    if (type == 2)
+    if (type == 3)
     {
         //家视频
         if (tag == 0)
@@ -589,7 +589,7 @@
             [self.navigationController pushViewController:cameraListViewController animated:YES];
         }
     }
-    if (type == 3)
+    if (type == 2)
     {
         //商城
         LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
