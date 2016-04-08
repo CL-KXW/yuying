@@ -131,9 +131,9 @@
     UIImageView *left = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,GDWidth, GDHeight)];
     UIImageView *center = [[UIImageView alloc] initWithFrame:CGRectMake(GDWidth, 0,GDWidth, GDHeight)];
     UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(GDWidth * 2, 0,GDWidth, GDHeight)];
-
-    center.userInteractionEnabled = YES;
-    [center addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidTap)]];
+    //center.userInteractionEnabled = YES;
+    
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidTap)]];
 
     [_scrollView addSubview:left];
     [_scrollView addSubview:center];
