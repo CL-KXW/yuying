@@ -32,7 +32,7 @@
     _coinTagsArr = [NSMutableArray new];
     
     //主福袋层
-    _bagView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chest_icon"]];
+    _bagView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hongbao"]];
     _bagView.center = CGPointMake(CGRectGetMaxX(self.frame)/2, CGRectGetMaxY(self.frame) - 60);
     [self addSubview:_bagView];
 }

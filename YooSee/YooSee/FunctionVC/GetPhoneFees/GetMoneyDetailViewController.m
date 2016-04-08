@@ -128,7 +128,7 @@
         [self setMoneyAniView:moneyAn];
     }
     
-    [self.moneyAniView.bagView setImage:[UIImage imageNamed:@"hongbao"]];
+    //[self.moneyAniView.bagView setImage:[UIImage imageNamed:@"hongbao"]];
     [self.moneyAniView getCoinAction];
 }
 
