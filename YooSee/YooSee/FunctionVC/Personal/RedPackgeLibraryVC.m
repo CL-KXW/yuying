@@ -51,11 +51,12 @@
 //    [self.ungetArray addObject:@"1"];
     startID[0] = @"0";
     startID[1] = @"0";
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self performSelector:@selector(initViews) withObject:nil afterDelay:0.1];
 }
 
 - (void)initViews {
-    _hasGetTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 44 + 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64) style:0];
+    _hasGetTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64) style:0];
     _hasGetTable.dataSource = self;
     _hasGetTable.delegate = self;
     _hasGetTable.backgroundColor = [UIColor clearColor];
@@ -63,8 +64,9 @@
     UIView *view = [UIView new];
     _hasGetTable.tableFooterView = view;
     _hasGetTable.hidden = YES;
+    _hasGetTable.autoresizingMask = 0;
     
-    _ungetTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 44 + 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64) style:0];
+    _ungetTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64) style:0];
     _ungetTable.dataSource = self;
     _ungetTable.delegate = self;
     _ungetTable.backgroundColor = [UIColor clearColor];
@@ -72,7 +74,7 @@
     view = [UIView new];
     _ungetTable.tableFooterView = view;
     
-    _segmentView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 44)];
+    _segmentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     _segmentView.backgroundColor = [UIColor whiteColor];
     UIView *lineX = [[UIView alloc] initWithFrame:CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5)];
     lineX.backgroundColor = [UIColor lightGrayColor];
