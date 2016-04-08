@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UIButton *robButton;
 
 @property (nonatomic, strong) UILabel *resultDescLabel;
-
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation RobRedPackgeDetailVC
@@ -52,7 +52,7 @@
     self.robButton.layer.cornerRadius = 95 * CURRENT_SCALE * 0.5;
     [self.robButton setShowsTouchWhenHighlighted:YES];
     self.robButton.center = CGPointMake(SCREEN_WIDTH * 0.5, 70 + IMG_H + SPACE_Y * 3 + 95 *CURRENT_SCALE * 0.5);
-    [self.robButton addTarget:self action:@selector(request) forControlEvents:UIControlEventTouchUpInside];
+    [self.robButton addTarget:self action:@selector(robButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [scroll addSubview:self.robButton];
     
     CGRect rect = self.robButton.frame;
@@ -147,6 +147,23 @@
     //[self unrobView];
 }
 
+- (void)moneyLabelAction:(NSTimer*)timer {
+    int bigmoney = arc4random()%99;
+    int smallmoney = arc4random()%99;
+    self.descLabel.text = [NSString stringWithFormat:@"%02d.%02d元",bigmoney, smallmoney];
+}
+
+- (void)robButtonClicked {
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(moneyLabelAction:) userInfo:nil repeats:YES];
+    [self.timer fire];
+    [self robingView];
+    [self performSelector:@selector(request) withObject:nil afterDelay:0.2];
+}
+
 - (void)request {
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
@@ -175,6 +192,10 @@
 //         {
 //             [SVProgressHUD showErrorWithStatus:errorMessage];
 //         }
+         if (self.timer) {
+             [self.timer invalidate];
+             self.timer = nil;
+         }
          [self dealResponse:dataDic];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -213,11 +234,13 @@
              //未开始
              self.robButton.hidden = YES;
              self.resultDescLabel.text = @"红包还未开始";
+             [self unrobView];
          }
          else if (errorCode == 4) {
              //已抢光
              self.robButton.hidden = YES;
              self.resultDescLabel.text = @"你来迟了，红包已被抢光";
+             [self robedView];
          }
          else if (errorCode == 7) {
              [self request];
@@ -226,7 +249,7 @@
          {
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
-         [self dealResponse:dataDic];
+         //[self dealResponse:dataDic];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
