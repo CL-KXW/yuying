@@ -30,7 +30,8 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FONT(17.0)}];
     self.automaticallyAdjustsScrollViewInsets = YES;
     self.navigationController.navigationBar.translucent = YES;
-    
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    //self.navigationController.interactivePopGestureRecognizer.delegate = self;
     // Do any additional setup after loading the view.
 }
 

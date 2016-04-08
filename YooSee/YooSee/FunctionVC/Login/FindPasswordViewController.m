@@ -219,7 +219,7 @@
     [self dismissKeyBorad];
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"phone":self.phoneString,@"userped":[CommonTool md5:self.surePassword],@"code":self.codeString,@"ip":IP_ADDRESS};
+    NSDictionary *requestDic = @{@"phone":self.phoneString,@"userpwd":[CommonTool md5:self.surePassword],@"code":self.codeString,@"ip":IP_ADDRESS};
     NSString *url =  (self.isPayPassword) ? FIND_PAY_PWD_URL : FIND_LOGIN_PWD_URL;
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:url
@@ -233,7 +233,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [SVProgressHUD showSuccessWithStatus:@"修改成功"];
              [USER_DEFAULT setObject:self.surePassword forKey:@"Password"];
