@@ -287,7 +287,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         message = @"单次领取金额必须大于0";
         [CommonTool addPopTipWithMessage:message];
     }else{
-        [
         DCPaymentView *payAlert = [[DCPaymentView alloc]init];
         payAlert.title = @"请输入支付密码";
         [payAlert show];

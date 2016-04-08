@@ -118,7 +118,6 @@
     [self.view addSubview:imageV];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestState) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [self requestState];
 }
 
 #pragma mark 点击事件
