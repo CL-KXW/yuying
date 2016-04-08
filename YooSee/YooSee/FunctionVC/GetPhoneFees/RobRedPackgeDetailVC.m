@@ -10,6 +10,7 @@
 #define IMG_H       350 * CURRENT_SCALE
 
 #import "RobRedPackgeDetailVC.h"
+#import "RedPackgeLibraryVC.h"
 
 @interface RobRedPackgeDetailVC ()
 @property (nonatomic, strong) UIImageView *imageView;
@@ -67,6 +68,11 @@
     self.resultDescLabel.text = @"已存入红包库\n请12小时内收取红包";
     [scroll addSubview:self.resultDescLabel];
     
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.resultDescLabel.text];
+    [CommonTool makeString:self.resultDescLabel.text toAttributeString:string withString:@"红包库" withTextColor:RGB(254, 126, 37) withTextFont:FONT(18)];
+    self.resultDescLabel.attributedText = string;
+    self.resultDescLabel.userInteractionEnabled = YES;
+    
     if (SCREEN_HEIGHT == 480) {
         scroll.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + 100);
     } else {
@@ -74,6 +80,12 @@
     }
     [self unknowState];
     [self requestState];
+}
+
+- (void)toRedPackgeLib {
+    NSLog(@"toRedPackgeLib");
+    RedPackgeLibraryVC *vc = [[RedPackgeLibraryVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)unknowState {
@@ -196,6 +208,8 @@
              [self.timer invalidate];
              self.timer = nil;
          }
+         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toRedPackgeLib)];
+         [self.resultDescLabel addGestureRecognizer:tap];
          [self dealResponse:dataDic];
      }
                             requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
