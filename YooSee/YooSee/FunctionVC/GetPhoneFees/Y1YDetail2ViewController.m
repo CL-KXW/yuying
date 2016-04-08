@@ -9,6 +9,7 @@
 #import "Y1YDetail2ViewController.h"
 @interface Y1YDetail2ViewController ()
 @property (nonatomic, assign) BOOL hasMakedRob;
+@property (nonatomic, strong) NSMutableArray *heightArray;
 @end
 //领取资格
 @implementation Y1YDetail2ViewController
@@ -59,6 +60,8 @@
     startTimeLabel.text = [NSString stringWithFormat:@"%@ 准时开抢",[CommonTool dateString2MDHMString:self.startTimeString]];
     startTimeLabel.textAlignment = NSTextAlignmentCenter;
     [footView addSubview:startTimeLabel];
+    
+    _heightArray = [NSMutableArray arrayWithArray:@[@(220 * CURRENT_SCALE),@(220 * CURRENT_SCALE),@(220 * CURRENT_SCALE)]];
 }
 
 #pragma mark UITableViewDelegate
@@ -71,8 +74,9 @@
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 220 * CURRENT_SCALE;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [_heightArray[indexPath.section] floatValue];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -107,16 +111,15 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *pic = [self.dataArray objectAtIndex:indexPath.section];
     NSString *cellID = @"cellID";
-    
+    float space_x = 10.0;
+    float width = SCREEN_WIDTH - space_x * 2;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:cellID];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20, 220 * CURRENT_SCALE)];
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(space_x, 0, width, 220 * CURRENT_SCALE)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.clipsToBounds = YES;
-        
         [cell.contentView addSubview:imageView];
-        imageView.backgroundColor = [UIColor lightGrayColor];
         imageView.clipsToBounds = YES;
         imageView.tag = 100;
         cell.backgroundColor = [UIColor clearColor];
@@ -129,7 +132,29 @@
     } else {
         btn.hidden = NO;
     }
-    [imgView sd_setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_image2"]];
+    UIImage *defaultImage = [UIImage imageNamed:@"default_image2"];
+    [imgView sd_setImageWithURL:[NSURL URLWithString:pic] placeholderImage:defaultImage options:SDWebImageContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize)
+    {
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+    {
+        if (defaultImage != image)
+        {
+            CGRect frame = imgView.frame;
+            float height = width/image.size.width * image.size.height;
+            frame.size.height = height;
+            imgView.frame = frame;
+            imgView.image = image;
+            if (height != [_heightArray[indexPath.section] floatValue])
+            {
+                [_heightArray replaceObjectAtIndex:indexPath.section withObject:@(height)];
+                [self.table reloadData];
+            }
+            
+        }
+    }];
+    
+
     
     return cell;
 }
