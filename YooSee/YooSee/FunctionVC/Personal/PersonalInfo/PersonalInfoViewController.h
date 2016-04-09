@@ -10,4 +10,6 @@
 
 @interface PersonalInfoViewController : BasicViewController
 
+- (void)changeUserInfoRequest:(NSString *)string forKey:(NSString *)key;
+
 @end

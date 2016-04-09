@@ -431,6 +431,7 @@
 		CEC7FEBE1C9657C000759DFC /* SetCameraAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEBD1C9657C000759DFC /* SetCameraAlarmViewController.m */; };
 		CEC7FEC11C96E8E700759DFC /* SetCameraDefenceAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEC01C96E8E700759DFC /* SetCameraDefenceAreaViewController.m */; };
 		CEC7FEC41C9708DA00759DFC /* SetCameraNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEC31C9708DA00759DFC /* SetCameraNetworkViewController.m */; };
+		CECC76901CB9520100B49D19 /* HabbitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECC768F1CB9520100B49D19 /* HabbitsViewController.m */; };
 		CEDC0B1A1C9F95700056521F /* APAuthV2Info.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDC0AB71C9F95700056521F /* APAuthV2Info.m */; };
 		CEDC0B1B1C9F95700056521F /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDC0B051C9F95700056521F /* Order.m */; };
 		CEDC0B1C1C9F95700056521F /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDC0B081C9F95700056521F /* base64.m */; };
@@ -1221,6 +1222,8 @@
 		CEC7FEC01C96E8E700759DFC /* SetCameraDefenceAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCameraDefenceAreaViewController.m; sourceTree = "<group>"; };
 		CEC7FEC21C9708DA00759DFC /* SetCameraNetworkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCameraNetworkViewController.h; sourceTree = "<group>"; };
 		CEC7FEC31C9708DA00759DFC /* SetCameraNetworkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCameraNetworkViewController.m; sourceTree = "<group>"; };
+		CECC768E1CB9520100B49D19 /* HabbitsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HabbitsViewController.h; sourceTree = "<group>"; };
+		CECC768F1CB9520100B49D19 /* HabbitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HabbitsViewController.m; sourceTree = "<group>"; };
 		CEDC0AB61C9F95700056521F /* APAuthV2Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAuthV2Info.h; sourceTree = "<group>"; };
 		CEDC0AB71C9F95700056521F /* APAuthV2Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAuthV2Info.m; sourceTree = "<group>"; };
 		CEDC0AB91C9F95700056521F /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
@@ -2111,6 +2114,8 @@
 				CE8BDDAC1C913D1100472924 /* ChangePasswordViewController.m */,
 				CE8BDDAE1C914B2D00472924 /* SetPayPasswordViewController.h */,
 				CE8BDDAF1C914B2D00472924 /* SetPayPasswordViewController.m */,
+				CECC768E1CB9520100B49D19 /* HabbitsViewController.h */,
+				CECC768F1CB9520100B49D19 /* HabbitsViewController.m */,
 			);
 			path = PersonalInfo;
 			sourceTree = "<group>";
@@ -3567,6 +3572,7 @@
 				CE98E1111C8AA0970072A2FC /* AVPlayerViewController.m in Sources */,
 				CE11AE3D1C74A1170017181E /* CustomTextField.m in Sources */,
 				CE8BE8351C5F885000D6307D /* SDImageCache.m in Sources */,
+				CECC76901CB9520100B49D19 /* HabbitsViewController.m in Sources */,
 				CE80C3AA1C78B32600A7ADCA /* SVProgressHUD.m in Sources */,
 				CEF796A51C853E630039909A /* FMDatabaseQueue.m in Sources */,
 				CE8BE8401C5F885000D6307D /* THProgressView.m in Sources */,

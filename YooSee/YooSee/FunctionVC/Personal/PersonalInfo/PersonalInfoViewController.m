@@ -10,7 +10,7 @@
 #define SPACE_X             10.0
 #define SPACE_Y             10.0 * CURRENT_SCALE
 #define ARROW_WIDTH         35.0
-#define LABEL_WIDTH         120.0 * CURRENT_SCALE
+#define LABEL_WIDTH         180.0 * CURRENT_SCALE
 #define BUTTON_HEIGHT       50.0 * CURRENT_SCALE
 #define BUTTON_RADIUS       BUTTON_HEIGHT/2
 #define FOOTER_VIEW_HEIGHT  SPACE_Y * 4.0 + BUTTON_HEIGHT
@@ -21,12 +21,14 @@
 #import "ReciverInfoViewController.h"
 #import "BindCardViewController.h"
 #import "FunctionViewController.h"
+#import "HabbitsViewController.h"
 
 @interface PersonalInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *valueArray;
 @property (nonatomic, strong) UITextField *usernameTextField;
+@property (nonatomic, strong) UITextField *ageTextField;
 @property (nonatomic, strong) NSDictionary *cardDic;
 
 @end
@@ -39,7 +41,7 @@
     self.title = @"个人资料";
     [self addBackItem];
     
-    _titleArray = @[@[@"  姓名",@"  电话(ID)",@"  性别"],@[@"  收货地址"],@[@"  支付宝绑定",@"  支付密码"],@[@"  修改登录密码"]];
+    _titleArray = @[@[@"  姓名",@"  电话(ID)",@"  性别",@"  年龄",@"  兴趣"],@[@"  收货地址"],@[@"  支付宝绑定",@"  支付密码"],@[@"  修改登录密码"]];
 
     [self initUI];
 
@@ -63,7 +65,10 @@
     sex = sex ? sex : @"";
     NSString *alipay = dataDic[@"alipay"];
     alipay = alipay ? alipay : @"";
-    _valueArray = [NSMutableArray arrayWithArray:@[@[userName,[USER_DEFAULT objectForKey:@"UserName"],sex],@[@""],@[alipay,@""],@[@""]]];
+    NSString *avg = [NSString stringWithFormat:@"%@",UNNULL_STRING(dataDic[@"avg"])];
+    NSString *xingqu_id = dataDic[@"xingqu_id"];
+    xingqu_id = xingqu_id ? xingqu_id : @"";
+    _valueArray = [NSMutableArray arrayWithArray:@[@[userName,[USER_DEFAULT objectForKey:@"UserName"],sex,avg,xingqu_id],@[@""],@[alipay,@""],@[@""]]];
     [self.table reloadData];
 }
 
@@ -235,6 +240,16 @@
         {
             [self changeSex];
         }
+        else if (indexPath.row == 3)
+        {
+            [self changeAge];
+        }
+        else if (indexPath.row == 4)
+        {
+            HabbitsViewController *habbitsViewController = [[HabbitsViewController alloc] init];
+            habbitsViewController.personalInfoViewController = self;
+            [self presentViewController:habbitsViewController animated:YES completion:nil];
+        }
     }
     if (indexPath.section == 1)
     {
@@ -266,6 +281,7 @@
 - (void)changeNickName
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改昵称" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.tag = 100;
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     _usernameTextField = [alertView textFieldAtIndex:0];
     _usernameTextField.keyboardType = UIKeyboardTypeNamePhonePad;
@@ -273,21 +289,36 @@
     [alertView show];
 }
 
+#pragma mark 修改年龄
+- (void)changeAge
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改年龄" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.tag = 101;
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    _ageTextField = [alertView textFieldAtIndex:0];
+    _ageTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _ageTextField.text = self.valueArray[0][3];
+    [alertView show];
+}
+
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSString *username = _usernameTextField.text;
+    UITextField *textField = (alertView.tag == 100) ? _usernameTextField : _ageTextField;
+    NSString *text = UNNULL_STRING(textField.text);
+    NSString *value = (alertView.tag == 100) ? self.valueArray[0][0] : self.valueArray[0][3];
     if (buttonIndex == 1)
     {
-        if (![username isEqualToString:self.valueArray[0][0]])
+        if (![text isEqualToString:value])
         {
-            if (username.length == 0)
+            if (text.length == 0)
             {
-                [CommonTool addPopTipWithMessage:@"昵称不能为空"];
+                [CommonTool addPopTipWithMessage:(alertView.tag == 100) ? @"昵称不能为空" : @"年龄不能为空"];
                 return;
             }
-            [_usernameTextField resignFirstResponder];
-            [self changeUserInfoRequest:username forKey:@"username"];
+            [self changeUserInfoRequest:text forKey:(alertView.tag == 100) ? @"username" : @"avg"];
         }
+        [textField resignFirstResponder];
     }
 }
 
@@ -342,7 +373,24 @@
              userInfoDic[key] = string;
              [YooSeeApplication shareApplication].userInfoDic = userInfoDic;
              NSMutableArray *array = [NSMutableArray arrayWithArray:weakSelf.valueArray[0]];
-             [array replaceObjectAtIndex:([key isEqualToString:@"username"] ? 0 : 2) withObject:string];
+             int index = 0;
+             if ([key isEqualToString:@"username"])
+             {
+                 index = 0;
+             }
+             if ([key isEqualToString:@"sex"])
+             {
+                 index = 2;
+             }
+             if ([key isEqualToString:@"avg"])
+             {
+                 index = 3;
+             }
+             if ([key isEqualToString:@"xingqu_id"])
+             {
+                 index = 4;
+             }
+             [array replaceObjectAtIndex:index withObject:string];
              [weakSelf.valueArray replaceObjectAtIndex:0 withObject:array];
              [weakSelf.table reloadData];
          }
