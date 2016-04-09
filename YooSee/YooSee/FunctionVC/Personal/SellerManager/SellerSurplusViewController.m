@@ -47,7 +47,7 @@
 -(IBAction)withdrawalsButtonClick:(id)sender{
     @autoreleasepool {
         TurnoverWithdrawalsViewController *vc = Alloc_viewControllerNibName(TurnoverWithdrawalsViewController);
-        vc.turnoverWithdrawals = NO;
+        vc.turnoverWithdrawals = WithdrawTypeStoreBalance;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

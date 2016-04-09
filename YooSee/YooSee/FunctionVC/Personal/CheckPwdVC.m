@@ -46,9 +46,13 @@
 }
 
 - (void)checkRequest:(NSString*)pwd {
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    NSDictionary *requestDic = @{@"uid":uid, @"paypasswd":pwd};
+    if (!pwd) {
+        return;
+    }
+    NSString *phone = [YooSeeApplication shareApplication].userInfoDic[@"phone"];
+    phone = phone ? phone : @"";
+    NSDictionary *requestDic = @{@"phone":phone, @"paypwd":[CommonTool md5:pwd]};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:CHECK_PAY_PASSWORD_URL
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -59,7 +63,7 @@
          int errorCode = [dataDic[@"returnCode"] intValue];
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
-         if (errorCode == 1)
+         if (errorCode == 8)
          {
              [self requestSubmit];
          }
@@ -95,9 +99,10 @@
     NSDictionary *requestDic = @{@"user_id":uid,
                                  @"tixian_money":@(_money),
                                  @"alipay": _cardID,
-                                 @"poundage_money":@(0.00),
+                                 @"poundage_money":@(self.rate),
                                  @"phone":phone,
-                                 @"name":name};
+                                 @"name":self.name};
+    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:MONEY_DRAWCASHSUBMIT
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous

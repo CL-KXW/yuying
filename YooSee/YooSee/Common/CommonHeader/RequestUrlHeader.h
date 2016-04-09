@@ -85,7 +85,7 @@ static NSString *server4 = @"www.gwelltimes.com";
 
 
 //校验支付密码
-#define CHECK_PAY_PASSWORD_URL      MAKE_REQUEST_URL(@"yyw_user_paypasswdcheck")
+#define CHECK_PAY_PASSWORD_URL      MAKE_REQUEST_URL(@"app/user/verification/pay")
 
 //获取绑定卡列表
 #define BANK_CARD_LIST_URL          MAKE_REQUEST_URL(@"yyw_user_getcardlist")

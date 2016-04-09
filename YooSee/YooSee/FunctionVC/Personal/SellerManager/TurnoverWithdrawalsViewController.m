@@ -26,7 +26,7 @@
     [super viewDidLoad];
     [self addBackItem];
     
-    if (self.turnoverWithdrawals) {
+    if (self.turnoverWithdrawals == WithdrawTypeStoreTurnover) {
         self.title = @"营业额提现";
         
         TurnoverWithdrawalsFootView *footView = Alloc(TurnoverWithdrawalsFootView);
@@ -44,6 +44,7 @@
     }
     
     self.textArray = @[@"支付宝",@"姓名",@"提现金额",@"当前营业额8246.00元，可提现2344.00元，冻结2343.00元"];
+    [self requestRate];
 }
 
 #pragma mark -
@@ -244,6 +245,33 @@
             cell.backgroundView = testView;
         }
     }
+}
+
+#pragma mark -
+#pragma mark Request
+- (void)requestRate {
+    [LoadingView showLoadingView];
+    [HttpManager postUrl:Url_systemRate parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
+        [LoadingView dismissLoadingView];
+        
+        if ([jsonObject[@"returnCode"] intValue] == SucessFlag) {
+            NSArray *array = jsonObject[@"resultList"];
+            NSDictionary *dic = [array firstObject];
+            if (self.turnoverWithdrawals == WithdrawTypePersonBalance) {
+                self.rate = [dic[@"rate_personal_tixian"] floatValue];
+            } else if (self.turnoverWithdrawals == WithdrawTypeStoreTurnover) {
+                self.rate = [dic[@"rate_shop_tixian"] floatValue];
+            } else if (self.turnoverWithdrawals == WithdrawTypeStoreTurnover) {
+                self.rate = [dic[@"rate_shop_revert"] floatValue];
+            }             [self.tableView reloadData];
+        }else{
+            [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionError];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [LoadingView dismissLoadingView];
+        [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
+    }];
 }
 
 @end

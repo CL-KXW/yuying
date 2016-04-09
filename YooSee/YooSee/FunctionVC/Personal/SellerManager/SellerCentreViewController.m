@@ -205,7 +205,7 @@
 -(void)withdrawalsButtonButtonClick:(UIButton *)button{
     @autoreleasepool {
         TurnoverWithdrawalsViewController *vc = Alloc_viewControllerNibName(TurnoverWithdrawalsViewController);
-        vc.turnoverWithdrawals = YES;
+        vc.turnoverWithdrawals = WithdrawTypeStoreTurnover;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

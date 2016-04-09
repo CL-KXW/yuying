@@ -8,11 +8,17 @@
 
 #import "BasicViewController.h"
 
+typedef enum {
+    WithdrawTypeStoreBalance    = 0,  //商家余额
+    WithdrawTypeStoreTurnover   = 1,  //商家营业额提现
+    WithdrawTypePersonBalance   = 2,  //个人余额
+} WithdrawType;
+
 @interface TurnoverWithdrawalsViewController : BasicViewController
 
-@property (nonatomic) BOOL turnoverWithdrawals;
-@property (nonatomic, strong) NSArray *textArray;
+@property (nonatomic, assign) WithdrawType turnoverWithdrawals;
 
+@property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, strong) UITextField *alipayField;
 @property(nonatomic,strong) UITextField *nameField;
 @property(nonatomic,strong) UITextField *moneyField;

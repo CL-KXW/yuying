@@ -53,7 +53,7 @@
 @implementation WithdrawViewcontroller
 
 - (void)viewDidLoad {
-    self.turnoverWithdrawals = NO;
+    self.turnoverWithdrawals = WithdrawTypePersonBalance;
     [super viewDidLoad];
     //[self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
     self.title = @"提取现金";
