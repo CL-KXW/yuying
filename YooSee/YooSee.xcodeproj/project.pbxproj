@@ -253,6 +253,8 @@
 		CE24B5821C8F2D9000556775 /* rule.txt in Resources */ = {isa = PBXBuildFile; fileRef = CE24B5811C8F2D9000556775 /* rule.txt */; };
 		CE24B5851C8F2DA800556775 /* RegistRulesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE24B5841C8F2DA800556775 /* RegistRulesViewController.m */; };
 		CE24B5C21C8F3A0E00556775 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE24B5C11C8F3A0E00556775 /* CoreTelephony.framework */; };
+		CE3AA2B71CB8D5C10092D91D /* temp_golo.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3AA2B51CB8D5C10092D91D /* temp_golo.png */; };
+		CE3AA2B81CB8D5C10092D91D /* temp_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3AA2B61CB8D5C10092D91D /* temp_camera.png */; };
 		CE5ABD2C1C5B5B3800643B24 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5ABD2B1C5B5B3800643B24 /* main.m */; };
 		CE5ABD2F1C5B5B3800643B24 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5ABD2E1C5B5B3800643B24 /* AppDelegate.m */; };
 		CE5ABD371C5B5B3800643B24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE5ABD361C5B5B3800643B24 /* Assets.xcassets */; };
@@ -916,6 +918,8 @@
 		CE24B5831C8F2DA800556775 /* RegistRulesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistRulesViewController.h; sourceTree = "<group>"; };
 		CE24B5841C8F2DA800556775 /* RegistRulesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistRulesViewController.m; sourceTree = "<group>"; };
 		CE24B5C11C8F3A0E00556775 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		CE3AA2B51CB8D5C10092D91D /* temp_golo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temp_golo.png; sourceTree = "<group>"; };
+		CE3AA2B61CB8D5C10092D91D /* temp_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temp_camera.png; sourceTree = "<group>"; };
 		CE5ABD271C5B5B3800643B24 /* 鱼鹰.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "鱼鹰.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5ABD2B1C5B5B3800643B24 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CE5ABD2D1C5B5B3800643B24 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1984,6 +1988,8 @@
 		CE11AE291C748E040017181E /* home */ = {
 			isa = PBXGroup;
 			children = (
+				CE3AA2B51CB8D5C10092D91D /* temp_golo.png */,
+				CE3AA2B61CB8D5C10092D91D /* temp_camera.png */,
 				CE99BAFD1CB7C1510052A386 /* icon_home_camera_down.png */,
 				CE99BAFE1CB7C1510052A386 /* icon_home_monery_down.png */,
 				CE99BAFF1CB7C1510052A386 /* icon_home_sale_down.png */,
@@ -3252,6 +3258,7 @@
 				CEE4C1711C8719E300D8DA5E /* icon_photos_down.png in Resources */,
 				286C78E81C945D5C009E129E /* zjf-bottom@2x.png in Resources */,
 				CEAD7D581C8C9681008B5281 /* icon_usercenter_2_down.png in Resources */,
+				CE3AA2B71CB8D5C10092D91D /* temp_golo.png in Resources */,
 				CE14C31B1C88872700C1D5A3 /* icon_setting_down.png in Resources */,
 				CEAD7D651C8C9681008B5281 /* icon_usercenter_8_up.png in Resources */,
 				CEFB34191C99379400467A4E /* icon_wifi_selected@2x.png in Resources */,
@@ -3304,6 +3311,7 @@
 				CE80C3901C78ADC200A7ADCA /* loading_01.png in Resources */,
 				CE89E9421C8C0D64006F6B4D /* camera_icon_default.png in Resources */,
 				40694C3C1CA7F2AC006BCBBF /* SellerCentreSection1Row1TableViewCell.xib in Resources */,
+				CE3AA2B81CB8D5C10092D91D /* temp_camera.png in Resources */,
 				CEAD12551C7CE58800D2CAF2 /* icon_home_more_up.png in Resources */,
 				CE14C3171C88872700C1D5A3 /* icon_file_down.png in Resources */,
 				CE99BB001CB7C1510052A386 /* icon_home_camera_down.png in Resources */,

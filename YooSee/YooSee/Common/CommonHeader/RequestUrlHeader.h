@@ -42,15 +42,20 @@
 //找回密码 pay code
 #define FIND_PAY_PHONE_CODE_URL     MAKE_REQUEST_URL(@"send/message/back/paypwd/code")
 
-//static NSString *server1 = @"http://cloudlinks.cn/";
-//static NSString *server2 = @"http://gwelltimes.com/";
-//static NSString *server3 = @"http://2cu.co/";
-//static NSString *server4 = @"http://cloud-links.net/";
+
+static NSString *server1 = @"http://cloudlinks.cn/";
+static NSString *server2 = @"http://gwelltimes.com/";
+static NSString *server3 = @"http://2cu.co/";
+static NSString *server4 = @"http://cloud-links.net/";
+
+#define LOGIN_2CU_SERVER            @[server1,server2,server3,server4][arc4random()%4]
+
 //2cu_login
-#define LOGIN_2CU_URL               @"http://2cu.co/Users/LoginCheck.ashx"
+#define LOGIN_2CU_URL               [NSString stringWithFormat:@"%@%@",LOGIN_2CU_SERVER,@"Users/LoginCheck.ashx"]
 
 //2cu_Alarm
-#define ALARM_2CU_URL               @"http://2cu.co/Alarm/AlarmRecordEx.ashx"
+#define ALARM_2CU_URL               [NSString stringWithFormat:@"%@%@",LOGIN_2CU_SERVER,@"Alarm/AlarmRecordEx.ashx"]
+
 
 //个人信息
 #define USER_INFO_URL               MAKE_REQUEST_URL(@"app/user/querybyID")

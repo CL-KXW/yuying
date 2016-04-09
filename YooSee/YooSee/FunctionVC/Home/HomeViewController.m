@@ -13,7 +13,7 @@
 #define SECTION_HEIGHT              15.0 * CURRENT_SCALE
 #define ROW1_HEIGHT                 50.0
 #define ROW2_HEIGHT                 190.0 * CURRENT_SCALE
-#define ROW3_HEIGHT                 120.0 * CURRENT_SCALE
+#define ROW3_HEIGHT                 160.0 * CURRENT_SCALE
 #define HEADER_LABEL_WIDTH          30.0
 #define HEADER_NEW_WIDTH            240.0 * CURRENT_SCALE
 #define BUTTON_TITLE_HEIGHT         30.0 * CURRENT_SCALE
@@ -23,8 +23,8 @@
 
 #define TIP_TEXT                @" 特别推荐 "
 #define TIP_TEXT_FONT           FONT(14.0)
-#define ADD_X                   10.0
-#define LABEL_HEIGHT            30.0
+#define ADD_X                   10.0 * CURRENT_SCALE
+#define LABEL_HEIGHT            30.0 * CURRENT_SCALE
 #define LINE_HEIGHT             0.5
 #define LINE_SPACE_X            30 * CURRENT_SCALE
 
@@ -102,7 +102,6 @@
 {
     [self addTableViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) tableType:UITableViewStylePlain tableDelegate:self];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.table.bounces = NO;
 }
 
 - (void)addTableViewHeader
@@ -343,7 +342,7 @@
         float y0 = 0;
         _commendView = [CreateViewTool createImageViewWithFrame:CGRectMake(x0, y0, width0, height0) placeholderImage:nil];
         _commendView.backgroundColor = [UIColor whiteColor];
-        float y = 10.0;
+        float y = 10.0 * CURRENT_SCALE;
         CGSize size = [TIP_TEXT sizeWithAttributes:@{NSFontAttributeName:TIP_TEXT_FONT}];
         float width = size.width + 2 * ADD_X;
         UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake((self.view.frame.size.width - width)/2, y, width, LABEL_HEIGHT) textString:TIP_TEXT textColor:DE_TEXT_COLOR textFont:TIP_TEXT_FONT];
@@ -360,15 +359,26 @@
         rightLineView.backgroundColor = DE_TEXT_COLOR;
         [_commendView addSubview:rightLineView];
         
-//        if (SCREEN_HEIGHT == 480.0)
-//        {
-//            y0 = ROW3_HEIGHT - height0;
-//            _commendView.frame = CGRectMake(x0, y0, width0, height0);
-//        }
-//        else
-//        {
-//            [self.view addSubview:_commendView];
-//        }
+        NSArray *imageArray = @[@"temp_golo.png",
+                                @"temp_camera.png"];
+        NSArray *titleArray = @[@"车载Wifi汽车检测仪",
+                                @"鱼鹰摄像头"];
+        float image_width = 117.0 * CURRENT_SCALE;
+        float image_height = 90.0 * CURRENT_SCALE;
+        float itemWidth = _commendView.frame.size.width/[imageArray count];
+        float x = (itemWidth - image_width)/2;
+        for (int i = 0; i < [imageArray count]; i++)
+        {
+            //float add_y = 10 * CURRENT_SCALE;
+            y = tipLabel.frame.size.height + tipLabel.frame.origin.y;
+            UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(x + i * itemWidth, y, image_width, image_height) placeholderImage:[UIImage imageNamed:imageArray[i]]];
+            [_commendView addSubview:imageView];
+            
+            y += imageView.frame.size.height;
+            UILabel *label = [CreateViewTool createLabelWithFrame:CGRectMake(i * itemWidth, y, itemWidth, LABEL_HEIGHT) textString:titleArray[i] textColor:DE_TEXT_COLOR textFont:TIP_TEXT_FONT];
+            label.textAlignment = NSTextAlignmentCenter;
+            [_commendView addSubview:label];
+        }
     }
 }
 
