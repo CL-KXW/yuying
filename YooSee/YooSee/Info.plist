@@ -64,10 +64,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>yuying</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>鱼鹰</string>
+				<string>yuying</string>
 			</array>
 		</dict>
 	</array>
