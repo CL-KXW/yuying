@@ -208,15 +208,60 @@
             
             NSDictionary *dic = responseDic;
             //orderno pid sellermail publickey notifyurl moneynum
-            if (dic) {
-                [self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"seller_account"] tradeNO:dic[@"only_number"] notifyURL:dic[@"notifyurl"]
-                                 price:money privateKey:dic[@"alipaykey"]];
+            if (dic && dic[@"payInfo"]) {
+                [self pay:dic[@"payInfo"]];
+                //[self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"seller_account"] tradeNO:dic[@"only_number"] notifyURL:dic[@"notifyurl"]
+                  //               price:money privateKey:dic[@"alipaykey"]];
             }
         } else {
             [SVProgressHUD showErrorWithStatus:responseDic[@"returnMessage"] duration:2.0];
         }
     } requestFail:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:error.description duration:2.0];
+    }];
+}
+
+- (void)pay:(NSString*)orderString {
+    NSString *appScheme = @"yuying";
+    [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        NSLog(@"reslut = %@",resultDic);
+        
+        NSInteger i = [[resultDic objectForKey:@"resultStatus"] integerValue];
+        
+        NSString *title = @"";
+        switch (i) {
+            case 9000:
+            {
+                title = @"订单支付成功";
+            }
+                break;
+            case 8000:
+            {
+                title = @"正在处理中";
+            }
+                break;
+            case 4000:
+            {
+                title = @"订单支付失败";
+            }
+                break;
+            case 6001:
+            {
+                title = @"用户中途取消";
+            }
+                break;
+            case 6002:
+            {
+                title = @"网络连接出错";
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        UIAlertView *alt = [[UIAlertView alloc] initWithTitle:@"支付结果" message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alt show];
     }];
 }
 
