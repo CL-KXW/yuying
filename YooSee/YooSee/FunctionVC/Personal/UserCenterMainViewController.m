@@ -56,7 +56,7 @@
     self.title = @"个人中心";
     [self addBackItem];
     
-    _titleArray = @[@[@""],@[@""],@[@""],@[@" 设置"],@[@" 商家注册"]];
+    _titleArray = @[@[@""],@[@""],@[@""],@[@" 设置"],@[@" 商家中心"]];
     _otherTitleArray = @[@" 邀请好友",@" 分享",@" 软件升级"];
     
     [self initUI];

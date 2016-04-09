@@ -76,6 +76,10 @@
     
     self.nameLabel.frame = CGRectMake(10*2+logoImageDiameter, 0, SCREEN_WIDTH-(10*3+logoImageDiameter), headViewHeight);
     [self.sellerEditButton addSubview:self.nameLabel];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
     [self sellerMessageRequest];
 }
@@ -330,6 +334,8 @@
             @autoreleasepool {
                 if (indexPath.section == 0) {
                     SellerSurplusViewController *vc = Alloc_viewControllerNibName(SellerSurplusViewController);
+                    vc.moneyString = [NSString stringWithFormat:@"%.2f元",[self.sellerMessage.capital_money floatValue]];
+
                     [self.navigationController pushViewController:vc animated:YES];
                 }else if(indexPath.section == 1){
                     CashDetailedViewController *vc = Alloc_viewControllerNibName(CashDetailedViewController);

@@ -16,6 +16,8 @@
 @property(nonatomic,weak)IBOutlet UIButton *rechargeButton;
 @property(nonatomic,weak)IBOutlet UIButton *withdrawalsButton;
 
+@property(nonatomic,weak)IBOutlet UILabel *moneyLabel;
+
 
 @end
 
@@ -30,6 +32,8 @@
     self.withdrawalsButton.layer.borderColor=[UIColor grayColor].CGColor;
     [self.rechargeButton viewRadius:40/2 backgroundColor:RGB(24, 168, 2)];
     [self.withdrawalsButton viewRadius:40/2 backgroundColor:[UIColor whiteColor]];
+    
+    self.moneyLabel.text = self.moneyString;
 }
 
 #pragma mark -ButtonClick

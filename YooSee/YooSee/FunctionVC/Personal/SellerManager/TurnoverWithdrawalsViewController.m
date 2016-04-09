@@ -97,7 +97,7 @@
     if (!_nameField) {
         _nameField = Alloc(UITextField);
         _nameField.font = [UIFont systemFontOfSize:16];
-        _nameField.placeholder = @"请输入账号";
+        _nameField.placeholder = @"请输入姓名";
         _nameField.width = RightWidth;
         _nameField.height = CellDefaultHeight;
         _nameField.textAlignment = NSTextAlignmentRight;

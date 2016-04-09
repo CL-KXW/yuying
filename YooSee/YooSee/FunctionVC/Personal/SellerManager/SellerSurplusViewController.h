@@ -10,4 +10,6 @@
 
 @interface SellerSurplusViewController : BasicViewController
 
+@property(nonatomic,strong)NSString *moneyString;
+
 @end

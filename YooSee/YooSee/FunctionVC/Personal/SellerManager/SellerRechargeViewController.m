@@ -321,5 +321,33 @@
     }
 }
 
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([string isEqualToString:@""]) {
+        return YES;
+    }
+    
+    NSString *willString;
+    willString = [NSString stringWithFormat:@"%@%@%@",[textField.text substringToIndex:range.location],string,[textField.text substringFromIndex:range.location]];
+    
+    if ([willString isEqualToString:@"00"]) {
+        return NO;
+    }
+    
+    //两个小数点
+    NSRange rangNow = [textField.text rangeOfString:@"."];
+    if (rangNow.location != NSNotFound && [string isEqualToString:@"."]) {
+        return NO;
+    }
+    
+    //小数点超过两位
+    rangNow = [willString rangeOfString:@"."];
+    if (rangNow.location != NSNotFound && 3<(willString.length-rangNow.location)) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+
 
 @end
