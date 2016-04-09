@@ -20,6 +20,7 @@
 #import "SetPayPasswordViewController.h"
 #import "ReciverInfoViewController.h"
 #import "BindCardViewController.h"
+#import "FunctionViewController.h"
 
 @interface PersonalInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate>
 
@@ -236,8 +237,9 @@
     }
     if (indexPath.section == 1)
     {
-        ReciverInfoViewController *reciverInfoViewController = [[ReciverInfoViewController alloc] init];
-        [self.navigationController pushViewController:reciverInfoViewController animated:YES];
+        FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+        //ReciverInfoViewController *reciverInfoViewController = [[ReciverInfoViewController alloc] init];
+        [self.navigationController pushViewController:functionViewController animated:YES];
     }
     if (indexPath.section == 2)
     {

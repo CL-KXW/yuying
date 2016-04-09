@@ -159,6 +159,7 @@ static NSString *server4 = @"http://cloud-links.net/";
 
 //查看提现明细
 #define GET_TIXIAN_LIST             MAKE_REQUEST_URL(@"app/account/personal/tixian/queryAccountPersonal")
+//#define GET_TIXIAN_LIST             MAKE_REQUEST_URL(@"liushui/queryStreamPersonal")
 
 //红包库详情领取红包
 #define RED_PACKGE_DETAIL_GET_MONEY MAKE_REQUEST_URL(@"app/red/get/openred")

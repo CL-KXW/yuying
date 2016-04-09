@@ -2132,9 +2132,6 @@
 		CE5ABD1E1C5B5B3800643B24 = {
 			isa = PBXGroup;
 			children = (
-				40947E561CAAB0E90019D0C5 /* libsqlite3.tbd */,
-				40947E541CAAB0950019D0C5 /* SystemConfiguration.framework */,
-				40947E521CAAB0820019D0C5 /* CFNetwork.framework */,
 				CE5ABD291C5B5B3800643B24 /* YooSee */,
 				CE5ABD281C5B5B3800643B24 /* Products */,
 			);
@@ -2169,6 +2166,9 @@
 				CE8BDDA01C912D8A00472924 /* Video */,
 				CE8BE8741C5F9FBD00D6307D /* Images */,
 				CE9CFECC1C6CE34300755226 /* libsqlite3.0.tbd */,
+				40947E561CAAB0E90019D0C5 /* libsqlite3.tbd */,
+				40947E541CAAB0950019D0C5 /* SystemConfiguration.framework */,
+				40947E521CAAB0820019D0C5 /* CFNetwork.framework */,
 				CEF793FB1C85113B0039909A /* libbz2.1.0.tbd */,
 				CEF794231C852A270039909A /* libbz2.tbd */,
 				CEF793F91C85112E0039909A /* libz.tbd */,
