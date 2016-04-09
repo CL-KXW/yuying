@@ -88,7 +88,7 @@
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
     NSString *version = infoDict[@"CFBundleShortVersionString"];
     float appVersion = [version floatValue];
-    if (appVersion == newVersion)
+    if (appVersion <= newVersion)
     {
         if (isShow)
         {

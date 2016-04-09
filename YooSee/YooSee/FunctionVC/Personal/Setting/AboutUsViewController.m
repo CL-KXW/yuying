@@ -55,7 +55,9 @@
     [self.view addSubview:appNameLabel];
     
     y += appNameLabel.frame.size.height;
-    UILabel *versionLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.view.frame.size.width, LABEL_HEIGHT) textString:[@"版本号: " stringByAppendingString:PRODUCT_VERSION] textColor:DE_TEXT_COLOR textFont:FONT(15.0)];
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = infoDict[@"CFBundleShortVersionString"];
+    UILabel *versionLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.view.frame.size.width, LABEL_HEIGHT) textString:[@"版本号: " stringByAppendingString:version] textColor:DE_TEXT_COLOR textFont:FONT(15.0)];
     versionLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:versionLabel];
 }
