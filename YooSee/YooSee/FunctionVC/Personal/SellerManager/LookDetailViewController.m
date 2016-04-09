@@ -9,7 +9,7 @@
 #import "LookDetailViewController.h"
 
 #define SectionHeight 20
-#define CellDefaultHeight 300
+#define CellDefaultHeight 500
 
 @interface LookDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -26,16 +26,37 @@
     
     self.title = self.dic[@"shop_name"];
     self.tableArray = Alloc(NSMutableArray);
-    if (self.dic[@"title_url_1"] != nil) {
-        [self.tableArray addObject:self.dic[@"title_url_1"]];
-    }
-    if (self.dic[@"title_url_2"] != nil) {
-        [self.tableArray addObject:self.dic[@"title_url_2"]];
-    }
-    
-    NSString *string = self.dic[@"title_url_3"];
-    if (self.dic[@"title_url_3"] != nil && string.length != 0) {
-        [self.tableArray addObject:self.dic[@"title_url_3"]];
+
+    if (self.type == LookDetail_redLibary) {
+        NSString *string = self.dic[@"title_url_1"];
+        if (string.length != 0) {
+            [self.tableArray addObject:string];
+        }
+        
+        string = self.dic[@"title_url_2"];
+        if (string.length != 0) {
+            [self.tableArray addObject:string];
+        }
+        
+        string = self.dic[@"title_url_3"];
+        if (string.length != 0) {
+            [self.tableArray addObject:string];
+        }
+    }else if (self.type == LookDetail_advertisement){
+        NSString *string = self.dic[@"url_1"];
+        if (string.length != 0) {
+            [self.tableArray addObject:string];
+        }
+        
+        string = self.dic[@"url_2"];
+        if (string.length != 0) {
+            [self.tableArray addObject:string];
+        }
+        
+        string = self.dic[@"url_3"];
+        if (string.length != 0) {
+            [self.tableArray addObject:string];
+        }
     }
 }
 
@@ -78,8 +99,8 @@
     label.text = self.dic[@"begin_time"];
     label.textColor = [UIColor lightGrayColor];
     label.font = [UIFont systemFontOfSize:12];
-    
     [view addSubview:label];
+    
     return view;
 }
 

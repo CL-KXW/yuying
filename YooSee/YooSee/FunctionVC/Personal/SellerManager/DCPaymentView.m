@@ -227,6 +227,10 @@
     }
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    [self dismiss];
+}
+
 
 @end
 // 版权属于原作者

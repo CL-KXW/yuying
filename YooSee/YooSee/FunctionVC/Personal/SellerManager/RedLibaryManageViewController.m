@@ -52,6 +52,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     [self addRefreshFooterView];
     self.refreshFooterView.hidden = YES;
     self.upId = @"0";
+    self.downId = @"0";
     [self getMoreData];
 }
 
@@ -75,7 +76,13 @@ typedef NS_ENUM(NSUInteger, ActionType) {
 #pragma mark -
 - (void)refreshData {
     [super refreshData];
-    [self redLibaryListRequest:ActionType_down];
+    
+    //没有数据的时候当作刚进来的时候处理
+    if (self.dataSourceArray.count == 0) {
+        [self redLibaryListRequest:ActionType_up];
+    }else{
+        [self redLibaryListRequest:ActionType_down];
+    }
 }
 
 - (void)getMoreData {
@@ -122,7 +129,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
         [LoadingView dismissLoadingView];
         [self.refreshFooterView setState:MJRefreshStateNormal];
         [self.refreshHeaderView setState:MJRefreshStateNormal];
-        
+  
         ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
         if([message.returnCode intValue] == SucessFlag){
             NSArray *array = message.resultList;
@@ -197,15 +204,6 @@ typedef NS_ENUM(NSUInteger, ActionType) {
             cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
         }
     }else if ([dic[@"hongbao_type"] intValue] == 2){
-        //摇一摇红包
-        if ([dic[@"type"] intValue] == 1) {
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
-        }else if([dic[@"type"] intValue] == 4){
-            cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
-        }else{
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
-        }
-    }else if ([dic[@"hongbao_type"] intValue] == 3){
         //扫码红包
         if ([dic[@"type"] intValue] == 1) {
             //正常
@@ -216,6 +214,15 @@ typedef NS_ENUM(NSUInteger, ActionType) {
         }else{
             //结束或者未开始
             cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+        }
+    }else if ([dic[@"hongbao_type"] intValue] == 3){
+        //摇一摇红包
+        if ([dic[@"type"] intValue] == 1) {
+            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
+        }else if([dic[@"type"] intValue] == 4){
+            cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
+        }else{
+            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
         }
     }
     

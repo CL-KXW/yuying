@@ -8,9 +8,13 @@
 
 #import "SellerRechargeViewController.h"
 
+#import <AlipaySDK/AlipaySDK.h>
+#import "Order.h"
+#import "DataSigner.h"
+
 #define CellDefaultHeight 50
 
-@interface SellerRechargeViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface SellerRechargeViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
 @property(nonatomic,weak)IBOutlet UITableView *tableView;
 @property(nonatomic,strong)UITextField *moneyField;
@@ -49,7 +53,12 @@
 
 #pragma mark -
 -(void)nextButtonClick:(UIButton *)button{
+    if (self.moneyField.text.length == 0) {
+        [CommonTool addPopTipWithMessage:@"请输入金额"];
+        return;
+    }
     
+    [self createZhiFuBaoOrder];
 }
 
 #pragma mark - init
@@ -62,9 +71,169 @@
         _moneyField.height = CellDefaultHeight;
         _moneyField.textAlignment = NSTextAlignmentRight;
         _moneyField.keyboardType = UIKeyboardTypeDecimalPad;
+        _moneyField.delegate = self;
     }
     
     return _moneyField;
+}
+
+#pragma mark - 创建支付宝订单
+-(void)createZhiFuBaoOrder{
+    NSString *money = self.moneyField.text;
+    if(money.length == 0)
+        return;
+    //商家type＝2
+    NSDictionary *dic = @{@"user_id":[[YooSeeApplication shareApplication] uid],@"recharge_money":money, @"type":@"2"};
+    dic = [RequestDataTool encryptWithDictionary:dic];
+    [[RequestTool alloc] requestWithUrl:CREATEORDER_URL requestParamas:dic requestType:RequestTypeAsynchronous requestSucess:^(AFHTTPRequestOperation *operation, id responseDic) {
+        if ([responseDic[@"returnCode"] intValue] == 8) {
+            
+            NSDictionary *dic = responseDic;
+            //orderno pid sellermail publickey notifyurl moneynum
+            if (dic && dic[@"payInfo"]) {
+                [self pay:dic[@"payInfo"]];
+                //[self rechargeZhiFuBao:dic[@"pid"] seller:dic[@"seller_account"] tradeNO:dic[@"only_number"] notifyURL:dic[@"notifyurl"]
+                //               price:money privateKey:dic[@"alipaykey"]];
+            }
+        } else {
+            [SVProgressHUD showErrorWithStatus:responseDic[@"returnMessage"] duration:2.0];
+        }
+    } requestFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:error.description duration:2.0];
+    }];
+}
+
+- (void)pay:(NSString*)orderString {
+    NSString *appScheme = @"yuying";
+    [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        NSLog(@"reslut = %@",resultDic);
+        
+        NSInteger i = [[resultDic objectForKey:@"resultStatus"] integerValue];
+        
+        NSString *title = @"";
+        switch (i) {
+            case 9000:
+            {
+                title = @"订单支付成功";
+            }
+                break;
+            case 8000:
+            {
+                title = @"正在处理中";
+            }
+                break;
+            case 4000:
+            {
+                title = @"订单支付失败";
+            }
+                break;
+            case 6001:
+            {
+                title = @"用户中途取消";
+            }
+                break;
+            case 6002:
+            {
+                title = @"网络连接出错";
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        UIAlertView *alt = [[UIAlertView alloc] initWithTitle:@"支付结果" message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alt show];
+    }];
+}
+
+#pragma mark - 提交支付宝订单
+-(void)rechargeZhiFuBao:(NSString*) partner
+                 seller:(NSString*) seller
+                tradeNO:(NSString*) tradeNO
+              notifyURL:(NSString*) notifyURL
+                  price:(NSString*) price
+             privateKey:(NSString*) privateKey
+{
+    
+    //生成订单信息及签名
+    
+    //将商品信息赋予AlixPayOrder的成员变量
+    Order *order = [[Order alloc] init];
+    
+    order.partner = partner;
+    order.seller = seller;
+    order.tradeNO = tradeNO; //订单ID（由商家自行制定）
+    order.productName = @"帐号充值"; //商品标题
+    order.productDescription = @"用支付宝给鱼鹰帐号充值。"; //商品描述
+    order.amount = price; //商品价格
+    order.notifyURL =  notifyURL; //回调URL
+    
+    order.service = @"mobile.securitypay.pay";
+    order.paymentType = @"1";
+    order.inputCharset = @"utf-8";
+    order.itBPay = @"30m";
+    order.showUrl = @"m.alipay.com";
+    
+    //应用注册scheme,
+    NSString *appScheme = @"yuying";
+    
+    //将商品信息拼接成字符串
+    NSString *orderSpec = [order description];
+    NSLog(@"orderSpec = %@",orderSpec);
+    
+    //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
+    //NSString *privateKey = privateKey;
+    id<DataSigner> signer = CreateRSADataSigner(privateKey);
+    NSString *signedString = [signer signString:orderSpec];
+    
+    //将签名成功字符串格式化为订单字符串,请严格按照该格式
+    NSString *orderString = nil;
+    if (signedString != nil) {
+        orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
+                       orderSpec, signedString, @"RSA"];
+        
+        [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+            NSLog(@"reslut = %@",resultDic);
+            
+            NSInteger i = [[resultDic objectForKey:@"resultStatus"] integerValue];
+            
+            NSString *title = @"";
+            switch (i) {
+                case 9000:
+                {
+                    title = @"订单支付成功";
+                }
+                    break;
+                case 8000:
+                {
+                    title = @"正在处理中";
+                }
+                    break;
+                case 4000:
+                {
+                    title = @"订单支付失败";
+                }
+                    break;
+                case 6001:
+                {
+                    title = @"用户中途取消";
+                }
+                    break;
+                case 6002:
+                {
+                    title = @"网络连接出错";
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            UIAlertView *alt = [[UIAlertView alloc] initWithTitle:@"支付结果" message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alt show];
+        }];
+    }
 }
 
 #pragma mark - UITableViewDelegate

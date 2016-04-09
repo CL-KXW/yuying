@@ -329,9 +329,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     }else if(self.advertisementImage1 == nil){
         message = @"请选择红包封面";
         [CommonTool addPopTipWithMessage:message];
-    }else if(self.advertisementImage2 == nil && self.advertisementImage3 == nil){
-        message = @"请至少选择一张红包内容图片";
-        [CommonTool addPopTipWithMessage:message];
     }else if([self.totalMoneyField.text floatValue] == 0.0){
         message = @"总金额必须大于0";
         [CommonTool addPopTipWithMessage:message];

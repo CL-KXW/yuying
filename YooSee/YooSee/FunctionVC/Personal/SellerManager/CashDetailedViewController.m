@@ -56,6 +56,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     [self addRefreshFooterView];
     self.refreshFooterView.hidden = YES;
     self.upId = @"0";
+    self.downId = @"0";
     [self getMoreData];
 }
 
@@ -71,7 +72,13 @@ typedef NS_ENUM(NSUInteger, ActionType) {
 #pragma mark -
 - (void)refreshData {
     [super refreshData];
-    [self detailRequest:ActionType_down];
+    
+    //没有数据的时候当作刚进来的时候处理
+    if (self.dataSourceArray.count == 0) {
+        [self detailRequest:ActionType_up];
+    }else{
+        [self detailRequest:ActionType_down];
+    }
 }
 
 - (void)getMoreData {
@@ -106,12 +113,21 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     NSString *urlString = Url_sellerTurnoverCashDetail;
     if(self.type == CashDetailType_sellerCapitalLibrary){
         urlString = Url_sellerCapitalLibraryCashDetail;
+        
+        NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+        [requestDic setObject:shop_number forKey:@"shop_number"];
     }else if(self.type == CashDetailType_person){
         urlString = Url_personCashDetail;
+        
+        NSString *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+        [requestDic setObject:user_id forKey:@"user_id"];
+    }else if(self.type == CashDetailType_sellerTurnover){
+        urlString = Url_sellerTurnoverCashDetail;
+        
+        NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+        [requestDic setObject:shop_number forKey:@"shop_number"];
     }
     
-    NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
-    [requestDic setObject:shop_number forKey:@"shop_number"];
     [requestDic setObject:startid forKey:@"startid"];
     
     WeakSelf(weakSelf);

@@ -7,7 +7,7 @@
 //
 
 #import "GoldLibraryViewController.h"
-#import "MoneyDetailVC.h"
+#import "CashDetailedViewController.h"
 #import "RechargeViewController.h"
 #import "WithdrawViewcontroller.h"
 
@@ -129,7 +129,8 @@
 
 - (void)HFMXAction {
     //查看现金明细
-    MoneyDetailVC *detail = [[MoneyDetailVC alloc] init];
+    CashDetailedViewController *detail = Alloc_viewControllerNibName(CashDetailedViewController);
+    detail.type = CashDetailType_person;
     [self.navigationController pushViewController:detail animated:YES];
 }
 

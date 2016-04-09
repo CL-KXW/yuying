@@ -279,9 +279,6 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     }else if(self.advertisementImage1 == nil){
         message = @"请选择广告封面";
         [CommonTool addPopTipWithMessage:message];
-    }else if(self.advertisementImage2 == nil && self.advertisementImage3 == nil){
-        message = @"请至少选择一张广告内容图片";
-        [CommonTool addPopTipWithMessage:message];
     }else if([self.totalMoneyField.text intValue] == 0){
         message = @"红包个数必须大于0";
         [CommonTool addPopTipWithMessage:message];
