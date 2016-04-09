@@ -65,7 +65,7 @@
     self.resultDescLabel.font = FONT(18);
     self.resultDescLabel.textAlignment = NSTextAlignmentCenter;
     self.resultDescLabel.numberOfLines = 0;
-    self.resultDescLabel.text = @"已存入红包库\n请12小时内收取红包";
+    self.resultDescLabel.text = @"已存入红包库\n请24小时内收取红包";
     [scroll addSubview:self.resultDescLabel];
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.resultDescLabel.text];
@@ -150,7 +150,7 @@
         }
         self.descLabel.text = [NSString stringWithFormat:@"%.2f元",money];
         if (code == 8) {
-            self.resultDescLabel.text = @"已存入红包库\n请12小时内收取红包";
+            self.resultDescLabel.text = @"已存入红包库\n请24小时内收取红包";
         }
     } else if (code == 4) {
         [self unrobView];
