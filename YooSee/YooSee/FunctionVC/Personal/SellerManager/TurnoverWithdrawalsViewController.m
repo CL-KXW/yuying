@@ -17,11 +17,6 @@
 
 @property(nonatomic,weak)IBOutlet UITableView *tableView;
 @property(nonatomic,strong)TurnoverWithdrawalsFootView *footView;
-@property(nonatomic,strong)NSArray *textArray;
-
-@property(nonatomic,strong)UITextField *alipayField;
-@property(nonatomic,strong)UITextField *nameField;
-@property(nonatomic,strong)UITextField *moneyField;
 
 @end
 

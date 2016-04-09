@@ -7,7 +7,7 @@
 //
 
 #import "BasicViewController.h"
-
-@interface WithdrawViewcontroller : BasicViewController
+#import "TurnoverWithdrawalsViewController.h"
+@interface WithdrawViewcontroller : TurnoverWithdrawalsViewController
 
 @end

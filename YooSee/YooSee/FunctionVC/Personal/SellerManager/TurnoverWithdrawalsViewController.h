@@ -10,6 +10,13 @@
 
 @interface TurnoverWithdrawalsViewController : BasicViewController
 
-@property(nonatomic)BOOL turnoverWithdrawals;
+@property (nonatomic) BOOL turnoverWithdrawals;
+@property (nonatomic, strong) NSArray *textArray;
 
+@property (nonatomic, strong) UITextField *alipayField;
+@property(nonatomic,strong) UITextField *nameField;
+@property(nonatomic,strong) UITextField *moneyField;
+@property(nonatomic,assign) CGFloat rate;
+
+-(void)withdrawalsApplyButtonClick:(UIButton *)button;
 @end

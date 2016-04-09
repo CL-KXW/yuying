@@ -10,5 +10,7 @@
 
 @interface CheckPwdVC : BasicViewController
 @property (nonatomic, assign) CGFloat money;
-@property (nonatomic, strong) NSString *cardID;
+@property (nonatomic, copy) NSString *cardID;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) CGFloat rate;
 @end

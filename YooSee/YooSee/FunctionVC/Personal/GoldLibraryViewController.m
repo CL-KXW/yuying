@@ -10,7 +10,7 @@
 #import "CashDetailedViewController.h"
 #import "RechargeViewController.h"
 #import "WithdrawViewcontroller.h"
-
+#import "TurnoverWithdrawalsViewController.h"
 #define kTableHeaderHeight    35
 #define ktenementCellHeight   90
 
@@ -123,8 +123,10 @@
 
 - (void)buttonAction3 {
     //提现
-    WithdrawViewcontroller *vc = [[WithdrawViewcontroller alloc] init];
+    WithdrawViewcontroller *vc = [[WithdrawViewcontroller alloc] initWithNibName:@"TurnoverWithdrawalsViewController" bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
+//    TurnoverWithdrawalsViewController *vc = [[TurnoverWithdrawalsViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)HFMXAction {
