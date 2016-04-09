@@ -189,7 +189,7 @@
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"AUTO_USER_LOGIN_URL===%@",responseDic);
-         
+         [LoadingView dismissLoadingView];
          NSDictionary *dataDic = responseDic;
          int returnCode = [dataDic[@"returnCode"] intValue];
          if (returnCode == 8)
