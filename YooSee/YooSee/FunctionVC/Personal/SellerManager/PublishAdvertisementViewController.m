@@ -12,6 +12,8 @@
 #import "UUDatePicker.h"
 #import "DCPaymentView.h"
 
+#import "FindPasswordViewController.h"
+
 typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     ActionSheetTag_area = 1 << 0,
     ActionSheetTag_addPicture = 1 << 1,
@@ -287,14 +289,19 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         message = @"单次领取金额必须大于0";
         [CommonTool addPopTipWithMessage:message];
     }else{
+        [[IQKeyboardManager sharedManager] setEnable:NO];
         DCPaymentView *payAlert = [[DCPaymentView alloc]init];
         payAlert.title = @"请输入支付密码";
         [payAlert show];
         payAlert.completeHandle = ^(NSString *inputPwd) {
+            [[IQKeyboardManager sharedManager] setEnable:NO];
             [self passwordIsTrue:inputPwd];
         };
         payAlert.forgetPasswordHandle = ^(){
-            //TODO:忘记支付密码
+            [[IQKeyboardManager sharedManager] setEnable:NO];
+            FindPasswordViewController *findPasswordViewController = [[FindPasswordViewController alloc] init];
+            findPasswordViewController.isPayPassword = YES;
+            [self.navigationController pushViewController:findPasswordViewController animated:YES];
         };
     }
 }
@@ -305,26 +312,25 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         [SVProgressHUD showErrorWithStatus:Hud_NoNetworkConnection];
         return;
     }
-    
+    NSString *md5 = [password getMd5_32Bit_String];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:password forKey:@"paypwd"];
-    NSNumber *phone = [YooSeeApplication shareApplication].userInfoDic[@"phone"];
-    [dic setObject:[NSString stringWithFormat:@"%@",phone] forKey:@"phone"];
+    [dic setObject:md5 forKey:@"pwd"];
+    NSNumber *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"user_id"];
     
-    NSString *aesString = [Utils aesStingDictionary:dic];
-    
-    NSMutableDictionary *requestDic = [[NSMutableDictionary alloc] init];
-    [requestDic setObject:aesString forKey:@"requestmessage"];
-    
-    NSString *url = [Url_Host stringByAppendingString:@"app/user/verification/pay"];
+    NSString *url = [Url_Host stringByAppendingString:@"app/shop/verifyPassword"];
     [LoadingView showLoadingView];
-    [HttpManager postUrl:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
+    [HttpManager postUrl:url parameters:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
         [LoadingView dismissLoadingView];
         
         if ([jsonObject[@"returnCode"] intValue] == SucessFlag) {
             [self uploadImageRequest];
-        }else{
+        }else if([jsonObject[@"returnCode"] intValue] == 3){
             [SVProgressHUD showErrorWithStatus:@"支付密码错误"];
+        }else if([jsonObject[@"returnCode"] intValue] == 4){
+            [SVProgressHUD showErrorWithStatus:@"您还没设置支付密码"];
+        }else if([jsonObject[@"returnCode"] intValue] == 1){
+            [SVProgressHUD showErrorWithStatus:@"参数错误"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [LoadingView dismissLoadingView];
@@ -411,7 +417,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         return;
     }
     
-//    [LoadingView showLoadingView];
+    [LoadingView showLoadingView];
     
     int totalCount = 0;
     __block int sendCount = 0;

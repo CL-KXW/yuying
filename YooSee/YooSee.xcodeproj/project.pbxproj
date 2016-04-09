@@ -82,6 +82,8 @@
 		401168531CA805D0000BD055 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4011683F1CA805D0000BD055 /* UMSocialSDKResourcesNew.bundle */; };
 		4017D00B1CB54CC60095DAD2 /* DCPaymentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017D00A1CB54CC60095DAD2 /* DCPaymentView.m */; };
 		4017D00E1CB54DF00095DAD2 /* DCPwdTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017D00D1CB54DF00095DAD2 /* DCPwdTextField.m */; };
+		4041F8071CB80B1C009D22C4 /* LookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4041F8051CB80B1C009D22C4 /* LookDetailViewController.m */; };
+		4041F8081CB80B1C009D22C4 /* LookDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4041F8061CB80B1C009D22C4 /* LookDetailViewController.xib */; };
 		405A91931CAB81D9009FCBD7 /* UUDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A91921CAB81D9009FCBD7 /* UUDatePicker.m */; };
 		40694B991CA7F189006BCBBF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40694B621CA7F189006BCBBF /* IQKeyboardManager.bundle */; };
 		40694B9A1CA7F189006BCBBF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694B641CA7F189006BCBBF /* IQKeyboardManager.m */; };
@@ -643,6 +645,9 @@
 		4017D00A1CB54CC60095DAD2 /* DCPaymentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPaymentView.m; sourceTree = "<group>"; };
 		4017D00C1CB54DF00095DAD2 /* DCPwdTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPwdTextField.h; sourceTree = "<group>"; };
 		4017D00D1CB54DF00095DAD2 /* DCPwdTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPwdTextField.m; sourceTree = "<group>"; };
+		4041F8041CB80B1C009D22C4 /* LookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookDetailViewController.h; sourceTree = "<group>"; };
+		4041F8051CB80B1C009D22C4 /* LookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookDetailViewController.m; sourceTree = "<group>"; };
+		4041F8061CB80B1C009D22C4 /* LookDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LookDetailViewController.xib; sourceTree = "<group>"; };
 		405A91911CAB81D9009FCBD7 /* UUDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUDatePicker.h; sourceTree = "<group>"; };
 		405A91921CAB81D9009FCBD7 /* UUDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUDatePicker.m; sourceTree = "<group>"; };
 		40694B621CA7F189006BCBBF /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
@@ -1813,6 +1818,9 @@
 				40694C0A1CA7F2AC006BCBBF /* SendRedLibaryViewController.h */,
 				40694C0B1CA7F2AC006BCBBF /* SendRedLibaryViewController.m */,
 				40694C0C1CA7F2AC006BCBBF /* SendRedLibaryViewController.xib */,
+				4041F8041CB80B1C009D22C4 /* LookDetailViewController.h */,
+				4041F8051CB80B1C009D22C4 /* LookDetailViewController.m */,
+				4041F8061CB80B1C009D22C4 /* LookDetailViewController.xib */,
 				40694C0D1CA7F2AC006BCBBF /* TurnoverWithdrawalsFootView.h */,
 				40694C0E1CA7F2AC006BCBBF /* TurnoverWithdrawalsFootView.m */,
 				40694C0F1CA7F2AC006BCBBF /* TurnoverWithdrawalsFootView.xib */,
@@ -3343,6 +3351,7 @@
 				CEE4C1631C87048800D8DA5E /* adv_default.png in Resources */,
 				CEAAA5501C8B34E30006F804 /* icon_alarm_play_up.png in Resources */,
 				286C792B1C98173C009E129E /* face.png in Resources */,
+				4041F8081CB80B1C009D22C4 /* LookDetailViewController.xib in Resources */,
 				CEDC0B281C9F998E0056521F /* message.mp3 in Resources */,
 				CEAD7D571C8C9681008B5281 /* icon_usercenter_1_up.png in Resources */,
 				40694C241CA7F2AC006BCBBF /* PublishAdvertisementViewController.xib in Resources */,
@@ -3418,6 +3427,7 @@
 				CEF796C21C853E630039909A /* rscode.c in Sources */,
 				CEBA82481CA503CA00452A9B /* NSData+Base64.m in Sources */,
 				286C7A121C9EEDEA009E129E /* ZSDSetPasswordView.m in Sources */,
+				4041F8071CB80B1C009D22C4 /* LookDetailViewController.m in Sources */,
 				CEA91BC11C8A0DF20045D763 /* CameraFileViewController.m in Sources */,
 				40694BA51CA7F189006BCBBF /* MASConstraint.m in Sources */,
 				40694C3B1CA7F2AC006BCBBF /* SellerCentreSection1Row1TableViewCell.m in Sources */,

@@ -10,6 +10,8 @@
 
 #import "PublishAdvertisementTableViewCell.h"
 #import "UUDatePicker.h"
+#import "FindPasswordViewController.h"
+#import "DCPaymentView.h"
 
 #define ContentViewHeight 80
 #define CompressionRatio 0.8
@@ -346,18 +348,64 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
             endTimeStr = [endTimeStr stringByReplacingOccurrencesOfString:@"-" withString:@""];
             endTimeStr = [endTimeStr stringByReplacingOccurrencesOfString:@":" withString:@""];
             endTimeStr = [endTimeStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-            if ([startTimeStr integerValue] >= [endTimeStr integerValue]) {
+
+            NSComparisonResult result = [endTimeStr compare:startTimeStr options:NSNumericSearch];
+            if (result != NSOrderedDescending) {
                 message = @"结束时间必须大于开始时间";
                 [CommonTool addPopTipWithMessage:message];
                 return;
             }
         }
         
-        [self uploadImageRequest];
+        [[IQKeyboardManager sharedManager] setEnable:NO];
+        DCPaymentView *payAlert = [[DCPaymentView alloc]init];
+        payAlert.title = @"请输入支付密码";
+        [payAlert show];
+        payAlert.completeHandle = ^(NSString *inputPwd) {
+            [[IQKeyboardManager sharedManager] setEnable:NO];
+            [self passwordIsTrue:inputPwd];
+        };
+        payAlert.forgetPasswordHandle = ^(){
+            [[IQKeyboardManager sharedManager] setEnable:NO];
+            FindPasswordViewController *findPasswordViewController = [[FindPasswordViewController alloc] init];
+            findPasswordViewController.isPayPassword = YES;
+            [self.navigationController pushViewController:findPasswordViewController animated:YES];
+        };
     }
 }
 
 #pragma mark -
+-(void)passwordIsTrue:(NSString *)password{
+    if(![HttpManager haveNetwork]){
+        [SVProgressHUD showErrorWithStatus:Hud_NoNetworkConnection];
+        return;
+    }
+    NSString *md5 = [password getMd5_32Bit_String];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:md5 forKey:@"pwd"];
+    NSNumber *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"user_id"];
+    
+    NSString *url = [Url_Host stringByAppendingString:@"app/shop/verifyPassword"];
+    [LoadingView showLoadingView];
+    [HttpManager postUrl:url parameters:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
+        [LoadingView dismissLoadingView];
+        
+        if ([jsonObject[@"returnCode"] intValue] == SucessFlag) {
+            [self uploadImageRequest];
+        }else if([jsonObject[@"returnCode"] intValue] == 3){
+            [SVProgressHUD showErrorWithStatus:@"支付密码错误"];
+        }else if([jsonObject[@"returnCode"] intValue] == 4){
+            [SVProgressHUD showErrorWithStatus:@"您还没设置支付密码"];
+        }else if([jsonObject[@"returnCode"] intValue] == 1){
+            [SVProgressHUD showErrorWithStatus:@"参数错误"];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [LoadingView dismissLoadingView];
+        [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
+    }];
+}
+
 -(void)sendSubmitRequest{
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     NSNumber *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];

@@ -13,6 +13,7 @@
 #import "SellerRedLibaryRow2TableViewCell.h"
 
 #import "RedLibaryQRcodeViewController.h"
+#import "LookDetailViewController.h"
 
 #define CellDefaultHeight 44
 
@@ -194,7 +195,9 @@
 
 #pragma mark - UIButtonClick
 -(void)lookButtonClick:(UIButton *)button{
-    
+    LookDetailViewController *vc = Alloc_viewControllerNibName(LookDetailViewController);
+    vc.dic = self.dic;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)downButtonClick:(UIButton *)button{
