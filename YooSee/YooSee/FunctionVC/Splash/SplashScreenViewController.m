@@ -199,6 +199,7 @@
          }
          else
          {
+             [YooSeeApplication shareApplication].isLogin = NO;
              [LoadingView dismissLoadingView];
              [weakSelf addMainView];
          }
@@ -206,6 +207,7 @@
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"AUTO_USER_LOGIN_URL====%@",error);
+         [YooSeeApplication shareApplication].isLogin = NO;
          [LoadingView dismissLoadingView];
          [weakSelf addMainView];
      }];
@@ -230,83 +232,15 @@
     provinceID = provinceID ? provinceID : @"1";
     [YooSeeApplication shareApplication].provinceID = provinceID;
     
-    [self login2CU];
+    [YooSeeApplication shareApplication].isLogin = YES;
+    
+    [DELEGATE login2CU];
     
     [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
     
-}
-
-- (void)login2CU
-{
-    NSString *password = [YooSeeApplication shareApplication].pwd2cu;
-    NSString *email = [NSString stringWithFormat:@"newyywapp%@@yywapp.com",[USER_DEFAULT objectForKey:@"UserName"]];
-    // 登陆2cu
-    NSString *username = email;
+    [self addMainView];
     
-    NSString *clientId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-    clientId = [clientId stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    
-    LoginResult *loginResult = [[LoginResult alloc] init];
-    __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String],@"Token":clientId,@"StoreID":@"0"};
-    requestDic = [RequestDataTool makeRequestDictionary:requestDic];
-    [[RequestTool alloc] requestWithUrl:LOGIN_2CU_URL
-                         requestParamas:requestDic
-                            requestType:RequestTypeSynchronous
-                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"2cu_USER_LOGIN_URL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"error_code"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         [LoadingView dismissLoadingView];
-         if (errorCode == 0)
-         {
-             [YooSeeApplication shareApplication].user2CUDic = dataDic;
-             int iContactId = ((NSString*)dataDic[@"UserID"]).intValue & 0x7fffffff;
-             loginResult.contactId = [NSString stringWithFormat:@"0%i",iContactId];
-             loginResult.rCode1 = dataDic[@"P2PVerifyCode1"];
-             loginResult.rCode2 = dataDic[@"P2PVerifyCode2"];
-             loginResult.phone = dataDic[@"PhoneNO"];
-             loginResult.email = dataDic[@"Email"];
-             loginResult.sessionId = dataDic[@"SessionID"];
-             loginResult.countryCode = dataDic[@"CountryCode"];
-             loginResult.error_code = [dataDic[@"error_code"] integerValue];
-             [UDManager setIsLogin:YES];
-             [UDManager setLoginInfo:loginResult];
-             
-             BOOL result = [[P2PClient sharedClient] p2pConnectWithId:loginResult.contactId  codeStr1:loginResult.rCode1 codeStr2:loginResult.rCode2];
-             NSLog(@"p2pConnect success.===%d",result);
-             
-             NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
-             defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
-             if (defaultDeviceID.length != 0)
-             {
-                 ContactDAO *contactDAO = [[ContactDAO alloc] init];
-                 Contact *contact = [contactDAO isContact:defaultDeviceID];
-                 if (contact)
-                 {
-                     [YooSeeApplication shareApplication].contact = contact;
-                 }
-             }
-             [YooSeeApplication shareApplication].isLogin = YES;
-             [weakSelf dismissViewControllerAnimated:YES completion:nil];
-         }
-         else
-         {
-             
-         }
-         [weakSelf addMainView];
-     }
-     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         [LoadingView dismissLoadingView];
-         [weakSelf addMainView];
-         NSLog(@"2cu_USER_LOGIN_URL====%@",error);
-     }];
 }
-
 
 
 - (void)addMainView

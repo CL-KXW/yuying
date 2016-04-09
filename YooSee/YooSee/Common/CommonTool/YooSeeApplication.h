@@ -12,6 +12,7 @@
 
 @interface YooSeeApplication : NSObject
 
+@property (nonatomic, assign) BOOL isLogin2cu;
 @property (nonatomic, assign) BOOL isLogin;
 @property (nonatomic, strong) NSDictionary *userInfoDic;
 @property (nonatomic, strong) NSDictionary *userDic;

@@ -148,6 +148,7 @@
 #pragma mark 退出登录
 - (void)exitButtonPressed:(UIButton *)sender
 {
+    [YooSeeApplication shareApplication].isLogin2cu = NO;
     [YooSeeApplication shareApplication].isLogin = NO;
     [USER_DEFAULT removeObjectForKey:@"UserName"];
     [USER_DEFAULT removeObjectForKey:@"Token"];

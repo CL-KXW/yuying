@@ -44,10 +44,9 @@
 
 
 static NSString *server1 = @"http://cloudlinks.cn/";
-static NSString *server2 = @"http://gwelltimes.com/";
-static NSString *server3 = @"http://2cu.co/";
-static NSString *server4 = @"http://cloud-links.net/";
-
+static NSString *server2 = @"http://2cu.co/";
+static NSString *server3 = @"http://cloud-links.net/";
+static NSString *server4 = @"www.gwelltimes.com";
 #define LOGIN_2CU_SERVER            @[server1,server2,server3,server4][arc4random()%4]
 
 //2cu_login

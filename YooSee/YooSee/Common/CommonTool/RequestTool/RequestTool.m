@@ -8,7 +8,7 @@
 
 #import "RequestTool.h"
 
-#define TIMEOUT 15.0
+#define TIMEOUT 10.0
 
 @interface RequestTool()
 {

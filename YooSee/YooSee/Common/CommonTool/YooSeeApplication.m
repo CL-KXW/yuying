@@ -29,6 +29,7 @@
     if (self)
     {
         _isLogin = NO;
+        _isLogin2cu = NO;
     }
     return self;
 }

@@ -17,5 +17,7 @@
 
 - (void)getAdvListWithRequestType:(RequestType)requestType;
 
+- (void)login2CU;
+
 @end
 

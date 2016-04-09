@@ -445,13 +445,28 @@
 #pragma mark 功能按钮 
 - (void)functionButtonPressed:(UIButton *)sender
 {
+    int tag = (int)sender.tag - 1;
+    
     BOOL isLogin = [YooSeeApplication shareApplication].isLogin;
+    BOOL isLogin2cu = [YooSeeApplication shareApplication].isLogin2cu;
+    
     if (!isLogin)
     {
         [self addLoginView];
         return;
     }
-    int tag = (int)sender.tag - 1;
+    
+    if (tag == 2)
+    {
+        if (!isLogin2cu)
+        {
+            [LoadingView showLoadingView];
+            [DELEGATE login2CU];
+            return;
+        }
+    }
+    
+    
     UIViewController *viewController = nil;
     if (tag == 0)
     {
@@ -556,15 +571,27 @@
 #pragma mark item功能按钮
 - (void)itemButtonPressed:(UIButton *)sender
 {
+    int type = (int)sender.tag/10;
+    int tag = (int)sender.tag%10;
     
     BOOL isLogin = [YooSeeApplication shareApplication].isLogin;
+    BOOL isLogin2cu = [YooSeeApplication shareApplication].isLogin2cu;
+    
     if (!isLogin)
     {
         [self addLoginView];
         return;
     }
-    int type = (int)sender.tag/10;
-    int tag = (int)sender.tag%10;
+    
+    if (type == 3)
+    {
+        if (!isLogin2cu)
+        {
+            [LoadingView showLoadingView];
+            [DELEGATE login2CU];
+            return;
+        }
+    }
     if (type == 1)
     {
         //赚钱

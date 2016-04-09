@@ -27,6 +27,8 @@
 
 @interface AppDelegate ()
 
+@property (nonatomic, assign) BOOL isLoading;
+
 @end
 
 @implementation AppDelegate
@@ -145,6 +147,90 @@
          NSLog(@"GET_ADV_URL====%@",error);
      }];
 }
+
+
+#pragma mark 登录2cu
+- (void)login2CU
+{
+    if (_isLoading)
+    {
+        return;
+    }
+    _isLoading = YES;
+    NSString *password = [YooSeeApplication shareApplication].pwd2cu;
+    NSString *email = [NSString stringWithFormat:@"newyywapp%@@yywapp.com",[USER_DEFAULT objectForKey:@"UserName"]];
+    // 登陆2cu
+    NSString *username = email;
+    
+    NSString *clientId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    clientId = [clientId stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    
+    LoginResult *loginResult = [[LoginResult alloc] init];
+    //__weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String],@"Token":clientId,@"StoreID":@"0"};
+    requestDic = [RequestDataTool makeRequestDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:LOGIN_2CU_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"2cu_USER_LOGIN_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"error_code"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"登录2cu失败";
+       
+         _isLoading = NO;
+         [LoadingView dismissLoadingView];
+        
+         if (errorCode == 0)
+         {
+             [YooSeeApplication shareApplication].isLogin2cu = YES;
+             [YooSeeApplication shareApplication].user2CUDic = dataDic;
+             int iContactId = ((NSString*)dataDic[@"UserID"]).intValue & 0x7fffffff;
+             loginResult.contactId = [NSString stringWithFormat:@"0%i",iContactId];
+             loginResult.rCode1 = dataDic[@"P2PVerifyCode1"];
+             loginResult.rCode2 = dataDic[@"P2PVerifyCode2"];
+             loginResult.phone = dataDic[@"PhoneNO"];
+             loginResult.email = dataDic[@"Email"];
+             loginResult.sessionId = dataDic[@"SessionID"];
+             loginResult.countryCode = dataDic[@"CountryCode"];
+             loginResult.error_code = [dataDic[@"error_code"] integerValue];
+             [UDManager setIsLogin:YES];
+             [UDManager setLoginInfo:loginResult];
+             
+             BOOL result = [[P2PClient sharedClient] p2pConnectWithId:loginResult.contactId  codeStr1:loginResult.rCode1 codeStr2:loginResult.rCode2];
+             NSLog(@"p2pConnect success.===%d",result);
+             
+             NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
+             defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
+             if (defaultDeviceID.length != 0)
+             {
+                 ContactDAO *contactDAO = [[ContactDAO alloc] init];
+                 Contact *contact = [contactDAO isContact:defaultDeviceID];
+                 if (contact)
+                 {
+                     [YooSeeApplication shareApplication].contact = contact;
+                 }
+             }
+         }
+         else
+         {
+             [YooSeeApplication shareApplication].isLogin2cu = NO;
+             [CommonTool addPopTipWithMessage:errorMessage];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+        [YooSeeApplication shareApplication].isLogin2cu = NO;
+         _isLoading = NO;
+         [LoadingView dismissLoadingView];
+         [CommonTool addPopTipWithMessage:@"连接2cu服务器失败"];
+         NSLog(@"2cu_USER_LOGIN_URL====%@",error);
+     }];
+    
+}
+
 
 
 #pragma mark - NSNotification
