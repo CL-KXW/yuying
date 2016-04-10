@@ -186,37 +186,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     cell1.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell1.selectionStyle = UITableViewCellSelectionStyleGray;
     NSDictionary *dic = self.dataSourceArray[indexPath.row];
-    if([dic[@"hongbao_type"] intValue] == 1){
-        //手气红包
-        if ([dic[@"type"] intValue] == 1) {
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediate"];
-        }else if([dic[@"type"] intValue] == 4){
-            cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
-        }else{
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
-        }
-    }else if ([dic[@"hongbao_type"] intValue] == 2){
-        //扫码红包
-        if ([dic[@"type"] intValue] == 1) {
-            //正常
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shake"];
-        }else if([dic[@"type"] intValue] == 4){
-            //拒绝
-            cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
-        }else{
-            //结束或者未开始
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
-        }
-    }else if ([dic[@"hongbao_type"] intValue] == 3){
-        //摇一摇红包
-        if ([dic[@"type"] intValue] == 1) {
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
-        }else if([dic[@"type"] intValue] == 4){
-            cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
-        }else{
-            cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
-        }
-    }
+
     
     if (self.type == ManageType_advertisement){
         cell1.customImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];

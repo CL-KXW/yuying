@@ -602,6 +602,13 @@
      
      [XGPush handleReceiveNotification:userInfo successCallback:successBlock errorCallback:errorBlock completion:completion];
      */
+    NSDictionary *dic = [userInfo objectForKey:@"aps"];
+    NSString *message = [dic objectForKey:@"key"];
+    if ([message isEqualToString:@"4"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveAdvertisement" object:nil];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveRed" object:nil];
+    }
 }
 
 

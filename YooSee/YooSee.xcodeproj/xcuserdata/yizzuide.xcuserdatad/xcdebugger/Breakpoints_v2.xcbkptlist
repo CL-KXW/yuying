@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YooSee/FunctionVC/Personal/SellerManager/SellerMessageEditViewController.m"
-            timestampString = "481973614.772679"
+            timestampString = "481985900.757992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "712"
-            endingLineNumber = "712"
-            landmarkName = "-getCity:"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "-editRequest"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -89,13 +89,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YooSee/FunctionVC/Personal/SellerManager/RedLibaryManageViewController.m"
-            timestampString = "481973711.751745"
+            filePath = "YooSee/FunctionVC/Personal/SellerManager/SellerMessageEditViewController.m"
+            timestampString = "481985900.757992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "-editRequest"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YooSee/FunctionVC/Personal/SellerManager/SellerMessageEditViewController.m"
+            timestampString = "481985900.757992"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "-editRequest"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

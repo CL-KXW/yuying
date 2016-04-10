@@ -271,46 +271,56 @@
         cell0.retreatLabel.text = surplusMoney;
         cell0.surplusNumberLabel.text = [NSString stringWithFormat:@"%D个",number];
         
-        if ([self.dic[@"type"] intValue] == 1) {
-            cell0.statusLabel.text = @"进行中";
-            if([self.dic[@"hongbao_type"] intValue] == 1){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediate"];
-            }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
-            }else if ([self.dic[@"hongbao_type"] intValue] == 3){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shake"];
-            }
-        }else if([self.dic[@"type"] intValue] == 2){
-            cell0.statusLabel.text = @"已结束";
-            if([self.dic[@"hongbao_type"] intValue] == 1){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
-            }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
-            }else if ([self.dic[@"hongbao_type"] intValue] == 3){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
-            }
-        }else if([self.dic[@"type"] intValue] == 3){
-            cell0.statusLabel.text = @"被驳回";
-            cell0.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
-        }else if([self.dic[@"type"] intValue] == 4){
-            cell0.statusLabel.text = @"未开始";
-            if([self.dic[@"hongbao_type"] intValue] == 1){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
-            }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
-            }else if ([self.dic[@"hongbao_type"] intValue] == 3){
-                cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
-            }
-        }
-        
         if (self.type == DetailType_advertisement) {
             cell0.customImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];
             NSURL *url = [NSURL URLWithString:self.dic[@"url_1"]];
             [cell0.customImageView sd_setImageWithURL:url];
             cell0.contentMode = UIViewContentModeScaleAspectFit;
             cell0.nameLabel.text = self.dic[@"content_1"];
+            
+            if ([self.dic[@"type"] intValue] == 1) {
+                cell0.statusLabel.text = @"未开始";
+            }else if([self.dic[@"type"] intValue] == 2){
+                cell0.statusLabel.text = @"进行中";
+            }else if([self.dic[@"type"] intValue] == 3){
+                cell0.statusLabel.text = @"已结束";
+            }else if([self.dic[@"type"] intValue] == 4){
+                cell0.statusLabel.text = @"强制结束";
+            }
         }else{
             cell0.nameLabel.text = self.dic[@"title_1"];
+            
+            if ([self.dic[@"type"] intValue] == 1) {
+                cell0.statusLabel.text = @"进行中";
+                if([self.dic[@"hongbao_type"] intValue] == 1){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediate"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 2){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shake"];
+                }
+            }else if([self.dic[@"type"] intValue] == 2){
+                cell0.statusLabel.text = @"已结束";
+                if([self.dic[@"hongbao_type"] intValue] == 1){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 2){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+                }
+            }else if([self.dic[@"type"] intValue] == 3){
+                cell0.statusLabel.text = @"被驳回";
+                cell0.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
+            }else if([self.dic[@"type"] intValue] == 4){
+                cell0.statusLabel.text = @"未开始";
+                if([self.dic[@"hongbao_type"] intValue] == 1){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 2){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+                }
+            }
         }
         
         return cell0;

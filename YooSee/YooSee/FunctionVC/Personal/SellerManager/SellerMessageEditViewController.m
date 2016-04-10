@@ -242,7 +242,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         return;
     }
 
-    [self editRequest];
+    [self uploadImageRequest];
 }
 
 -(void)addPictureButtonClick:(UIButton *)button{
@@ -277,10 +277,14 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     
     [dic setObject:self.professionName forKey:@"hangye_name"];
     [dic setObject:self.professionId forKey:@"hangye_id"];
+    [dic setObject:self.address forKey:@"address"];
     
     [dic setObject:self.sellNameField.text forKey:@"dian_name"];
     [dic setObject:self.contentView2.text forKey:@"dian_content"];
     [dic setObject:self.logoUrl forKey:@"dian_logo"];
+    NSNumber *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    
+    [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"id"];
     
     NSString *url = [Url_Host stringByAppendingString:@"app/shop/update"];
 
@@ -704,13 +708,22 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
                  self.area = placemark.subLocality;
              }
              
+             if(placemark.thoroughfare == nil){
+                 if (placemark.subThoroughfare == nil) {
+                     self.address = @"";
+                 }else{
+                     self.address = placemark.subThoroughfare;
+                 }
+             }else{
+                 self.address = placemark.thoroughfare;
+             }
+             
              NSString *string;
              if (placemark.subThoroughfare == nil) {
                  string = [NSString stringWithFormat:@"%@%@%@",self.city,self.area,placemark.thoroughfare];
              }else{
                  string = [NSString stringWithFormat:@"%@%@%@%@",self.city,self.area,placemark.thoroughfare,placemark.subThoroughfare];
              }
-             self.address = placemark.thoroughfare;
              self.addressField.text = string;
          }
      }];

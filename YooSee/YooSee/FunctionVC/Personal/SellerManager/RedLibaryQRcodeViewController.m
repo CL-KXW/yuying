@@ -59,7 +59,7 @@
             temp = [NSString stringWithFormat:@"hb-sm&id=%@",self.dic[@"id"]];
         }else if ([self.dic[@"hongbao_type"] intValue] == 3){
             //摇一摇
-            temp = [NSString stringWithFormat:@"yyy&id=%@",self.dic[@"id"]];
+            temp = [NSString stringWithFormat:@"yyy&id=%@&only_number=%@",self.dic[@"id"],self.dic[@"only_number"]];
         }
     }
     self.totalString = [string stringByAppendingString:temp];
