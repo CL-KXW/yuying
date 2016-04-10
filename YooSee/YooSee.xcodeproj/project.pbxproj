@@ -213,6 +213,9 @@
 		CE0B830B1CBA5423002EA066 /* store.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0B83091CBA5423002EA066 /* store.png */; };
 		CE0B830C1CBA5423002EA066 /* storeCut.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0B830A1CBA5423002EA066 /* storeCut.png */; };
 		CE0B830F1CBA59BA002EA066 /* TempPicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0B830E1CBA59BA002EA066 /* TempPicViewController.m */; };
+		CE0B83121CBA7437002EA066 /* ScanRedPackageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0B83111CBA7437002EA066 /* ScanRedPackageDetailViewController.m */; };
+		CE0B83151CBA82E6002EA066 /* ScanY1YDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0B83141CBA82E6002EA066 /* ScanY1YDetailViewController.m */; };
+		CE0B83181CBA8906002EA066 /* ScanMonertDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0B83171CBA8906002EA066 /* ScanMonertDetailViewController.m */; };
 		CE0C020D1C7CFC3600F0DD58 /* LocalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0C020C1C7CFC3600F0DD58 /* LocalWebViewController.m */; };
 		CE1098471CAD0196006DCDFA /* default_image1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1098451CAD0196006DCDFA /* default_image1.png */; };
 		CE1098481CAD0196006DCDFA /* default_image2.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1098461CAD0196006DCDFA /* default_image2.png */; };
@@ -871,6 +874,12 @@
 		CE0B830A1CBA5423002EA066 /* storeCut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storeCut.png; sourceTree = "<group>"; };
 		CE0B830D1CBA59BA002EA066 /* TempPicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempPicViewController.h; sourceTree = "<group>"; };
 		CE0B830E1CBA59BA002EA066 /* TempPicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempPicViewController.m; sourceTree = "<group>"; };
+		CE0B83101CBA7437002EA066 /* ScanRedPackageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanRedPackageDetailViewController.h; sourceTree = "<group>"; };
+		CE0B83111CBA7437002EA066 /* ScanRedPackageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanRedPackageDetailViewController.m; sourceTree = "<group>"; };
+		CE0B83131CBA82E6002EA066 /* ScanY1YDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanY1YDetailViewController.h; sourceTree = "<group>"; };
+		CE0B83141CBA82E6002EA066 /* ScanY1YDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanY1YDetailViewController.m; sourceTree = "<group>"; };
+		CE0B83161CBA8906002EA066 /* ScanMonertDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanMonertDetailViewController.h; sourceTree = "<group>"; };
+		CE0B83171CBA8906002EA066 /* ScanMonertDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanMonertDetailViewController.m; sourceTree = "<group>"; };
 		CE0C020B1C7CFC3600F0DD58 /* LocalWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalWebViewController.h; sourceTree = "<group>"; };
 		CE0C020C1C7CFC3600F0DD58 /* LocalWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalWebViewController.m; sourceTree = "<group>"; };
 		CE1098451CAD0196006DCDFA /* default_image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image1.png; sourceTree = "<group>"; };
@@ -2347,6 +2356,12 @@
 				CEF4C4901C927307004D6A4F /* NewsListViewController.m */,
 				CE0B830D1CBA59BA002EA066 /* TempPicViewController.h */,
 				CE0B830E1CBA59BA002EA066 /* TempPicViewController.m */,
+				CE0B83101CBA7437002EA066 /* ScanRedPackageDetailViewController.h */,
+				CE0B83111CBA7437002EA066 /* ScanRedPackageDetailViewController.m */,
+				CE0B83131CBA82E6002EA066 /* ScanY1YDetailViewController.h */,
+				CE0B83141CBA82E6002EA066 /* ScanY1YDetailViewController.m */,
+				CE0B83161CBA8906002EA066 /* ScanMonertDetailViewController.h */,
+				CE0B83171CBA8906002EA066 /* ScanMonertDetailViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3525,6 +3540,7 @@
 				40694C271CA7F2AC006BCBBF /* RedLibaryManageViewController.m in Sources */,
 				CEAD816C1CB6A25F00ADD690 /* MKAnnotationView+WebCache.m in Sources */,
 				40694C291CA7F2AC006BCBBF /* RedLibaryQRcodeViewController.m in Sources */,
+				CE0B83181CBA8906002EA066 /* ScanMonertDetailViewController.m in Sources */,
 				CEF796AA1C853E630039909A /* Recent.m in Sources */,
 				40694B9B1CA7F189006BCBBF /* IQSegmentedNextPrevious.m in Sources */,
 				CE8BE8431C5F885000D6307D /* AFHTTPRequestOperationManager.m in Sources */,
@@ -3557,7 +3573,9 @@
 				CE963AB31C91CA3C00DEEF2B /* STPickerArea.m in Sources */,
 				CE8BE8391C5F885000D6307D /* SDWebImageDownloaderOperation.m in Sources */,
 				CE98E1001C8A7DB20072A2FC /* ScreenshotCell.m in Sources */,
+				CE0B83121CBA7437002EA066 /* ScanRedPackageDetailViewController.m in Sources */,
 				286C79191C957601009E129E /* GoldLibraryViewController.m in Sources */,
+				CE0B83151CBA82E6002EA066 /* ScanY1YDetailViewController.m in Sources */,
 				40694C471CA7F2AC006BCBBF /* SellerRechargeViewController.m in Sources */,
 				CEBA82471CA503CA00452A9B /* FBEncryptorAES.m in Sources */,
 				286C7A0F1C9ECE70009E129E /* WithdrawViewcontroller.m in Sources */,
@@ -3837,8 +3855,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3872,7 +3890,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -3884,8 +3902,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 磊 陈 (47PU6N76KB)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 磊 陈 (47PU6N76KB)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3918,7 +3936,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
 				SDKROOT = iphoneos9.2;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
