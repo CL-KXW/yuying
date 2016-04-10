@@ -34,4 +34,14 @@
     return self;
 }
 
+- (NSString *)getUserID
+{
+    NSDictionary *userDic = [YooSeeApplication shareApplication].userInfoDic;
+    NSString *key = userDic ? @"id" : @"user_id";
+    userDic = userDic ? userDic : [YooSeeApplication shareApplication].userDic;
+    NSString *user_id = userDic[key];
+    user_id = UNNULL_STRING(user_id);
+    return user_id;
+}
+
 @end

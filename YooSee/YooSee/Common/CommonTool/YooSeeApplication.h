@@ -27,5 +27,6 @@
 @property (nonatomic, strong) NSString *provinceID;
 
 + (instancetype)shareApplication;
+- (NSString *)getUserID;
 
 @end
