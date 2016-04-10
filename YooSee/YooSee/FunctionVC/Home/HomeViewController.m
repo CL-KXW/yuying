@@ -419,6 +419,43 @@
      }];
 }
 
+-(void)userIsSellerRequest{
+    if(![HttpManager haveNetwork]){
+        [SVProgressHUD showErrorWithStatus:Hud_NoNetworkConnection];
+        return;
+    }
+    
+    [LoadingView showLoadingView];
+    NSString *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",nil];
+    
+    WeakSelf(weakSelf);
+    NSString *url = [Url_Host stringByAppendingString:@"app/shop/querybyUserId"];
+    [HttpManager postUrl:url parameters:requestDic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
+        [LoadingView dismissLoadingView];
+        
+        ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
+        if (message.returnCode.intValue == SucessFlag)
+        {
+            SellerCentreViewController *sellerVC = [[SellerCentreViewController alloc] initWithNibName:@"SellerCentreViewController" bundle:nil];
+            [weakSelf.navigationController pushViewController:sellerVC animated:YES];
+        }else if (message.returnCode.intValue == 1){
+            //无请求数据
+        }else if (message.returnCode.intValue == 2){
+            //不是商家
+            SellerCentreJoinViewController *vc = Alloc_viewControllerNibName(SellerCentreJoinViewController);
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }else if (message.returnCode.intValue == 3){
+            //审核中
+            SellerCentreReviewStatusViewController *vc = Alloc_viewControllerNibName(SellerCentreReviewStatusViewController);
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [LoadingView dismissLoadingView];
+        [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
+    }];
+}
+
 #pragma mark 个人中心
 - (void)userCenterButtonPressed:(UIButton *)sender
 {
@@ -628,6 +665,11 @@
     }
     if (type == 2)
     {
+        if(tag == 1){
+            [self userIsSellerRequest];
+            return;
+        }
+        
         //商城
         LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
         storeDiscountViewController.urlString = (tag == 0) ? SHOP : PUBLIC_ADV;

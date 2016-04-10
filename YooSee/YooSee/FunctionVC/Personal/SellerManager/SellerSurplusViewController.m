@@ -11,6 +11,8 @@
 #import "SellerRechargeViewController.h"
 #import "TurnoverWithdrawalsViewController.h"
 
+#import "FunctionViewController.h"
+
 @interface SellerSurplusViewController ()
 
 @property(nonatomic,weak)IBOutlet UIButton *rechargeButton;
@@ -46,15 +48,13 @@
 
 -(IBAction)withdrawalsButtonClick:(id)sender{
     @autoreleasepool {
-        TurnoverWithdrawalsViewController *vc = Alloc_viewControllerNibName(TurnoverWithdrawalsViewController);
-        vc.turnoverWithdrawals = WithdrawTypeStoreBalance;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
--(IBAction)capitalDetailButtonClick:(id)sender{
-    @autoreleasepool {
+//        TurnoverWithdrawalsViewController *vc = Alloc_viewControllerNibName(TurnoverWithdrawalsViewController);
+//        vc.turnoverWithdrawals = WithdrawTypeStoreBalance;
+//        [self.navigationController pushViewController:vc animated:YES];
         
+        //TODO:功能正在开发中
+        FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+        [self.navigationController pushViewController:functionViewController animated:YES];
     }
 }
 

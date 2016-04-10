@@ -56,14 +56,6 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     [self getMoreData];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    self.upId = @"0";
-    [self.dataSourceArray removeAllObjects];
-    [self.table reloadData];
-    [self getMoreData];
-}
-
 #pragma mark - Getter
 - (NSMutableArray *)dataSourceArray
 {

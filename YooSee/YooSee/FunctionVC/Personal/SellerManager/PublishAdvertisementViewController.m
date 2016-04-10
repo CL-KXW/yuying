@@ -318,15 +318,16 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     NSString *url = [Url_Host stringByAppendingString:@"app/shop/verifyPassword"];
     [LoadingView showLoadingView];
     [HttpManager postUrl:url parameters:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
-        [LoadingView dismissLoadingView];
-        
         if ([jsonObject[@"returnCode"] intValue] == SucessFlag) {
             [self uploadImageRequest];
         }else if([jsonObject[@"returnCode"] intValue] == 3){
+            [LoadingView dismissLoadingView];
             [SVProgressHUD showErrorWithStatus:@"支付密码错误"];
         }else if([jsonObject[@"returnCode"] intValue] == 4){
+            [LoadingView dismissLoadingView];
             [SVProgressHUD showErrorWithStatus:@"您还没设置支付密码"];
         }else if([jsonObject[@"returnCode"] intValue] == 1){
+            [LoadingView dismissLoadingView];
             [SVProgressHUD showErrorWithStatus:@"参数错误"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

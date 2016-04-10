@@ -386,15 +386,17 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     NSString *url = [Url_Host stringByAppendingString:@"app/shop/verifyPassword"];
     [LoadingView showLoadingView];
     [HttpManager postUrl:url parameters:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {
-        [LoadingView dismissLoadingView];
         
         if ([jsonObject[@"returnCode"] intValue] == SucessFlag) {
             [self uploadImageRequest];
         }else if([jsonObject[@"returnCode"] intValue] == 3){
+            [LoadingView dismissLoadingView];
             [SVProgressHUD showErrorWithStatus:@"支付密码错误"];
         }else if([jsonObject[@"returnCode"] intValue] == 4){
+            [LoadingView dismissLoadingView];
             [SVProgressHUD showErrorWithStatus:@"您还没设置支付密码"];
         }else if([jsonObject[@"returnCode"] intValue] == 1){
+            [LoadingView dismissLoadingView];
             [SVProgressHUD showErrorWithStatus:@"参数错误"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -771,9 +773,9 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     
     if(indexPath.section == 2 && indexPath.row == 2){
         height = 35+(SCREEN_WIDTH-20*4)/3+10;
-    }else if(indexPath.section == 2 && indexPath.row == 1){
+    }else if(indexPath.section == 2 &&indexPath.row == 1){
         height = ContentViewHeight;
-    }else if(indexPath.section == 1){
+    }else if(indexPath.row == 6){
         height = 70;
     }
     

@@ -8,6 +8,10 @@
 
 #import "BasicViewController.h"
 
+#import "SellerCentreViewController.h"
+#import "SellerCentreReviewStatusViewController.h"
+#import "SellerCentreJoinViewController.h"
+
 @interface HomeViewController : BasicViewController
 
 @end

@@ -31,6 +31,7 @@
 
 #import "ResponseSellerMessage.h"
 #import "SellerMessageEditViewController.h"
+#import "FunctionViewController.h"
 
 #define CellDefaultHeight 70
 
@@ -204,9 +205,12 @@
 
 -(void)withdrawalsButtonButtonClick:(UIButton *)button{
     @autoreleasepool {
-        TurnoverWithdrawalsViewController *vc = Alloc_viewControllerNibName(TurnoverWithdrawalsViewController);
-        vc.turnoverWithdrawals = WithdrawTypeStoreTurnover;
-        [self.navigationController pushViewController:vc animated:YES];
+//        TurnoverWithdrawalsViewController *vc = Alloc_viewControllerNibName(TurnoverWithdrawalsViewController);
+//        vc.turnoverWithdrawals = WithdrawTypeStoreTurnover;
+//        [self.navigationController pushViewController:vc animated:YES];
+        //TODO:功能正在开发中
+        FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+        [self.navigationController pushViewController:functionViewController animated:YES];
     }
 }
 
@@ -406,8 +410,10 @@
             
         case 2:
         {
+            //TODO:功能正在开发中
             @autoreleasepool {
-                
+                FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+                [self.navigationController pushViewController:functionViewController animated:YES];
             }
         }
             break;
@@ -415,7 +421,8 @@
         case 3:
         {
             @autoreleasepool {
-                
+                FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+                [self.navigationController pushViewController:functionViewController animated:YES];
             }
         }
             break;
@@ -423,7 +430,8 @@
         case 4:
         {
             @autoreleasepool {
-                
+                FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+                [self.navigationController pushViewController:functionViewController animated:YES];
             }
         }
             break;
@@ -431,7 +439,8 @@
         case 5:
         {
             @autoreleasepool {
-                
+                FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+                [self.navigationController pushViewController:functionViewController animated:YES];
             }
         }
             break;
@@ -439,8 +448,8 @@
         case 6:
         {
             @autoreleasepool {
-                SellerCentreWriteDataViewController *vc = Alloc_viewControllerNibName(SellerCentreWriteDataViewController);
-                [self.navigationController pushViewController:vc animated:YES];
+                FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+                [self.navigationController pushViewController:functionViewController animated:YES];
             }
         }
             break;
@@ -448,8 +457,8 @@
         case 7:
         {
             @autoreleasepool {
-                SellerCentreJoinViewController *vc = Alloc_viewControllerNibName(SellerCentreJoinViewController);
-                [self.navigationController pushViewController:vc animated:YES];
+                FunctionViewController *functionViewController = [[FunctionViewController alloc] init];
+                [self.navigationController pushViewController:functionViewController animated:YES];
             }
         }
             break;
