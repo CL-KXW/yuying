@@ -35,6 +35,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"receiveAdvertisement" object:nil];
 }
 
+- (void)backButtonPressed:(UIButton *)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidDisappear:animated];
     

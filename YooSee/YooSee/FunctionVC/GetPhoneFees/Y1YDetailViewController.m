@@ -572,48 +572,6 @@
      }];
 }
 
-- (void)requestDetail {
-    //红包详情
-    //yyw_redpackedgg
-    [LoadingView showLoadingView];
-    NSString *uid = [YooSeeApplication shareApplication].uid;
-    uid = uid ? uid : @"";
-    
-    NSDictionary *requestDic = @{
-                                 @"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],
-                                 @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
-    requestDic = [RequestDataTool encryptWithDictionary:requestDic];
-    [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_DETAIL
-                            requestParamas:requestDic
-                               requestType:RequestTypeAsynchronous
-                             requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-     {
-         NSLog(@"RED_POCKET_DETAIL===%@",responseDic);
-         NSDictionary *dataDic = (NSDictionary *)responseDic;
-         int errorCode = [dataDic[@"returnCode"] intValue];
-         NSString *errorMessage = dataDic[@"returnMessage"];
-         errorMessage = errorMessage ? errorMessage : @"";
-         [LoadingView dismissLoadingView];
-         if (errorCode == 1)
-         {
-             NSArray *ary = dataDic[@"body"];
-             if (ary && [ary isKindOfClass:[NSArray class]] && [ary count] > 0) {
-                 self.dataDic = [ary objectAtIndex:0];
-                 [self dealViews];
-             }
-         }
-         else
-         {
-             [SVProgressHUD showErrorWithStatus:errorMessage];
-         }
-     }
-                               requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         
-         [LoadingView dismissLoadingView];
-         NSLog(@"RED_POCKET_DETAIL====%@",error);
-     }];
-}
 
 - (void)requestRob {
     

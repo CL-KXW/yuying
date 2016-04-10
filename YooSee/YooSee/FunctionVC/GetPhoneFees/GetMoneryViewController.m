@@ -44,6 +44,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"receiveRed" object:nil];
 }
 
+- (void)backButtonPressed:(UIButton *)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

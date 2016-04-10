@@ -26,8 +26,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"抢红包";
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, START_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - START_HEIGHT)];
     [self.view addSubview:scroll];
     [self addBackItem];
     self.view.backgroundColor = RGB(205, 11, 36);

@@ -12,4 +12,5 @@
 
 @property (nonatomic, strong) NSDictionary *dataDic;
 
+
 @end

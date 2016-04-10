@@ -17,7 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
-    [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:1 tableDelegate:self];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self addTableViewWithFrame:CGRectMake(0, START_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - START_HEIGHT) tableType:1 tableDelegate:self];
     self.table.separatorStyle = 0;
     [[self table] reloadData];
     

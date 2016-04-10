@@ -31,6 +31,11 @@
     [self refreshData];
 }
 
+- (void)backButtonPressed:(UIButton *)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 #pragma mark UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
