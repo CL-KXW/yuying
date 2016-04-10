@@ -150,7 +150,7 @@
 
 
 #pragma mark 登录2cu
-- (void)login2CU
+- (void)login2CU:(BOOL)isShow
 {
     if (_isLoading)
     {
@@ -167,7 +167,8 @@
     
     LoginResult *loginResult = [[LoginResult alloc] init];
     //__weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String],@"Token":clientId,@"StoreID":@"0"};
+//    NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String],@"Token":clientId,@"StoreID":@"0"};
+    NSDictionary *requestDic = @{@"User":username,@"Pwd":[password getMd5_32Bit_String]};
     requestDic = [RequestDataTool makeRequestDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:LOGIN_2CU_URL
                          requestParamas:requestDic
@@ -185,6 +186,7 @@
         
          if (errorCode == 0)
          {
+             [SVProgressHUD showSuccessWithStatus:@"登录2cu成功"];
              [YooSeeApplication shareApplication].isLogin2cu = YES;
              [YooSeeApplication shareApplication].user2CUDic = dataDic;
              int iContactId = ((NSString*)dataDic[@"UserID"]).intValue & 0x7fffffff;
@@ -217,7 +219,11 @@
          else
          {
              [YooSeeApplication shareApplication].isLogin2cu = NO;
-             [CommonTool addPopTipWithMessage:errorMessage];
+             if (isShow)
+             {
+                 [CommonTool addPopTipWithMessage:errorMessage];
+             }
+             
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -225,7 +231,10 @@
         [YooSeeApplication shareApplication].isLogin2cu = NO;
          _isLoading = NO;
          [LoadingView dismissLoadingView];
-         [CommonTool addPopTipWithMessage:@"连接2cu服务器失败"];
+         if (isShow)
+         {
+             [CommonTool addPopTipWithMessage:@"连接2cu服务器失败"];
+         }
          NSLog(@"2cu_USER_LOGIN_URL====%@",error);
      }];
     

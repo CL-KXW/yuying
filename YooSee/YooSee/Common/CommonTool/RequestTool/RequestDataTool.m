@@ -45,15 +45,15 @@
         requestDic = [[NSMutableDictionary alloc] initWithCapacity:0];
     }
     
-    NSArray *array = [@"00.46.01.01" componentsSeparatedByString:@"."];
-    int a = [[array objectAtIndex:0] intValue]<<24;
-    int b = [[array objectAtIndex:1] intValue]<<16;
-    int c = [[array objectAtIndex:2] intValue]<<8;
-    int d = [[array objectAtIndex:3] intValue];
-
+//    NSArray *array = [@"00.46.01.01" componentsSeparatedByString:@"."];
+//    int a = [[array objectAtIndex:0] intValue]<<24;
+//    int b = [[array objectAtIndex:1] intValue]<<16;
+//    int c = [[array objectAtIndex:2] intValue]<<8;
+//    int d = [[array objectAtIndex:3] intValue];
+//    requestDic[@"AppVersion"] = [NSString stringWithFormat:@"%i",a|b|c|d];
     
     requestDic[@"AppOS"] = @"2";
-    requestDic[@"AppVersion"] = [NSString stringWithFormat:@"%i",a|b|c|d];
+    requestDic[@"AppVersion"] = @"2883598";
     requestDic[@"VersionFlag"] = @"1";
 
     return requestDic;

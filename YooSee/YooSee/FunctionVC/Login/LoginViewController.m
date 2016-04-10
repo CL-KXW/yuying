@@ -173,6 +173,7 @@
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
+         [LoadingView dismissLoadingView];
          NSLog(@"USER_LOGIN_URL===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -187,7 +188,6 @@
          else
          {
              [YooSeeApplication shareApplication].isLogin = NO;
-             [LoadingView dismissLoadingView];
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
      }
@@ -221,7 +221,7 @@
     
     [YooSeeApplication shareApplication].isLogin = YES;
     
-    [DELEGATE login2CU];
+    [DELEGATE login2CU:NO];
     
     [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
     

@@ -461,7 +461,7 @@
         if (!isLogin2cu)
         {
             [LoadingView showLoadingView];
-            [DELEGATE login2CU];
+            [DELEGATE login2CU:YES];
             return;
         }
     }
@@ -588,7 +588,7 @@
         if (!isLogin2cu)
         {
             [LoadingView showLoadingView];
-            [DELEGATE login2CU];
+            [DELEGATE login2CU:YES];
             return;
         }
     }

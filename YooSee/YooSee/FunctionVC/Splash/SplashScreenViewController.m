@@ -200,7 +200,6 @@
          else
          {
              [YooSeeApplication shareApplication].isLogin = NO;
-             [LoadingView dismissLoadingView];
              [weakSelf addMainView];
          }
      }
@@ -234,7 +233,7 @@
     
     [YooSeeApplication shareApplication].isLogin = YES;
     
-    [DELEGATE login2CU];
+    [DELEGATE login2CU:NO];
     
     [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
     
