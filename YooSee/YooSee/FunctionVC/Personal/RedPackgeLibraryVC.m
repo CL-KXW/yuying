@@ -50,8 +50,8 @@
 //    [self.ungetArray addObject:@"1"];
 //    [self.ungetArray addObject:@"1"];
 //    [self.ungetArray addObject:@"1"];
-    startID[0] = @"0";
-    startID[1] = @"0";
+    startID[0] = @"";
+    startID[1] = @"";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self performSelector:@selector(initViews) withObject:nil afterDelay:0.1];
 }
@@ -264,7 +264,7 @@
                                  @"lingqu_user_id":uid,
                                  @"type":@"2",
                                  @"loadtype":[NSString stringWithFormat:@"%d",[startID[1] intValue] == 0 ? 1 : 1],
-                                 @"startid":startID[1]};
+                                 @"time":startID[1]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -288,7 +288,7 @@
                  if ( ary.count > 0)
                  {
                      [_hasGetArray addObjectsFromArray:ary];
-                     startID[1] = [ary lastObject][@"id"];
+                     startID[1] = [ary lastObject][@"update_time"];
                  }
                  else
                  {
@@ -298,7 +298,7 @@
                  
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_hasGetArray addObject:ary];
-                 startID[1] = ((NSDictionary*)ary)[@"id"];
+                 startID[1] = ((NSDictionary*)ary)[@"update_time"];
              }
              [self.hasGetTable reloadData];
          }
@@ -328,7 +328,7 @@
                                  @"lingqu_user_id":uid,
                                  @"type":@"4",
                                  @"loadtype":[NSString stringWithFormat:@"%d",[startID[0] intValue] == 0 ? 1 : 1],
-                                 @"startid":startID[0]};
+                                 @"time":startID[0]};
     [[RequestTool alloc] requestWithUrl:MY_RED_PACKGE_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -352,7 +352,7 @@
                  if ( ary.count > 0)
                  {
                      [_ungetArray addObjectsFromArray:ary];
-                     startID[0] = [ary lastObject][@"id"];
+                     startID[0] = [ary lastObject][@"update_time"];
                  }
                  else
                  {
@@ -360,7 +360,7 @@
                  }
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_ungetArray addObject:ary];
-                 startID[0] = ((NSDictionary*)ary)[@"id"];
+                 startID[0] = ((NSDictionary*)ary)[@"update_time"];
              }
              [self.ungetTable reloadData];
          }
@@ -398,7 +398,7 @@
 }
 
 - (void)refresh:(int)type {
-    startID[type] = @"0";
+    startID[type] = @"";
     if (type == 0) {
         if (isLoading[0])
         {

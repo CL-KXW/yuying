@@ -67,6 +67,7 @@
     ggid = ggid ? ggid : @"";
     NSDictionary *requestDic = @{@"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],@"id":[NSString stringWithFormat:@"%@", ggid]};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    __weak typeof(self) weakself = self;
     [[RequestTool alloc] requestWithUrl:GET_AD_REWARD
                             requestParamas:requestDic
                                requestType:RequestTypeAsynchronous
@@ -81,8 +82,8 @@
          if (errorCode == 8)
          {
              NSString *moneyName = [NSString stringWithFormat:@"您本次看一看获得%@元", self.dataDic[@"lingqu_money"]];
-            [self startMoneyAnimation:^{
-                [self setMoneyAniView:nil];
+            [weakself startMoneyAnimation:^{
+//                [weakself setMoneyAniView:nil];
             }];//显示金钱下落动画
             [SVProgressHUD showSuccessWithStatus:moneyName];
          }
@@ -117,11 +118,12 @@
     if (!self.moneyAniView) {
         __weak typeof(self) weakSelf = self;
         YCMoneyAnimation *moneyAn = [[YCMoneyAnimation alloc] initWithAnimation:^{
-            [self.avPlayer play];
+            [weakSelf.avPlayer play];
         } :nil];
         moneyAn.didAnimation = ^(){
             [weakSelf.avPlayer pause];
             [weakSelf.moneyAniView removeFromSuperview];
+            weakSelf.moneyAniView = nil;
             if(didBlock) didBlock();
         };
         [self setMoneyAniView:moneyAn];

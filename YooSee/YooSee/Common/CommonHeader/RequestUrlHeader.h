@@ -150,8 +150,10 @@ static NSString *server4 = @"www.gwelltimes.com";
 //点击红包进入红包详情
 #define ROB_RED_PACKGE_DETAIL       MAKE_REQUEST_URL(@"app/red/get/add")
 
-//我的红包列表
-#define MY_RED_PACKGE_LIST          MAKE_REQUEST_URL(@"app/red/get/querybylingqu_user_id")
+//我的红包列表app/red/get/querybyuser_idAndTime
+//#define MY_RED_PACKGE_LIST          MAKE_REQUEST_URL(@"app/red/get/querybylingqu_user_id")
+
+#define MY_RED_PACKGE_LIST          MAKE_REQUEST_URL(@"app/red/get/querybyuser_idAndTime")
 
 //获取红包状态
 #define RED_PACKAGE_STATE           MAKE_REQUEST_URL(@"app/red/send/getByOnly_numberAndUser_id")
