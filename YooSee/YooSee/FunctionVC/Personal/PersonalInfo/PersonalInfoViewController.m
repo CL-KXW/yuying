@@ -155,6 +155,7 @@
 {
     [YooSeeApplication shareApplication].isLogin2cu = NO;
     [YooSeeApplication shareApplication].isLogin = NO;
+    [YooSeeApplication shareApplication].userInfoDic = nil;
     [USER_DEFAULT removeObjectForKey:@"UserName"];
     [USER_DEFAULT removeObjectForKey:@"Token"];
     [self.navigationController popToRootViewControllerAnimated:YES];

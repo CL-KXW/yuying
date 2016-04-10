@@ -147,7 +147,7 @@
     
     if (self.imageUrl.length > 0)
     {
-        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:[UIImage imageNamed:@"KJ.jpg"]];
+        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:[UIImage imageNamed:SCREEN_HEIGHT == 480 ? @"ip4-2" : @"ip6-2"]];
         [splashImageView sd_setImageWithURL:[NSURL URLWithString:self.imageUrl] placeholderImage:[UIImage imageNamed:@"KJ.jpg"]];
         [self.view addSubview:splashImageView];
         [[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -437,7 +437,6 @@
 		CEAD816F1CB6A25F00ADD690 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAD816B1CB6A25F00ADD690 /* UIView+WebCacheOperation.m */; };
 		CEBA82471CA503CA00452A9B /* FBEncryptorAES.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBA82441CA503CA00452A9B /* FBEncryptorAES.m */; };
 		CEBA82481CA503CA00452A9B /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBA82461CA503CA00452A9B /* NSData+Base64.m */; };
-		CEBA824A1CA5929B00452A9B /* KJ.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEBA82491CA5929B00452A9B /* KJ.jpg */; };
 		CEC7FEBE1C9657C000759DFC /* SetCameraAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEBD1C9657C000759DFC /* SetCameraAlarmViewController.m */; };
 		CEC7FEC11C96E8E700759DFC /* SetCameraDefenceAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEC01C96E8E700759DFC /* SetCameraDefenceAreaViewController.m */; };
 		CEC7FEC41C9708DA00759DFC /* SetCameraNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC7FEC31C9708DA00759DFC /* SetCameraNetworkViewController.m */; };
@@ -1241,7 +1240,6 @@
 		CEBA82441CA503CA00452A9B /* FBEncryptorAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBEncryptorAES.m; sourceTree = "<group>"; };
 		CEBA82451CA503CA00452A9B /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		CEBA82461CA503CA00452A9B /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
-		CEBA82491CA5929B00452A9B /* KJ.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = KJ.jpg; sourceTree = "<group>"; };
 		CEC7FEBC1C9657C000759DFC /* SetCameraAlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCameraAlarmViewController.h; sourceTree = "<group>"; };
 		CEC7FEBD1C9657C000759DFC /* SetCameraAlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCameraAlarmViewController.m; sourceTree = "<group>"; };
 		CEC7FEBF1C96E8E700759DFC /* SetCameraDefenceAreaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCameraDefenceAreaViewController.h; sourceTree = "<group>"; };
@@ -2432,7 +2430,6 @@
 			children = (
 				CE1098451CAD0196006DCDFA /* default_image1.png */,
 				CE1098461CAD0196006DCDFA /* default_image2.png */,
-				CEBA82491CA5929B00452A9B /* KJ.jpg */,
 				CE24B57F1C8F240C00556775 /* big_icon.png */,
 				CEAD7D381C8C7F1C008B5281 /* pick_bg.png */,
 				CE77F2F41C7D9A9800CE0D98 /* back_down.png */,
@@ -3455,7 +3452,6 @@
 				CEE4C1731C8719E300D8DA5E /* icon_speak_down.png in Resources */,
 				286C78E31C92AF2B009E129E /* img_tab_bg_2@2x.png in Resources */,
 				286C79111C9561C2009E129E /* y1y_bg_1.jpg in Resources */,
-				CEBA824A1CA5929B00452A9B /* KJ.jpg in Resources */,
 				CE24B5801C8F240C00556775 /* big_icon.png in Resources */,
 				CEAD7D641C8C9681008B5281 /* icon_usercenter_8_down.png in Resources */,
 				CEAAA54B1C8B34E30006F804 /* icon_alarm_av_down.png in Resources */,
