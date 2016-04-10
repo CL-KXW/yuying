@@ -60,7 +60,7 @@
     label.textColor = [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
     [button addSubview:label];
     
-    NSString *paymoney = [[YooSeeApplication shareApplication] userDic][@"paymoney"];
+    NSString *paymoney = [[YooSeeApplication shareApplication] userInfoDic][@"paymoney"];
     label2 =[[UILabel alloc]initWithFrame:CGRectMake(0, 255-gg, CongWIDTH-25, 40)];
     label2.text = [NSString stringWithFormat:@"%.2f元", [paymoney floatValue]];
     label2.textAlignment = NSTextAlignmentCenter;
