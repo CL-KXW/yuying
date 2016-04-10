@@ -115,6 +115,10 @@
     NSMutableArray *ary = [NSMutableArray array];
     NSMutableArray *titleAry = [NSMutableArray array];
     
+    if ([self isVaildURL:dic[@"url_1"]]) {
+        [ary addObject:dic[@"url_1"]];
+        [titleAry addObject:dic[@"content_1"]];
+    }
     if ([self isVaildURL:dic[@"url_2"]]) {
         [ary addObject:dic[@"url_2"]];
         [titleAry addObject:dic[@"content_2"]];
