@@ -18,7 +18,8 @@ typedef enum {
 
 @property (nonatomic, assign) WithdrawType turnoverWithdrawals;
 
-@property (nonatomic, strong) NSArray *textArray;
+@property(nonatomic,weak)IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *textArray;
 @property (nonatomic, strong) UITextField *alipayField;
 @property(nonatomic,strong) UITextField *nameField;
 @property(nonatomic,strong) UITextField *moneyField;

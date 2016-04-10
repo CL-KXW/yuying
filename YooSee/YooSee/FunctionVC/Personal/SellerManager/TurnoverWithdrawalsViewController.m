@@ -15,12 +15,16 @@
 
 @interface TurnoverWithdrawalsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property(nonatomic,weak)IBOutlet UITableView *tableView;
-@property(nonatomic,strong)TurnoverWithdrawalsFootView *footView;
+@property (nonatomic, strong) UILabel *arrivalLabel;
 
+@property(nonatomic,strong)TurnoverWithdrawalsFootView *footView;
 @end
 
 @implementation TurnoverWithdrawalsViewController
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,7 +47,7 @@
         [self setTableFootView];
     }
     
-    self.textArray = @[@"支付宝",@"姓名",@"提现金额",@"当前营业额8246.00元，可提现2344.00元，冻结2343.00元"];
+    self.textArray = [NSMutableArray arrayWithArray:@[@"支付宝",@"姓名",@"提现金额",@"¥", @"到账金额:",@"当前"]];
     [self requestRate];
 }
 
@@ -111,7 +115,8 @@
         _moneyField.width = RightWidth-20;
         _moneyField.height = CellDefaultHeight;
         _moneyField.textAlignment = NSTextAlignmentRight;
-        _moneyField.keyboardType = UIKeyboardTypeDefault;
+        _moneyField.keyboardType = UIKeyboardTypeNumberPad;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldValueChanged:) name:UITextFieldTextDidChangeNotification object:_moneyField];
     }
     
     return _moneyField;
@@ -142,11 +147,11 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return self.textArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *cellIdent = @"cell";
+    NSString *cellIdent = [NSString stringWithFormat:@"cell_%d", indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
@@ -170,6 +175,16 @@
             break;
             
         case 2:{
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 20)];
+            cell.accessoryView = label;
+            label.font = FONT(13);
+            label.text = [NSString stringWithFormat:@"手续费：%.2f%%", self.rate];
+            label.textColor = RGB(179, 94, 111);
+            label.textAlignment = NSTextAlignmentRight;
+        }
+            break;
+        case 3:
+        {
             UIView *view = Alloc(UIView);
             view.width = self.moneyField.width+20;
             view.height = CellDefaultHeight;
@@ -184,8 +199,12 @@
             cell.accessoryView = view;
         }
             break;
-            
-        case 3:{
+        case 4:{
+            cell.textLabel.textColor = RGB(179, 94, 111);
+            self.arrivalLabel = cell.textLabel;
+        }
+            break;
+        case 5: {
             cell.textLabel.font = [UIFont systemFontOfSize:12];
             cell.textLabel.textColor = [UIColor lightGrayColor];
         }
@@ -274,4 +293,13 @@
     }];
 }
 
+#pragma mark -
+#pragma mark Delegate
+- (void)textFieldValueChanged:(NSNotification*)notification {
+    NSLog(@"notif = %@", notification);
+    if (notification.object == _moneyField) {
+        [self.textArray replaceObjectAtIndex:4 withObject:[NSString stringWithFormat:@"到账金额：%.2f元",_moneyField.text.floatValue * (1 - self.rate/100.0)]];
+        self.arrivalLabel.text = self.textArray[4];
+    }
+}
 @end

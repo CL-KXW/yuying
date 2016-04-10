@@ -159,6 +159,7 @@
              NSDictionary *dic = dataDic[@"resultList"];
              if (dic && [dic isKindOfClass:[NSDictionary class]] && dic[@"paymoney"]) {
                  label2.text = [NSString stringWithFormat:@"%.2f元",[dic[@"paymoney"] floatValue]];
+                  [[YooSeeApplication shareApplication] setUserInfoDic:dic];
              }
          }
          else
