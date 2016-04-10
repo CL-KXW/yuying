@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSDictionary *userInfoDic;//个人信息返回的用户信息
 @property (nonatomic, strong) NSDictionary *userDic;//用户用户登录返回的用户信息
 @property (nonatomic, strong) NSDictionary *user2CUDic;//登录2cu返回数据
-@property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) NSString *uid;//用户ID
 @property (nonatomic, strong) Contact *contact;
 @property (nonatomic, strong) NSString *pwd2cu;
 @property (nonatomic, strong) LoginResult *loginResult;
@@ -27,6 +27,5 @@
 @property (nonatomic, strong) NSString *provinceID;
 
 + (instancetype)shareApplication;
-- (NSString *)getUserID;
 
 @end

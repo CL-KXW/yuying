@@ -158,7 +158,7 @@
     
     [LoadingView showLoadingView];
     
-    NSString *user_id = [[YooSeeApplication shareApplication] getUserID];
+    NSString *user_id = UNNULL_STRING([[YooSeeApplication shareApplication] uid]);
     NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",nil];
 
     WeakSelf(weakSelf);
