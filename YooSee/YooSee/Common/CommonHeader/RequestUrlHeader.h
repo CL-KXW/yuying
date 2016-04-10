@@ -123,6 +123,8 @@ static NSString *server4 = @"www.gwelltimes.com";
 //获取广告列表
 #define GET_AD_LIST                 MAKE_REQUEST_URL(@"app/ab/queryList")
 
+#define AD_DETAIL_URL               MAKE_REQUEST_URL(@"app/ab/queryById")
+
 //获取广告奖励
 #define GET_AD_REWARD               MAKE_REQUEST_URL(@"app/ab/get/add")
 
@@ -130,7 +132,7 @@ static NSString *server4 = @"www.gwelltimes.com";
 #define MAKE_ROB                    MAKE_REQUEST_URL(@"app/register/add")
 
 //红包详情
-#define RED_POCKET_DETAIL           MAKE_REQUEST_URL(@"yyw_redpackedgg")
+#define RED_POCKET_DETAIL           MAKE_REQUEST_URL(@"app/red/send/querybyId")
 
 //抢红包
 #define RED_POCKET_ROB              MAKE_REQUEST_URL(@"app/red/get/add")
