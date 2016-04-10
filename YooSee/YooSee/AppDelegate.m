@@ -186,7 +186,10 @@
         
          if (errorCode == 0)
          {
-             [SVProgressHUD showSuccessWithStatus:@"登录2cu成功"];
+             if (isShow)
+             {
+                [SVProgressHUD showSuccessWithStatus:@"登录2cu成功"];
+             }
              [YooSeeApplication shareApplication].isLogin2cu = YES;
              [YooSeeApplication shareApplication].user2CUDic = dataDic;
              int iContactId = ((NSString*)dataDic[@"UserID"]).intValue & 0x7fffffff;

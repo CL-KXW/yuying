@@ -210,6 +210,9 @@
 		CE0985851C94505B0077253E /* PlayerAdvDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0985841C94505B0077253E /* PlayerAdvDetailViewController.m */; };
 		CE0985881C94600D0077253E /* SettingCameraBasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0985871C94600D0077253E /* SettingCameraBasicViewController.m */; };
 		CE0A377C1C80A6D200A4B62B /* camera_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0A377B1C80A6D200A4B62B /* camera_icon@2x.png */; };
+		CE0B830B1CBA5423002EA066 /* store.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0B83091CBA5423002EA066 /* store.png */; };
+		CE0B830C1CBA5423002EA066 /* storeCut.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0B830A1CBA5423002EA066 /* storeCut.png */; };
+		CE0B830F1CBA59BA002EA066 /* TempPicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0B830E1CBA59BA002EA066 /* TempPicViewController.m */; };
 		CE0C020D1C7CFC3600F0DD58 /* LocalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0C020C1C7CFC3600F0DD58 /* LocalWebViewController.m */; };
 		CE1098471CAD0196006DCDFA /* default_image1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1098451CAD0196006DCDFA /* default_image1.png */; };
 		CE1098481CAD0196006DCDFA /* default_image2.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1098461CAD0196006DCDFA /* default_image2.png */; };
@@ -864,6 +867,10 @@
 		CE0985861C94600D0077253E /* SettingCameraBasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCameraBasicViewController.h; sourceTree = "<group>"; };
 		CE0985871C94600D0077253E /* SettingCameraBasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingCameraBasicViewController.m; sourceTree = "<group>"; };
 		CE0A377B1C80A6D200A4B62B /* camera_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon@2x.png"; sourceTree = "<group>"; };
+		CE0B83091CBA5423002EA066 /* store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store.png; sourceTree = "<group>"; };
+		CE0B830A1CBA5423002EA066 /* storeCut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storeCut.png; sourceTree = "<group>"; };
+		CE0B830D1CBA59BA002EA066 /* TempPicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempPicViewController.h; sourceTree = "<group>"; };
+		CE0B830E1CBA59BA002EA066 /* TempPicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempPicViewController.m; sourceTree = "<group>"; };
 		CE0C020B1C7CFC3600F0DD58 /* LocalWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalWebViewController.h; sourceTree = "<group>"; };
 		CE0C020C1C7CFC3600F0DD58 /* LocalWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalWebViewController.m; sourceTree = "<group>"; };
 		CE1098451CAD0196006DCDFA /* default_image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image1.png; sourceTree = "<group>"; };
@@ -2014,6 +2021,8 @@
 		CE11AE291C748E040017181E /* home */ = {
 			isa = PBXGroup;
 			children = (
+				CE0B83091CBA5423002EA066 /* store.png */,
+				CE0B830A1CBA5423002EA066 /* storeCut.png */,
 				CE3AA2B51CB8D5C10092D91D /* temp_golo.png */,
 				CE3AA2B61CB8D5C10092D91D /* temp_camera.png */,
 				CE99BAFD1CB7C1510052A386 /* icon_home_camera_down.png */,
@@ -2336,6 +2345,8 @@
 				CEAD7D401C8C840B008B5281 /* ScanViewController.m */,
 				CEF4C48F1C927307004D6A4F /* NewsListViewController.h */,
 				CEF4C4901C927307004D6A4F /* NewsListViewController.m */,
+				CE0B830D1CBA59BA002EA066 /* TempPicViewController.h */,
+				CE0B830E1CBA59BA002EA066 /* TempPicViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3232,6 +3243,7 @@
 				286C78F41C947419009E129E /* chest_icon@3x.png in Resources */,
 				CE07DCA31C7EC4170090A9A5 /* icon_camera_qcode_up.png in Resources */,
 				CEAD7D5C1C8C9681008B5281 /* icon_usercenter_4_down.png in Resources */,
+				CE0B830B1CBA5423002EA066 /* store.png in Resources */,
 				CE11AE2D1C7490020017181E /* icon_navbar_sys_up.png in Resources */,
 				CEDC0B241C9F95700056521F /* AlipaySDK.bundle in Resources */,
 				CE80C3991C78ADC200A7ADCA /* loading_10.png in Resources */,
@@ -3412,6 +3424,7 @@
 				CE07DC9F1C7EC4170090A9A5 /* icon_camera_id_up.png in Resources */,
 				CE5ABD371C5B5B3800643B24 /* Assets.xcassets in Resources */,
 				CE14E8C41C8FF7340044E8D2 /* yuying.png in Resources */,
+				CE0B830C1CBA5423002EA066 /* storeCut.png in Resources */,
 				286C78F51C947419009E129E /* gold1@2x.png in Resources */,
 				CEAD7D3B1C8C7F2B008B5281 /* line.png in Resources */,
 				CEAD12581C7CE58800D2CAF2 /* icon_home_shop_down.png in Resources */,
@@ -3567,6 +3580,7 @@
 				CE8BE8731C5F885700D6307D /* MJRefreshHeaderView.m in Sources */,
 				286C791C1C95B044009E129E /* MoneyDetailVC.m in Sources */,
 				CEC7FEC41C9708DA00759DFC /* SetCameraNetworkViewController.m in Sources */,
+				CE0B830F1CBA59BA002EA066 /* TempPicViewController.m in Sources */,
 				CE8BE8441C5F885000D6307D /* AFHTTPSessionManager.m in Sources */,
 				40694BA81CA7F189006BCBBF /* MASViewAttribute.m in Sources */,
 				40694C511CA7F2AC006BCBBF /* SendRedLibaryViewController.m in Sources */,

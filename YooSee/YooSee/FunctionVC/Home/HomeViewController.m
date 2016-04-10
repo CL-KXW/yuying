@@ -45,6 +45,7 @@
 #import "CameraPasswordViewController.h"
 #import "Y1YViewController.h"
 #import "RobRedPackgeListVC.h"
+#import "TempPicViewController.h"
 
 @interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -474,6 +475,11 @@
 #pragma mark 扫描
 - (void)scanButtonPressed:(UIButton *)sender
 {
+    if (![YooSeeApplication shareApplication].isLogin)
+    {
+        [self addLoginView];
+        return;
+    }
     ScanViewController *scanViewController = [[ScanViewController alloc] init];
     scanViewController.tipString = @"若扫描没有反应，请将二维码远离手机";
     [self.navigationController pushViewController:scanViewController animated:YES];
@@ -512,9 +518,13 @@
     }
     if (tag == 1)
     {
-        LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
-        storeDiscountViewController.urlString = @"shopsDiscount";
-        viewController = storeDiscountViewController;
+        //LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
+        //storeDiscountViewController.urlString = @"shopsDiscount";
+        //viewController = storeDiscountViewController;
+        TempPicViewController *tempPicViewController = [[TempPicViewController alloc] init];
+        tempPicViewController.imageString = @"storeCut";
+        tempPicViewController.title = @"商家优惠";
+        [self.navigationController pushViewController:tempPicViewController animated:YES];
     }
     if (tag == 2)
     {
@@ -671,9 +681,20 @@
         }
         
         //商城
-        LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
-        storeDiscountViewController.urlString = (tag == 0) ? SHOP : PUBLIC_ADV;
-        [self.navigationController pushViewController:storeDiscountViewController animated:YES];
+        //LocalWebViewController *storeDiscountViewController = [[LocalWebViewController alloc] init];
+        //storeDiscountViewController.urlString = (tag == 0) ? SHOP : PUBLIC_ADV;
+        //[self.navigationController pushViewController:storeDiscountViewController animated:YES];
+        if (tag == 0)
+        {
+            TempPicViewController *tempPicViewController = [[TempPicViewController alloc] init];
+            tempPicViewController.imageString = @"store";
+            tempPicViewController.title = @"体验购";
+            [self.navigationController pushViewController:tempPicViewController animated:YES];
+        }
+        if (tag == 1)
+        {
+            //发广告
+        }
     }
 }
 

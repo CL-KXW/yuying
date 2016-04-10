@@ -8,7 +8,9 @@
 
 #import "ScanViewController.h"
 
-@interface ScanViewController ()
+@interface ScanViewController ()<UIAlertViewDelegate>
+
+@property (nonatomic, strong) NSString *qrCodeString;
 
 @end
 
@@ -25,7 +27,42 @@
 #pragma mark 获取成功
 - (void)getQrcodeSucess:(NSString *)qrCodeString
 {
-    
+    _qrCodeString = UNNULL_STRING(qrCodeString);
+    NSString *preString = @"http://www.dianliang.yuying/app?type=";
+    if ([qrCodeString hasPrefix:preString])
+    {
+        NSString *dataString = [qrCodeString stringByReplacingOccurrencesOfString:preString withString:@""];
+        dataString = [dataString stringByReplacingOccurrencesOfString:@"id=" withString:@""];
+        NSArray *array = [dataString componentsSeparatedByString:@"&"];
+        if (!array || [array count] != 2)
+        {
+            NSString *type = array[0];
+            NSString *idString = array[1];
+            if ([@"hb-js" isEqualToString:type])
+            {
+                
+            }
+        }
+    }
+    else
+    {
+        qrCodeString = @"无效结果";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"扫描结果" message:qrCodeString delegate:self cancelButtonTitle:@"重试" otherButtonTitles:@"取消", nil];
+        [alertView show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([title isEqualToString:@"重试"])
+    {
+        [self reset];
+    }
+    if ([title isEqualToString:@"取消"])
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSString *tipString;
 
 - (void)getQrcodeSucess:(NSString *)qrCodeString;
+- (void)reset;
 
 @end

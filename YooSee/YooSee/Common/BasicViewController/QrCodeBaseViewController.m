@@ -48,6 +48,7 @@
 {
     [super viewWillAppear:animated];
     [self createTimer];
+    [_session startRunning];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -178,9 +179,14 @@
     [_session stopRunning];
     [timer invalidate];
     NSLog(@"%@",stringValue);
-    [CommonTool addAlertTipWithMessage:stringValue];
     
     [self getQrcodeSucess:stringValue];
+}
+
+- (void)reset
+{
+    [self createTimer];
+    [_session startRunning];
 }
 
 #pragma mark 获取成功
