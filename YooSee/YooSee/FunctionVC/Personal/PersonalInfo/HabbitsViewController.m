@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *valueArray;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
 
@@ -27,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    _titleArray = @[@"餐饮美食",@"休闲娱乐",@"旅游酒店",@"医疗美容",@"高新科技",@"购物",@"汽车",@"亲子",@"房产装修"];
+    _titleArray = @[@"餐饮美食",@"休闲娱乐",@"旅游酒店",@"医疗美容",@"高新科技",@"购物",@"汽车",@"亲子",@"房产装修",@"文化传媒",@"生态农业",@"环境保护",@"地方特产",@"金融理财",@"理财"];
     _valueArray = [NSMutableArray arrayWithCapacity:0];
     
     [self initUI];
@@ -39,13 +40,16 @@
 #pragma mark 初始化UI
 - (void)initUI
 {
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:_scrollView];
+    
     UIButton *closeButton = [CreateViewTool createButtonWithFrame:CGRectMake(self.view.frame.size.width - 80.0, START_HEIGHT - 20.0, 80.0, 20.0) buttonTitle:@"关闭" titleColor:SELECT_COLOR normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:[UIColor clearColor] selectorName:@"closeButtonPressed:" tagDelegate:self];
-    [self.view addSubview:closeButton];
+    [_scrollView addSubview:closeButton];
     
     float y = closeButton.frame.size.height + closeButton.frame.origin.y + 40.0;
     UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.view.frame.size.width, 30.0) textString:@"请选择你感兴趣的" textColor:SELECT_COLOR textFont:FONT(24.0)];
     tipLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:tipLabel];
+    [_scrollView addSubview:tipLabel];
     
     float add_y = 25.0 * CURRENT_SCALE;
     y += tipLabel.frame.size.height + 2 * add_y;
@@ -54,8 +58,9 @@
     float width = 80.0 * CURRENT_SCALE;
     float height = 40.0 * CURRENT_SCALE;
     float add_x = (self.view.frame.size.width - 3 * width)/4.0;
-
-    for (int i = 0; i < 3; i++)
+    
+    int row = 5;
+    for (int i = 0; i < row; i++)
     {
         for (int j = 0; j < 3; j++)
         {
@@ -65,15 +70,17 @@
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
             button.tag = index;
-            [self.view addSubview:button];
+            [_scrollView addSubview:button];
         }
     }
     
-    y += 3 * height + 2 * add_y + 2 * add_y;
+    y += row * height + (row - 1) * add_y + 2 * add_y;
     UIButton *doneButton = [CreateViewTool createButtonWithFrame:CGRectMake(SPACE_X, y, self.view.frame.size.width - 2 * SPACE_X, BUTTON_HEIGHT) buttonTitle:@"完成" titleColor:[UIColor whiteColor] normalBackgroundColor:SELECT_COLOR highlightedBackgroundColor:nil selectorName:@"doneButtonPressed:" tagDelegate:self];
     [doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [CommonTool clipView:doneButton withCornerRadius:BUTTON_RADIUS];
-    [self.view addSubview:doneButton];
+    [_scrollView addSubview:doneButton];
+    
+    _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, y + doneButton.frame.size.height + add_y);
     
 }
 

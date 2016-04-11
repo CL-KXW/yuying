@@ -178,7 +178,7 @@
         self.imageUrl = self.imageUrl ? self.imageUrl : @"";
         if (self.imageUrl && self.imageUrl.length > 0)
         {
-            [_imageButton setBackgroundImageWithURL:[NSURL URLWithString:self.imageUrl] forState:UIControlStateNormal];
+            [_imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.imageUrl] forState:UIControlStateNormal];
             [_imageButton setTitle:@"" forState:UIControlStateNormal];
         }
     }

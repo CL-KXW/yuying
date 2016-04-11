@@ -141,9 +141,14 @@
              [USER_DEFAULT setValue:responseDic forKey:@"AdvInfo"];
              [[NSNotificationCenter defaultCenter] postNotificationName:@"GetAdvSucess" object:nil userInfo:nil];
          }
+         else
+         {
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"GetAdvFail" object:nil userInfo:nil];
+         }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         [[NSNotificationCenter defaultCenter] postNotificationName:@"GetAdvFail" object:nil userInfo:nil];
          NSLog(@"GET_ADV_URL====%@",error);
      }];
 }

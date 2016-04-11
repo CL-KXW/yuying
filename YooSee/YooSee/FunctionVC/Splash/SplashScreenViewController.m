@@ -6,10 +6,11 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
+#define IMAGE       @"Image"
+
 #import "SplashScreenViewController.h"
 #import "AvPlayerView.h"
 #import "HomeViewController.h"
-#import "LoginViewController.h"
 #import "LoginResult.h"
 #import "UDManager.h"
 #import "Utils.h"
@@ -17,12 +18,9 @@
 #import "ContactDAO.h"
 
 @interface SplashScreenViewController ()<UIAlertViewDelegate>
-{
-    LoginViewController *loginViewController;
-}
 
-@property (nonatomic, strong) AvPlayerView *avPlayerView;
 @property (nonatomic, strong) NSString *imageUrl;
+@property (nonatomic, strong) UIImageView *splashImageView;
 
 @end
 
@@ -33,7 +31,7 @@
     [super viewDidLoad];
     
     [self initUI];
-    [self initData];
+
     [self addNotification];
     
     [DELEGATE getAdvListWithRequestType:RequestTypeSynchronous];
@@ -44,31 +42,19 @@
 #pragma mark 初始化UI
 - (void)initUI
 {
-    [self addPlayerView];
+    UIImage *image = [UIImage imageNamed:SCREEN_HEIGHT == 480 ? @"ip4-2" : @"ip6-2"];
+    UIImage *lastImage = [UIImage imageWithData:[USER_DEFAULT objectForKey:IMAGE]];
+    lastImage = lastImage ? lastImage : image;
+    _splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:lastImage];
+    [self.view addSubview:_splashImageView];
 }
 
-- (void)addPlayerView
-{
-    _avPlayerView = [[AvPlayerView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [self.view addSubview:_avPlayerView];
-}
-
-
-#pragma mark 设置数据
-- (void)initData
-{
-    int isFirst = [[USER_DEFAULT objectForKey:ISFIRST_KEY] intValue];
-    NSString *videoPath = [[NSBundle mainBundle] pathForResource:(isFirst) ? @"ad6s" : @"ad12s" ofType:@"mp4"];
-    [_avPlayerView setVideoUrl:videoPath];
-    [USER_DEFAULT setObject:@(1) forKey:ISFIRST_KEY];
-}
 
 #pragma mark 添加通知
 - (void)addNotification
 {
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(videoPlayFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAdvSucess:) name:@"GetAdvSucess" object:nil];
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAdvSucess:) name:@"GetAdvFail" object:nil];
 }
 
 
@@ -78,16 +64,24 @@
     NSArray *array = infoDic[@"start_diagram_List"];
     if (array && [array count] > 0)
     {
-        NSString *imageUrl =  array[0][@"image_url"];
-        imageUrl = imageUrl ? imageUrl : @"";
-        self.imageUrl = imageUrl;
+        NSString *imageUrl = UNNULL_STRING(array[0][@"image_url"]);
+        if (imageUrl.length > 0)
+        {
+            [_splashImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:_splashImageView.image options:SDWebImageContinueInBackground completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [USER_DEFAULT setObject:UIImagePNGRepresentation(image) forKey:IMAGE];
+                [USER_DEFAULT synchronize];
+                [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(loginServerRequest) userInfo:nil repeats:NO];
+            }];
+        }
     }
+    else
+    {
+        [USER_DEFAULT removeObjectForKey:IMAGE];
+        [self loginServerRequest];
+    }
+    
 }
 
-- (void)videoPlayFinished:(NSNotification *)notification
-{
-    [self loginServerRequest];
-}
 
 #pragma mark 登录服务器接口
 - (void)loginServerRequest
@@ -144,21 +138,7 @@
     [YooSeeApplication shareApplication].loginServerDic = responseDic;
     [DELEGATE checkUpdateShowTip:NO];
     [YooSeeApplication shareApplication].pwd2cu = responseDic[@"pwd2cu"];
-    
-    if (self.imageUrl.length > 0)
-    {
-        UIImage *image = [UIImage imageNamed:SCREEN_HEIGHT == 480 ? @"ip4-2" : @"ip6-2"];
-        UIImageView *splashImageView = [CreateViewTool createImageViewWithFrame:self.view.frame placeholderImage:image];
-        [splashImageView sd_setImageWithURL:[NSURL URLWithString:self.imageUrl] placeholderImage:image];
-        [self.view addSubview:splashImageView];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self.avPlayerView removeFromSuperview];
-        [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(next) userInfo:nil repeats:NO];
-    }
-    else
-    {
-        [self next];
-    }
+    [self next];
 }
 
 - (void)next

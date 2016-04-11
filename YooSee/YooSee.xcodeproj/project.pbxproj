@@ -301,8 +301,6 @@
 		CE89E9511C8C1B16006F6B4D /* setting_record.png in Resources */ = {isa = PBXBuildFile; fileRef = CE89E94B1C8C1B16006F6B4D /* setting_record.png */; };
 		CE89E9521C8C1B16006F6B4D /* setting_time.png in Resources */ = {isa = PBXBuildFile; fileRef = CE89E94C1C8C1B16006F6B4D /* setting_time.png */; };
 		CE89E9531C8C1B16006F6B4D /* setting_warn.png in Resources */ = {isa = PBXBuildFile; fileRef = CE89E94D1C8C1B16006F6B4D /* setting_warn.png */; };
-		CE8BDDA31C912D8A00472924 /* ad12s.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CE8BDDA11C912D8A00472924 /* ad12s.mp4 */; };
-		CE8BDDA41C912D8A00472924 /* ad6s.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CE8BDDA21C912D8A00472924 /* ad6s.mp4 */; };
 		CE8BDDA71C912E2800472924 /* GetMoneryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDA61C912E2800472924 /* GetMoneryViewController.m */; };
 		CE8BDDAA1C913C4E00472924 /* ReciverInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDA91C913C4E00472924 /* ReciverInfoViewController.m */; };
 		CE8BDDAD1C913D1100472924 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8BDDAC1C913D1100472924 /* ChangePasswordViewController.m */; };
@@ -992,8 +990,6 @@
 		CE89E94B1C8C1B16006F6B4D /* setting_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_record.png; sourceTree = "<group>"; };
 		CE89E94C1C8C1B16006F6B4D /* setting_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_time.png; sourceTree = "<group>"; };
 		CE89E94D1C8C1B16006F6B4D /* setting_warn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_warn.png; sourceTree = "<group>"; };
-		CE8BDDA11C912D8A00472924 /* ad12s.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ad12s.mp4; sourceTree = "<group>"; };
-		CE8BDDA21C912D8A00472924 /* ad6s.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ad6s.mp4; sourceTree = "<group>"; };
 		CE8BDDA51C912E2800472924 /* GetMoneryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetMoneryViewController.h; sourceTree = "<group>"; };
 		CE8BDDA61C912E2800472924 /* GetMoneryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMoneryViewController.m; sourceTree = "<group>"; };
 		CE8BDDA81C913C4E00472924 /* ReciverInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReciverInfoViewController.h; sourceTree = "<group>"; };
@@ -2213,7 +2209,6 @@
 			isa = PBXGroup;
 			children = (
 				CEDC0B261C9F998E0056521F /* Music */,
-				CE8BDDA01C912D8A00472924 /* Video */,
 				CE8BE8741C5F9FBD00D6307D /* Images */,
 				CE9CFECC1C6CE34300755226 /* libsqlite3.0.tbd */,
 				40947E561CAAB0E90019D0C5 /* libsqlite3.tbd */,
@@ -2527,15 +2522,6 @@
 				CE89E94D1C8C1B16006F6B4D /* setting_warn.png */,
 			);
 			path = setting;
-			sourceTree = "<group>";
-		};
-		CE8BDDA01C912D8A00472924 /* Video */ = {
-			isa = PBXGroup;
-			children = (
-				CE8BDDA11C912D8A00472924 /* ad12s.mp4 */,
-				CE8BDDA21C912D8A00472924 /* ad6s.mp4 */,
-			);
-			path = Video;
 			sourceTree = "<group>";
 		};
 		CE8BDDB11C915BAC00472924 /* Bank */ = {
@@ -3224,7 +3210,6 @@
 				TargetAttributes = {
 					CE5ABD261C5B5B3800643B24 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = FS4WRZNUMC;
 					};
 				};
 			};
@@ -3280,7 +3265,6 @@
 				286C79121C9561C2009E129E /* y1y_bg_2.jpg in Resources */,
 				CEAD7D5F1C8C9681008B5281 /* icon_usercenter_5_up.png in Resources */,
 				CEAD7D621C8C9681008B5281 /* icon_usercenter_7_dwon.png in Resources */,
-				CE8BDDA31C912D8A00472924 /* ad12s.mp4 in Resources */,
 				CE11AE2B1C748E040017181E /* icon_navbar_usercenter_up.png in Resources */,
 				40694C201CA7F2AC006BCBBF /* PromptTextfield.xib in Resources */,
 				401168491CA805D0000BD055 /* UMSocialLocalizable.strings in Resources */,
@@ -3409,7 +3393,6 @@
 				CE11AE371C7498590017181E /* img_login_banner.png in Resources */,
 				286C78F61C947419009E129E /* chest_icon@2x.png in Resources */,
 				CE24B5821C8F2D9000556775 /* rule.txt in Resources */,
-				CE8BDDA41C912D8A00472924 /* ad6s.mp4 in Resources */,
 				40694CAF1CA7F9C3006BCBBF /* CommonTableViewCell.xib in Resources */,
 				40694C2C1CA7F2AC006BCBBF /* RedLibaryTypeListTableViewCell.xib in Resources */,
 				40694C281CA7F2AC006BCBBF /* RedLibaryManageViewController.xib in Resources */,
@@ -3938,9 +3921,9 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuying;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
 				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
