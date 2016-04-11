@@ -60,7 +60,6 @@
     [UMSocialQQHandler setQQWithAppId:QQ_APP_ID appKey:QQ_APP_SECRET url:QQ_CALLBACK];
     [UMSocialQQHandler setSupportWebView:YES];
     
-    [XGPush setAccount:@"18692237703"];
     [self xinGeReregister];
     
     //推送反馈回调版本示例
@@ -564,13 +563,14 @@
     //	[XGPush setAccount:@"test"];
     
     //注册设备
-    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+//    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+    self.deviceTokenStr = deviceToken;
     
     //如果不需要回调
     //[XGPush registerDevice:deviceToken];
     
     //打印获取的deviceToken的字符串
-    NSLog(@"[XGPush Demo] deviceTokenStr is %@",deviceTokenStr);
+//    NSLog(@"[XGPush Demo] deviceTokenStr is %@",deviceTokenStr);
 }
 
 //如果deviceToken获取不到会进入此事件
@@ -607,9 +607,9 @@
      
      [XGPush handleReceiveNotification:userInfo successCallback:successBlock errorCallback:errorBlock completion:completion];
      */
-    NSDictionary *dic = [userInfo objectForKey:@"aps"];
-    NSString *message = [dic objectForKey:@"key"];
-    if ([message isEqualToString:@"4"]) {
+
+    NSNumber *message = [userInfo objectForKey:@"key"];
+    if ([message intValue ] == 4) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveAdvertisement" object:nil];
     }else{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveRed" object:nil];

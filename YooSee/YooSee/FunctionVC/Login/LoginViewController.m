@@ -28,6 +28,8 @@
 #import "RegisterViewController.h"
 #import "FindPasswordViewController.h"
 
+#import "XGPush.h"
+
 @interface LoginViewController ()
 
 @property (nonatomic, strong) CustomTextField *usernameTextField;
@@ -181,6 +183,16 @@
          errorMessage = errorMessage ? errorMessage : LOADING_FAIL;
          if (errorCode == 8)
          {
+             AppDelegate *app = DELEGATE;
+             if (app.deviceTokenStr != nil) {
+                 [XGPush setAccount:username];
+                 [XGPush registerDevice:app.deviceTokenStr successCallback:^{
+                     NSLog(@"token succ");
+                 } errorCallback:^{
+                     NSLog(@"token error");
+                 }];
+             }
+
              [USER_DEFAULT setValue:username forKey:@"UserName"];
              [USER_DEFAULT setValue:password forKey:@"Password"];
              [weakSelf setDataWithDictionary:dataDic];

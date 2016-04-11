@@ -21,6 +21,8 @@
 #import "RegisterViewController.h"
 #import "CustomTextField.h"
 
+#import "WebViewController.h"
+
 @interface RegisterViewController ()
 
 @property (nonatomic, strong) NSMutableArray *textFiledArray;
@@ -103,21 +105,24 @@
     
     
     y += 5 * SPACE_Y;
-    UIButton *commitButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, BUTTON_HEIGHT) buttonTitle:@"完成并登录" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:nil selectorName:@"commitButtonPressed:" tagDelegate:self];
+    UIButton *commitButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width-2*x, BUTTON_HEIGHT) buttonTitle:@"完成并登录" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:nil selectorName:@"commitButtonPressed:" tagDelegate:self];
     [CommonTool clipView:commitButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:commitButton];
     
-    y -= (TIPLABEL_HEIGHT + 5.0);
-    NSString *text = @"点击完成表示您已阅读并接收<<鱼鹰会员服务条款>>";
-    UILabel *noticeLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.view.frame.size.width, TIPLABEL_HEIGHT) textString:text textColor:DE_TEXT_COLOR textFont:FONT(14.0)];
-    noticeLabel.textAlignment = NSTextAlignmentCenter;
+    y -= (TIPLABEL_HEIGHT*2 + 5.0);
+    NSString *text = @"点击完成表示您已阅读并接受<<鱼鹰个人注册协议>>";
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(x, y, self.view.frame.size.width-2*x, TIPLABEL_HEIGHT*2);
+    [button addTarget:self action:@selector(serviceAgreementButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.numberOfLines = 0;
+    button.titleLabel.font = FONT(16);
+    
     NSMutableAttributedString *string = [[NSMutableAttributedString  alloc] initWithString:text];
-    [CommonTool makeString:text toAttributeString:string withString:@"<<鱼鹰会员服务条款>>" withTextColor:LIGHT_MAIN_COLOR withTextFont:FONT(14.0)];
+    [CommonTool makeString:text toAttributeString:string withString:@"<<鱼鹰个人注册协议>>" withTextColor:LIGHT_MAIN_COLOR withTextFont:FONT(14.0)];
     self.codeButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    noticeLabel.attributedText = string;
-    [self.view addSubview:noticeLabel];
+    [self.view addSubview:button];
     
-    
+    [button setAttributedTitle:string forState:UIControlStateNormal];
 }
 
 #pragma mark 获取验证码
@@ -132,6 +137,14 @@
     self.phoneString = phone;
     [self getCodeRequest];
 }
+
+-(void)serviceAgreementButtonClick{
+    WebViewController *webViewController = [[WebViewController alloc] init];
+    webViewController.urlString = [Url_Host stringByAppendingString:@"dianliang/protocol/userRegister"];
+    webViewController.title = @"鱼鹰个人注册协议";
+    [self.navigationController pushViewController:webViewController animated:YES];
+}
+
 //创建Timer
 - (void)createTimer
 {

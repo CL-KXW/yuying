@@ -40,8 +40,7 @@
     [self addRefreshHeaderView];
     [LoadingView showLoadingView];
     [self refreshData];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"receiveRed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"receiveAdvertisement" object:nil];
 }
 
 - (void)backButtonPressed:(UIButton *)sender

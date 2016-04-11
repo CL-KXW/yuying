@@ -6,7 +6,7 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
-#define IMAGE_HEIGHT    281.5 * CURRENT_SCALE
+#define IMAGE_HEIGHT    SCREEN_WIDTH*9/16
 #define BOTTOM_HEIGHT   35
 #define CELL_HEIGHT     (IMAGE_HEIGHT + BOTTOM_HEIGHT)
 #define SPACE_X         12
