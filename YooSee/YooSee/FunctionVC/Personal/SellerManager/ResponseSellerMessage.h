@@ -31,6 +31,6 @@
 @property(nonatomic,strong)NSNumber *freeze_money;
 @property(nonatomic,strong)NSString *dian_content;
 @property(nonatomic,strong)NSString *hangye_name;
-@property(nonatomic,strong)NSNumber *id;
+@property(nonatomic,strong)NSNumber *id;  //商家id
 
 @end

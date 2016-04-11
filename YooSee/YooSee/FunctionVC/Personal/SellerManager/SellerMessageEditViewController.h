@@ -11,4 +11,6 @@
 
 @interface SellerMessageEditViewController : BasicViewController
 
+@property(nonatomic,strong)NSNumber *id;
+
 @end

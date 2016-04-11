@@ -115,6 +115,7 @@
             case 9000:
             {
                 title = @"订单支付成功";
+                [self.navigationController popViewControllerAnimated:YES];
             }
                 break;
             case 8000:
@@ -142,8 +143,7 @@
                 break;
         }
         
-        UIAlertView *alt = [[UIAlertView alloc] initWithTitle:@"支付结果" message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alt show];
+        [CommonTool addPopTipWithMessage:title];
     }];
 }
 

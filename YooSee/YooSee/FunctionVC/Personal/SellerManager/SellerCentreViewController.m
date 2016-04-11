@@ -186,6 +186,7 @@
 -(void)sellerEditButtonClick:(UIButton *)button{
     @autoreleasepool {
         SellerMessageEditViewController *vc = Alloc_viewControllerNibName(SellerMessageEditViewController);
+        vc.id = self.sellerMessage.id;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

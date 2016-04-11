@@ -282,9 +282,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     [dic setObject:self.sellNameField.text forKey:@"dian_name"];
     [dic setObject:self.contentView2.text forKey:@"dian_content"];
     [dic setObject:self.logoUrl forKey:@"dian_logo"];
-    NSString *user_id = [YooSeeApplication shareApplication].uid;
-    
-    [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"id"];
+    [dic setObject:[NSString stringWithFormat:@"%@",self.id] forKey:@"id"];
     
     NSString *url = [Url_Host stringByAppendingString:@"app/shop/update"];
 
