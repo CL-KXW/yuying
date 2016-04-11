@@ -44,7 +44,7 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         //if (errorCode == 1)
+         if (dataDic[@"only_number"])
          {
              self.dataDic = dataDic;
          }
