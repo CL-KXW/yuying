@@ -196,6 +196,37 @@ typedef NS_ENUM(NSUInteger, ActionType) {
         cell1.nameLabel.text = dic[@"content_1"];
     }else{
         cell1.nameLabel.text = dic[@"title_1"];
+        
+        if ([dic[@"type"] intValue] == 1) {
+            if([dic[@"hongbao_type"] intValue] == 1){
+                //即时红包
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediate"];
+            }else if ([dic[@"hongbao_type"] intValue] == 2){
+                //摇一摇
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shake"];
+            }else if ([dic[@"hongbao_type"] intValue] == 3){
+                //扫码红包
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
+            }
+        }else if([dic[@"type"] intValue] == 2){
+            if([dic[@"hongbao_type"] intValue] == 1){
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
+            }else if ([dic[@"hongbao_type"] intValue] == 2){
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+            }else if ([dic[@"hongbao_type"] intValue] == 3){
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
+            }
+        }else if([dic[@"type"] intValue] == 3){
+            cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
+        }else if([dic[@"type"] intValue] == 4){
+            if([dic[@"hongbao_type"] intValue] == 1){
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
+            }else if ([dic[@"hongbao_type"] intValue] == 2){
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+            }else if ([dic[@"hongbao_type"] intValue] == 3){
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
+            }
+        }
     }
     
     NSString *totalMoney = dic[@"fa_sum_money"];

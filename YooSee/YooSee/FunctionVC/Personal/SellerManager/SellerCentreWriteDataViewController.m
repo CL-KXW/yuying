@@ -613,7 +613,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     }
     [dic setObject:type forKey:@"type"];
     
-    NSString *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    NSString *user_id = [YooSeeApplication shareApplication].uid;
     [dic setObject:user_id forKey:@"user_id"];
     
     [dic setObject:idcrad forKey:@"idcrad"];
@@ -815,7 +815,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.sourceType = UIImagePickerControllerSourceTypeCamera;
                 if ([Utils isFrontCameraAvailable]) {
-                    controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                    controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
                 }
                 NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                 [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];

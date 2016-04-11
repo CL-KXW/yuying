@@ -55,11 +55,11 @@
         if([self.dic[@"hongbao_type"] intValue] == 1){
             temp = [NSString stringWithFormat:@"hb-js&id=%@",self.dic[@"id"]];
         }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-            //扫码
-            temp = [NSString stringWithFormat:@"hb-sm&id=%@",self.dic[@"id"]];
-        }else if ([self.dic[@"hongbao_type"] intValue] == 3){
             //摇一摇
             temp = [NSString stringWithFormat:@"yyy&id=%@&only_number=%@",self.dic[@"id"],self.dic[@"only_number"]];
+        }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+            //扫码
+            temp = [NSString stringWithFormat:@"hb-sm&id=%@",self.dic[@"id"]];
         }
     }
     self.totalString = [string stringByAppendingString:temp];

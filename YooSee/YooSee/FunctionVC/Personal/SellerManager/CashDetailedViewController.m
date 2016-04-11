@@ -119,7 +119,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     }else if(self.type == CashDetailType_person){
         urlString = Url_personCashDetail;
         
-        NSString *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+        NSString *user_id = [YooSeeApplication shareApplication].uid;
         [requestDic setObject:user_id forKey:@"user_id"];
     }else if(self.type == CashDetailType_sellerTurnover){
         urlString = Url_sellerTurnoverCashDetail;

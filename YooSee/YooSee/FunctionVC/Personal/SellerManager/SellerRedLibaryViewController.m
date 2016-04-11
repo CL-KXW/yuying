@@ -285,7 +285,7 @@
             }else if([self.dic[@"type"] intValue] == 3){
                 cell0.statusLabel.text = @"已结束";
             }else if([self.dic[@"type"] intValue] == 4){
-                cell0.statusLabel.text = @"强制结束";
+                cell0.statusLabel.text = @"被驳回";
             }
         }else{
             cell0.nameLabel.text = self.dic[@"title_1"];
@@ -293,20 +293,23 @@
             if ([self.dic[@"type"] intValue] == 1) {
                 cell0.statusLabel.text = @"进行中";
                 if([self.dic[@"hongbao_type"] intValue] == 1){
+                    //即时红包
                     cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediate"];
                 }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
-                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    //摇一摇
                     cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shake"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    //扫码红包
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
                 }
             }else if([self.dic[@"type"] intValue] == 2){
                 cell0.statusLabel.text = @"已结束";
                 if([self.dic[@"hongbao_type"] intValue] == 1){
                     cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
                 }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
-                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
                     cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
                 }
             }else if([self.dic[@"type"] intValue] == 3){
                 cell0.statusLabel.text = @"被驳回";
@@ -316,9 +319,9 @@
                 if([self.dic[@"hongbao_type"] intValue] == 1){
                     cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
                 }else if ([self.dic[@"hongbao_type"] intValue] == 2){
-                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
-                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
                     cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+                }else if ([self.dic[@"hongbao_type"] intValue] == 3){
+                    cell0.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
                 }
             }
         }
@@ -340,9 +343,16 @@
         [cell1.button2 addTarget:self action:@selector(downButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell1.button3 addTarget:self action:@selector(qrCodeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
-        if ([self.dic[@"type"] intValue] == 2 || [self.dic[@"type"] intValue] == 3) {
-            [cell1.button2 setTitle:@"已下架" forState:UIControlStateNormal];
-            cell1.button2.userInteractionEnabled = NO;
+        if (self.type == DetailType_advertisement) {
+            if ([self.dic[@"type"] intValue] == 3 || [self.dic[@"type"] intValue] == 4) {
+                [cell1.button2 setTitle:@"已下架" forState:UIControlStateNormal];
+                cell1.button2.userInteractionEnabled = NO;
+            }
+        }else{
+            if ([self.dic[@"type"] intValue] == 2 || [self.dic[@"type"] intValue] == 3) {
+                [cell1.button2 setTitle:@"已下架" forState:UIControlStateNormal];
+                cell1.button2.userInteractionEnabled = NO;
+            }
         }
         
         return cell1;

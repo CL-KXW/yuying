@@ -380,7 +380,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     NSString *md5 = [password getMd5_32Bit_String];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setObject:md5 forKey:@"pwd"];
-    NSNumber *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    NSString *user_id = [YooSeeApplication shareApplication].uid;
     [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"user_id"];
     
     NSString *url = [Url_Host stringByAppendingString:@"app/shop/verifyPassword"];
@@ -858,7 +858,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.sourceType = UIImagePickerControllerSourceTypeCamera;
                 if ([Utils isFrontCameraAvailable]) {
-                    controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                    controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
                 }
                 NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                 [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];

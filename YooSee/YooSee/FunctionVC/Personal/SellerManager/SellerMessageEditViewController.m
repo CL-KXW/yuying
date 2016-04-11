@@ -282,7 +282,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     [dic setObject:self.sellNameField.text forKey:@"dian_name"];
     [dic setObject:self.contentView2.text forKey:@"dian_content"];
     [dic setObject:self.logoUrl forKey:@"dian_logo"];
-    NSNumber *user_id = [YooSeeApplication shareApplication].userInfoDic[@"id"];
+    NSString *user_id = [YooSeeApplication shareApplication].uid;
     
     [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"id"];
     
@@ -540,7 +540,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.sourceType = UIImagePickerControllerSourceTypeCamera;
                 if ([Utils isFrontCameraAvailable]) {
-                    controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                    controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
                 }
                 NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                 [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];

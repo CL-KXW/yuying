@@ -3860,7 +3860,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hunan Dianliang Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3894,7 +3894,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "390b9b64-7064-404c-9550-2e0f409d33ae";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -3907,7 +3907,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hunan Dianliang Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3940,7 +3940,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "390b9b64-7064-404c-9550-2e0f409d33ae";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
