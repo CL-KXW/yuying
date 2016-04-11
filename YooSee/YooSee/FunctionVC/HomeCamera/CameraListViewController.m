@@ -262,14 +262,19 @@
         NSArray *arr = [[FListManager sharedFList] getContacts];
         for(Contact *contact in arr)
         {
+            BOOL ishas = NO;
             for(NSDictionary *dic in bodyArray)
             {
                 if([contact.contactId isEqualToString:[NSString stringWithFormat:@"%@",dic[@"camera_number"]]])
                 {
+                    ishas = YES;
                     [self.contactArray addObject:contact];
                     [self.deviceIDArray addObject:contact.contactId];
-                    
                 }
+            }
+            if (!ishas)
+            {
+                [[FListManager sharedFList] deleteContact:contact];
             }
         }
     }
@@ -352,7 +357,12 @@
          [LoadingView dismissLoadingView];
          if (errorCode == 8)
          {
-             [[FListManager sharedFList] deleteContact:contact];
+             ContactDAO *contactDAO = [[ContactDAO alloc] init];
+             Contact *contact1 = [contactDAO isContact:contact.contactId];
+             if (contact1)
+             {
+                [[FListManager sharedFList] deleteContact:contact1];
+             }
              NSString *defaultDeviceID = [USER_DEFAULT objectForKey:@"DefaultDeviceID"];
              defaultDeviceID = defaultDeviceID ? defaultDeviceID : @"";
              if ([defaultDeviceID isEqualToString:contact.contactId])
@@ -570,9 +580,13 @@
     [self.contactArray removeAllObjects];
     
     NSArray *arr = [[FListManager sharedFList] getContacts];
+    //for(NSDictionary *contactDic in self.dataArray)
     for(Contact *contact in arr)
     {
-        [self.contactArray addObject:contact];
+//        ContactDAO *contactDAO = [[ContactDAO alloc] init];
+//        Contact *contact = [contactDAO isContact:UNNULL_STRING(contactDic[@"camera_number"])];
+//        if(contact)
+            [self.contactArray addObject:contact];
     }
     //-
     dispatch_async(dispatch_get_main_queue(), ^()

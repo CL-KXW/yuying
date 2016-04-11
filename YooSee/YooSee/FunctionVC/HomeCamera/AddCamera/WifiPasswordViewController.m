@@ -69,7 +69,7 @@
     _passwordTextField = [[CustomTextField alloc] initWithFrame:CGRectMake(VIEW_SPACE_X, y, bgView.frame.size.width - 2 * VIEW_SPACE_X, TEXTFIELD_HEIGHT)];
     _passwordTextField.textField.secureTextEntry = YES;
     _passwordTextField.textField.placeholder = @"请输入WIFI密码";
-    _passwordTextField.textField.text = @"as15225360322";
+    _passwordTextField.textField.text = @"";
     [bgView addSubview:_passwordTextField];
     
     y += _passwordTextField.frame.size.height;
