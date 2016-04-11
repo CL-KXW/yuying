@@ -128,7 +128,7 @@
     NSLog(@"点击了感兴趣");
     Y1YDetail2ViewController *detail2  = [[Y1YDetail2ViewController alloc]init];
     detail2.ggid = self.dataDic[@"only_number"];
-    detail2.title = @"摇一摇";
+    detail2.title = self.dataDic[@"shop_name"];
     NSMutableArray *ary = [NSMutableArray array];
     NSMutableArray *titleAry = [NSMutableArray array];
     

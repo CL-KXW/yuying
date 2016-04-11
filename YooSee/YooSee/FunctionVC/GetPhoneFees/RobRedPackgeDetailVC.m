@@ -27,7 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.title = @"抢红包";
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, START_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - START_HEIGHT)];
     [self.view addSubview:scroll];
     [self addBackItem];
@@ -96,7 +95,7 @@
 }
 
 - (void)unrobView {
-    self.descLabel.hidden = YES;
+    self.descLabel.hidden = NO;
     self.robButton.hidden = NO;
     self.resultDescLabel.hidden = YES;
 }
@@ -155,7 +154,7 @@
         }
     } else if (code == 4) {
         [self unrobView];
-        self.descLabel.text = [NSString stringWithFormat:@"%@元",dic[@"title_1"]];
+        //self.descLabel.text = [NSString stringWithFormat:@"%@元",dic[@"title_1"]];
     }
     //[self unrobView];
 }

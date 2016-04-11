@@ -222,8 +222,9 @@
     detail2.dataArray = ary;
     detail2.descArray = titleAry;
     detail2.timeString = dic[@"begin_time"];
-    detail2.authorString = dic[@"title_1"];
-    detail2.nameString = dic[@"shop_name"];
+    detail2.authorString = dic[@"shop_name"];
+    detail2.nameString = dic[@"title_1"];
+    detail2.title = dic[@"shop_name"];
     detail2.hasGetMoney = (tableView == _hasGetTable);
     [self.navigationController pushViewController:detail2 animated:NO];
     __weak typeof(self) weakSelf = self;

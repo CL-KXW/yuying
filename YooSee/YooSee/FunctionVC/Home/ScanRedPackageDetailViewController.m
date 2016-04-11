@@ -46,6 +46,7 @@
                  self.redPackgeId = dataDic[@"only_number"];
                  self.logoUrl = dataDic[@"title_url_1"];
                  self.desc = dataDic[@"title_1"];
+                 self.title = dataDic[@"shop_name"];
              }
          }
          else

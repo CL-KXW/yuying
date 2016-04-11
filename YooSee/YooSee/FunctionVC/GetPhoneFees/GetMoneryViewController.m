@@ -141,8 +141,9 @@
     detail2.dataArray = ary;
     detail2.descArray = titleAry;
     detail2.timeString = dic[@"begin_time"];
-    detail2.authorString = dic[@"content_1"];
-    detail2.nameString = dic[@"shop_name"];
+    detail2.authorString = dic[@"shop_name"];
+    detail2.nameString = dic[@"content_1"];
+    detail2.title = dic[@"shop_name"];
     [self.navigationController pushViewController:detail2 animated:NO];
 }
 

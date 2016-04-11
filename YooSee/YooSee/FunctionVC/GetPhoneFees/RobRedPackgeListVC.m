@@ -105,6 +105,7 @@
     detail.redPackgeId = dic[@"only_number"];
     detail.logoUrl = dic[@"title_url_1"];
     detail.desc = dic[@"title_1"];
+    detail.title = dic[@"shop_name"];
     [self.navigationController pushViewController:detail animated:YES];
 }
 

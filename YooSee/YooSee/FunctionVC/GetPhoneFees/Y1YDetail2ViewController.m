@@ -25,8 +25,10 @@
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 130)];
     [self.table setTableHeaderView:headView];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, SCREEN_WIDTH - 20, 70)];
-    titleLabel.numberOfLines = 0;
+    titleLabel.numberOfLines = 1;
     titleLabel.font = FONT(28);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     titleLabel.textColor = RGB(74, 74, 74);
     titleLabel.text = self.nameString;
     [headView addSubview:titleLabel];
@@ -81,6 +83,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.0001;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [UIView new];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20, 20)];
     label.numberOfLines = 0;
     label.text = self.descArray[section];
@@ -89,7 +99,7 @@
     return label.frame.size.height + 20;
 }
 
-- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, [self tableView:tableView heightForFooterInSection:section])];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 20, 20)];
     label.numberOfLines = 0;
@@ -99,14 +109,6 @@
     [label sizeToFit];
     [view addSubview:label];
     return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.0001;
-}
-
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [UIView new];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

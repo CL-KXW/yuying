@@ -68,6 +68,7 @@
                  self.timeString = dataDic[@"begin_time"];
                  self.authorString = dataDic[@"content_1"];
                  self.nameString = dataDic[@"shop_name"];
+                 self.title = dataDic[@"shop_name"];
              }
          }
          else

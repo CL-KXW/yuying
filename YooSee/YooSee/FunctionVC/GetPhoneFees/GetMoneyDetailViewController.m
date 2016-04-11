@@ -25,8 +25,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"详细";
-    
     [self addBackItem];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
