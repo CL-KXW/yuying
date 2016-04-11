@@ -6,10 +6,7 @@
 //  Copyright © 2016年 chenlei. All rights reserved.
 //
 
-typedef NS_ENUM(NSUInteger, ActionType) {
-    ActionType_up = 0,
-    ActionType_down,
-};
+
 
 #define FOOTVIEW_HEIGHT 5
 
