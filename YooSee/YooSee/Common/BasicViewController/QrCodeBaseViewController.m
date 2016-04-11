@@ -93,8 +93,21 @@
 #pragma mark 初始化SCANNING
 - (void)setupCamera
 {
+    
+    NSString *mediaType = AVMediaTypeVideo;
+    
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    
+    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
+    {
+        
+        UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"请在iPhone的“设置”-“隐私”-“相机”功能中，找到“鱼鹰”打开相机访问权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     // Device
-    _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    _device = [AVCaptureDevice defaultDeviceWithMediaType:mediaType];
     
     // Input
     _input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
