@@ -48,6 +48,11 @@
 
 #define CompressionRatio 0.8
 
+typedef NS_ENUM(NSUInteger, ActionType) {
+    ActionType_up = 0,
+    ActionType_down,
+};
+
 //#if Is_Production
 //#define Url_Host @"http://123.56.236.38/"
 //#else

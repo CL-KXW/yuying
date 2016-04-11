@@ -134,7 +134,7 @@
             if(weakSelf.dataArray.count != 0){
                 weakSelf.refreshFooterView.hidden = NO;
             }else{
-                weakSelf.refreshHeaderView.hidden = NO;
+                weakSelf.refreshHeaderView.hidden = YES;
             }
             [self.table reloadData];
         }else if ([message.returnCode intValue] == 1){

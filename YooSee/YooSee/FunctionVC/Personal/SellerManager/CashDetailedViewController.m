@@ -14,10 +14,10 @@
 
 #define SectionHeight 30
 
-typedef NS_ENUM(NSUInteger, ActionType) {
-    ActionType_up = 0,
-    ActionType_down,
-};
+//typedef NS_ENUM(NSUInteger, ActionType) {
+//    ActionType_up = 0,
+//    ActionType_down,
+//};
 
 @interface CashDetailedViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -171,6 +171,8 @@ typedef NS_ENUM(NSUInteger, ActionType) {
             }
             if(weakSelf.dataSourceArray.count != 0){
                 weakSelf.refreshFooterView.hidden = NO;
+            }else{
+                weakSelf.refreshFooterView.hidden = YES;
             }
             [self.table reloadData];
         }else if ([message.returnCode intValue] == 1){

@@ -105,7 +105,7 @@
     
     
     y += 5 * SPACE_Y;
-    UIButton *commitButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width-2*x, BUTTON_HEIGHT) buttonTitle:@"完成并登录" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:nil selectorName:@"commitButtonPressed:" tagDelegate:self];
+    UIButton *commitButton = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, self.view.frame.size.width-2*x, BUTTON_HEIGHT) buttonTitle:@"完成并登录" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:nil selectorName:@"commitButtonPressed:" tagDelegate:self];
     [CommonTool clipView:commitButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:commitButton];
     
