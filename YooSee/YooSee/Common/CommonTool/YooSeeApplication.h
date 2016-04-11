@@ -14,8 +14,8 @@
 
 @property (nonatomic, assign) BOOL isLogin2cu;
 @property (nonatomic, assign) BOOL isLogin;
-@property (nonatomic, strong) NSDictionary *userInfoDic;//个人信息返回的用户信息
-@property (nonatomic, strong) NSDictionary *userDic;//用户用户登录返回的用户信息
+@property (nonatomic, strong) NSDictionary *userInfoDic;//查询个人资料返回的用户信息
+@property (nonatomic, strong) NSDictionary *userDic;//用户登录返回的用户信息
 @property (nonatomic, strong) NSDictionary *user2CUDic;//登录2cu返回数据
 @property (nonatomic, strong) NSString *uid;//用户ID
 @property (nonatomic, strong) Contact *contact;

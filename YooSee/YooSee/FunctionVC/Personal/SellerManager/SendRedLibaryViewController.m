@@ -154,7 +154,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     if (!_areaButton) {
         _areaButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_areaButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        NSString *city = [YooSeeApplication shareApplication].userInfoDic[@"city_name"];
+        NSString *city = [YooSeeApplication shareApplication].userDic[@"city_name"];
         NSString *string = [NSString stringWithFormat:@"本市(%@)",city];
         [_areaButton setTitle:string forState:UIControlStateNormal];
         _areaButton.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -407,13 +407,13 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 
 -(void)sendSubmitRequest{
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    NSNumber *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+    NSNumber *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
     [dic setObject:[NSString stringWithFormat:@"%@",shop_number] forKey:@"shop_number"];
     NSString *area_city_role_id;
     if (self.publishArea == PulishArea_localCity) {
-        area_city_role_id = [YooSeeApplication shareApplication].userInfoDic[@"city_id"];
+        area_city_role_id = [YooSeeApplication shareApplication].userDic[@"city_id"];
     }else if (self.publishArea == PulishArea_localProvince){
-        area_city_role_id = [YooSeeApplication shareApplication].userInfoDic[@"province_id"];
+        area_city_role_id = [YooSeeApplication shareApplication].userDic[@"province_id"];
     }else if (self.publishArea == PulishArea_country){
         area_city_role_id = @"1";
     }
@@ -841,11 +841,11 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         
         self.publishArea = buttonIndex;
         if(buttonIndex == 0){
-            NSString *city = [YooSeeApplication shareApplication].userInfoDic[@"city_name"];
+            NSString *city = [YooSeeApplication shareApplication].userDic[@"city_name"];
             NSString *string = [NSString stringWithFormat:@"本市(%@)",city];
             [self.areaButton setTitle:string forState:UIControlStateNormal];
         }else if(buttonIndex == 1){
-            NSString *province = [YooSeeApplication shareApplication].userInfoDic[@"province_name"];
+            NSString *province = [YooSeeApplication shareApplication].userDic[@"province_name"];
             NSString *string = [NSString stringWithFormat:@"本省(%@)",province];
             [self.areaButton setTitle:string forState:UIControlStateNormal];
         }else{

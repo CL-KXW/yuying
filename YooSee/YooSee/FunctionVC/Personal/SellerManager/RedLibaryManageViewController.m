@@ -104,7 +104,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
         [requestDic setObject:@"2" forKey:@"loadtype"];
     }
     
-    NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+    NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
     [requestDic setObject:shop_number forKey:@"shop_number"];
     [requestDic setObject:startid forKey:@"startid"];
     
@@ -186,7 +186,6 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     cell1.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell1.selectionStyle = UITableViewCellSelectionStyleGray;
     NSDictionary *dic = self.dataSourceArray[indexPath.row];
-
     
     if (self.type == ManageType_advertisement){
         cell1.customImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];

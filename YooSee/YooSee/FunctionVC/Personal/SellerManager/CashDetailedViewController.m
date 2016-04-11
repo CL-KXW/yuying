@@ -114,7 +114,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     if(self.type == CashDetailType_sellerCapitalLibrary){
         urlString = Url_sellerCapitalLibraryCashDetail;
         
-        NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+        NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
         [requestDic setObject:shop_number forKey:@"shop_number"];
     }else if(self.type == CashDetailType_person){
         urlString = Url_personCashDetail;
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
     }else if(self.type == CashDetailType_sellerTurnover){
         urlString = Url_sellerTurnoverCashDetail;
         
-        NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
+        NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
         [requestDic setObject:shop_number forKey:@"shop_number"];
     }
     

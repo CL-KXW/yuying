@@ -57,9 +57,9 @@
     [super viewDidLoad];
     //[self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
     self.title = @"提取现金";
-    self.alipayField.text = [[YooSeeApplication shareApplication] userInfoDic][@"alipay"];
-    self.nameField.text = [[YooSeeApplication shareApplication] userInfoDic][@"name"];
-    NSString *paymoney = [[YooSeeApplication shareApplication] userInfoDic][@"paymoney"];
+    self.alipayField.text = [[YooSeeApplication shareApplication] userDic][@"alipay"];
+    self.nameField.text = [[YooSeeApplication shareApplication] userDic][@"name"];
+    NSString *paymoney = [[YooSeeApplication shareApplication] userDic][@"paymoney"];
     [self.textArray replaceObjectAtIndex:[self.textArray count] - 1 withObject:[NSString stringWithFormat:@"可提现余额%.2f元",     [paymoney floatValue]]];
     [self.tableView reloadData];
 }
