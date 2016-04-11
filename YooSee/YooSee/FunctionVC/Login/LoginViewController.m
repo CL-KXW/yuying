@@ -235,7 +235,7 @@
     
     [DELEGATE login2CU:NO];
     
-    [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
+    [DELEGATE getAdvList];
     
     [self.navigationController dismissViewControllerAnimated:YES completion:Nil];
 

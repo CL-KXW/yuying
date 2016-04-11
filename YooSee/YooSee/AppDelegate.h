@@ -16,7 +16,7 @@
 
 - (void)checkUpdateShowTip:(BOOL)isShow;
 
-- (void)getAdvListWithRequestType:(RequestType)requestType;
+- (void)getAdvList;
 
 - (void)login2CU:(BOOL)isShow;
 

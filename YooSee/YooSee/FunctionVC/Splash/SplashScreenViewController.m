@@ -32,12 +32,15 @@
     
     [self initUI];
 
-    [self addNotification];
-    
-    [DELEGATE getAdvListWithRequestType:RequestTypeSynchronous];
-    
     // Do any additional setup after loading the view.
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self getAdvListRequest];
+}
+
 
 #pragma mark 初始化UI
 - (void)initUI
@@ -50,15 +53,44 @@
 }
 
 
-#pragma mark 添加通知
-- (void)addNotification
+#pragma mark 广告请求
+- (void)getAdvListRequest
 {
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAdvSucess:) name:@"GetAdvSucess" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAdvSucess:) name:@"GetAdvFail" object:nil];
+    __weak typeof(self) weakSelf = self;
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"0";
+    NSString *cityID = [YooSeeApplication shareApplication].cityID;
+    cityID = cityID ? cityID : @"1";
+    NSString *provinceID = [YooSeeApplication shareApplication].provinceID;
+    provinceID = provinceID ? provinceID : @"1";
+    NSDictionary *requestDic = @{@"user_id":uid,@"city_id":cityID,@"province_id":provinceID};
+    [[RequestTool alloc] requestWithUrl:GET_ADV_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"GET_ADV_URL===%@",responseDic);
+         [LoadingView dismissLoadingView];
+         NSDictionary *dataDic = responseDic;
+         int returnCode = [dataDic[@"returnCode"] intValue];
+         if (returnCode == 8)
+         {
+             [USER_DEFAULT setValue:responseDic forKey:@"AdvInfo"];
+             
+         }
+         [weakSelf getAdvFinished];
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         [LoadingView dismissLoadingView];
+         [weakSelf getAdvFinished];
+         NSLog(@"GET_ADV_URL====%@",error);
+     }];
 }
 
 
-- (void)getAdvSucess:(NSNotification *)notification
+- (void)getAdvFinished
 {
     NSDictionary *infoDic = [USER_DEFAULT objectForKey:@"AdvInfo"];
     NSArray *array = infoDic[@"start_diagram_List"];
@@ -216,7 +248,7 @@
     
     [DELEGATE login2CU:NO];
     
-    [DELEGATE getAdvListWithRequestType:RequestTypeAsynchronous];
+    [DELEGATE getAdvList];
     
     [self addMainView];
     
@@ -240,7 +272,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 /*

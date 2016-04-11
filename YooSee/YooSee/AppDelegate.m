@@ -116,7 +116,7 @@
 
 
 #pragma mark 获取广告
-- (void)getAdvListWithRequestType:(RequestType)requestType
+- (void)getAdvList
 {
     //__weak typeof(self) weakSelf = self;
     NSString *uid = [YooSeeApplication shareApplication].uid;
@@ -128,7 +128,7 @@
     NSDictionary *requestDic = @{@"user_id":uid,@"city_id":cityID,@"province_id":provinceID};
     [[RequestTool alloc] requestWithUrl:GET_ADV_URL
                          requestParamas:requestDic
-                            requestType:requestType
+                            requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"GET_ADV_URL===%@",responseDic);
