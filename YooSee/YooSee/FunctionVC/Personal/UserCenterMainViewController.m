@@ -279,9 +279,9 @@
         [SVProgressHUD showErrorWithStatus:Hud_NoNetworkConnection];
         return;
     }
-    
+
     [LoadingView showLoadingView];
-    NSString *user_id = [YooSeeApplication shareApplication].userDic[@"id"];
+    NSString *user_id = [YooSeeApplication shareApplication].uid;
     NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",nil];
     
     WeakSelf(weakSelf);

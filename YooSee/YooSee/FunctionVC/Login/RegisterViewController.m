@@ -140,7 +140,7 @@
 
 -(void)serviceAgreementButtonClick{
     WebViewController *webViewController = [[WebViewController alloc] init];
-    webViewController.urlString = [Url_Host stringByAppendingString:@"dianliang/protocol/userRegister"];
+    webViewController.urlString = [Url_Host stringByAppendingString:@"protocol/userRegister"];
     webViewController.title = @"鱼鹰个人注册协议";
     [self.navigationController pushViewController:webViewController animated:YES];
 }

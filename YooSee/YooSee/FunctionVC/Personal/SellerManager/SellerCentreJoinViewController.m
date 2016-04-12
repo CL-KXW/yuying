@@ -35,6 +35,7 @@
                         value:ButtonColor_Common
                         range:NSMakeRange(17, 10)];
     [self.termsOfServiceButton setAttributedTitle:attriString forState:UIControlStateNormal];
+    self.termsOfServiceButton.titleLabel.numberOfLines = 0;
     
     [self.joinButton viewRadius:ButtonRadius_Common backgroundColor:ButtonColor_Common];
 }
@@ -51,7 +52,7 @@
 -(IBAction)termsOfServiceButtonClick:(id)sender{
     @autoreleasepool {
         WebViewController *webViewController = [[WebViewController alloc] init];
-        webViewController.urlString = [Url_Host stringByAppendingString:@"dianliang/protocol/shopRegister"];
+        webViewController.urlString = [Url_Host stringByAppendingString:@"protocol/shopRegister"];
         webViewController.title = @"鱼鹰个人注册协议";
         [self.navigationController pushViewController:webViewController animated:YES];
     }

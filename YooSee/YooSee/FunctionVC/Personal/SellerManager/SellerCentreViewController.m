@@ -169,8 +169,11 @@
         if (message.returnCode.intValue == SucessFlag)
         {
             weakSelf.sellerMessage = [message.resultList firstObject];
-            NSURL *url = [NSURL URLWithString:weakSelf.sellerMessage.dian_logo];
-            [weakSelf.logoImageView sd_setImageWithURL:url];
+            if(weakSelf.sellerMessage.dian_logo.length != 0){
+                NSURL *url = [NSURL URLWithString:weakSelf.sellerMessage.dian_logo];
+                [weakSelf.logoImageView sd_setImageWithURL:url];
+            }
+
             weakSelf.nameLabel.text = weakSelf.sellerMessage.dian_name;
             [weakSelf.tableView reloadData];
         }else{

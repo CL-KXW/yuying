@@ -138,12 +138,12 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         _professionTypeField.keyboardType = UIKeyboardTypeNumberPad;
         _professionTypeField.delegate = self;
         [_professionTypeField addTarget:self action:@selector(textFieldShouldEditing) forControlEvents:UIControlEventEditingDidBegin];
-    }
-    
-    if (self.sellerMessage.hangye_name.length != 0) {
-        self.professionName = self.sellerMessage.hangye_name;
-        self.professionId = self.sellerMessage.hangye_id;
-        _professionTypeField.text = self.sellerMessage.hangye_name;
+        
+        if (self.sellerMessage.hangye_name.length != 0) {
+            self.professionName = self.sellerMessage.hangye_name;
+            self.professionId = self.sellerMessage.hangye_id;
+            _professionTypeField.text = self.sellerMessage.hangye_name;
+        }
     }
     
     return _professionTypeField;
@@ -159,10 +159,10 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         _sellNameField.textAlignment = NSTextAlignmentRight;
         _sellNameField.keyboardType = UIKeyboardTypeDefault;
         _sellNameField.delegate = self;
-    }
-    
-    if (self.sellerMessage.dian_name.length != 0) {
-        _sellNameField.text = self.sellerMessage.dian_name;
+        
+        if (self.sellerMessage.dian_name.length != 0) {
+            _sellNameField.text = self.sellerMessage.dian_name;
+        }
     }
     
     return _sellNameField;
@@ -178,10 +178,10 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         _phoneField.textAlignment = NSTextAlignmentRight;
         _phoneField.keyboardType = UIKeyboardTypePhonePad;
         _phoneField.delegate = self;
-    }
-    
-    if (self.sellerMessage.contact_phone.length != 0) {
-        _phoneField.text = self.sellerMessage.contact_phone;
+        
+        if (self.sellerMessage.contact_phone.length != 0) {
+            _phoneField.text = self.sellerMessage.contact_phone;
+        }
     }
     
     return _phoneField;
@@ -198,10 +198,10 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         _contentView2.delegate = self;
         _contentView2.backgroundColor = [UIColor clearColor];
         _contentView2.delegate = self;
-    }
-    
-    if (self.sellerMessage.dian_content.length != 0) {
-        _contentView2.text = self.sellerMessage.dian_content;
+        
+        if (self.sellerMessage.dian_content.length != 0) {
+            _contentView2.text = self.sellerMessage.dian_content;
+        }
     }
     
     return _contentView2;
@@ -217,11 +217,11 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         _addressField.textAlignment = NSTextAlignmentRight;
         _addressField.keyboardType = UIKeyboardTypeDefault;
         _addressField.delegate = self;
-    }
-    
-    if (self.sellerMessage.province_name.length != 0) {
-        NSString *string = [NSString stringWithFormat:@"%@%@%@",self.city,self.area,self.address];
-        _addressField.text = string;
+        
+        if (self.sellerMessage.province_name.length != 0) {
+            NSString *string = [NSString stringWithFormat:@"%@%@%@",self.city,self.area,self.address];
+            _addressField.text = string;
+        }
     }
     
     return _addressField;

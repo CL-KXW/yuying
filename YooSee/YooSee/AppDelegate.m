@@ -609,9 +609,7 @@
      */
 
     NSNumber *message = [userInfo objectForKey:@"key"];
-    if ([message intValue ] == 4) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveAdvertisement" object:nil];
-    }else{
+    if ([message intValue ] == 1 || [message intValue ] == 2) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveRed" object:nil];
     }
 }
