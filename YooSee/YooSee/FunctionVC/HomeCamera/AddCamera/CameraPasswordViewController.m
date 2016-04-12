@@ -169,6 +169,7 @@
 {
     if (errorCode == 8)
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
         AddCameraSucessViewController *addCameraSucessViewController = [[AddCameraSucessViewController alloc] init];
         addCameraSucessViewController.deviceNo = self.deviceNo;
         addCameraSucessViewController.deviceID = self.deviceID;
@@ -213,7 +214,6 @@
     
     //更新设备列表
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMessage" object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
     
     [[P2PClient sharedClient] getContactsStates:@[contact.contactId]];
     /*!
