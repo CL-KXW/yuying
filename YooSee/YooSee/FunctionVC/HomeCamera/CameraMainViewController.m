@@ -951,7 +951,7 @@
     }
     else
     {
-        if (errorCode != CALL_ERROR_PW_WRONG)
+        if (errorCode != CALL_ERROR_HANGUP)
         {
             //[self manageButtonPressed:nil];
             [self.navigationController popViewControllerAnimated:YES];

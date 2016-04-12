@@ -580,13 +580,9 @@
     [self.contactArray removeAllObjects];
     
     NSArray *arr = [[FListManager sharedFList] getContacts];
-    //for(NSDictionary *contactDic in self.dataArray)
     for(Contact *contact in arr)
     {
-//        ContactDAO *contactDAO = [[ContactDAO alloc] init];
-//        Contact *contact = [contactDAO isContact:UNNULL_STRING(contactDic[@"camera_number"])];
-//        if(contact)
-            [self.contactArray addObject:contact];
+        [self.contactArray addObject:contact];
     }
     //-
     dispatch_async(dispatch_get_main_queue(), ^()
@@ -599,6 +595,7 @@
 - (void)playButtonPressed:(UIButton *)sender
 {
     Contact *contact = self.contactArray[sender.tag - 1];
+    NSLog(@"contact===%@",self.contactArray);
     //Contact *currentDevice = [YooSeeApplication  shareApplication].contact;
     if (contact)
     {

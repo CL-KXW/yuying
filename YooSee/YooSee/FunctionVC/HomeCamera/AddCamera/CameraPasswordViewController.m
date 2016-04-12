@@ -212,7 +212,8 @@
     }
     
     //更新设备列表
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshDeviceListFromServer" object:nil];
     
     [[P2PClient sharedClient] getContactsStates:@[contact.contactId]];
     /*!
