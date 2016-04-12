@@ -8,15 +8,22 @@
 
 #import "MoneyDetailVC.h"
 #import "MarqueeLabel.h"
+
 @interface MoneyDetailVC ()
-@property (nonatomic, strong) NSString *startID;
+
+@property(nonatomic,strong)NSString *upId;
+@property(nonatomic,strong)NSString *downId;
+
 @end
+
 @implementation MoneyDetailVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addBackItem];
     self.title = @"现金明细";
+    self.upId = @"0";
+    self.downId = @"0";
     self.detailArray = [NSMutableArray array];
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:0 tableDelegate:self];
     [self addRefreshHeaderView];
@@ -70,14 +77,24 @@
     return cell;
 }
 
-- (void)request {
+- (void)request:(ActionType)actionType {
     //GET_TIXIAN_LIST
     [LoadingView showLoadingView];
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
+    NSString *startid;
+    NSString *loadtype;
+    if(actionType == ActionType_up){
+        startid = self.upId;
+        loadtype = @"1";
+    }else{
+        startid = self.downId;
+        loadtype = @"2";
+    }
     NSDictionary *requestDic = @{@"user_id":uid,
-                                 @"loadtype":_currentPage == 1 ? @(1) : @(1),
-                                 @"startid":self.startID};
+                                 @"loadtype":loadtype,
+                                 @"startid":startid};
+    WeakSelf(weakSelf);
     [[RequestTool alloc] requestWithUrl:GET_TIXIAN_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -91,21 +108,42 @@
          [LoadingView dismissLoadingView];
          if (errorCode == 8)
          {
-             @synchronized(_detailArray) {
-                 if (_currentPage == 1) {
-                     [_detailArray removeAllObjects];
+             NSArray *array = dataDic[@"resultList"];
+             if(actionType == ActionType_up){
+                 if([array count] == 0){
+                     [SVProgressHUD showSuccessWithStatus:@"无更多数据"];
+                 }else{
+                     for (NSDictionary *dic in array) {
+                         [_detailArray addObject:dic];
+                     }
+                     
+                     NSDictionary *dic = [array lastObject];
+                     
+                     if([self.upId intValue] == 0){
+                         dic = [array firstObject];
+                         self.downId = [NSString stringWithFormat:@"%@",dic[@"id"]];
+                     }
+                     
+                     self.upId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                  }
-                 NSArray *ary = dataDic[@"resultList"];
-                 if (ary && [ary isKindOfClass:[NSArray class]] && ary.count > 0) {
-                     [_detailArray addObjectsFromArray:ary];
-                     self.startID = [ary lastObject][@"id"];
-                 } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
-                     [_detailArray addObject:ary];
-                     NSDictionary *d = (NSDictionary*)ary;
-                     self.startID = d[@"id"];
+             }else{
+                 if([array count] != 0){
+                     NSDictionary *dic = [array lastObject];
+                     weakSelf.downId = [NSString stringWithFormat:@"%@",dic[@"id"]];
+                     
+                     for (NSDictionary *dic in array) {
+                         [_detailArray insertObject:dic atIndex:0];
+                     }
+                 }else{
+                     [SVProgressHUD showSuccessWithStatus:@"无更多数据"];
                  }
-                 [self.table reloadData];
              }
+             if(_detailArray.count != 0){
+                 weakSelf.refreshFooterView.hidden = NO;
+             }else{
+                 weakSelf.refreshFooterView.hidden = YES;
+             }
+             [self.table reloadData];
          }
          else
          {
@@ -113,26 +151,28 @@
          }
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];
-     }
-                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         
+     }requestFail:^(AFHTTPRequestOperation *operation, NSError *error){
          [LoadingView dismissLoadingView];
-         NSLog(@"ROB_RED_PACKGE_LIST====%@",error);
-         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];
      }];
 }
 
-- (void)refreshData {
+- (void)refreshData
+{
     [super refreshData];
-    self.startID = @"0";
-    [self request];
+    
+    //没有数据的时候当作刚进来的时候处理
+    if (_detailArray.count == 0) {
+        [self request:ActionType_up];
+    }else{
+        [self request:ActionType_down];
+    }
 }
 
-- (void)getMoreData {
+- (void)getMoreData
+{
     [super getMoreData];
-    [self request];
+    [self request:ActionType_up];
 }
 @end

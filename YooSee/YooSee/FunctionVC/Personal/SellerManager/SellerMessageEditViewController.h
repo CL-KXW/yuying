@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BasicViewController.h"
+#import "ResponseSellerMessage.h"
 
 @interface SellerMessageEditViewController : BasicViewController
 
 @property(nonatomic,strong)NSNumber *id;
+@property(nonatomic,strong)SellerMessage *sellerMessage;
+
 
 @end

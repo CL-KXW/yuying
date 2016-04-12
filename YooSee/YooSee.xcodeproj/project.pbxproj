@@ -177,6 +177,7 @@
 		40694C581CA7F2AC006BCBBF /* ZHYBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694C161CA7F2AC006BCBBF /* ZHYBaseResponse.m */; };
 		40694CAE1CA7F9C3006BCBBF /* CommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40694CAC1CA7F9C3006BCBBF /* CommonTableViewCell.m */; };
 		40694CAF1CA7F9C3006BCBBF /* CommonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40694CAD1CA7F9C3006BCBBF /* CommonTableViewCell.xib */; };
+		406EFE521CBCC005004960C7 /* VPImageCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EFE511CBCC005004960C7 /* VPImageCropperViewController.m */; };
 		407B4B081CB93654007569AC /* GCJTOBD2.m in Sources */ = {isa = PBXBuildFile; fileRef = 407B4B071CB93654007569AC /* GCJTOBD2.m */; };
 		407B4B0A1CB93788007569AC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407B4B091CB93788007569AC /* CoreLocation.framework */; };
 		407B4B0C1CB9380F007569AC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407B4B0B1CB9380F007569AC /* MapKit.framework */; };
@@ -822,6 +823,8 @@
 		40694CAB1CA7F9C3006BCBBF /* CommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTableViewCell.h; sourceTree = "<group>"; };
 		40694CAC1CA7F9C3006BCBBF /* CommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTableViewCell.m; sourceTree = "<group>"; };
 		40694CAD1CA7F9C3006BCBBF /* CommonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommonTableViewCell.xib; sourceTree = "<group>"; };
+		406EFE501CBCC005004960C7 /* VPImageCropperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPImageCropperViewController.h; sourceTree = "<group>"; };
+		406EFE511CBCC005004960C7 /* VPImageCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPImageCropperViewController.m; sourceTree = "<group>"; };
 		407B4B061CB93654007569AC /* GCJTOBD2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCJTOBD2.h; sourceTree = "<group>"; };
 		407B4B071CB93654007569AC /* GCJTOBD2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCJTOBD2.m; sourceTree = "<group>"; };
 		407B4B091CB93788007569AC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1876,6 +1879,15 @@
 			path = SellerManager;
 			sourceTree = "<group>";
 		};
+		406EFE4F1CBCC005004960C7 /* VPImageCropper */ = {
+			isa = PBXGroup;
+			children = (
+				406EFE501CBCC005004960C7 /* VPImageCropperViewController.h */,
+				406EFE511CBCC005004960C7 /* VPImageCropperViewController.m */,
+			);
+			path = VPImageCropper;
+			sourceTree = "<group>";
+		};
 		407B4B051CB93654007569AC /* GCJTOBD2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2265,6 +2277,7 @@
 		CE5ABD441C5B621700643B24 /* CommonTool */ = {
 			isa = PBXGroup;
 			children = (
+				406EFE4F1CBCC005004960C7 /* VPImageCropper */,
 				407B4B051CB93654007569AC /* GCJTOBD2 */,
 				40947E4B1CAAAF600019D0C5 /* xinGe */,
 				401168091CA805D0000BD055 /* ShareTool */,
@@ -3621,6 +3634,7 @@
 				CE80C3AA1C78B32600A7ADCA /* SVProgressHUD.m in Sources */,
 				CEF796A51C853E630039909A /* FMDatabaseQueue.m in Sources */,
 				CE8BE8401C5F885000D6307D /* THProgressView.m in Sources */,
+				406EFE521CBCC005004960C7 /* VPImageCropperViewController.m in Sources */,
 				CEDC0B1B1C9F95700056521F /* Order.m in Sources */,
 				40694BA91CA7F189006BCBBF /* MASViewConstraint.m in Sources */,
 				40694C2B1CA7F2AC006BCBBF /* RedLibaryTypeListTableViewCell.m in Sources */,

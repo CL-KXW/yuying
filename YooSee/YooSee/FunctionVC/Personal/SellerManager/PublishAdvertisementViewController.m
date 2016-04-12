@@ -13,6 +13,12 @@
 #import "DCPaymentView.h"
 
 #import "FindPasswordViewController.h"
+#import "VPImageCropperViewController.h"
+
+
+#define ORIGINAL_MAX_WIDTH SCREEN_WIDTH*2
+
+#define PICKERHIGHR  216
 
 typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     ActionSheetTag_area = 1 << 0,
@@ -32,7 +38,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 #define CellDefaultHeight 50
 #define ContentDefaultText2 @"请输入广告内容描述文字。（选填项，可不填）"
 
-@interface PublishAdvertisementViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UUDatePickerDelegate>
+@interface PublishAdvertisementViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UUDatePickerDelegate,VPImageCropperDelegate>
 
 @property(nonatomic,strong)NSArray *cellTextArray;
 @property(nonatomic,strong)UITextField *totalMoneyField;
@@ -818,38 +824,70 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:2];
-    PublishAdvertisementTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+
     [picker dismissViewControllerAnimated:YES completion:^() {
-        
         UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        switch (self.buttonTag) {
-            case 2:{
-                [cell.addPicture1 setBackgroundImage:image forState:UIControlStateNormal];
-                self.advertisementImage1 = image;
-            }
-                break;
-                
-            case 3:{
-                [cell.addPicture2 setBackgroundImage:image forState:UIControlStateNormal];
-                self.advertisementImage2 = image;
-            }
-                break;
-                
-            case 4:{
-                [cell.addPicture3 setBackgroundImage:image forState:UIControlStateNormal];
-                self.advertisementImage3 = image;
-            }
-                break;
-        }
         
-        NSIndexPath *ind = [NSIndexPath indexPathForRow:2 inSection:2];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:ind] withRowAnimation:UITableViewRowAnimationNone];
+        if (self.buttonTag == 2) {
+            image = [self imageByScalingToMaxSize:image];
+            VPImageCropperViewController *imgeditor = [[VPImageCropperViewController alloc] initWithImage:image cropFrame:CGRectMake(0, 100, SCREEN_WIDTH, SCREEN_WIDTH*9/16) limitScaleRatio:4];
+            imgeditor.tag = self.buttonTag;
+            imgeditor.delegate = self;
+            [self presentViewController:imgeditor animated:YES completion:^{
+                
+            }];
+        }else{
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:2];
+            PublishAdvertisementTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            
+            switch (self.buttonTag) {
+                case 3:{
+                    [cell.addPicture2 setBackgroundImage:image forState:UIControlStateNormal];
+                    self.advertisementImage2 = image;
+                }
+                    break;
+                    
+                case 4:{
+                    [cell.addPicture3 setBackgroundImage:image forState:UIControlStateNormal];
+                    self.advertisementImage3 = image;
+                }
+                    break;
+            }
+            
+            NSIndexPath *ind = [NSIndexPath indexPathForRow:2 inSection:2];
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:ind] withRowAnimation:UITableViewRowAnimationNone];
+        }
     }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:^(){
+    }];
+}
+
+-(void)imageCropper:(VPImageCropperViewController *)cropperViewController didFinished:(UIImage *)editedImage{
+    [cropperViewController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:2];
+    PublishAdvertisementTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    switch (self.buttonTag) {
+        case 2:{
+            [cell.addPicture1 setBackgroundImage:editedImage forState:UIControlStateNormal];
+            self.advertisementImage1 = editedImage;
+        }
+            break;
+    }
+    
+    NSIndexPath *ind = [NSIndexPath indexPathForRow:2 inSection:2];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:ind] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+-(void)imageCropperDidCancel:(VPImageCropperViewController *)cropperViewController{
+    [cropperViewController dismissViewControllerAnimated:YES completion:^{
+        
     }];
 }
 
@@ -927,5 +965,72 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
         [self.tableView reloadSections:[[NSIndexSet alloc] initWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
+
+#pragma mark - image scale utility
+- (UIImage *)imageByScalingToMaxSize:(UIImage *)sourceImage {
+    if (sourceImage.size.width < ORIGINAL_MAX_WIDTH) return sourceImage;
+    CGFloat btWidth = 0.0f;
+    CGFloat btHeight = 0.0f;
+    if (sourceImage.size.width > sourceImage.size.height) {
+        btHeight = ORIGINAL_MAX_WIDTH;
+        btWidth = sourceImage.size.width * (ORIGINAL_MAX_WIDTH / sourceImage.size.height);
+    } else {
+        btWidth = ORIGINAL_MAX_WIDTH;
+        btHeight = sourceImage.size.height * (ORIGINAL_MAX_WIDTH / sourceImage.size.width);
+    }
+    CGSize targetSize = CGSizeMake(btWidth, btHeight);
+    return [self imageByScalingAndCroppingForSourceImage:sourceImage targetSize:targetSize];
+}
+
+- (UIImage *)imageByScalingAndCroppingForSourceImage:(UIImage *)sourceImage targetSize:(CGSize)targetSize {
+    UIImage *newImage = nil;
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
+    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
+    {
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        
+        if (widthFactor > heightFactor)
+            scaleFactor = widthFactor; // scale to fit height
+        else
+            scaleFactor = heightFactor; // scale to fit width
+        scaledWidth  = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        
+        // center the image
+        if (widthFactor > heightFactor)
+        {
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }
+        else
+            if (widthFactor < heightFactor)
+            {
+                thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+            }
+    }
+    UIGraphicsBeginImageContext(targetSize); // this will crop
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width  = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    
+    [sourceImage drawInRect:thumbnailRect];
+    
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    if(newImage == nil) NSLog(@"could not scale image");
+    
+    //pop the context to get back to the default
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 
 @end

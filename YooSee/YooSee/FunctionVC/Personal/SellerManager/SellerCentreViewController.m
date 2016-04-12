@@ -187,6 +187,7 @@
     @autoreleasepool {
         SellerMessageEditViewController *vc = Alloc_viewControllerNibName(SellerMessageEditViewController);
         vc.id = self.sellerMessage.id;
+        vc.sellerMessage = self.sellerMessage;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

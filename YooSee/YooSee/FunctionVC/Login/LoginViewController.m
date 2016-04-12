@@ -175,7 +175,6 @@
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
-         [LoadingView dismissLoadingView];
          NSLog(@"USER_LOGIN_URL===%@",responseDic);
          NSDictionary *dataDic = (NSDictionary *)responseDic;
          int errorCode = [dataDic[@"returnCode"] intValue];
@@ -183,22 +182,26 @@
          errorMessage = errorMessage ? errorMessage : LOADING_FAIL;
          if (errorCode == 8)
          {
-             AppDelegate *app = DELEGATE;
-             if (app.deviceTokenStr != nil) {
-                 [XGPush setAccount:username];
-                 [XGPush registerDevice:app.deviceTokenStr successCallback:^{
-                     NSLog(@"token succ");
-                 } errorCallback:^{
-                     NSLog(@"token error");
-                 }];
-             }
-
              [USER_DEFAULT setValue:username forKey:@"UserName"];
              [USER_DEFAULT setValue:password forKey:@"Password"];
              [weakSelf setDataWithDictionary:dataDic];
+             
+             AppDelegate *app = DELEGATE;
+             if (app.deviceTokenStr != nil) {
+                 [XGPush setAccount:username];
+                 NSString*token = [XGPush registerDevice:app.deviceTokenStr successCallback:^{
+                     NSLog(@"token succ");
+                 } errorCallback:^{
+
+                 }];
+                 [self reportToken:token];
+             }else{
+                 [LoadingView dismissLoadingView];
+             }
          }
          else
          {
+             [LoadingView dismissLoadingView];
              [YooSeeApplication shareApplication].isLogin = NO;
              [SVProgressHUD showErrorWithStatus:errorMessage];
          }
@@ -211,6 +214,35 @@
          [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
     
+}
+
+-(void)reportToken:(NSString *)token{
+    if(token == nil){
+        [LoadingView dismissLoadingView];
+        [self.navigationController dismissViewControllerAnimated:YES completion:Nil];
+        return;
+    }
+    
+    NSDictionary *requestDic = @{@"phone":self.usernameTextField.textField.text,@"device_number":token,@"jingdu":@"0.00000",@"weidu":@"0.00000",@"type":@"2"};
+    NSString *url = [Url_Host stringByAppendingString:@"/app/xg/report"];
+    [[RequestTool alloc] requestWithUrl:url
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         if (errorCode == 8)
+         {
+             
+         }
+         
+         [LoadingView dismissLoadingView];
+         [self.navigationController dismissViewControllerAnimated:YES completion:Nil];
+     }requestFail:^(AFHTTPRequestOperation *operation, NSError *error){
+         [LoadingView dismissLoadingView];
+         [self.navigationController dismissViewControllerAnimated:YES completion:Nil];
+     }];
 }
 
 #pragma mark 保存系统数据
@@ -237,7 +269,7 @@
     
     [DELEGATE getAdvList];
     
-    [self.navigationController dismissViewControllerAnimated:YES completion:Nil];
+    
 
 }
 

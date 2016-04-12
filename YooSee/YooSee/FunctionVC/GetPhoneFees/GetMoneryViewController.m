@@ -18,7 +18,7 @@
 {
     NSMutableArray *_dataArray;
 }
-@property (nonatomic, strong) NSString *startID;
+
 @property (nonatomic, assign) BOOL isLoading;
 
 @property(nonatomic,strong)NSString *upId;
@@ -41,13 +41,15 @@
     
     [self addBackItem];
     
+    self.upId = @"0";
+    self.downId = @"0";
+    
     // Do any additional setup after loading the view.
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
     [self addRefreshHeaderView];
     [LoadingView showLoadingView];
     [self refreshData];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"receiveAdvertisement" object:nil];
-    
 }
 
 - (void)backButtonPressed:(UIButton *)sender
@@ -239,10 +241,7 @@
          [LoadingView dismissLoadingView];
          NSLog(@"GET_AD_LIST====%@",error);
          _isLoading = NO;
-         if (_currentPage > 1)
-         {
-             _currentPage--;
-         }
+
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
          [self.refreshFooterView setState:MJRefreshStateNormal];
          [self.refreshHeaderView setState:MJRefreshStateNormal];

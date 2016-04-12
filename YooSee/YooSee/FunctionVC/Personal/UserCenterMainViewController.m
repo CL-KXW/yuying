@@ -337,16 +337,7 @@
     }
     else if(tag == 7)
     {
-        NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
-        if ([shop_number intValue] != 0)
-        {
-            SellerCentreViewController *sellerVC = [[SellerCentreViewController alloc] initWithNibName:@"SellerCentreViewController" bundle:nil];
-            [self.navigationController pushViewController:sellerVC animated:YES];
-        }
-        else
-        {
-            [self userIsSellerRequest];
-        }
+        [self userIsSellerRequest];
     }
     else if (tag > 2)
     {
@@ -650,13 +641,7 @@
         }
         if (section == 4)
         {
-            NSString *shop_number = [YooSeeApplication shareApplication].userInfoDic[@"shop_number"];
-            if ([shop_number intValue] != 0) {
-                SellerCentreViewController *sellerVC = [[SellerCentreViewController alloc] initWithNibName:@"SellerCentreViewController" bundle:nil];
-                viewController = sellerVC;
-            }else{
-                [self userIsSellerRequest];
-            }
+            [self userIsSellerRequest];
         }
         if (viewController)
         {

@@ -25,12 +25,16 @@
 @property(nonatomic,strong)NSString *dian_name;
 //@property(nonatomic,strong)NSNumber *jigndu;
 @property(nonatomic,strong)NSString *province_name;
-@property(nonatomic,strong)NSNumber *weidu;
+@property(nonatomic,strong)NSString *weidu;
 @property(nonatomic,strong)NSString *city_name;
 //@property(nonatomic,strong)NSNumber *hangye_id;
 @property(nonatomic,strong)NSNumber *freeze_money;
 @property(nonatomic,strong)NSString *dian_content;
 @property(nonatomic,strong)NSString *hangye_name;
+@property(nonatomic,strong)NSString *hangye_id;
+
 @property(nonatomic,strong)NSNumber *id;  //商家id
+@property(nonatomic,strong)NSString *jigndu;
+
 
 @end

@@ -58,6 +58,7 @@ typedef NS_ENUM(NSUInteger, ActionType) {
 //#else
 #define Url_Host @"http://yyw.dianliangtech.com/dianliang/"
 //#define Url_Host @"http://192.168.10.19:8081/dianliang/"
+//#define Url_Host @"http://192.168.10.141/dianliang/"
 //#endif
 
 #define SucessFlag 8

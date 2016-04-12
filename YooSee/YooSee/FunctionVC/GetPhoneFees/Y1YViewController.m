@@ -11,7 +11,8 @@
 
 @interface Y1YViewController ()
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSString *startID;
+@property(nonatomic,strong)NSString *upId;
+@property(nonatomic,strong)NSString *downId;
 @property (nonatomic, assign) BOOL isLoading;
 @end
 
@@ -22,6 +23,8 @@
     self.title = @"摇一摇";
     [self addBackItem];
     _dataArray = [NSMutableArray array];
+    self.upId = @"0";
+    self.downId = @"0";
     // Do any additional setup after loading the view.
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -201,19 +204,31 @@
 
 #pragma mark -
 
-- (void)request {
+- (void)request:(ActionType)actionType {
  
     _isLoading = YES;
     NSString *uid = [YooSeeApplication shareApplication].uid;
     uid = uid ? uid : @"";
     NSString *pid = [[YooSeeApplication shareApplication] provinceID];
     NSString *cid = [[YooSeeApplication shareApplication] cityID];
+    
+    NSString *startid;
+    NSString *loadtype;
+    if(actionType == ActionType_up){
+        startid = self.upId;
+        loadtype = @"1";
+    }else{
+        startid = self.downId;
+        loadtype = @"2";
+    }
+    
     NSDictionary *requestDic = @{
                                  @"province_id":[NSString stringWithFormat:@"%@",pid],
                                  @"city_id":[NSString stringWithFormat:@"%@",cid],
                                  @"hongbao_type":@(2),
-                                 @"loadtype":_currentPage == 1 ? @(1) : @(1),
-                                 @"startid":self.startID};
+                                 @"loadtype":loadtype,
+                                 @"startid":startid};
+    WeakSelf(weakSelf);
     [[RequestTool alloc] requestWithUrl:ROB_RED_PACKGE_LIST
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -228,35 +243,42 @@
          _isLoading = NO;
          if (errorCode == 8)
          {
-             @synchronized(_dataArray) {
-                 if (_currentPage == 1) {
-                     [_dataArray removeAllObjects];
-                 }
-                 NSArray *ary = dataDic[@"resultList"];
-                 if (ary && [ary isKindOfClass:[NSArray class]])
-                 {
-
-                     if (ary.count > 0)
-                     {
-                         [self addRefreshFooterView];
-                         self.refreshFooterView.hidden = NO;
-                         [_dataArray addObjectsFromArray:ary];
-                         self.startID = [ary lastObject][@"id"];
+             NSArray *array = dataDic[@"resultList"];
+             if(actionType == ActionType_up){
+                 if([array count] == 0){
+                     [SVProgressHUD showSuccessWithStatus:@"无更多数据"];
+                 }else{
+                     for (NSDictionary *dic in array) {
+                         [_dataArray addObject:dic];
                      }
-                     else
-                     {
-                         [CommonTool addPopTipWithMessage:@"没有更多数据"];
-                         self.refreshFooterView.hidden = YES;
+                     
+                     NSDictionary *dic = [array lastObject];
+                     
+                     if([self.upId intValue] == 0){
+                         dic = [array firstObject];
+                         self.downId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                      }
+                     
+                     self.upId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                  }
-                 else if (ary && [ary isKindOfClass:[NSDictionary class]])
-                 {
-                     [_dataArray addObject:ary];
-                     NSDictionary *d = (NSDictionary*)ary;
-                     self.startID = d[@"id"];
+             }else{
+                 if([array count] != 0){
+                     NSDictionary *dic = [array lastObject];
+                     weakSelf.downId = [NSString stringWithFormat:@"%@",dic[@"id"]];
+                     
+                     for (NSDictionary *dic in array) {
+                         [_dataArray insertObject:dic atIndex:0];
+                     }
+                 }else{
+                     [SVProgressHUD showSuccessWithStatus:@"无更多数据"];
                  }
-                 [self.table reloadData];
              }
+             if(_dataArray.count != 0){
+                 weakSelf.refreshFooterView.hidden = NO;
+             }else{
+                 weakSelf.refreshFooterView.hidden = YES;
+             }
+             [self.table reloadData];
          }
          else
          {
@@ -276,14 +298,21 @@
      }];
 }
 
-- (void)refreshData {
+- (void)refreshData
+{
+    [super refreshData];
+    
     if (_isLoading)
     {
         return;
     }
-    [super refreshData];
-    self.startID = @"0";
-    [self request];
+    
+    //没有数据的时候当作刚进来的时候处理
+    if (_dataArray.count == 0) {
+        [self request:ActionType_up];
+    }else{
+        [self request:ActionType_down];
+    }
 }
 
 - (void)getMoreData
@@ -293,7 +322,8 @@
         return;
     }
     [super getMoreData];
-    [self request];
+    [self request:ActionType_up];
 }
+
 
 @end
