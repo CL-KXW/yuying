@@ -108,7 +108,7 @@
 - (void)sureButtonPressed:(UIButton *)sender
 {
     [self.passwordTextField.textField resignFirstResponder];
-    NSString *password = _passwordTextField.textField.text;
+    NSString *password = [_passwordTextField.textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     password = password ? password : @"";
     if (password.length == 0)
     {
@@ -189,12 +189,14 @@
 {
     ContactDAO *contactDAO = [[ContactDAO alloc] init];
     Contact *contact = [contactDAO isContact:self.deviceID];
+    NSString *password = self.passwordTextField.textField.text;
+    password = [password stringByReplacingOccurrencesOfString:@" " withString:@""];
     if(!contact)
     {
         contact = [[Contact alloc] init];
         contact.contactId = self.deviceID;
         contact.contactName = self.deviceID;
-        contact.contactPassword = [Utils GetTreatedPassword:self.passwordTextField.textField.text];
+        contact.contactPassword = [Utils GetTreatedPassword:password];
         contact.contactType = CONTACT_TYPE_PHONE;
         [[FListManager sharedFList] insertContact:contact];
         
@@ -208,7 +210,7 @@
     {
         [contact setContactId:self.deviceID];
         [contact setContactName:self.deviceID];
-        [contact setContactPassword:[Utils GetTreatedPassword:self.passwordTextField.textField.text]];
+        [contact setContactPassword:[Utils GetTreatedPassword:password]];
         [[FListManager sharedFList] update:contact];
     }
     
