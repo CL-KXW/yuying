@@ -187,7 +187,7 @@
          if (errorCode == 8)
          {
              self.hasMakedRob = YES;
-             [self.table reloadData];
+             //[self.table reloadData];
 //             [SVProgressHUD showSuccessWithStatus:errorMessage];
 //             [self.navigationController popViewControllerAnimated:NO];
          }

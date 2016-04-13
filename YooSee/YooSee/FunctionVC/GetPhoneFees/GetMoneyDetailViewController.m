@@ -80,9 +80,7 @@
          if (errorCode == 8)
          {
              NSString *moneyName = [NSString stringWithFormat:@"您本次看一看获得%@元", self.dataDic[@"lingqu_money"]];
-            [weakself startMoneyAnimation:^{
-//                [weakself setMoneyAniView:nil];
-            }];//显示金钱下落动画
+            [weakself startMoneyAnimation:nil];//显示金钱下落动画
             [SVProgressHUD showSuccessWithStatus:moneyName];
          }
          else
