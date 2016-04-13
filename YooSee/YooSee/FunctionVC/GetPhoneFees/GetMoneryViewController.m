@@ -132,19 +132,23 @@
     
     if ([self isVaildURL:dic[@"url_1"]]) {
         [ary addObject:dic[@"url_1"]];
-        [titleAry addObject:dic[@"content_1"]];
+        if (dic[@"content_2"] != nil) {
+            [titleAry addObject:dic[@"content_2"]];
+        }else{
+            [titleAry addObject:@""];
+        }
     }
     if ([self isVaildURL:dic[@"url_2"]]) {
         [ary addObject:dic[@"url_2"]];
-        [titleAry addObject:dic[@"content_2"]];
+        [titleAry addObject:@""];
     }
     if ([self isVaildURL:dic[@"url_3"]]) {
         [ary addObject:dic[@"url_3"]];
-        [titleAry addObject:dic[@"content_3"]];
+        [titleAry addObject:@""];
     }
     if ([self isVaildURL:dic[@"url_4"]]) {
         [ary addObject:dic[@"url_4"]];
-        [titleAry addObject:dic[@"content_4"]];
+        [titleAry addObject:@""];
     }
     detail2.dataArray = ary;
     detail2.descArray = titleAry;

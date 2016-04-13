@@ -8,6 +8,8 @@
 
 #import "SellerCentreReviewStatusViewController.h"
 
+#import "UserCenterMainViewController.h"
+
 @interface SellerCentreReviewStatusViewController ()
 
 @end
@@ -16,9 +18,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addBackItem];
+    [self setNavBarItemWithImageName:@"back" navItemType:LeftItem selectorName:@"backButtonPressed:"];
     
     self.title = @"等待审核";
+}
+
+- (void)backButtonPressed:(UIButton *)sender
+{
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[UserCenterMainViewController class]])
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

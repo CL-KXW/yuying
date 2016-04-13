@@ -3223,6 +3223,7 @@
 				TargetAttributes = {
 					CE5ABD261C5B5B3800643B24 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = FS4WRZNUMC;
 					};
 				};
 			};
@@ -3937,9 +3938,9 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuying;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "aad7fdf7-0cd6-4106-bdfa-65d76d12a3c6";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};

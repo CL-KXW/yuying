@@ -201,6 +201,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         
         if (self.sellerMessage.dian_content.length != 0) {
             _contentView2.text = self.sellerMessage.dian_content;
+            _contentView2.textColor = [UIColor blackColor];
         }
     }
     
@@ -265,7 +266,7 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         message = @"请填写电话";
         [CommonTool addPopTipWithMessage:message];
         return;
-    }else if (self.logoImage == nil) {
+    }else if (self.logoImage == nil && self.logoUrl.length == 0) {
         message = @"请选择商家LOGO";
         [CommonTool addPopTipWithMessage:message];
         return;
@@ -279,7 +280,19 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         return;
     }
 
-    [self uploadImageRequest];
+    if (self.logoUrl.length != 0) {
+        if (self.logoImage != nil) {
+            [self uploadImageRequest];
+        }else{
+            [self editRequest];
+        }
+    }else{
+        if (self.logoImage != nil) {
+            [self uploadImageRequest];
+        }else{
+            [self editRequest];
+        }
+    }
 }
 
 -(void)addPictureButtonClick:(UIButton *)button{
@@ -537,6 +550,26 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
     }
     
     return YES;
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if ([[UITextInputMode currentInputMode].primaryLanguage isEqualToString:@"emoji"]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([[UITextInputMode currentInputMode].primaryLanguage  isEqualToString:@"emoji"]) {
+        
+        return NO;
+        
+    }
+    
+    return YES;
+    
 }
 
 #pragma mark - UITextViewDelegate

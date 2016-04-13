@@ -13,6 +13,7 @@
 #import "SelectPictureButton.h"
 
 #import "IQKeyboardManager.h"
+#import "SellerCentreReviewStatusViewController.h"
 
 #define CellDefaultHeight 40
 
@@ -636,7 +637,8 @@ typedef NS_OPTIONS(NSUInteger, ActionSheetTag) {
         ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
         if([message.returnCode intValue] == SucessFlag){
             [SVProgressHUD showSuccessWithStatus:@"申请成功"];
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+            SellerCentreReviewStatusViewController *vc = Alloc_viewControllerNibName(SellerCentreReviewStatusViewController);
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         }else if ([message.returnCode intValue] == 1){
             [SVProgressHUD showSuccessWithStatus:@"申请失败"];
         }else if ([message.returnCode intValue] == 2){
