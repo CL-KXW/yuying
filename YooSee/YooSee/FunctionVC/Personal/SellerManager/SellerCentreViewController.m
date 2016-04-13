@@ -60,7 +60,7 @@
     [self addBackItem];
 
     self.title = @"商家管理";
-    self.cellTextArray =@[@"余额",@"商城营业额",@""];
+    self.cellTextArray =@[@"资金库",@"商城营业额",@""];
     self.buttonTitleArray = @[@"红包管理",@"赚钱广告管理",@"商品管理",@"订单管理",@"会员卡管理",@"优惠券管理",@"提现进度查询",@"发票管理"];
     self.buttonImageArray = @[@"SellerManager_redLibaryManager",@"SellerManager_advertisementManager",@"SellerManager_commodityManager",@"SellerManager_orderFormManager",@"SellerManager_vipManager",@"SellerManager_preferentialManager",@"SellerManager_statusInquiry",@"SellerManager_invoiceManager"];
     
