@@ -35,6 +35,7 @@
 
 @property(nonatomic,strong)NSNumber *id;  //商家id
 @property(nonatomic,strong)NSString *jigndu;
+@property(nonatomic,strong)NSNumber *shop_number;
 
 
 @end

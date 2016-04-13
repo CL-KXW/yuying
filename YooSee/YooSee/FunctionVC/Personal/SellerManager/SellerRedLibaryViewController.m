@@ -97,8 +97,7 @@
     [LoadingView showLoadingView];
     
     NSMutableDictionary *requestDic = [[NSMutableDictionary alloc] init];
-    NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
-    [requestDic setObject:shop_number forKey:@"shop_number"];
+    [requestDic setObject:[NSString stringWithFormat:@"%@",self.shop_number] forKey:@"shop_number"];
     [requestDic setObject:self.dic[@"only_number"] forKey:@"only_number"];
     [requestDic setObject:self.maxId forKey:@"startid"];
     

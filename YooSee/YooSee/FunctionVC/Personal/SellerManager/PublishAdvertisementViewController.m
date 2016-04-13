@@ -346,8 +346,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     NSString *user_id = [YooSeeApplication shareApplication].uid;
     [dic setObject:[NSString stringWithFormat:@"%@",user_id] forKey:@"user_id"];
-    NSNumber *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
-    [dic setObject:[NSString stringWithFormat:@"%@",shop_number] forKey:@"shop_number"];
+    [dic setObject:[NSString stringWithFormat:@"%@",self.shop_number] forKey:@"shop_number"];
     NSString *area_city_role_id;
     if (self.publishArea == PulishArea_localCity) {
         area_city_role_id = [YooSeeApplication shareApplication].userDic[@"city_id"];

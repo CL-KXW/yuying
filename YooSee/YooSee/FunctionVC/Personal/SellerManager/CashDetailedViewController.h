@@ -17,5 +17,6 @@ typedef NS_ENUM(NSUInteger, CashDetailType) {
 @interface CashDetailedViewController : BasicViewController
 
 @property(nonatomic)CashDetailType type;
+@property(nonatomic,strong)NSNumber *shop_number;
 
 @end

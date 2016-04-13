@@ -104,8 +104,7 @@
         [requestDic setObject:@"2" forKey:@"loadtype"];
     }
     
-    NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
-    [requestDic setObject:shop_number forKey:@"shop_number"];
+    [requestDic setObject:[NSString stringWithFormat:@"%@",self.shop_number] forKey:@"shop_number"];
     [requestDic setObject:startid forKey:@"startid"];
     
     WeakSelf(weakSelf);
@@ -297,6 +296,7 @@
         }else if(self.type == ManageType_redLibary){
             vc.type = DetailType_redLibary;
         }
+        vc.shop_number = self.shop_number;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

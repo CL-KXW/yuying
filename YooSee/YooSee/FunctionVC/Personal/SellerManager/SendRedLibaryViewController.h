@@ -17,5 +17,6 @@ typedef NS_ENUM(NSUInteger, RedLibaryType) {
 @interface SendRedLibaryViewController : BasicViewController
 
 @property(nonatomic)RedLibaryType type;
+@property(nonatomic,strong)NSNumber *shop_number;
 
 @end

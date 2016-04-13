@@ -10,4 +10,6 @@
 
 @interface RedLibaryTypeListViewController : BasicViewController
 
+@property(nonatomic,strong)NSNumber *shop_number;
+
 @end

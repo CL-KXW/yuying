@@ -198,6 +198,7 @@
 -(void)sendRedLibaryButtonClick:(UIButton *)button{
     @autoreleasepool {
         RedLibaryTypeListViewController *vc = Alloc_viewControllerNibName(RedLibaryTypeListViewController);
+        vc.shop_number = self.sellerMessage.shop_number;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -205,6 +206,7 @@
 -(void)publishAdvertisementButtonClick:(UIButton *)button{
     @autoreleasepool {
         PublishAdvertisementViewController *vc = Alloc_viewControllerNibName(PublishAdvertisementViewController);
+        vc.shop_number = self.sellerMessage.shop_number;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -334,6 +336,7 @@
                 }else if(indexPath.section == 1){
                     vc.type = CashDetailType_sellerTurnover;
                 }
+                vc.shop_number = self.sellerMessage.shop_number;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
@@ -350,6 +353,7 @@
                 }else if(indexPath.section == 1){
                     CashDetailedViewController *vc = Alloc_viewControllerNibName(CashDetailedViewController);
                     vc.type = CashDetailType_sellerTurnover;
+                    vc.shop_number = self.sellerMessage.shop_number;
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }
@@ -399,6 +403,7 @@
                 //红包管理
                 RedLibaryManageViewController *vc = Alloc_viewControllerNibName(RedLibaryManageViewController);
                 vc.type = ManageType_redLibary;
+                vc.shop_number = self.sellerMessage.shop_number;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
@@ -409,6 +414,7 @@
             @autoreleasepool {
                 RedLibaryManageViewController *vc = Alloc_viewControllerNibName(RedLibaryManageViewController);
                 vc.type = ManageType_advertisement;
+                vc.shop_number = self.sellerMessage.shop_number;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }

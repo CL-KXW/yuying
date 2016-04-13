@@ -16,5 +16,6 @@ typedef NS_ENUM(NSUInteger, ManageType) {
 @interface RedLibaryManageViewController : BasicViewController
 
 @property(nonatomic)ManageType type;
+@property(nonatomic,strong)NSNumber *shop_number;
 
 @end

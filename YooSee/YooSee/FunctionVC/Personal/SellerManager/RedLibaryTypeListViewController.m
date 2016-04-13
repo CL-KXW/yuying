@@ -84,6 +84,7 @@
             }
                 break;
         }
+        vc.shop_number = self.shop_number;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

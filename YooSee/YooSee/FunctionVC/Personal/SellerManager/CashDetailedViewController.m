@@ -113,9 +113,7 @@
     NSString *urlString = Url_sellerTurnoverCashDetail;
     if(self.type == CashDetailType_sellerCapitalLibrary){
         urlString = Url_sellerCapitalLibraryCashDetail;
-        
-        NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
-        [requestDic setObject:shop_number forKey:@"shop_number"];
+        [requestDic setObject:[NSString stringWithFormat:@"%@",self.shop_number] forKey:@"shop_number"];
     }else if(self.type == CashDetailType_person){
         urlString = Url_personCashDetail;
         
@@ -123,9 +121,7 @@
         [requestDic setObject:user_id forKey:@"user_id"];
     }else if(self.type == CashDetailType_sellerTurnover){
         urlString = Url_sellerTurnoverCashDetail;
-        
-        NSString *shop_number = [YooSeeApplication shareApplication].userDic[@"shop_number"];
-        [requestDic setObject:shop_number forKey:@"shop_number"];
+        [requestDic setObject:[NSString stringWithFormat:@"%@",self.shop_number] forKey:@"shop_number"];
     }
     
     [requestDic setObject:startid forKey:@"startid"];

@@ -18,5 +18,6 @@ typedef NS_ENUM(NSUInteger, DetailType) {
 @property(nonatomic)BOOL reject;   //被拒绝
 @property(nonatomic,strong)NSMutableDictionary *dic;
 @property(nonatomic)DetailType type;   //详情类型
+@property(nonatomic,strong)NSNumber *shop_number;
 
 @end
