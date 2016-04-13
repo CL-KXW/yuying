@@ -79,6 +79,8 @@
 
 #pragma mark - 创建支付宝订单
 -(void)createZhiFuBaoOrder{
+    [LoadingView showLoadingView];
+    
     NSString *money = self.moneyField.text;
     if(money.length == 0)
         return;
@@ -86,6 +88,7 @@
     NSDictionary *dic = @{@"user_id":[[YooSeeApplication shareApplication] uid],@"recharge_money":money, @"type":@"2"};
     dic = [RequestDataTool encryptWithDictionary:dic];
     [[RequestTool alloc] requestWithUrl:CREATEORDER_URL requestParamas:dic requestType:RequestTypeAsynchronous requestSucess:^(AFHTTPRequestOperation *operation, id responseDic) {
+        [LoadingView dismissLoadingView];
         if ([responseDic[@"returnCode"] intValue] == 8) {
             
             NSDictionary *dic = responseDic;
@@ -99,6 +102,7 @@
             [SVProgressHUD showErrorWithStatus:responseDic[@"returnMessage"] duration:2.0];
         }
     } requestFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [LoadingView dismissLoadingView];
         [SVProgressHUD showErrorWithStatus:error.description duration:2.0];
     }];
 }
@@ -115,6 +119,7 @@
             case 9000:
             {
                 title = @"订单支付成功";
+                [CommonTool addPopTipWithMessage:title];
                 [self.navigationController popViewControllerAnimated:YES];
             }
                 break;

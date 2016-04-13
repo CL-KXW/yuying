@@ -24,6 +24,8 @@
 #import "XGPush.h"
 #import "XGSetting.h"
 
+#import <AlipaySDK/AlipaySDK.h>
+
 
 @interface AppDelegate ()
 
@@ -447,11 +449,20 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    
-    
     BOOL result = [UMSocialSnsService handleOpenURL:url];
     if (result == FALSE) {
         //调用其他SDK，例如支付宝SDK等
+        
+        if ([url.host isEqualToString:@"safepay"]) {
+            NSLog(@"支付宝返回url_2： = %@", url);
+            [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+                
+                NSLog(@"支付宝返回： = %@", resultDic);
+                
+            }];
+            
+            return YES;
+        }
     }
     return  [UMSocialSnsService handleOpenURL:url];
 }

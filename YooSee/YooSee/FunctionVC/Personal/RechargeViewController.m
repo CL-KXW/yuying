@@ -198,12 +198,14 @@
 
 #pragma mark - 创建支付宝订单
 -(void)createZhiFuBaoOrder{
+    [LoadingView showLoadingView];
     NSString *money = _rechargeLabel.text;
     if(money.length == 0)
         return;
     NSDictionary *dic = @{@"user_id":[[YooSeeApplication shareApplication] uid],@"recharge_money":money, @"type":@"1"};
     dic = [RequestDataTool encryptWithDictionary:dic];
     [[RequestTool alloc] requestWithUrl:CREATEORDER_URL requestParamas:dic requestType:RequestTypeAsynchronous requestSucess:^(AFHTTPRequestOperation *operation, id responseDic) {
+        [LoadingView dismissLoadingView];
         if ([responseDic[@"returnCode"] intValue] == 8) {
             
             NSDictionary *dic = responseDic;
@@ -217,6 +219,7 @@
             [SVProgressHUD showErrorWithStatus:responseDic[@"returnMessage"] duration:2.0];
         }
     } requestFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [LoadingView dismissLoadingView];
         [SVProgressHUD showErrorWithStatus:error.description duration:2.0];
     }];
 }
@@ -260,8 +263,7 @@
                 break;
         }
         
-        UIAlertView *alt = [[UIAlertView alloc] initWithTitle:@"支付结果" message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alt show];
+        [CommonTool addPopTipWithMessage:title];
     }];
 }
 
