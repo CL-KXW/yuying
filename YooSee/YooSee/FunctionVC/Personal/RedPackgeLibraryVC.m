@@ -178,12 +178,13 @@
     }
     cell.nameLabel.text = [NSString stringWithFormat:@"%@", dic[@"title_1"]];
     cell.descLabel.text = [NSString stringWithFormat:@"%@", dic[@"shop_name"]];
-    cell.timeLabel.text = [NSString stringWithFormat:@"%@", dic[@"end_time"]];
     cell.moneyLabel.text = [NSString stringWithFormat:@"%.2f元", [dic[@"lingqu_money"] floatValue]];
     if (tableView == _ungetTable) {
         cell.moneyLabel.hidden = YES;
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@", dic[@"end_time"]];
     } else {
         cell.moneyLabel.hidden = NO;
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@",dic[@"update_time"]];
     }
     return cell;
 }
