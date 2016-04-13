@@ -302,7 +302,7 @@
     {
         for (NSDictionary *dataDic in deviceArray)
         {
-            NSString *contactID = dataDic[@"deviceid"];
+            NSString *contactID = dataDic[@"camera_number"];
             contactID = contactID ? contactID : @"";
             if ([contactID isEqualToString:deviceID])
             {

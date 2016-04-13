@@ -10,8 +10,6 @@
 
 @interface ResponseSellerMessage : ZHYBaseResponse
 
-@property(nonatomic,strong)NSArray *resultList;
-
 @end
 
 @interface SellerMessage: NSObject
