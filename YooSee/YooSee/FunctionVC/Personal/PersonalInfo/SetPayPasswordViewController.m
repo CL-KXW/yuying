@@ -98,7 +98,7 @@
     [LoadingView showLoadingView];
     __weak typeof(self) weakSelf = self;
     NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[YooSeeApplication shareApplication].userInfoDic];
-    NSDictionary *requestDic = @{@"phone":[USER_DEFAULT objectForKey:@"UserName"],@"paypwd":self.password,@"userpwd":[CommonTool md5:[USER_DEFAULT objectForKey:@"Password"]]};
+    NSDictionary *requestDic = @{@"phone":[USER_DEFAULT objectForKey:@"UserName"],@"paypwd":[CommonTool md5:self.password],@"userpwd":[CommonTool md5:[USER_DEFAULT objectForKey:@"Password"]]};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:SET_PAY_PASSWOR_URL
                             requestParamas:requestDic
