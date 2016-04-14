@@ -144,13 +144,14 @@
                         [weakSelf.dataSourceArray addObject:dic];
                     }
                     
-                    NSDictionary *dic = [array lastObject];
+                    NSDictionary *dic;
                     
                     if([self.upId intValue] == 0){
                         dic = [array firstObject];
                         self.downId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                     }
                     
+                    dic = [array lastObject];
                     self.upId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                 }
             }else{

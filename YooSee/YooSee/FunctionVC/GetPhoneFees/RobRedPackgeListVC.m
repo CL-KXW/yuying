@@ -84,9 +84,9 @@
     NSDictionary *dic = _dataArray[section];
     UIView *header = [[UIView alloc] init];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 20)];
-    label.textColor = [UIColor grayColor];
+    label.textColor = RGB(155, 155, 155);
     label.text = [NSString stringWithFormat:@" %@ ", dic[@"publish_time"]];
-    label.backgroundColor = [UIColor lightGrayColor];
+    label.backgroundColor = RGB(216, 216, 216);
     label.layer.cornerRadius = 2;
     label.layer.masksToBounds = YES;
     label.font = FONT(12);
@@ -158,13 +158,13 @@
                          [_dataArray addObject:dic];
                      }
                      
-                     NSDictionary *dic = [array lastObject];
+                     NSDictionary *dic;
                      
                      if([self.upId intValue] == 0){
                          dic = [array firstObject];
                          self.downId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                      }
-                     
+                     dic = [array lastObject];
                      self.upId = [NSString stringWithFormat:@"%@",dic[@"id"]];
                  }
              }else{

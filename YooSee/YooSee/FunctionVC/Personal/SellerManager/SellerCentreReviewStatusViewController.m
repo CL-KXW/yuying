@@ -89,10 +89,8 @@
         ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
         if ([jsonObject[@"returnCode"] intValue] == SucessFlag)
         {
-            NSDictionary *resultlist = jsonObject[@"resultList"];
-            if ([resultlist[@"state"] intValue] == 3) {
-                [SVProgressHUD showErrorWithStatus:resultlist[@"content"]];
-            }
+            [SVProgressHUD showErrorWithStatus:@"申请失败,请重新申请"];
+            [self.navigationController popViewControllerAnimated:YES];
         }else{
             [SVProgressHUD showErrorWithStatus:message.returnMessage];
         }
