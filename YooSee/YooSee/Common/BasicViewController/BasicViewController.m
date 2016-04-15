@@ -177,7 +177,6 @@
     {
         [weakSelf refreshData];
     };
-
 }
 
 - (void)refreshData

@@ -10,6 +10,7 @@
 
 #import "SellerCentreWriteDataViewController.h"
 #import "WebViewController.h"
+#import "UserCenterMainViewController.h"
 
 @interface SellerCentreJoinViewController ()
 
@@ -38,6 +39,21 @@
     self.termsOfServiceButton.titleLabel.numberOfLines = 0;
     
     [self.joinButton viewRadius:ButtonRadius_Common backgroundColor:ButtonColor_Common];
+    [self setNavBarItemWithImageName:@"back" navItemType:LeftItem selectorName:@"backButtonPressed:"];
+}
+
+
+- (void)backButtonPressed:(UIButton *)sender
+{
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[UserCenterMainViewController class]])
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -

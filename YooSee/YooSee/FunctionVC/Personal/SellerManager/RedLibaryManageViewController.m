@@ -126,7 +126,8 @@
             NSArray *array = message.resultList;
             if(actionType == ActionType_up){
                 for (NSDictionary *dic in array) {
-                    [weakSelf.dataSourceArray addObject:dic];
+                    NSMutableDictionary *mutabledic = [[NSMutableDictionary alloc] initWithDictionary:dic];
+                    [weakSelf.dataSourceArray addObject:mutabledic];
                 }
                 
                 if([array count] == 0){
@@ -284,13 +285,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSDictionary *dic = self.dataSourceArray[indexPath.row];
+    NSMutableDictionary *dic = self.dataSourceArray[indexPath.row];
     @autoreleasepool {
         SellerRedLibaryViewController *vc = Alloc_viewControllerNibName(SellerRedLibaryViewController);
         if ([dic[@"type"] intValue] == 4) {
             vc.reject = YES;
         }
-        vc.dic = [[NSMutableDictionary alloc] initWithDictionary:dic];
+        vc.dic = dic;
         if (self.type == ManageType_advertisement) {
             vc.type = DetailType_advertisement;
         }else if(self.type == ManageType_redLibary){

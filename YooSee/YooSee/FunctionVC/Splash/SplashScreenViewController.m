@@ -168,7 +168,7 @@
 {
     NSDictionary *responseDic = dataDic[@"resultList"];
     [YooSeeApplication shareApplication].loginServerDic = responseDic;
-    [DELEGATE checkUpdateShowTip:NO];
+    
     [YooSeeApplication shareApplication].pwd2cu = responseDic[@"pwd2cu"];
     [self next];
 }
@@ -260,6 +260,7 @@
     HomeViewController *homeViewController = [[HomeViewController alloc] init];
     UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     [[DELEGATE window] setRootViewController:homeNav];
+    [DELEGATE checkUpdateShowTip:YES];
 }
 
 

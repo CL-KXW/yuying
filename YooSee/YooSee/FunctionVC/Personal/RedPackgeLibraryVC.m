@@ -299,7 +299,7 @@
                  }
                  else
                  {
-                     [CommonTool addPopTipWithMessage:@"没有更多数据"];
+//                     [CommonTool addPopTipWithMessage:@"没有更多数据"];
                  }
                  
                  
@@ -363,7 +363,7 @@
                  }
                  else
                  {
-                     [CommonTool addPopTipWithMessage:@"没有更多数据"];
+//                     [CommonTool addPopTipWithMessage:@"没有更多数据"];
                  }
              } else if (ary && [ary isKindOfClass:[NSDictionary class]]) {
                  [_ungetArray addObject:ary];

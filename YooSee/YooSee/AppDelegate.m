@@ -26,10 +26,15 @@
 
 #import <AlipaySDK/AlipaySDK.h>
 
+#import "WebViewController.h"
+
 
 @interface AppDelegate ()
 
 @property (nonatomic, assign) BOOL isLoading;
+
+//TODO:每次发版记得修改此处
+@property(nonatomic)BOOL isAppStoreCode;  //是企业版还是App Store版
 
 @end
 
@@ -38,8 +43,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    
+    //默认企业版
+    self.isAppStoreCode = NO;
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window = window;
@@ -84,21 +89,22 @@
 #pragma mark 检查更新
 - (void)checkUpdateShowTip:(BOOL)isShow
 {
-    float newVersion = [[YooSeeApplication shareApplication].loginServerDic[@"version_number"] floatValue];
-    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *version = infoDict[@"CFBundleShortVersionString"];
-    float appVersion = [version floatValue];
-    if (appVersion >= newVersion)
-    {
-        if (isShow)
-        {
-            [SVProgressHUD showSuccessWithStatus:@"已是最新版本" duration:1.5];
-        }
+    if (self.isAppStoreCode) {
         return;
     }
-    if (appVersion < newVersion)
+    
+    NSString *newVersion = [YooSeeApplication shareApplication].loginServerDic[@"version_number"];
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = infoDict[@"CFBundleShortVersionString"];
+
+    
+    NSComparisonResult result;
+    result = [newVersion compare:version options:NSNumericSearch];
+    
+    if (result == NSOrderedDescending)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发现新版本" delegate:self cancelButtonTitle:@"升级" otherButtonTitles:@"取消", nil];
+        //有新版本
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发现新版本" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"升级", nil];
         [alert show];
     }
 }
@@ -108,10 +114,12 @@
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if ([title isEqualToString:@"升级"])
     {
-        NSString *url = [YooSeeApplication shareApplication].loginServerDic[@"downurl"];
-        url = url ? url : @"";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-        exit(0);
+        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+        
+        WebViewController *webViewController = [[WebViewController alloc] init];
+        webViewController.urlString = @"http://fir.im/yyios";
+        webViewController.title = @"升级版本";
+        [nav pushViewController:webViewController animated:YES];
     }
 }
 

@@ -48,9 +48,12 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="11E-Lh-t4N"/>
                     </constraints>
-                    <state key="normal" title="重新审核">
+                    <state key="normal" title="重新申请">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="deleteButtonClick:" destination="-1" eventType="touchUpInside" id="aNC-ok-dyU"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

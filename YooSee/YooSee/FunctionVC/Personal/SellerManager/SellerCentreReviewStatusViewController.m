@@ -9,12 +9,14 @@
 #import "SellerCentreReviewStatusViewController.h"
 
 #import "UserCenterMainViewController.h"
+#import "SellerCentreJoinViewController.h"
 
 @interface SellerCentreReviewStatusViewController ()
 
-@property(nonatomic,strong)IBOutlet UIImageView *custonImageView;
+@property(nonatomic,weak)IBOutlet UIImageView *custonImageView;
 @property(nonatomic,weak)IBOutlet UILabel *contentLabel;
 @property(nonatomic,weak)IBOutlet UIButton *button;
+@property(nonatomic,strong)NSString *nuId;
 
 @end
 
@@ -25,6 +27,7 @@
     [self setNavBarItemWithImageName:@"back" navItemType:LeftItem selectorName:@"backButtonPressed:"];
     
     self.title = @"等待审核";
+    self.button.hidden = YES;
     [self sellerMessageRequest];
 }
 
@@ -58,13 +61,16 @@
         [LoadingView dismissLoadingView];
         
         ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
+        //1.待审核 2 再次上传 3,不通过 4通过
         if ([jsonObject[@"returnCode"] intValue] == SucessFlag)
         {
             NSArray *array = jsonObject[@"resultList"];
             NSDictionary *resultlist = [array firstObject];
-            if ([resultlist[@"state"] intValue] == 3) {
-                [SVProgressHUD showErrorWithStatus:resultlist[@"content"]];
-                [self deleteMessageRequest:[NSString stringWithFormat:@"%@",resultlist[@"id"]]];
+            if ([resultlist[@"state"] intValue] == 3 || [resultlist[@"state"] intValue] == 2) {
+                self.contentLabel.text = resultlist[@"content"];
+                self.custonImageView.image = [UIImage imageNamed:@"SellerCentreReviewStatus_reject"];
+                self.button.hidden = NO;
+                self.nuId = [NSString stringWithFormat:@"%@",resultlist[@"id"]];
             }
         }else{
             [SVProgressHUD showErrorWithStatus:message.returnMessage];
@@ -94,8 +100,8 @@
         ZHYBaseResponse *message = [ZHYBaseResponse yy_modelWithDictionary:jsonObject];
         if ([jsonObject[@"returnCode"] intValue] == SucessFlag)
         {
-            [SVProgressHUD showErrorWithStatus:@"申请失败,请重新申请"];
-            [self.navigationController popViewControllerAnimated:YES];
+            SellerCentreJoinViewController *vc = Alloc_viewControllerNibName(SellerCentreJoinViewController);
+            [self.navigationController pushViewController:vc animated:YES];
         }else{
             [SVProgressHUD showErrorWithStatus:message.returnMessage];
         }
@@ -103,6 +109,10 @@
         [LoadingView dismissLoadingView];
         [SVProgressHUD showErrorWithStatus:Hud_NetworkConnectionFail];
     }];
+}
+
+-(IBAction)deleteButtonClick:(id)sender{
+    [self deleteMessageRequest:self.nuId];
 }
 
 @end
