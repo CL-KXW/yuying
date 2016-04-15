@@ -911,6 +911,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
                     [self presentViewController:imgeditor animated:YES completion:^{
                         
                     }];
+                    return;
                 }else{
                     [cell.addPicture1 setBackgroundImage:image forState:UIControlStateNormal];
                     self.advertisementImage1 = image;

@@ -11,7 +11,7 @@
 
 //#define SERVER_URL                  @"http://zhouqiubo.vicp.cc:9998/koi"
 //#define SERVER_URL                  @"http://1.199.40.48:8086/koi"
-#define SERVER_URL                  @"http://yyw.dianliangtech.com/dianliang/"
+#define SERVER_URL                  Url_Host
 
 #define MAKE_REQUEST_URL(inf)       [NSString stringWithFormat:@"%@%@",SERVER_URL,inf]
 

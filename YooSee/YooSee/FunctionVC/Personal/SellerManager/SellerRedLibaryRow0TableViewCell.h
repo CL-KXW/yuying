@@ -21,5 +21,6 @@
 @property(nonatomic,weak)IBOutlet UILabel *endTimeLabel;
 @property(nonatomic,strong)IBOutlet UILabel *retreatLabel;  //可退金额
 @property(nonatomic,strong)IBOutlet UILabel *nameLabel;
+@property(nonatomic,strong)IBOutlet UILabel *retreatPromptLabel;  //可退金额
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "Y1YDetail2ViewController.h"
+
+#import "Y1YViewController.h"
+
 @interface Y1YDetail2ViewController ()
 @property (nonatomic, assign) BOOL hasMakedRob;
 @property (nonatomic, strong) NSMutableArray *heightArray;
@@ -16,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addBackItem];
+    self.title = @"领取资格";
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self addTableViewWithFrame:CGRectMake(0, START_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - START_HEIGHT) tableType:1 tableDelegate:self];
     self.table.separatorStyle = 0;
@@ -65,6 +68,24 @@
     [footView addSubview:startTimeLabel];
     
     _heightArray = [NSMutableArray arrayWithArray:@[@(220 * CURRENT_SCALE),@(220 * CURRENT_SCALE),@(220 * CURRENT_SCALE)]];
+    
+    [self setNavBarItemWithImageName:@"back" navItemType:LeftItem selectorName:@"backButtonPressed:"];
+}
+
+#pragma makr 返回
+- (void)backButtonPressed:(UIButton *)sender
+{
+    
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    for (UIViewController *vc in  array) {
+        if ([vc isKindOfClass:[Y1YViewController class]])
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark UITableViewDelegate
@@ -189,7 +210,7 @@
              self.hasMakedRob = YES;
              //[self.table reloadData];
              [SVProgressHUD showSuccessWithStatus:errorMessage];
-//             [self.navigationController popViewControllerAnimated:NO];
+             [self.navigationController popViewControllerAnimated:NO];
          }
          else
          {

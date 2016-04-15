@@ -28,6 +28,7 @@
     
     self.title = @"等待审核";
     self.button.hidden = YES;
+    [self.button viewRadius:ButtonRadius_Common backgroundColor:ButtonColor_Common];
     [self sellerMessageRequest];
 }
 
@@ -67,11 +68,19 @@
             NSArray *array = jsonObject[@"resultList"];
             NSDictionary *resultlist = [array firstObject];
             if ([resultlist[@"state"] intValue] == 3 || [resultlist[@"state"] intValue] == 2) {
-                self.contentLabel.text = resultlist[@"content"];
+                NSString *content = resultlist[@"content"];
+                if (content.length == 0) {
+                    self.contentLabel.text = @"审核被拒绝,请认真上传真实资料";
+                }else{
+                    self.contentLabel.text = resultlist[@"content"];
+                }
+                
                 self.custonImageView.image = [UIImage imageNamed:@"SellerCentreReviewStatus_reject"];
                 self.button.hidden = NO;
                 self.nuId = [NSString stringWithFormat:@"%@",resultlist[@"id"]];
+                self.title = @"审核被拒";
             }
+            
         }else{
             [SVProgressHUD showErrorWithStatus:message.returnMessage];
         }
@@ -90,8 +99,7 @@
     
     [LoadingView showLoadingView];
     
-    NSString *user_id = UNNULL_STRING([[YooSeeApplication shareApplication] uid]);
-    NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",nil];
+    NSDictionary *requestDic = [NSDictionary dictionaryWithObjectsAndKeys:nuId,@"id",nil];
     
     NSString *string = [Url_Host stringByAppendingString:@"app/shop/delete"];
     [HttpManager postUrl:string parameters:requestDic success:^(AFHTTPRequestOperation *operation, NSDictionary *jsonObject) {

@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"摇一摇";
+    self.title = @"摇一摇列表";
     [self addBackItem];
     _dataArray = [NSMutableArray array];
     self.upId = @"0";

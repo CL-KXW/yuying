@@ -124,7 +124,7 @@
             }
             
             if([array count] == 0){
-                [SVProgressHUD showSuccessWithStatus:@"无更多数据"];
+                [SVProgressHUD showSuccessWithStatus:@"暂时还没有人领取"];
             }else{
                 NSDictionary *dic = [array lastObject];
                 self.maxId = [NSString stringWithFormat:@"%@",dic[@"id"]];
@@ -178,7 +178,7 @@
             CommonThreeButtonTableViewCell *cell1 = [self.table cellForRowAtIndexPath:indpath];
             [cell1.button2 setTitle:@"已下架" forState:UIControlStateNormal];
             cell1.button2.userInteractionEnabled = NO;
-            weakSelf.dic[@"type"] = [NSNumber numberWithInt:2];
+            weakSelf.dic[@"type"] = [NSNumber numberWithInt:3];
             [self.table reloadData];
         }else if ([message.returnCode intValue] == 1){
             [SVProgressHUD showSuccessWithStatus:@"下架失败"];
@@ -269,6 +269,10 @@
         cell0.surplusMoneyLabel.text = surplusMoney;
         cell0.retreatLabel.text = surplusMoney;
         cell0.surplusNumberLabel.text = [NSString stringWithFormat:@"%D个",number];
+        
+        if ([self.dic[@"type"] intValue] == 3 || [self.dic[@"type"] intValue] == 4) {
+            cell0.retreatPromptLabel.text = @"已退金额";
+        }
         
         if (self.type == DetailType_advertisement) {
             cell0.customImageView.image = [UIImage imageNamed:@"Common_defaultImageLogo"];

@@ -523,7 +523,7 @@
     }
 
 }
-#pragma mark 网络请求
+#pragma mark 红包状态网络请求
 
 - (void)requestState {
     [LoadingView showLoadingView];
@@ -545,6 +545,7 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
+         
          if (errorCode == 8)
          {
              //[self unrobView];
@@ -568,16 +569,15 @@
          }
          _stateDic = dataDic;
          [self dealViews];
-     }
-                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         
+     }requestFail:^(AFHTTPRequestOperation *operation, NSError *error){
          [LoadingView dismissLoadingView];
+         [self.navigationController popViewControllerAnimated:YES];
          NSLog(@"RED_PACKAGE_STATE====%@",error);
      }];
 }
 
 
+//摇一摇请求
 - (void)requestRob {
     
     [LoadingView showLoadingView];
@@ -588,7 +588,7 @@
                                  @"lingqu_user_id":[NSString stringWithFormat:@"%@", uid],
                                  @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
     requestDic = [RequestDataTool encryptWithDictionary:requestDic];
-    [[RequestTool alloc] requestWithUrl:RED_POCKET_ROB
+    [[RequestTool alloc] requestWithUrl:[NSString stringWithFormat:@"%@%@",SERVER_URL,@"app/red/get/yaoyiyao/add"]
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)

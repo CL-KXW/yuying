@@ -362,7 +362,7 @@ typedef NS_ENUM(NSUInteger, PulishArea) {
     [dic setObject:totalMoney forKey:@"guanggao_money"];
     [dic setObject:self.oneMoneyField.text forKey:@"lingqu_money"];
     [dic setObject:[NSString stringWithFormat:@"%.2f",self.commissionMoney] forKey:@"rate_money"];
-    [dic setObject:self.oneMoneyField.text forKey:@"fa_sum_number"];
+//    [dic setObject:self.oneMoneyField.text forKey:@"fa_sum_number"];
     
     [dic setObject:self.titleField.text forKey:@"content_1"];
     NSString *content2 = @"";
