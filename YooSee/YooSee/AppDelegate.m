@@ -40,7 +40,6 @@
 {
     // Override point for customization after application launch.
     
-   
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window = window;
@@ -89,7 +88,7 @@
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
     NSString *version = infoDict[@"CFBundleShortVersionString"];
     float appVersion = [version floatValue];
-    if (appVersion <= newVersion)
+    if (appVersion >= newVersion)
     {
         if (isShow)
         {
@@ -227,6 +226,10 @@
          }
          else
          {
+             if (errorCode == 2)
+             {
+                 [self register2CU];
+             }
              [YooSeeApplication shareApplication].isLogin2cu = NO;
              if (isShow)
              {
@@ -249,7 +252,33 @@
     
 }
 
-
+#pragma mark 注册2CU
+- (void)register2CU
+{
+    NSString *password = [[YooSeeApplication shareApplication].pwd2cu getMd5_32Bit_String];
+    NSString *email = [NSString stringWithFormat:@"newyywapp%@@yywapp.com",[USER_DEFAULT objectForKey:@"UserName"]];
+    email = @"15820791211@163.com";
+    password = [@"123456" getMd5_32Bit_String];
+    NSDictionary *requestDic = @{@"VersionFlag":@"1",@"Email":email,@"CountryCode":@"",@"phone":@"",@"Pwd":password,@"RePwd":password,@"VerifyCode":@"",@"IgnoreSafeWarning":@"1"};
+    requestDic = [RequestDataTool makeRequestDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:REGISTER_2CU_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"REGISTER_2CU_URL====%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"error_code"] intValue];
+         if (errorCode == 0)
+         {
+             [self login2CU:YES];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"REGISTER_2CU_URL====%@",error);
+     }];
+}
 
 #pragma mark - NSNotification
 - (void)receiveRemoteMessage:(NSNotification *)notification{

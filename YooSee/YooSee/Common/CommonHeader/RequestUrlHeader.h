@@ -43,14 +43,17 @@
 #define FIND_PAY_PHONE_CODE_URL     MAKE_REQUEST_URL(@"send/message/back/paypwd/code")
 
 
-static NSString *server1 = @"http://cloudlinks.cn/";
-static NSString *server2 = @"http://2cu.co/";
-static NSString *server3 = @"http://cloud-links.net/";
-static NSString *server4 = @"www.gwelltimes.com";
+static NSString *server1 = @"http://api1.cloudlinks.cn/";
+static NSString *server2 = @"http://api2.cloudlinks.cn/";
+static NSString *server3 = @"http://api3.cloud-links.net/";
+static NSString *server4 = @"http://api4.cloud-links.net/";
 #define LOGIN_2CU_SERVER            @[server1,server2,server3,server4][arc4random()%4]
 
 //2cu_login
 #define LOGIN_2CU_URL               [NSString stringWithFormat:@"%@%@",LOGIN_2CU_SERVER,@"Users/LoginCheck.ashx"]
+
+//2cu_register
+#define REGISTER_2CU_URL            [NSString stringWithFormat:@"%@%@",LOGIN_2CU_SERVER,@"Users/RegisterCheck.ashx"]
 
 //2cu_Alarm
 #define ALARM_2CU_URL               [NSString stringWithFormat:@"%@%@",LOGIN_2CU_SERVER,@"Alarm/AlarmRecordEx.ashx"]

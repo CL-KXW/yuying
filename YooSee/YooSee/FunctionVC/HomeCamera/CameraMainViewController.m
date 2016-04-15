@@ -105,6 +105,7 @@
     self.isReject = YES;
     [self.remoteView setCaptureFinishScreen:YES];
     [[P2PClient sharedClient] p2pHungUp];
+    [[P2PClient sharedClient] setP2pCallState:P2PCALL_STATE_NONE];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
