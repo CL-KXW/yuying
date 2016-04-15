@@ -257,8 +257,6 @@
 {
     NSString *password = [[YooSeeApplication shareApplication].pwd2cu getMd5_32Bit_String];
     NSString *email = [NSString stringWithFormat:@"newyywapp%@@yywapp.com",[USER_DEFAULT objectForKey:@"UserName"]];
-    email = @"15820791211@163.com";
-    password = [@"123456" getMd5_32Bit_String];
     NSDictionary *requestDic = @{@"VersionFlag":@"1",@"Email":email,@"CountryCode":@"",@"phone":@"",@"Pwd":password,@"RePwd":password,@"VerifyCode":@"",@"IgnoreSafeWarning":@"1"};
     requestDic = [RequestDataTool makeRequestDictionary:requestDic];
     [[RequestTool alloc] requestWithUrl:REGISTER_2CU_URL
