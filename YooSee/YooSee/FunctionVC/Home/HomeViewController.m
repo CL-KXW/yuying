@@ -319,13 +319,22 @@
                 [_mainView addSubview:itemTitleLabel];
                 
                 UIImage *itemImage = [UIImage imageNamed:@"icon_home_zxj_up"];
-                float item_button_wh = itemImage.size.width/2  * CURRENT_SCALE;
+                float item_button_wh = (itemImage.size.width/2+10)  * CURRENT_SCALE;
                 float item_button_space_x = (itemWidth/2 - item_button_wh)/2.0;
                 y -=  item_button_wh;
                 UIButton *itemButton = [CreateViewTool createButtonWithFrame:CGRectMake(item_button_space_x + (itemWidth/2) * j + imageView.frame.origin.x, y, item_button_wh, item_button_wh) buttonImage:itemImageArray[i][j] selectorName:@"itemButtonPressed:" tagDelegate:self];
                 itemButton.tag = 10 + i * 10 + j;
                 [_mainView addSubview:itemButton];
-
+                
+                [itemButton setBackgroundImage:nil forState:UIControlStateNormal];
+                [itemButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+                [itemButton setBackgroundImage:nil forState:UIControlStateSelected];
+                
+                UIImage *image_up = [UIImage imageNamed:[itemImageArray[i][j] stringByAppendingString:@"_up.png"]];
+                UIImage *image_down = [UIImage imageNamed:[itemImageArray[i][j] stringByAppendingString:@"_down.png"]];
+                [itemButton setImage:image_up forState:UIControlStateNormal];
+                [itemButton setImage:image_down forState:UIControlStateHighlighted];
+                [itemButton setImage:image_down forState:UIControlStateSelected];
             }
         }
     }

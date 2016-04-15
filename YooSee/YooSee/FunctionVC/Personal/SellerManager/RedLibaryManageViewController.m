@@ -199,6 +199,7 @@
         cell1.nameLabel.text = dic[@"title_1"];
         
         if ([dic[@"type"] intValue] == 1) {
+            //进行中
             if([dic[@"hongbao_type"] intValue] == 1){
                 //即时红包
                 cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediate"];
@@ -210,6 +211,7 @@
                 cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCode"];
             }
         }else if([dic[@"type"] intValue] == 2){
+            //已结束
             if([dic[@"hongbao_type"] intValue] == 1){
                 cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
             }else if ([dic[@"hongbao_type"] intValue] == 2){
@@ -218,12 +220,14 @@
                 cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
             }
         }else if([dic[@"type"] intValue] == 3){
+            //被驳回
             cell1.customImageView.image= [UIImage imageNamed:@"SellerRedLibaryDetail_reject"];
         }else if([dic[@"type"] intValue] == 4){
+            //未开始
             if([dic[@"hongbao_type"] intValue] == 1){
                 cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_immediateInvalid"];
             }else if ([dic[@"hongbao_type"] intValue] == 2){
-                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeInvalid"];
+                cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_shakeNoStart"];
             }else if ([dic[@"hongbao_type"] intValue] == 3){
                 cell1.customImageView.image= [UIImage imageNamed:@"RedLibaryTypeList_qrCodeInvalid"];
             }
@@ -288,14 +292,20 @@
     NSMutableDictionary *dic = self.dataSourceArray[indexPath.row];
     @autoreleasepool {
         SellerRedLibaryViewController *vc = Alloc_viewControllerNibName(SellerRedLibaryViewController);
-        if ([dic[@"type"] intValue] == 4) {
-            vc.reject = YES;
-        }
+
         vc.dic = dic;
         if (self.type == ManageType_advertisement) {
             vc.type = DetailType_advertisement;
+            
+            if ([dic[@"type"] intValue] == 4) {
+                vc.reject = YES;
+            }
         }else if(self.type == ManageType_redLibary){
             vc.type = DetailType_redLibary;
+            
+            if ([dic[@"type"] intValue] == 3) {
+                vc.reject = YES;
+            }
         }
         vc.shop_number = self.shop_number;
         [self.navigationController pushViewController:vc animated:YES];

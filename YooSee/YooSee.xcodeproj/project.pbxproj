@@ -3894,7 +3894,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9be07a1a-0ed7-492e-adc8-11cb77cd34b8";
 				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};
@@ -3940,7 +3940,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dianliang.yuyingApp;
 				PRODUCT_NAME = "鱼鹰";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9be07a1a-0ed7-492e-adc8-11cb77cd34b8";
 				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "armv7 armv7s armv64";
 			};

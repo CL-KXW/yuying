@@ -39,6 +39,8 @@
     BOOL _isAuth;
     int _userSort;
     float _userRobNum;
+    
+    NSString *nowTime;
 }
 @end
 
@@ -576,6 +578,46 @@
      }];
 }
 
+- (void)getTime {
+    [LoadingView showLoadingView];
+    NSString *uid = [YooSeeApplication shareApplication].uid;
+    uid = uid ? uid : @"";
+    
+    NSDictionary *requestDic = @{
+                                 @"user_id":[NSString stringWithFormat:@"%@", uid],
+                                 @"only_number":[NSString stringWithFormat:@"%@",self.dataDic[@"only_number"]]};
+    //requestDic = [RequestDataTool encryptWithDictionary:requestDic];
+    [[RequestTool alloc] requestWithUrl:[NSString stringWithFormat:@"%@%@",SERVER_URL,@"app/register/getTime"]
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"RED_PACKAGE_STATE===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         int errorCode = [dataDic[@"returnCode"] intValue];
+         NSString *errorMessage = dataDic[@"returnMessage"];
+         errorMessage = errorMessage ? errorMessage : @"";
+         [LoadingView dismissLoadingView];
+         
+         if (errorCode == 8)
+         {
+             nowTime = dataDic[@"time"];
+             NSDate *date = [CommonTool timeStringToDate:_dataDic[@"begin_time"] format:@"yyyy-MM-dd HH:mm:ss"];
+             ;
+             NSDate *nowDate = [CommonTool timeStringToDate:nowTime format:@"yyyy-MM-dd HH:mm:ss"];
+             leftSecond = [date timeIntervalSinceDate:nowDate];
+             [self startCountTimer];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:errorMessage];
+         }
+     }requestFail:^(AFHTTPRequestOperation *operation, NSError *error){
+         [LoadingView dismissLoadingView];
+         [self.navigationController popViewControllerAnimated:YES];
+         NSLog(@"RED_PACKAGE_STATE====%@",error);
+     }];
+}
 
 //摇一摇请求
 - (void)requestRob {
@@ -672,22 +714,14 @@
 - (void)dealViews {
     int orderType = [_stateDic[@"renzheng_type"] intValue];
     int state = [_stateDic[@"returnCode"] intValue];
-    NSDate *date = [CommonTool timeStringToDate:_dataDic[@"begin_time"] format:@"yyyy-MM-dd HH:mm:ss"];
-    ;
-    leftSecond = [date timeIntervalSinceNow];
-    if (leftSecond > 0) {
-        [self startCountTimer];
-    }
+
     if (orderType == 2) {
         [self ganxingqu];
     } else {
         if (state == 3) {
             //未开始
-            if (leftSecond <= 0) {
-                [self yaoyiyao];
-            } else {
-                [self daojishi];
-            }
+            [self getTime];
+            [self daojishi];
         } else if (state == 8) {
             //进行中
             [self yaoyiyao];
