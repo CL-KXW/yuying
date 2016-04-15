@@ -12,6 +12,10 @@
 
 @interface SellerCentreReviewStatusViewController ()
 
+@property(nonatomic,strong)IBOutlet UIImageView *custonImageView;
+@property(nonatomic,weak)IBOutlet UILabel *contentLabel;
+@property(nonatomic,weak)IBOutlet UIButton *button;
+
 @end
 
 @implementation SellerCentreReviewStatusViewController
@@ -21,6 +25,7 @@
     [self setNavBarItemWithImageName:@"back" navItemType:LeftItem selectorName:@"backButtonPressed:"];
     
     self.title = @"等待审核";
+    [self sellerMessageRequest];
 }
 
 - (void)backButtonPressed:(UIButton *)sender

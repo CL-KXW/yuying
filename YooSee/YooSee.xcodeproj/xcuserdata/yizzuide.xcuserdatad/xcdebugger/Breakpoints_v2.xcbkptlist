@@ -73,22 +73,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YooSee/FunctionVC/GetPhoneFees/RobRedPackgeListVC.m"
-            timestampString = "482132428.983831"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "-refreshData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YooSee/Common/BasicViewController/WebViewController.m"
             timestampString = "482141510.866904"
             startingColumnNumber = "9223372036854775807"
@@ -282,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YooSee/FunctionVC/GetPhoneFees/Y1YDetailViewController.m"
-            timestampString = "482230901.145954"
+            timestampString = "482322293.867781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "543"
+            endingLineNumber = "543"
             landmarkName = "-requestState"
             landmarkType = "5">
          </BreakpointContent>
@@ -320,6 +304,38 @@
             startingLineNumber = "147"
             endingLineNumber = "147"
             landmarkName = "-detailRequest:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YooSee/FunctionVC/GetPhoneFees/Y1YDetailViewController.m"
+            timestampString = "482322293.867781"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
+            landmarkName = "-yaoyiyao"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YooSee/FunctionVC/Home/HomeViewController.m"
+            timestampString = "482322316.399907"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "-userIsSellerRequest"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

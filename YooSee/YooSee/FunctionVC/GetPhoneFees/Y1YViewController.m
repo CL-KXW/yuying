@@ -42,7 +42,7 @@
 #pragma mark UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (SCREEN_WIDTH-20)/2+100;
+    return (SCREEN_WIDTH-20)*9/16+100;
     //return [AdListCell cellHeight];
 }
 
@@ -61,14 +61,14 @@
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, 10,SCREEN_WIDTH-20, (self.view.frame.size.width-20)/2+100-20)];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, 10,SCREEN_WIDTH-20, (SCREEN_WIDTH-20)*9/16+100-20)];
         view.backgroundColor = [UIColor whiteColor];
         [cell.contentView addSubview:view];
         view.layer.cornerRadius = 10.0f;
         view.layer.masksToBounds = YES;
         
         //创建头像
-        UIImageView *ImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH-20, (SCREEN_WIDTH-20)/2)];
+        UIImageView *ImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH-20, (SCREEN_WIDTH-20)*9/16)];
         ImageV.backgroundColor = [UIColor whiteColor];
         ImageV.tag = 105;
         ImageV.contentMode = UIViewContentModeScaleAspectFit;
@@ -77,20 +77,20 @@
         
         //创建子视图
         //1.创建标题label
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,(SCREEN_WIDTH-20)/2+10 , SCREEN_WIDTH-30,20)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,(SCREEN_WIDTH-20)*9/16+10 , SCREEN_WIDTH-30,20)];
         titleLabel.tag = 101;
         titleLabel.font = [UIFont boldSystemFontOfSize:16];
         titleLabel.numberOfLines = 0;
         titleLabel.textAlignment = NSTextAlignmentLeft;
         [view addSubview:titleLabel];
         
-        UIView *va = [[UIView alloc]initWithFrame:CGRectMake(0, (SCREEN_WIDTH-20)/2+10+30, SCREEN_WIDTH-20, 1)];
+        UIView *va = [[UIView alloc]initWithFrame:CGRectMake(0, (SCREEN_WIDTH-20)*9/16+10+30, SCREEN_WIDTH-20, 1)];
         va.backgroundColor =[UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
         [view addSubview:va];
         
         
         //4.什么时候开抢红包
-        UILabel *timeLabel4 = [[UILabel alloc] initWithFrame:CGRectMake(20, (SCREEN_WIDTH-20)/2+50, SCREEN_WIDTH-30,20)];
+        UILabel *timeLabel4 = [[UILabel alloc] initWithFrame:CGRectMake(20, (SCREEN_WIDTH-20)*9/16+50, SCREEN_WIDTH-30,20)];
         timeLabel4.tag = 104;
         timeLabel4.textColor = [UIColor orangeColor];
         //timeLabel4.backgroundColor = [UIColor yellowColor];

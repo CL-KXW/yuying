@@ -65,7 +65,7 @@
 - (void)addCompanyInfoView
 {
     float y = self.view.frame.size.height - BOTTOM_SPACE_Y - LABEL_HEIGHT;
-    NSArray *array = @[@"湖南点亮科技有限公司 版权所有",@"鱼鹰热线: 400-0731-611",@"客服电话: 0731-89875328",@"《鱼鹰应用使用条款及隐私规则》"];
+    NSArray *array = @[@"湖南映山红科技有限公司 版权所有",@"鱼鹰热线: 400-0731-611",@"客服电话: 0731-89875328",@"《鱼鹰应用使用条款及隐私规则》"];
     for (int i = 0; i < [array count]; i++)
     {
         UILabel *label = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.view.frame.size.width, LABEL_HEIGHT) textString:array[i] textColor:DE_TEXT_COLOR textFont:FONT(15.0)];

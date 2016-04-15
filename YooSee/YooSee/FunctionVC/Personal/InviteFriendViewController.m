@@ -20,6 +20,8 @@
 
 @interface InviteFriendViewController ()
 
+@property(nonatomic,strong)UIImageView *imageview;
+
 @end
 
 @implementation InviteFriendViewController
@@ -32,6 +34,7 @@
     
     [self initUI];
     // Do any additional setup after loading the view.
+    [self makeQRcode];
 }
 
 #pragma mark 初始化UI
@@ -49,11 +52,11 @@
     
     //start_y += height + 2 * ADD_Y;
     start_y += height;
-    UIImage *image = [UIImage imageNamed:@"yuying"];
-    UIImageView  *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake((self.view.frame.size.width - QRCODE_WH)/2, start_y, QRCODE_WH, QRCODE_WH) placeholderImage:image];
-    [self.view addSubview:imageView];
+
+    self.imageview = [CreateViewTool createImageViewWithFrame:CGRectMake((self.view.frame.size.width - QRCODE_WH)/2, start_y, QRCODE_WH, QRCODE_WH) placeholderImage:nil];
+    [self.view addSubview:self.imageview];
     
-    start_y += imageView.frame.size.height + ADD_Y;
+    start_y += self.imageview.frame.size.height + ADD_Y;
     UILabel *tiplabel2 = [CreateViewTool createLabelWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, LABEL_HEIGHT) textString:@"扫描二维码，邀请好友安装鱼鹰APP" textColor:MAIN_TEXT_COLOR textFont:FONT(17.0)];
     tiplabel2.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:tiplabel2];
@@ -81,20 +84,71 @@
 }
 
 
-- (void)didReceiveMemoryWarning
+#pragma mark -
+-(void)makeQRcode
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    //二维码滤镜
+    
+    CIFilter *filter=[CIFilter filterWithName:@"CIQRCodeGenerator"];
+    
+    //恢复滤镜的默认属性
+    
+    [filter setDefaults];
+    
+    //将字符串转换成NSData
+    NSString *string = @"http://www.dianliangtech.com";
+    NSData *data=[string dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //通过KVO设置滤镜inputmessage数据
+    
+    [filter setValue:data forKey:@"inputMessage"];
+    
+    //获得滤镜输出的图像
+    
+    CIImage *outputImage=[filter outputImage];
+    
+    //将CIImage转换成UIImage,并放大显示
+    
+    self.imageview.image=[self createNonInterpolatedUIImageFormCIImage:outputImage withSize:140.0];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+//改变二维码大小
+- (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size {
+    
+    CGRect extent = CGRectIntegral(image.extent);
+    
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    
+    // 创建bitmap;
+    
+    size_t width = CGRectGetWidth(extent) * scale;
+    
+    size_t height = CGRectGetHeight(extent) * scale;
+    
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    
+    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
+    
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    
+    // 保存bitmap到图片
+    
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    
+    CGContextRelease(bitmapRef);
+    
+    CGImageRelease(bitmapImage);
+    
+    return [UIImage imageWithCGImage:scaledImage];
 }
-*/
+
 
 @end

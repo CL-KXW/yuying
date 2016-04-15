@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SellerCentreReviewStatusViewController">
             <connections>
+                <outlet property="button" destination="NOh-gC-1WE" id="lf2-er-5EM"/>
+                <outlet property="contentLabel" destination="ee6-eJ-oAP" id="l95-vw-zpb"/>
+                <outlet property="custonImageView" destination="chD-hv-D3m" id="x16-2A-ifX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,7 +25,7 @@
                         <constraint firstAttribute="width" constant="50" id="yKi-yn-mQ8"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请您耐心等待1-2个工作日。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k2s-5e-daV">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k2s-5e-daV">
                     <rect key="frame" x="0.0" y="195" width="600" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Q6H-yh-fkP"/>
@@ -31,8 +34,8 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="资料已提交，审核中，" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ee6-eJ-oAP">
-                    <rect key="frame" x="0.0" y="164" width="600" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="资料已提交，审核中，请您耐心等待1-2个工作日。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ee6-eJ-oAP">
+                    <rect key="frame" x="20" y="164" width="560" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Ddn-cn-hrY"/>
                     </constraints>
@@ -40,17 +43,29 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NOh-gC-1WE">
+                    <rect key="frame" x="20" y="245" width="560" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="11E-Lh-t4N"/>
+                    </constraints>
+                    <state key="normal" title="重新审核">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ee6-eJ-oAP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2DX-tZ-QZ2"/>
+                <constraint firstItem="ee6-eJ-oAP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="2DX-tZ-QZ2"/>
                 <constraint firstItem="k2s-5e-daV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5os-fO-5Zx"/>
+                <constraint firstItem="NOh-gC-1WE" firstAttribute="top" secondItem="ee6-eJ-oAP" secondAttribute="bottom" constant="60" id="ECV-k9-WbP"/>
                 <constraint firstAttribute="trailing" secondItem="k2s-5e-daV" secondAttribute="trailing" id="T2T-oq-dFV"/>
                 <constraint firstItem="chD-hv-D3m" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TXL-yN-wVO"/>
                 <constraint firstItem="k2s-5e-daV" firstAttribute="top" secondItem="ee6-eJ-oAP" secondAttribute="bottom" constant="10" id="cR6-UD-v8q"/>
                 <constraint firstItem="ee6-eJ-oAP" firstAttribute="top" secondItem="chD-hv-D3m" secondAttribute="bottom" constant="30" id="jda-1D-NbP"/>
+                <constraint firstAttribute="trailing" secondItem="NOh-gC-1WE" secondAttribute="trailing" constant="20" id="jh3-MQ-Tcu"/>
                 <constraint firstItem="chD-hv-D3m" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="tGh-2G-G0H"/>
-                <constraint firstAttribute="trailing" secondItem="ee6-eJ-oAP" secondAttribute="trailing" id="yb8-my-5bb"/>
+                <constraint firstAttribute="trailing" secondItem="ee6-eJ-oAP" secondAttribute="trailing" constant="20" id="yb8-my-5bb"/>
+                <constraint firstItem="NOh-gC-1WE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="zbo-ql-NAp"/>
             </constraints>
         </view>
     </objects>
