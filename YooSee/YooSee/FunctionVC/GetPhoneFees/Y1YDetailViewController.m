@@ -41,6 +41,8 @@
     float _userRobNum;
     
     NSString *nowTime;
+    NSDictionary *yaoyiyaoDic;
+    NSString *bcount;
 }
 @end
 
@@ -110,7 +112,7 @@
     imageV2.userInteractionEnabled = YES;
     [imageV addSubview:imageV2];
     
-    advContentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, WIDTH,WIDTH*0.73333 )];
+    advContentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 10, WIDTH,WIDTH*0.73333 )];
     advContentView.showsHorizontalScrollIndicator = NO;
     advContentView.showsVerticalScrollIndicator = NO;
     advContentView.pagingEnabled = YES;
@@ -327,7 +329,7 @@
     NSLog(@"倒计时");
     [self removeOtherViews];
     self.title = @"倒计时";
-    NSString *bcount = _dataDic[@"rezheng_number"];
+    
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((WIDTH -200)/2, imageV2.frame.size.height*0.35,200,25)];
     label.text = @"倒计时";
@@ -337,7 +339,7 @@
     [imageV2 addSubview:label];
     
     UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake((WIDTH -200)/2, imageV2.frame.size.height*0.35 + 44 + 25 + 15,200,25)];
-    label2.text = [NSString stringWithFormat:@"%@个人与你参与",bcount];
+    label2.text = [NSString stringWithFormat:@"%@个人参与",bcount];
     label2.textColor = [UIColor orangeColor];
     label2.font = FONT(16);
     label2.textAlignment = NSTextAlignmentCenter;
@@ -601,12 +603,14 @@
          
          if (errorCode == 8)
          {
+             bcount = dataDic[@"rezheng_number"];
              nowTime = dataDic[@"time"];
              NSDate *date = [CommonTool timeStringToDate:_dataDic[@"begin_time"] format:@"yyyy-MM-dd HH:mm:ss"];
              ;
              NSDate *nowDate = [CommonTool timeStringToDate:nowTime format:@"yyyy-MM-dd HH:mm:ss"];
              leftSecond = [date timeIntervalSinceDate:nowDate];
              [self startCountTimer];
+             [self daojishi];
          }
          else
          {
@@ -641,10 +645,10 @@
          NSString *errorMessage = dataDic[@"returnMessage"];
          errorMessage = errorMessage ? errorMessage : @"";
          [LoadingView dismissLoadingView];
-         self.dataDic = dataDic;
+         yaoyiyaoDic = dataDic;
           if (errorCode == 8)
           {
-               [self robSuccessView:self.dataDic[@"title_1"] robsum:self.dataDic[@"lingqu_money"]];
+               [self robSuccessView:self.dataDic[@"shop_name"] robsum:yaoyiyaoDic[@"lingqu_money"]];
                [audioPlayer4 play];
           } else if (errorCode == 2) {
               [self robFailView:errorMessage];
@@ -721,6 +725,7 @@
         if (state == 3) {
             //未开始
             [self getTime];
+            bcount = _dataDic[@"rezheng_number"];
             [self daojishi];
         } else if (state == 8) {
             //进行中

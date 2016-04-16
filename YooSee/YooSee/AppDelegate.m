@@ -277,7 +277,7 @@
          int errorCode = [dataDic[@"error_code"] intValue];
          if (errorCode == 0)
          {
-             [self login2CU:YES];
+             [self login2CU:NO];
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)

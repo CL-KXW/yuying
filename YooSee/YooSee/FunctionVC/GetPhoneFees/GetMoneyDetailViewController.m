@@ -79,6 +79,8 @@
          errorMessage = errorMessage ? errorMessage : @"";
          if (errorCode == 8)
          {
+             NSString *title = [NSString stringWithFormat:@"立即领取现金 %@",self.dataDic[@"lingqu_money"]];
+             [self.getMoneyButton setTitle:title forState:UIControlStateNormal];
              NSString *moneyName = [NSString stringWithFormat:@"您本次看一看获得%@元", self.dataDic[@"lingqu_money"]];
             [weakself startMoneyAnimation:nil];//显示金钱下落动画
             [SVProgressHUD showSuccessWithStatus:moneyName];

@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.title = self.dataDic[@"shop_name"];
     if (self.hasGetMoney == NO) {
         _count = 5;
     }

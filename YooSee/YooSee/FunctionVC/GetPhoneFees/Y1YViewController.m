@@ -29,6 +29,7 @@
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addRefreshHeaderView];
+    [self addRefreshFooterView];
     _isLoading = NO;
     [LoadingView showLoadingView];
     [self refreshData];

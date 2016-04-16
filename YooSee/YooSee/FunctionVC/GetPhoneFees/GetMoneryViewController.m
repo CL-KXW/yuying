@@ -47,6 +47,7 @@
     // Do any additional setup after loading the view.
     [self addTableViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
     [self addRefreshHeaderView];
+    [self addRefreshFooterView];
     [LoadingView showLoadingView];
     [self refreshData];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"receiveAdvertisement" object:nil];

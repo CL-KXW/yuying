@@ -204,7 +204,7 @@
     NSDictionary *dic = self.dataSourceArray[indexPath.section];
     if([dic[@"type"] intValue] == 1){
         //减
-        cell.moneyLabel.text = [NSString stringWithFormat:@"-%@",dic[@"money"]];
+        cell.moneyLabel.text = [NSString stringWithFormat:@"-%.2f",[dic[@"money"] floatValue]];
         
         if(self.type == CashDetailType_person){
             //个人账户
@@ -227,7 +227,7 @@
         }
     }else if ([dic[@"type"] intValue] ==  2){
         //加
-        cell.moneyLabel.text = [NSString stringWithFormat:@"+%@",dic[@"money"]];
+        cell.moneyLabel.text = [NSString stringWithFormat:@"+%.2f",[dic[@"money"] floatValue]];
         if(self.type == CashDetailType_person){
             //个人账户
             if ([dic[@"state"] intValue] == 4) {
